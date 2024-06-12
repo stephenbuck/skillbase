@@ -1,0 +1,11 @@
+com/headspin/skillbase/skills/domain/SkillRepo.class
+com/headspin/skillbase/skills/domain/SkillId.class
+com/headspin/skillbase/skills/app/SkillsApp.class
+com/headspin/skillbase/skills/domain/SkillException.class
+com/headspin/skillbase/skills/interfaces/SkillGraphQL.class
+com/headspin/skillbase/skills/infrastructure/SkillRepoJPA.class
+com/headspin/skillbase/skills/interfaces/SkillService.class
+com/headspin/skillbase/skills/interfaces/SkillResource.class
+com/headspin/skillbase/skills/domain/Skill.class
+com/headspin/skillbase/skills/interfaces/SkillApplication.class
+com/headspin/skillbase/skills/domain/SkillEvent.class

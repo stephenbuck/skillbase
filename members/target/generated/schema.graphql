@@ -1,0 +1,17 @@
+type Member {
+  "ISO-8601"
+  created_at: DateTime!
+  email: String!
+  firstName: String!
+  id: Int!
+  lastName: String!
+  note: String!
+  status: String!
+  "ISO-8601"
+  updated_at: DateTime
+}
+
+"Query root"
+type Query {
+  member(id: Int!): Member
+}

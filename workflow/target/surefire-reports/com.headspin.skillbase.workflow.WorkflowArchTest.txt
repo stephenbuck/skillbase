@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.headspin.skillbase.workflow.WorkflowArchTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.627 s -- in com.headspin.skillbase.workflow.WorkflowArchTest

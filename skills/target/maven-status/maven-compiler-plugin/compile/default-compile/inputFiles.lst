@@ -1,0 +1,11 @@
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/app/SkillsApp.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/Skill.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillEvent.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillException.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillId.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillRepo.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/infrastructure/SkillRepoJPA.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/interfaces/SkillApplication.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/interfaces/SkillGraphQL.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/interfaces/SkillResource.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/interfaces/SkillService.java

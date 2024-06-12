@@ -1,0 +1,15 @@
+"Query root"
+type Query {
+  skill(id: Int!): Skill
+}
+
+type Skill {
+  "ISO-8601"
+  created_at: DateTime!
+  desc: String!
+  id: Int!
+  name: String!
+  status: String!
+  "ISO-8601"
+  updated_at: DateTime
+}
