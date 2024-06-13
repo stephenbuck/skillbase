@@ -1,5 +1,8 @@
 package com.headspin.skillbase.skills.domain;
 
-// import org.jmolecules.*;
+import java.io.Serializable;
 
-public record SkillId() {}
+import org.jmolecules.ddd.types.Identifier;
+
+public class SkillId implements Identifier, Serializable {
+}

@@ -7,6 +7,7 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -20,15 +21,17 @@ public record Workflow(
 
     @Column(name = "id") @Id @NotNull int id,
 
-    @Column(name = "status", nullable = false) @NotBlank String status,
+    @Column(name = "peer_id") String peerId,
 
-    @Column(name = "name") @NotBlank String name,
+    @Column(name = "model_id") @ManyToOne @NotNull int modelId,
 
-    @Column(name = "desc") @NotNull String desc,
+    @Column(name = "title") @NotBlank String title,
 
-    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date created_at,
+    @Column(name = "note") @NotNull String note,
 
-    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updated_at
+    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date createdAt,
+
+    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
 ) implements Serializable {
 }

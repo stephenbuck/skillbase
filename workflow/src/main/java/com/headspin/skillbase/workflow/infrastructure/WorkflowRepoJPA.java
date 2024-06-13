@@ -9,6 +9,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import com.headspin.skillbase.workflow.domain.Process;
 import com.headspin.skillbase.workflow.domain.Workflow;
 import com.headspin.skillbase.workflow.domain.WorkflowRepo;
 
@@ -19,6 +20,26 @@ public class WorkflowRepoJPA implements WorkflowRepo {
 
     @PersistenceContext(name = "skillbase-workflow")
     private EntityManager em;
+
+    public void insert(Workflow workflow) {
+        logger.info("insert()");
+        em.persist(workflow);
+    }
+
+    public void delete(Workflow workflow) {
+        logger.info("delete()");
+        em.remove(workflow);
+    }
+
+    public void deleteById(int id) {
+        logger.info("deleteById(" + id + ")");
+        em.remove(em.find(Workflow.class, id));
+    }
+
+    public Workflow update(Workflow workflow) {
+        logger.info("update()");
+        return em.merge(workflow);
+    }
 
     public Optional<Workflow> findById(int id) {
         logger.info("findById(" + id + ")");

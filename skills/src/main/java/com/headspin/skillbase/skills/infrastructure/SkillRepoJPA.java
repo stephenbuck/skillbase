@@ -20,6 +20,26 @@ public class SkillRepoJPA implements SkillRepo {
     @PersistenceContext(name = "skillbase-skills")
     private EntityManager em;
 
+    public void insert(Skill skill) {
+        logger.info("insert()");
+        em.persist(skill);
+    }
+
+    public void delete(Skill skill) {
+        logger.info("delete()");
+        em.remove(skill);
+    }
+
+    public void deleteById(int id) {
+        logger.info("deleteById(" + id + ")");
+        em.remove(em.find(Skill.class, id));
+    }
+
+    public Skill update(Skill skill) {
+        logger.info("update()");
+        return em.merge(skill);
+    }
+
     public Optional<Skill> findById(int id) {
         logger.info("findById(" + id + ")");
         return Optional.ofNullable(em.find(Skill.class, id));

@@ -23,9 +23,9 @@
     <liquibase.maven.version>2.0.1</liquibase.maven.version>
     <liquibase.version>4.28.0</liquibase.version>
     <log4j.version>2.23.1</log4j.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
     <maven.compiler.version>3.13.0</maven.compiler.version>
     <microprofile.fault-tolerance.version>4.0.2</microprofile.fault-tolerance.version>
     <microprofile.graphql.version>2.0</microprofile.graphql.version>
@@ -67,20 +67,6 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
           <version>${surefire.version}</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>liquibase-maven-plugin</artifactId>
-          <groupId>org.liquibase</groupId>
-          <version>${liquibase.maven.version}</version>
-          <configuration>
-            <changeLogFile>src/main/resources/database/db.changelog.sql</changeLogFile>
-            <driver>org.postgresql.Driver</driver>
-            <url>jdbc:postgresql://localhost:5432/skillbase</url>
-            <username>postgres</username>
-            <password>postgres</password>
-            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -283,14 +269,20 @@
       </dependency>
 
       <dependency>
-        <groupId>org.slf4j</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${springboot.version}</version>
+      </dependency>
+
+      <dependency>
         <artifactId>slf4j-api</artifactId>
+        <groupId>org.slf4j</groupId>
         <version>${slf4j.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
+        <groupId>org.slf4j</groupId>
         <version>${slf4j.version}</version>
       </dependency>
 

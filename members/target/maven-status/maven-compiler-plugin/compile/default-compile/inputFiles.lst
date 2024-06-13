@@ -5,12 +5,8 @@
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberId.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberRepo.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberSkill.java
-/home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberSkillEvent.java
-/home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberSkillException.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberSkillId.java
-/home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/domain/MemberSkillRepo.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/infrastructure/MemberRepoJPA.java
-/home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/infrastructure/MemberSkillRepoJPA.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/interfaces/MemberApplication.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/interfaces/MemberGraphQL.java
 /home/stephenbuck/Desktop/skillbase/members/src/main/java/com/headspin/skillbase/members/interfaces/MemberResource.java

@@ -32,8 +32,9 @@
       <plugin>
         <artifactId>liquibase-maven-plugin</artifactId>
         <groupId>org.liquibase</groupId>
+        <version>${liquibase.maven.version}</version>
         <configuration>
-          <changeLogFile>src/main/resources/database/db.changelog.sql</changeLogFile>
+          <changeLogFile>/home/stephenbuck/Desktop/skillbase/members/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
           <driver>org.postgresql.Driver</driver>
           <url>jdbc:postgresql://localhost:5432/skillbase</url>
           <username>postgres</username>
@@ -180,21 +181,19 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
 
-    <!--
     <dependency>
+      <artifactId>spring-boot-starter-actuator</artifactId>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    -->
 
     <dependency>
-      <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
     </dependency>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
+      <groupId>org.slf4j</groupId>
     </dependency>
 
   </dependencies>

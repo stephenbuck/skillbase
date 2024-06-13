@@ -1,5 +1,8 @@
 package com.headspin.skillbase.workflow.domain;
 
-// import org.jmolecules.*;
+import java.io.Serializable;
 
-public record ProcessId() {}
+import org.jmolecules.ddd.types.Identifier;
+
+public class ProcessId implements Identifier, Serializable {
+}

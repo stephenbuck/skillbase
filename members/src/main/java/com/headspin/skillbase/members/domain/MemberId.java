@@ -7,4 +7,3 @@ import org.jmolecules.ddd.types.Identifier;
 public class MemberId implements Identifier, Serializable {
 
 }
-

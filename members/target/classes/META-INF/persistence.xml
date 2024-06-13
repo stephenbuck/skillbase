@@ -4,6 +4,7 @@
     <persistence-unit name="skillbase-members">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <class>com.headspin.skillbase.members.domain.Member</class>
+        <class>com.headspin.skillbase.members.domain.MemberSkill</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="jakarta.persistence.jdbc.url"

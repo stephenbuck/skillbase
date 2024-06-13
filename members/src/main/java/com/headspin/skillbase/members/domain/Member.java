@@ -21,7 +21,7 @@ public record Member(
 
     @Column(name = "id") @Id @NotNull int id,
 
-    @Column(name = "status", nullable = false) @NotBlank String status,
+    @Column(name = "status_code", nullable = false) @NotBlank String statusCode,
 
     @Column(name = "first_name") @NotBlank String firstName,
 
@@ -31,9 +31,9 @@ public record Member(
 
     @Column(name = "note") @NotNull String note,
 
-    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date created_at,
+    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date createdAt,
 
-    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updated_at
+    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
 ) implements Serializable {
 }

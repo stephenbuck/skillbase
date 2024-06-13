@@ -1,4 +1,6 @@
 /home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/app/SkillsApp.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/Category.java
+/home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/CategoryId.java
 /home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/Skill.java
 /home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillEvent.java
 /home/stephenbuck/Desktop/skillbase/skills/src/main/java/com/headspin/skillbase/skills/domain/SkillException.java

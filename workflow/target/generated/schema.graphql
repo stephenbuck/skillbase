@@ -1,28 +1,41 @@
-type Process {
-  "ISO-8601"
-  created_at: DateTime!
-  id: Int!
-  note: String!
-  skillID: Int!
-  status: String!
-  "ISO-8601"
-  updated_at: DateTime
-  workflowID: Int!
+"Mutation root"
+type Mutation {
+  "deleteById"
+  deleteById(id: Int!): Void
+  "insert"
+  insert(workflow: WorkflowInput): Void
+  "update"
+  update(workflow: WorkflowInput): Void
 }
 
 "Query root"
 type Query {
-  process(id: Int!): Process
-  workflow(id: Int!): Workflow
+  "findAll"
+  findAll: [Workflow]
+  "findById"
+  findById(id: Int!): Workflow
 }
 
 type Workflow {
   "ISO-8601"
-  created_at: DateTime!
-  desc: String!
+  createdAt: DateTime!
   id: Int!
-  name: String!
-  status: String!
+  modelId: Int!
+  note: String!
+  peerId: String
+  title: String!
   "ISO-8601"
-  updated_at: DateTime
+  updatedAt: DateTime
+}
+
+input WorkflowInput {
+  "ISO-8601"
+  createdAt: DateTime!
+  id: Int!
+  modelId: Int!
+  note: String!
+  peerId: String
+  title: String!
+  "ISO-8601"
+  updatedAt: DateTime
 }

@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,17 +20,17 @@ public record Process(
 
     @Column(name = "id") @Id @NotNull int id,
 
-    @Column(name = "workflow_id") @ManyToOne @NotNull int workflowID,
+    @Column(name = "peer_id") String peerId,
 
-    @Column(name = "skill_id") @ManyToOne @NotNull int skillID,
+    @Column(name = "workflow_id") @ManyToOne @NotNull int workflowId,
 
-    @Column(name = "status", nullable = false) @NotBlank String status,
+    @Column(name = "title") @NotBlank String title,
 
     @Column(name = "note") @NotNull String note,
 
-    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date created_at,
+    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date createdAt,
 
-    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updated_at
+    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
 ) implements Serializable {
 }

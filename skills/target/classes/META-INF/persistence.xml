@@ -3,6 +3,7 @@
 
     <persistence-unit name="skillbase-skills">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <class>com.headspin.skillbase.skills.domain.Category</class>
         <class>com.headspin.skillbase.skills.domain.Skill</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />

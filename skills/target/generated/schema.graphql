@@ -1,15 +1,41 @@
+"Mutation root"
+type Mutation {
+  "deleteById"
+  deleteById(id: Int!): Void
+  "insert"
+  insert(skill: SkillInput): Void
+  "update"
+  update(skill: SkillInput): Void
+}
+
 "Query root"
 type Query {
-  skill(id: Int!): Skill
+  "findAll"
+  findAll: [Skill]
+  "findById"
+  findById(id: Int!): Skill
 }
 
 type Skill {
+  categoryId: Int!
   "ISO-8601"
-  created_at: DateTime!
-  desc: String!
+  createdAt: DateTime!
   id: Int!
-  name: String!
-  status: String!
+  note: String!
+  title: String!
   "ISO-8601"
-  updated_at: DateTime
+  updatedAt: DateTime
+  workflowId: Int!
+}
+
+input SkillInput {
+  categoryId: Int!
+  "ISO-8601"
+  createdAt: DateTime!
+  id: Int!
+  note: String!
+  title: String!
+  "ISO-8601"
+  updatedAt: DateTime
+  workflowId: Int!
 }

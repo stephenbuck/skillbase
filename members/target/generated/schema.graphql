@@ -1,17 +1,43 @@
 type Member {
   "ISO-8601"
-  created_at: DateTime!
+  createdAt: DateTime!
   email: String!
   firstName: String!
   id: Int!
   lastName: String!
   note: String!
-  status: String!
+  statusCode: String!
   "ISO-8601"
-  updated_at: DateTime
+  updatedAt: DateTime
+}
+
+"Mutation root"
+type Mutation {
+  "deleteById"
+  deleteById(id: Int!): Void
+  "insert"
+  insert(member: MemberInput): Void
+  "update"
+  update(member: MemberInput): Void
 }
 
 "Query root"
 type Query {
-  member(id: Int!): Member
+  "findAll"
+  findAll: [Member]
+  "findById"
+  findById(id: Int!): Member
+}
+
+input MemberInput {
+  "ISO-8601"
+  createdAt: DateTime!
+  email: String!
+  firstName: String!
+  id: Int!
+  lastName: String!
+  note: String!
+  statusCode: String!
+  "ISO-8601"
+  updatedAt: DateTime
 }

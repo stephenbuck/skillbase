@@ -5,6 +5,4 @@ import java.io.Serializable;
 import org.jmolecules.ddd.types.Identifier;
 
 public class WorkflowId implements Identifier, Serializable {
-
 }
-
