@@ -6,6 +6,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Embeddable
-public class CategoryId implements org.jmolecules.ddd.types.Identifier, Serializable {
+public class CategoryId implements Serializable {
     public UUID uuid;
 }

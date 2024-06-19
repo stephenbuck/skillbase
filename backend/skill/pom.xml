@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project>
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -35,6 +33,20 @@
       </plugin>
       
       <plugin>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <groupId>org.liquibase</groupId>
+        <version>${liquibase.maven.version}</version>
+        <configuration>
+          <changeLogFile>/home/stephenbuck/Desktop/skillbase/backend/skill/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
+          <driver>org.postgresql.Driver</driver>
+          <url>jdbc:postgresql://localhost:5432/skillbase</url>
+          <username>postgres</username>
+          <password>postgres</password>
+          <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
@@ -45,27 +57,34 @@
       </plugin>
 
       <plugin>
-        <artifactId>liquibase-maven-plugin</artifactId>
-        <groupId>org.liquibase</groupId>
-        <version>${liquibase.maven.version}</version>
-        <configuration>
-          <changeLogFile>/home/stephenbuck/Desktop/skillbase/skill/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
-          <driver>org.postgresql.Driver</driver>
-          <url>jdbc:postgresql://localhost:5432/skillbase</url>
-          <username>postgres</username>
-          <password>postgres</password>
-          <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
+        <executions>
+          <execution>
+              <goals>
+                  <goal>generate-schema</goal>
+              </goals>
+          </execution>
+        </executions>
       </plugin>
 
+      <!--
       <plugin>
-        <groupId>org.springframework.boot</groupId>
+        <artifactId>smallrye-openapi-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-schema</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+
+      <plugin>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
       </plugin>
 
     </plugins>
@@ -75,11 +94,23 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <groupId>org.activiti</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>archunit-junit5</artifactId>
+      <groupId>com.tngtech.archunit</groupId>
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <artifactId>arquillian-bom</artifactId>
+      <groupId>org.jboss.arquillian</groupId>
+      <scope>test</scope>
+      <type>pom</type>
+    </dependency>
+  
     <dependency>
       <artifactId>cloudevents-api</artifactId>
       <groupId>io.cloudevents</groupId>
@@ -87,6 +118,11 @@
 
     <dependency>
       <artifactId>cloudevents-core</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-kafka</artifactId>
       <groupId>io.cloudevents</groupId>
     </dependency>
 
@@ -136,7 +172,7 @@
       <artifactId>liquibase-core</artifactId>
       <groupId>org.liquibase</groupId>
     </dependency>
-
+    
     <dependency>
       <artifactId>log4j-api</artifactId>
       <groupId>org.apache.logging.log4j</groupId>
@@ -153,8 +189,18 @@
     </dependency>
 
     <dependency>
+      <artifactId>microprofile-fault-tolerance-api</artifactId>
+      <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>microprofile-graphql-api</artifactId>
       <groupId>org.eclipse.microprofile.graphql</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-health-api</artifactId>
+      <groupId>org.eclipse.microprofile.health</groupId>
     </dependency>
 
     <dependency>
@@ -163,17 +209,27 @@
     </dependency>
 
     <dependency>
+      <artifactId>mockito-core</artifactId>
+      <groupId>org.mockito</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>
 
     <dependency>
-      <artifactId>smallrye-config</artifactId>
-      <groupId>io.smallrye.config</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
     </dependency>
 
     <dependency>
       <artifactId>smallrye-graphql-api</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>smallrye-open-api-maven-plugin</artifactId>
       <groupId>io.smallrye</groupId>
     </dependency>
 
@@ -183,25 +239,15 @@
     </dependency>
 
     <dependency>
-      <artifactId>spring-boot-autoconfigure</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>spring-boot-starter-actuator</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
-  
-    <dependency>
-      <artifactId>slf4j-api</artifactId>
-      <groupId>org.slf4j</groupId>
-    </dependency>
 
     <dependency>
-      <artifactId>slf4j-simple</artifactId>
-      <groupId>org.slf4j</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
     </dependency>
-
+    
   </dependencies>
 
 </project>

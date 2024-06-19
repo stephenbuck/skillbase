@@ -6,6 +6,6 @@ import java.util.UUID;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class SkillId implements org.jmolecules.ddd.types.Identifier, Serializable {
+public class SkillId implements Serializable {
     public UUID uuid;
 }

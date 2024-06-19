@@ -15,13 +15,15 @@
   </parent>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.release>17</maven.compiler.release>
     <maven.compiler.version>3.13.0</maven.compiler.version>
-    <activiti.version></activiti.version>
+    <activiti.version>7.1.0.M6</activiti.version>
     <archunit.version>1.3.0</archunit.version>
+    <arquillian.version>1.4.0.Final</arquillian.version>
     <cloudevents.version>2.3.0</cloudevents.version>
     <docker.plugin.version>0.44.0</docker.plugin.version>
     <graphql.version>22.1</graphql.version>
@@ -30,7 +32,7 @@
     <jakarta.persistence.version>3.2.0</jakarta.persistence.version>
     <jmolecules.version>1.9.0</jmolecules.version>
     <junit.version>5.9.2</junit.version>
-    <kafkaclients.version>3.7.0</kafkaclients.version>
+    <kafka.clients.version>3.7.0</kafka.clients.version>
     <liquibase.maven.version>2.0.1</liquibase.maven.version>
     <liquibase.version>4.28.0</liquibase.version>
     <log4j.version>2.23.1</log4j.version>
@@ -38,22 +40,19 @@
     <microprofile.graphql.version>2.0</microprofile.graphql.version>
     <microprofile.health.version>4.0.1</microprofile.health.version>
     <microprofile.openapi.version>3.1.1</microprofile.openapi.version>
-    <postgresql.version>42.6.0</postgresql.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <mockito.version>5.12.0</mockito.version>
+    <postgresql.version>42.7.3</postgresql.version>
     <slf4j.version>2.0.13</slf4j.version>
-    <smallrye.config.version>1.5.0</smallrye.config.version>
     <smallrye.graphql.version>2.8.4</smallrye.graphql.version>
     <smallrye.openapi.version>3.11.0</smallrye.openapi.version>
     <springboot.version>3.3.0</springboot.version>
     <surefire.version>3.2.5</surefire.version>
-    <swagger.version>2.2.22</swagger.version>
   </properties>
 
   <modules>
-    <module>certificate</module>
-    <module>member</module>
+    <module>cert</module>
     <module>skill</module>
-    <module>workflow</module>
+    <module>user</module>
   </modules>
 
   <build>
@@ -79,26 +78,33 @@
         </plugin>
 
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.7.0</version>
+        </plugin>
+        
+        <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
           <version>${surefire.version}</version>
         </plugin>
-
+  
         <plugin>
           <artifactId>smallrye-graphql-maven-plugin</artifactId>
           <groupId>io.smallrye</groupId>
           <version>${smallrye.graphql.version}</version>
           <executions>
             <execution>
-              <goals>
-                <goal>generate-schema</goal>
-              </goals>
+                <goals>
+                    <goal>generate-schema</goal>
+                </goals>
             </execution>
-          </executions>
-        </plugin>
+        </executions>
+      </plugin>
 
+        <!--
         <plugin>
-          <artifactId>smallrye-open-api-maven-plugin</artifactId>
+          <artifactId>smallrye-openapi-maven-plugin</artifactId>
           <groupId>io.smallrye</groupId>
           <version>${smallrye.openapi.version}</version>
           <executions>
@@ -107,51 +113,29 @@
                 <goal>generate-schema</goal>
               </goals>
             </execution>
-          </executions> 
+          </executions>
         </plugin>
-
+        -->
+  
         <plugin>
-          <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
+          <groupId>org.springframework.boot</groupId>
           <version>${springboot.version}</version>
         </plugin>
 
-        <plugin>
-          <artifactId>swagger-maven-plugin-jakarta</artifactId>
-          <groupId>io.swagger.core.v3</groupId>
-          <version>${swagger.version}</version>
-          <configuration>
-              <outputFileName>openapi</outputFileName>
-              <outputPath>${project.build.directory}/generatedtest</outputPath>
-              <outputFormat>JSONANDYAML</outputFormat>
-              <resourcePackages>
-                  <package>com.headspin.skillbase.certificate</package>
-              </resourcePackages>
-              <prettyPrint>TRUE</prettyPrint>
-          </configuration>
-          <executions>
-              <execution>
-                  <phase>compile</phase>
-                  <goals>
-                      <goal>resolve</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
-  
-        </plugins>
+      </plugins>
 
     </pluginManagement>
 
   </build>
 
-  <dependencyManagement>
+<dependencyManagement>
 
     <dependencies>
 
       <dependency>
-        <groupId>org.activiti</groupId>
         <artifactId>activiti-engine</artifactId>
+        <groupId>org.activiti</groupId>
         <version>${activiti.version}</version>
       </dependency>
 
@@ -163,6 +147,14 @@
       </dependency>
 
       <dependency>
+        <artifactId>arquillian-bom</artifactId>
+        <groupId>org.jboss.arquillian</groupId>
+        <version>${arquillian.version}</version>
+        <scope>test</scope>
+        <type>pom</type>
+      </dependency>
+    
+      <dependency>
         <artifactId>cloudevents-api</artifactId>
         <groupId>io.cloudevents</groupId>
         <version>${cloudevents.version}</version>
@@ -170,6 +162,12 @@
 
       <dependency>
         <artifactId>cloudevents-core</artifactId>
+        <groupId>io.cloudevents</groupId>
+        <version>${cloudevents.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>cloudevents-kafka</artifactId>
         <groupId>io.cloudevents</groupId>
         <version>${cloudevents.version}</version>
       </dependency>
@@ -204,7 +202,7 @@
         <groupId>org.jmolecules</groupId>
         <version>${jmolecules.version}</version>
       </dependency>
-
+  
       <dependency>
         <artifactId>jmolecules-events</artifactId>
         <groupId>org.jmolecules</groupId>
@@ -221,7 +219,7 @@
       <dependency>
         <artifactId>kafka-clients</artifactId>
         <groupId>org.apache.kafka</groupId>
-        <version>${kafkaclients.version}</version>
+        <version>${kafka.clients.version}</version>
       </dependency>
 
       <dependency>
@@ -235,13 +233,13 @@
         <groupId>org.apache.logging.log4j</groupId>
         <version>${log4j.version}</version>
       </dependency>
-
+  
       <dependency>
         <artifactId>log4j-core</artifactId>
         <groupId>org.apache.logging.log4j</groupId>
         <version>${log4j.version}</version>
       </dependency>
-
+  
       <dependency>
         <artifactId>maven-compiler-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
@@ -252,12 +250,6 @@
         <artifactId>microprofile-fault-tolerance-api</artifactId>
         <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
         <version>${microprofile.fault-tolerance.version}</version>
-      </dependency>
-
-      <dependency>
-        <artifactId>microprofile-openapi-api</artifactId>
-        <groupId>org.eclipse.microprofile.openapi</groupId>
-        <version>${microprofile.openapi.version}</version>
       </dependency>
 
       <dependency>
@@ -273,15 +265,27 @@
       </dependency>
 
       <dependency>
+        <artifactId>microprofile-openapi-api</artifactId>
+        <groupId>org.eclipse.microprofile.openapi</groupId>
+        <version>${microprofile.openapi.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>mockito-core</artifactId>
+        <groupId>org.mockito</groupId>
+        <version>${mockito.version}</version>
+      </dependency>
+      
+      <dependency>
         <artifactId>postgresql</artifactId>
         <groupId>org.postgresql</groupId>
         <version>${postgresql.version}</version>
       </dependency>
 
       <dependency>
-        <artifactId>smallrye-config</artifactId>
-        <groupId>io.smallrye.config</groupId>
-        <version>${smallrye.config.version}</version>
+        <artifactId>slf4j-api</artifactId>
+        <groupId>org.slf4j</groupId>
+        <version>${slf4j.version}</version>
       </dependency>
 
       <dependency>
@@ -290,13 +294,11 @@
         <version>${smallrye.graphql.version}</version>
       </dependency>
 
-      <!--
       <dependency>
         <artifactId>smallrye-open-api-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
         <version>${smallrye.openapi.version}</version>
       </dependency>
-      -->
 
       <dependency>
         <artifactId>spring-boot</artifactId>
@@ -314,18 +316,6 @@
         <artifactId>spring-boot-starter-actuator</artifactId>
         <groupId>org.springframework.boot</groupId>
         <version>${springboot.version}</version>
-      </dependency>
-
-      <dependency>
-        <artifactId>slf4j-api</artifactId>
-        <groupId>org.slf4j</groupId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
-      <dependency>
-        <artifactId>slf4j-simple</artifactId>
-        <groupId>org.slf4j</groupId>
-        <version>${slf4j.version}</version>
       </dependency>
 
     </dependencies>

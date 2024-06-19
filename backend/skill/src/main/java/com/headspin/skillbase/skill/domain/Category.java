@@ -3,33 +3,36 @@ package com.headspin.skillbase.skill.domain;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 @Entity
 @Table(name = "category")
 public record Category(
 
-    @Column(name = "id") @EmbeddedId @Id @NotNull CategoryId id,
+        @Column(name = "id") @NotNull @EmbeddedId @Id UUID id,
 
-    @Column(name = "title") @NotBlank String title,
+        @Column(name = "title") @NotNull @NotBlank String title,
 
-    @Column(name = "note") @NotNull String note,
+        @Column(name = "note") @NotNull String note,
 
-    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @NotNull Date createdAt,
+        @Column(name = "icon") @Null @Lob byte[] icon,
 
-    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) Date updatedAt
+        @Column(name = "inserted_at") @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
 
-) implements org.jmolecules.ddd.types.Entity<Skill, CategoryId>, Serializable {
-    public CategoryId getId() { return id; }
+        @Column(name = "updated_at") @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
+
+) implements Serializable {
 }
-

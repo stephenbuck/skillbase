@@ -1,0 +1,255 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>skillbase-backend-cert</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <version>1.0-SNAPSHOT</version>
+  <name>skillbase-backend-cert</name>
+
+  <parent>
+    <artifactId>skillbase-backend</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>docker-maven-plugin</artifactId>
+        <groupId>io.fabric8</groupId>
+        <configuration>
+          <images>
+            <image>
+              <name>skillbase/backend/cert:${project.version}</name>
+              <build>
+                <dockerFileDir>${project.dir}</dockerFileDir>
+              </build>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <groupId>org.liquibase</groupId>
+        <version>${liquibase.maven.version}</version>
+        <configuration>
+          <changeLogFile>
+            /home/stephenbuck/Desktop/skillbase/backend/cert/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
+          <driver>org.postgresql.Driver</driver>
+          <url>jdbc:postgresql://localhost:5432/skillbase</url>
+          <username>postgres</username>
+          <password>postgres</password>
+          <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>smallrye-graphql-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-schema</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      <plugin>
+        <artifactId>smallrye-openapi-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-schema</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <dependencies>
+
+    <dependency>
+      <artifactId>activiti-engine</artifactId>
+      <groupId>org.activiti</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>archunit-junit5</artifactId>
+      <groupId>com.tngtech.archunit</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>arquillian-bom</artifactId>
+      <groupId>org.jboss.arquillian</groupId>
+      <version>${arquillian.version}</version>
+      <scope>test</scope>
+      <type>pom</type>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-api</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-core</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-kafka</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>graphql-java</artifactId>
+      <groupId>com.graphql-java</groupId>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <groupId>jakarta.platform</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jmolecules-ddd</artifactId>
+      <groupId>org.jmolecules</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jmolecules-events</artifactId>
+      <groupId>org.jmolecules</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>kafka-clients</artifactId>
+      <groupId>org.apache.kafka</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>liquibase-core</artifactId>
+      <groupId>org.liquibase</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>log4j-api</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>log4j-core</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <groupId>org.apache.maven.plugins</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-fault-tolerance-api</artifactId>
+      <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-graphql-api</artifactId>
+      <groupId>org.eclipse.microprofile.graphql</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-health-api</artifactId>
+      <groupId>org.eclipse.microprofile.health</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-openapi-api</artifactId>
+      <groupId>org.eclipse.microprofile.openapi</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>mockito-core</artifactId>
+      <groupId>org.mockito</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>postgresql</artifactId>
+      <groupId>org.postgresql</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>smallrye-graphql-api</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>smallrye-open-api-maven-plugin</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+  </dependencies>
+
+</project>

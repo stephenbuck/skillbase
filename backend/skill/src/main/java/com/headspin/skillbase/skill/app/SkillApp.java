@@ -1,7 +1,6 @@
 package com.headspin.skillbase.skill.app;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SkillApp {
 
-  private static final Logger logger = LogManager.getLogger(SkillApp.class);
+  private static final Logger logger = Logger.getLogger(SkillApp.class.getName());
 
   public static void main(String[] args) {
     logger.info("main");
