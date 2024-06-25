@@ -12,38 +12,24 @@ import jakarta.validation.constraints.Null;
 public interface CatalogCategoryRepo {
 
     @Transactional
-    public void insert(
-            @NotNull @Valid CatalogCategory category);
+    public void insert(@NotNull @Valid CatalogCategory category);
 
     @Transactional
-    public void delete(
-            @NotNull @Valid CatalogCategory category);
+    public void delete(@NotNull @Valid CatalogCategory category);
 
     @Transactional
-    public CatalogCategory update(
-            @NotNull @Valid CatalogCategory category);
+    public CatalogCategory update(@NotNull @Valid CatalogCategory category);
 
     @Transactional
-    public void deleteById(
-            @NotNull UUID id);
+    public void deleteById(@NotNull UUID id);
 
-    public Optional<CatalogCategory> findById(
-            @NotNull UUID id);
+    public Optional<CatalogCategory> findById(@NotNull UUID id);
 
-    public List<CatalogCategory> findAll(
-            @Null String sort,
-            @Null Integer offset,
+    public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit);
+
+    public List<CatalogCategory> findAllByParentId(@NotNull UUID parentId, @Null String sort, @Null Integer offset,
             @Null Integer limit);
 
-    public List<CatalogCategory> findAllByParentId(
-            @NotNull UUID parentId,
-            @Null String sort,
-            @Null Integer offset,
-            @Null Integer limit);
-
-    public List<CatalogCategory> findAllByTitleLike(
-            @NotNull String pattern,
-            @Null String sort,
-            @Null Integer offset,
+    public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit);
 }

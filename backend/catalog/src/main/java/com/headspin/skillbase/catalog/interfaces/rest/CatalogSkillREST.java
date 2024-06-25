@@ -20,7 +20,7 @@ import jakarta.ws.rs.core.MediaType;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
 
-@Path("skills")
+@Path("/skills")
 public class CatalogSkillREST {
 
     @Inject
@@ -29,8 +29,7 @@ public class CatalogSkillREST {
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(
-        CatalogSkill skill) {
+    public void insert(CatalogSkill skill) {
         service.insert(skill);
     }
 
@@ -38,16 +37,14 @@ public class CatalogSkillREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public CatalogSkill update(
-        CatalogSkill skill) {
+    public CatalogSkill update(CatalogSkill skill) {
         return service.update(skill);
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(
-        @PathParam("id") UUID id) {
+    public void deleteById(@PathParam("id") UUID id) {
         service.deleteById(id);
     }
 
@@ -55,8 +52,7 @@ public class CatalogSkillREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public CatalogSkill findById(
-        @PathParam("id") UUID id) {
+    public CatalogSkill findById(@PathParam("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
@@ -64,34 +60,26 @@ public class CatalogSkillREST {
     @Path("")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public List<CatalogSkill> findAll(
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
+    public List<CatalogSkill> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
-    
+
     @GET
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllByCategoryId")
-    public List<CatalogSkill> findAllByCategoryId(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CatalogSkill> findAllByCategoryId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllByCategoryId(id, sort, offset, limit);
     }
-    
+
     @GET
     @Path("{pattern}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllByTitleLike")
-    public List<CatalogSkill> findAllByTitleLike(
-            @PathParam("pattern") String pattern,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CatalogSkill> findAllByTitleLike(@PathParam("pattern") String pattern, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);
     }
 }

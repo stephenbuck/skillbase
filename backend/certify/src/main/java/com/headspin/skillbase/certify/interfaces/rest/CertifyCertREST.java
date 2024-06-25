@@ -20,7 +20,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("certs")
+@Path("/certs")
 public class CertifyCertREST {
 
     @Inject
@@ -29,8 +29,7 @@ public class CertifyCertREST {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(
-            CertifyCert cert) {
+    public void insert(CertifyCert cert) {
         service.insert(cert);
     }
 
@@ -38,24 +37,21 @@ public class CertifyCertREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public CertifyCert update(
-            CertifyCert cert) {
+    public CertifyCert update(CertifyCert cert) {
         return service.update(cert);
     }
 
     @DELETE
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "delete")
-    public void delete(
-            CertifyCert cert) {
+    public void delete(CertifyCert cert) {
         service.delete(cert);
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(
-            @PathParam("id") UUID id) {
+    public void deleteById(@PathParam("id") UUID id) {
         service.deleteById(id);
     }
 
@@ -63,19 +59,15 @@ public class CertifyCertREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public CertifyCert findById(
-            @PathParam("id") UUID id) {
+    public CertifyCert findById(@PathParam("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public List<CertifyCert> findAll(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyCert> findAll(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
@@ -83,11 +75,8 @@ public class CertifyCertREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllBySkillId")
-    public List<CertifyCert> findAllBySkillId(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyCert> findAllBySkillId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllBySkillId(id, sort, offset, limit);
     }
 
@@ -95,11 +84,8 @@ public class CertifyCertREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllByUserId")
-    public List<CertifyCert> findAllByUserId(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyCert> findAllByUserId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllByUserId(id, sort, offset, limit);
     }
 }

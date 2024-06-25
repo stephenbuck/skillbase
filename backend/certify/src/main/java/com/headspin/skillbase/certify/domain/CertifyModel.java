@@ -24,33 +24,19 @@ import jakarta.validation.constraints.Null;
 @Table(name = "certify_model")
 public record CertifyModel(
 
-        @JsonbProperty("id")
-        @Column(name = "id")
-        @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
+        @JsonbProperty("id") @Column(name = "id") @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
 
-        @JsonbProperty("peer_id")
-        @Column(name = "peer_id")
-        @Null String peerId,
+        @JsonbProperty("peer_id") @Column(name = "peer_id") @Null String peerId,
 
-        @JsonbProperty("title")
-        @Column(name = "title")
-        @NotNull @NotBlank String title,
+        @JsonbProperty("title") @Column(name = "title") @NotNull @NotBlank String title,
 
-        @JsonbProperty("note")
-        @Column(name = "note")
-        @NotNull String note,
+        @JsonbProperty("note") @Column(name = "note") @NotNull String note,
 
-        @JsonbProperty("bpmn")
-        @Column(name = "bpmn")
-        @Null @Lob byte[] bpmn,
+        @JsonbProperty("bpmn") @Column(name = "bpmn") @Null @Lob byte[] bpmn,
 
-        @JsonbProperty("inserted_at")
-        @Column(name = "inserted_at")
-        @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
+        @JsonbProperty("inserted_at") @Column(name = "inserted_at") @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
 
-        @JsonbProperty("updated_at")
-        @Column(name = "updated_at")
-        @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
+        @JsonbProperty("updated_at") @Column(name = "updated_at") @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
 ) implements Serializable {
 }

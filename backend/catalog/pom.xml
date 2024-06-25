@@ -23,7 +23,8 @@
         <configuration>
           <images>
             <image>
-              <name>skillbase/skill:${project.version}</name>
+              <registry>127.0.0.1:5000</registry>
+              <name>catalog</name>
               <build>
                 <dockerFileDir>${project.dir}</dockerFileDir>
               </build>
@@ -32,6 +33,18 @@
         </configuration>
       </plugin>
       
+      <plugin>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <groupId>net.revelc.code.formatter</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <artifactId>liquibase-maven-plugin</artifactId>
         <groupId>org.liquibase</groupId>
@@ -48,6 +61,11 @@
 
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
 
@@ -199,6 +217,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>microprofile-config-api</artifactId>
+      <groupId>org.eclipse.microprofile.config</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>microprofile-fault-tolerance-api</artifactId>
       <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
     </dependency>
@@ -211,6 +234,16 @@
     <dependency>
       <artifactId>microprofile-health-api</artifactId>
       <groupId>org.eclipse.microprofile.health</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-jwt-auth-api</artifactId>
+      <groupId>org.eclipse.microprofile.jwt</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>microprofile-metrics-api</artifactId>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
     </dependency>
 
     <dependency>
@@ -249,15 +282,25 @@
     </dependency>
 
     <dependency>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>spring-boot-starter-actuator</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
 
     <dependency>
-      <artifactId>spring-boot-autoconfigure</artifactId>
+      <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
-    
-  </dependencies>
+
+    <dependency>
+      <artifactId>spring-core</artifactId>
+      <groupId>org.springframework</groupId>
+    </dependency>
+
+</dependencies>
 
 </project>

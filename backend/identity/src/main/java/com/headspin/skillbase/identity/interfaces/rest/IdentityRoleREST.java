@@ -20,7 +20,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("roles")
+@Path("/roles")
 public class IdentityRoleREST {
 
     @Inject
@@ -30,8 +30,7 @@ public class IdentityRoleREST {
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(
-        IdentityRole role) {
+    public void insert(IdentityRole role) {
         service.insert(role);
     }
 
@@ -40,16 +39,14 @@ public class IdentityRoleREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public IdentityRole update(
-        IdentityRole role) {
+    public IdentityRole update(IdentityRole role) {
         return service.update(role);
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(
-        @PathParam("id") UUID id) {
+    public void deleteById(@PathParam("id") UUID id) {
         service.deleteById(id);
     }
 
@@ -57,8 +54,7 @@ public class IdentityRoleREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public IdentityRole findById(
-        @PathParam("id") UUID id) {
+    public IdentityRole findById(@PathParam("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
@@ -66,9 +62,7 @@ public class IdentityRoleREST {
     @Path("")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public List<IdentityRole> findAll(
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
+    public List<IdentityRole> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }

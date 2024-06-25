@@ -20,7 +20,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("groups")
+@Path("/groups")
 public class IdentityGroupREST {
 
     @Inject
@@ -30,8 +30,7 @@ public class IdentityGroupREST {
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(
-        IdentityGroup group) {
+    public void insert(IdentityGroup group) {
         service.insert(group);
     }
 
@@ -40,16 +39,14 @@ public class IdentityGroupREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public IdentityGroup update(
-        IdentityGroup group) {
+    public IdentityGroup update(IdentityGroup group) {
         return service.update(group);
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(
-        @PathParam("id") UUID id) {
+    public void deleteById(@PathParam("id") UUID id) {
         service.deleteById(id);
     }
 
@@ -57,8 +54,7 @@ public class IdentityGroupREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public IdentityGroup findById(
-        @PathParam("id") UUID id) {
+    public IdentityGroup findById(@PathParam("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
@@ -66,9 +62,7 @@ public class IdentityGroupREST {
     @Path("")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public List<IdentityGroup> findAll(
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
+    public List<IdentityGroup> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }

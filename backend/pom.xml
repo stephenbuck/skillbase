@@ -38,16 +38,23 @@
     <liquibase.version>4.28.0</liquibase.version>
     <log4j.version>2.23.1</log4j.version>
     <lombok.version>1.18.32</lombok.version>
+    <maven.formatter.version>2.24.1</maven.formatter.version>
+    <maven.javadoc.version>3.7.0</maven.javadoc.version>
+    <microprofile.config.version>3.1</microprofile.config.version>
     <microprofile.fault-tolerance.version>4.0.2</microprofile.fault-tolerance.version>
     <microprofile.graphql.version>2.0</microprofile.graphql.version>
     <microprofile.health.version>4.0.1</microprofile.health.version>
+    <microprofile.jwt.version>2.1</microprofile.jwt.version>
+    <microprofile.metrics.version>5.1.0</microprofile.metrics.version>
     <microprofile.openapi.version>3.1.1</microprofile.openapi.version>
     <mockito.version>5.12.0</mockito.version>
     <postgresql.version>42.7.3</postgresql.version>
     <slf4j.version>2.0.13</slf4j.version>
     <smallrye.graphql.version>2.8.4</smallrye.graphql.version>
     <smallrye.openapi.version>3.11.0</smallrye.openapi.version>
-    <springboot.version>3.3.0</springboot.version>
+    <springboot.version>3.3.1</springboot.version>
+    <springboot.maven.version>3.3.0</springboot.maven.version>
+    <springcore.version>6.1.10</springcore.version>
     <surefire.version>3.2.5</surefire.version>
   </properties>
 
@@ -72,11 +79,28 @@
             <target>${maven.compiler.target}</target>
           </configuration>
         </plugin>
-
+        
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>formatter-maven-plugin</artifactId>
+          <groupId>net.revelc.code.formatter</groupId>
+          <version>${maven.formatter.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>format</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.7.0</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>${maven.javadoc.version}</version>
+          <configuration>
+            <show>private</show>
+            <nohelp>true</nohelp>
+          </configuration>
         </plugin>
         
         <plugin>
@@ -116,7 +140,7 @@
         <plugin>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <groupId>org.springframework.boot</groupId>
-          <version>${springboot.version}</version>
+          <version>${springboot.maven.version}</version>
         </plugin>
 
       </plugins>
@@ -168,6 +192,12 @@
         <version>${cloudevents.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven.javadoc.version}</version>
+      </dependency>
+    
       <dependency>
         <artifactId>graphql-java</artifactId>
         <groupId>com.graphql-java</groupId>
@@ -243,8 +273,8 @@
       </dependency>
   
       <dependency>
-        <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
+        <groupId>org.projectlombok</groupId>
         <version>${lombok.version}</version>
         <scope>provided</scope>
       </dependency>
@@ -253,6 +283,12 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
         <version>${maven.compiler.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>microprofile-config-api</artifactId>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <version>${microprofile.config.version}</version>
       </dependency>
 
       <dependency>
@@ -271,6 +307,18 @@
         <artifactId>microprofile-health-api</artifactId>
         <groupId>org.eclipse.microprofile.health</groupId>
         <version>${microprofile.health.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>microprofile-jwt-auth-api</artifactId>
+        <groupId>org.eclipse.microprofile.jwt</groupId>
+        <version>${microprofile.jwt.version}</version>
+      </dependency>
+    
+      <dependency>
+        <artifactId>microprofile-metrics-api</artifactId>
+        <groupId>org.eclipse.microprofile.metrics</groupId>
+        <version>${microprofile.metrics.version}</version>
       </dependency>
 
       <dependency>
@@ -327,9 +375,24 @@
         <version>${springboot.version}</version>
       </dependency>
 
+      <dependency>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${springboot.version}</version>
+      </dependency>
+      
+      <dependency>
+        <artifactId>spring-core</artifactId>
+        <groupId>org.springframework</groupId>
+        <version>${springcore.version}</version>
+      </dependency>
+
     </dependencies>
 
-  </dependencyManagement>  <modules>
+  </dependencyManagement>
+  
+  <modules>
+    <module>common</module>
     <module>catalog</module>
     <module>certify</module>
     <module>identity</module>

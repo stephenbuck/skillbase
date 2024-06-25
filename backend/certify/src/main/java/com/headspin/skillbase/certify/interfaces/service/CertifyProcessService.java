@@ -20,7 +20,7 @@ import com.headspin.skillbase.certify.domain.CertifyProcessRepo;
 import com.headspin.skillbase.certify.domain.CertifyEvent;
 
 @Stateless
-@DeclareRoles({"Admin", "User"})
+@DeclareRoles({ "Admin", "User" })
 public class CertifyProcessService {
 
     @Inject
@@ -30,65 +30,51 @@ public class CertifyProcessService {
     private SessionContext ctx;
 
     @Transactional
-    @RolesAllowed({"Admin", "User"})
-    public void insert(
-            @NotNull @Valid CertifyProcess process) {
+    @RolesAllowed({ "Admin", "User" })
+    public void insert(@NotNull @Valid CertifyProcess process) {
         repo.insert(process);
         CertifyEvent.build("com.headspin.skillbase.certify.process.inserted");
     }
 
     @Transactional
-    @RolesAllowed({"Admin", "User"})
-    public void delete(
-            @NotNull @Valid CertifyProcess process) {
+    @RolesAllowed({ "Admin", "User" })
+    public void delete(@NotNull @Valid CertifyProcess process) {
         repo.delete(process);
         CertifyEvent.build("com.headspin.skillbase.certify.process.deleted");
     }
 
     @Transactional
-    @RolesAllowed({"Admin", "User"})
-    public CertifyProcess update(
-            @NotNull @Valid CertifyProcess process) {
+    @RolesAllowed({ "Admin", "User" })
+    public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
         CertifyProcess updated = repo.update(process);
         CertifyEvent.build("com.headspin.skillbase.certify.process.updated");
         return updated;
     }
 
     @Transactional
-    public void deleteById(
-            @NotNull UUID id) {
+    public void deleteById(@NotNull UUID id) {
         repo.deleteById(id);
         CertifyEvent.build("com.headspin.skillbase.certify.process.deleted");
     }
 
-    @RolesAllowed({"Admin", "User"})
-    public Optional<CertifyProcess> findById(
-            @NotNull UUID id) {
+    @RolesAllowed({ "Admin", "User" })
+    public Optional<CertifyProcess> findById(@NotNull UUID id) {
         return repo.findById(id);
     }
 
-    @RolesAllowed({"Admin", "User"})
-    public List<CertifyProcess> findAll(
-            @Null String sort,
-            @Null Integer offset,
-            @Null Integer limit) {
+    @RolesAllowed({ "Admin", "User" })
+    public List<CertifyProcess> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
-    @RolesAllowed({"Admin", "User"})
-    public List<CertifyProcess> findAllBySkillId(
-            @NotNull UUID skillId,
-            @Null String sort,
-            @Null Integer offset,
+    @RolesAllowed({ "Admin", "User" })
+    public List<CertifyProcess> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllBySkillId(skillId, sort, offset, limit);
     }
 
-    @RolesAllowed({"Admin", "User"})
-    public List<CertifyProcess> findAllByUserId(
-            @NotNull UUID userId,
-            @Null String sort,
-            @Null Integer offset,
+    @RolesAllowed({ "Admin", "User" })
+    public List<CertifyProcess> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllByUserId(userId, sort, offset, limit);
     }

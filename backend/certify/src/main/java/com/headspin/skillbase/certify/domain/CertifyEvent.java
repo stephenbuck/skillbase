@@ -11,10 +11,7 @@ import io.cloudevents.core.builder.CloudEventBuilder;
 public class CertifyEvent {
 
     public static CloudEvent build(String type) {
-        return CloudEventBuilder.v1()
-                .withId("000")
-                .withType(type)
-                .build();
+        return CloudEventBuilder.v1().withId("000").withType(type).build();
     }
-    
+
 }

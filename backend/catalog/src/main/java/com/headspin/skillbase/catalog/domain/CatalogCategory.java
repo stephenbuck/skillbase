@@ -25,29 +25,17 @@ import jakarta.validation.constraints.Null;
 @Table(name = "catalog_category")
 public record CatalogCategory(
 
-        @JsonbProperty("id")
-        @Column(name = "id")
-        @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
+        @JsonbProperty("id") @Column(name = "id") @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
 
-        @JsonbProperty("title")
-        @Column(name = "title")
-        @NotNull @NotBlank String title,
+        @JsonbProperty("title") @Column(name = "title") @NotNull @NotBlank String title,
 
-        @JsonbProperty("note")
-        @Column(name = "note")
-        @NotNull String note,
+        @JsonbProperty("note") @Column(name = "note") @NotNull String note,
 
-        @JsonbProperty("icon")
-        @Column(name = "icon")
-        @Null @Lob byte[] icon,
+        @JsonbProperty("icon") @Column(name = "icon") @Null @Lob byte[] icon,
 
-        @JsonbProperty("inserted_at")
-        @Column(name = "inserted_at")
-        @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
+        @JsonbProperty("inserted_at") @Column(name = "inserted_at") @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
 
-        @JsonbProperty("updated_at")
-        @Column(name = "updated_at")
-        @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
+        @JsonbProperty("updated_at") @Column(name = "updated_at") @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
 ) implements Serializable {
 }

@@ -22,58 +22,46 @@ public class IdentityUserGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(
-            @Name("user") IdentityUser user) {
+    public void insert(@Name("user") IdentityUser user) {
         service.insert(user);
     }
 
     @Mutation("deleteById")
     @Description("deleteById")
-    public void deleteById(
-            @Name("id") UUID id) {
+    public void deleteById(@Name("id") UUID id) {
         service.deleteById(id);
     }
 
     @Mutation("update")
     @Description("update")
-    public void update(
-            @Name("user") IdentityUser user) {
+    public void update(@Name("user") IdentityUser user) {
         service.update(user);
     }
 
     @Query("findById")
     @Description("findById")
-    public IdentityUser findById(
-            @Name("id") UUID id) {
+    public IdentityUser findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
     @Description("findAll")
-    public List<IdentityUser> findAll(
-            @Name("sort") String sort,
-            @Name("offset") Integer offset,
+    public List<IdentityUser> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
     @Query("findAllByGroupId")
     @Description("findAllByGroupId")
-    public List<IdentityUser> findAllByGroupId(
-            @Name("id") UUID id,
-            @Name("sort") String sort,
-            @Name("offset") Integer offset,
-            @Name("limit") Integer limit) {
+    public List<IdentityUser> findAllByGroupId(@Name("id") UUID id, @Name("sort") String sort,
+            @Name("offset") Integer offset, @Name("limit") Integer limit) {
         return service.findAllByGroupId(id, sort, offset, limit);
     }
 
     @Query("findAllByRoleId")
     @Description("findAllByRoleId")
-    public List<IdentityUser> findAllByRoleId(
-            @Name("id") UUID id,
-            @Name("sort") String sort,
-            @Name("offset") Integer offset,
-            @Name("limit") Integer limit) {
+    public List<IdentityUser> findAllByRoleId(@Name("id") UUID id, @Name("sort") String sort,
+            @Name("offset") Integer offset, @Name("limit") Integer limit) {
         return service.findAllByRoleId(id, sort, offset, limit);
     }
 }

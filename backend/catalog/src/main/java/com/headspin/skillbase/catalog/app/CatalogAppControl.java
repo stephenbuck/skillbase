@@ -1,4 +1,4 @@
 package com.headspin.skillbase.catalog.app;
 
-public class CatalogAppControl {   
+public class CatalogAppControl {
 }

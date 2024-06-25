@@ -23,13 +23,25 @@
         <configuration>
           <images>
             <image>
-              <name>skillbase/backend/certification:${project.version}</name>
+              <name>skillbase/certify:${project.version}</name>
               <build>
                 <dockerFileDir>${project.dir}</dockerFileDir>
               </build>
             </image>
           </images>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <groupId>net.revelc.code.formatter</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -49,6 +61,11 @@
 
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
 
@@ -196,6 +213,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>microprofile-config-api</artifactId>
+      <groupId>org.eclipse.microprofile.config</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>microprofile-fault-tolerance-api</artifactId>
       <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
     </dependency>
@@ -253,6 +275,11 @@
     <dependency>
       <artifactId>spring-boot-autoconfigure</artifactId>
       <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-core</artifactId>
+      <groupId>org.springframework</groupId>
     </dependency>
 
   </dependencies>

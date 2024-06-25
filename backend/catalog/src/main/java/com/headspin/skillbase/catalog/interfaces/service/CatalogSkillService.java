@@ -34,64 +34,50 @@ public class CatalogSkillService {
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public void insert(
-            @NotNull @Valid CatalogSkill skill) {
+    public void insert(@NotNull @Valid CatalogSkill skill) {
         repo.insert(skill);
         CatalogEvent.build("com.headspin.skillbase.catalog.skill.inserted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public CatalogSkill update(
-            @NotNull @Valid CatalogSkill skill) {
+    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         CatalogSkill updated = repo.update(skill);
         CatalogEvent.build("com.headspin.skillbase.catalog.skill.updated");
         return updated;
     }
 
     @Transactional
-    public void delete(
-            @NotNull @Valid CatalogSkill skill) {
+    public void delete(@NotNull @Valid CatalogSkill skill) {
         repo.delete(skill);
         CatalogEvent.build("com.headspin.skillbase.catalog.skill.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public void deleteById(
-            @NotNull UUID id) {
+    public void deleteById(@NotNull UUID id) {
         repo.deleteById(id);
         CatalogEvent.build("com.headspin.skillbase.catalog.skill.deleted");
     }
 
     @RolesAllowed({ "Admin" })
-    public Optional<CatalogSkill> findById(
-            @NotNull UUID id) {
+    public Optional<CatalogSkill> findById(@NotNull UUID id) {
         return repo.findById(id);
     }
 
     @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAll(
-            @Null String sort,
-            @Null Integer offset,
-            @Null Integer limit) {
+    public List<CatalogSkill> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAllByCategoryId(
-            @NotNull UUID categoryId,
-            @Null String sort,
-            @Null Integer offset,
+    public List<CatalogSkill> findAllByCategoryId(@NotNull UUID categoryId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllByCategoryId(categoryId, sort, offset, limit);
     }
-    
+
     @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAllByTitleLike(
-            @NotNull String pattern,
-            @Null String sort,
-            @Null Integer offset,
+    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }

@@ -12,38 +12,24 @@ import jakarta.validation.constraints.Null;
 public interface CertifyModelRepo {
 
     @Transactional
-    public void insert(
-        @NotNull @Valid CertifyModel model);
+    public void insert(@NotNull @Valid CertifyModel model);
 
     @Transactional
-    public void delete(
-        @NotNull @Valid CertifyModel model);
+    public void delete(@NotNull @Valid CertifyModel model);
 
     @Transactional
-    public CertifyModel update(
-        @NotNull @Valid CertifyModel model);
-    
+    public CertifyModel update(@NotNull @Valid CertifyModel model);
+
     @Transactional
-    public void deleteById(
-        @NotNull UUID id);
+    public void deleteById(@NotNull UUID id);
 
-    public Optional<CertifyModel> findById(
-        @NotNull UUID id);
+    public Optional<CertifyModel> findById(@NotNull UUID id);
 
-    public List<CertifyModel> findAll(
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyModel> findAll(@Null String sort, @Null Integer offset, @Null Integer limit);
 
-    public List<CertifyModel> findAllBySkillId(
-        @NotNull UUID skillId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyModel> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 
-    public List<CertifyModel> findAllByUserId(
-        @NotNull UUID userId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyModel> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 }

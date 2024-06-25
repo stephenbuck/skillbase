@@ -24,50 +24,29 @@ import jakarta.validation.constraints.Null;
 
 @Entity
 @Table(name = "identity_user")
-public record IdentityUser (
+public record IdentityUser(
 
-    @JsonbProperty("id")
-    @Column(name = "id")
-    @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
+        @JsonbProperty("id") @Column(name = "id") @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
 
-    @JsonbProperty("state")
-    @Column(name = "state")
-    @NotNull @NotBlank String state,
+        @JsonbProperty("state") @Column(name = "state") @NotNull @NotBlank String state,
 
-    @JsonbProperty("user_name")
-    @Column(name = "user_name")
-    @NotNull @NotBlank String userName,
+        @JsonbProperty("user_name") @Column(name = "user_name") @NotNull @NotBlank String userName,
 
-    @JsonbProperty("first_name")
-    @Column(name = "first_name")
-    @NotNull @NotBlank String firstName,
+        @JsonbProperty("first_name") @Column(name = "first_name") @NotNull @NotBlank String firstName,
 
-    @JsonbProperty("last_name")
-    @Column(name = "last_name")
-    @NotNull @NotBlank String lastName,
+        @JsonbProperty("last_name") @Column(name = "last_name") @NotNull @NotBlank String lastName,
 
-    @JsonbProperty("email")
-    @Column(name = "email")
-    @NotNull @Email String email,
+        @JsonbProperty("email") @Column(name = "email") @NotNull @Email String email,
 
-    @JsonbProperty("phone")
-    @Column(name = "phone")
-    @NotNull String phone,
+        @JsonbProperty("phone") @Column(name = "phone") @NotNull String phone,
 
-    @JsonbProperty("note")
-    @Column(name = "note")
-    @NotNull String note,
+        @JsonbProperty("note") @Column(name = "note") @NotNull String note,
 
-    @JsonbProperty("icon")
-    @Column(name = "icon")
-    @Null @Lob byte[] icon,
+        @JsonbProperty("icon") @Column(name = "icon") @Null @Lob byte[] icon,
 
-    @JsonbProperty("inserted_at")
-    @Column(name = "inserted_at")
-    @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
+        @JsonbProperty("inserted_at") @Column(name = "inserted_at") @NotNull @Temporal(TemporalType.TIMESTAMP) Date insertedAt,
 
-    @JsonbProperty("updated_at")
-    @Column(name = "updated_at")
-    @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
+        @JsonbProperty("updated_at") @Column(name = "updated_at") @Null @Temporal(TemporalType.TIMESTAMP) Date updatedAt
 
-) implements Serializable {}
+) implements Serializable {
+}

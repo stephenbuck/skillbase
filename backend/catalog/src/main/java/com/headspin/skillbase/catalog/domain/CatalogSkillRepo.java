@@ -11,39 +11,25 @@ import jakarta.validation.constraints.Null;
 
 public interface CatalogSkillRepo {
 
-        @Transactional
-        public void insert(
-                        @NotNull @Valid CatalogSkill skill);
+    @Transactional
+    public void insert(@NotNull @Valid CatalogSkill skill);
 
-        @Transactional
-        public void delete(
-                        @NotNull @Valid CatalogSkill skill);
+    @Transactional
+    public void delete(@NotNull @Valid CatalogSkill skill);
 
-        @Transactional
-        public CatalogSkill update(
-                        @NotNull @Valid CatalogSkill skill);
+    @Transactional
+    public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
 
-        @Transactional
-        public void deleteById(
-                        @NotNull UUID id);
+    @Transactional
+    public void deleteById(@NotNull UUID id);
 
-        public Optional<CatalogSkill> findById(
-                        @NotNull UUID id);
+    public Optional<CatalogSkill> findById(@NotNull UUID id);
 
-        public List<CatalogSkill> findAll(
-                        @Null String sort,
-                        @Null Integer offset,
-                        @Null Integer limit);
+    public List<CatalogSkill> findAll(@Null String sort, @Null Integer offset, @Null Integer limit);
 
-        public List<CatalogSkill> findAllByCategoryId(
-                        @NotNull UUID categoryId,
-                        @Null String sort,
-                        @Null Integer offset,
-                        @Null Integer limit);
+    public List<CatalogSkill> findAllByCategoryId(@NotNull UUID categoryId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 
-        public List<CatalogSkill> findAllByTitleLike(
-                        @NotNull String pattern,
-                        @Null String sort,
-                        @Null Integer offset,
-                        @Null Integer limit);
+    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 }

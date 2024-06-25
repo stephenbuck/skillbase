@@ -1,4 +1,4 @@
-package com.headspin.skillbase.certufy.interfaces.rest;
+package com.headspin.skillbase.certify.interfaces.rest;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("models")
+@Path("/models")
 public class CertifyModelREST {
 
     @Inject
@@ -29,8 +29,7 @@ public class CertifyModelREST {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(
-            CertifyModel model) {
+    public void insert(CertifyModel model) {
         service.insert(model);
     }
 
@@ -38,44 +37,37 @@ public class CertifyModelREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public CertifyModel update(
-        CertifyModel model) {
+    public CertifyModel update(CertifyModel model) {
         return service.update(model);
     }
 
     @DELETE
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "delete")
-    public void delete(
-        CertifyModel model) {
+    public void delete(CertifyModel model) {
         service.delete(model);
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(
-            @PathParam("id") UUID id) {
-//        service.deleteById(id);
+    public void deleteById(@PathParam("id") UUID id) {
+        // service.deleteById(id);
     }
 
     @GET
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public CertifyModel findById(
-            @PathParam("id") UUID id) {
+    public CertifyModel findById(@PathParam("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public List<CertifyModel> findAll(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyModel> findAll(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
@@ -83,11 +75,8 @@ public class CertifyModelREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllBySkillId")
-    public List<CertifyModel> findAllBySkillId(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyModel> findAllBySkillId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllBySkillId(id, sort, offset, limit);
     }
 
@@ -95,11 +84,8 @@ public class CertifyModelREST {
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllByUserId")
-    public List<CertifyModel> findAllByUserId(
-            @PathParam("id") UUID id,
-            @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public List<CertifyModel> findAllByUserId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return service.findAllByUserId(id, sort, offset, limit);
     }
 }

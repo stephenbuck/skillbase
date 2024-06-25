@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="modelVersion" type="xs:string" />
+        <xs:element name="artifactId" type="xs:string" />
+        <xs:element name="groupId" type="xs:string" />
+        <xs:element name="version" type="xs:string" />
+        <xs:element name="name" type="xs:string" />
+        <xs:element name="parent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="artifactId" type="xs:string" />
+              <xs:element name="groupId" type="xs:string" />
+              <xs:element name="version" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="build">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="plugins">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="plugin" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="artifactId" type="xs:string" />
+                          <xs:element name="groupId" type="xs:string" />
+                          <xs:element name="configuration" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence minOccurs="0">
+                                <xs:element name="images" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="image">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="name" type="xs:string" />
+                                            <xs:element name="build">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="dockerFileDir" type="xs:string" />
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="changeLogFile" minOccurs="0" type="xs:string" />
+                                <xs:element name="driver" minOccurs="0" type="xs:string" />
+                                <xs:element name="url" minOccurs="0" type="xs:string" />
+                                <xs:element name="username" minOccurs="0" type="xs:string" />
+                                <xs:element name="password" minOccurs="0" type="xs:string" />
+                                <xs:element name="promptOnNonLocalDatabase" minOccurs="0"
+                                  type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="executions" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="execution">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="goals">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="goal" type="xs:string" />
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="version" minOccurs="0" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dependencies">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="dependency" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice>
+                      <xs:element name="artifactId" type="xs:string" />
+                      <xs:element name="groupId" type="xs:string" />
+                      <xs:element name="scope" minOccurs="0" type="xs:string" />
+                      <xs:element name="type" minOccurs="0" type="xs:string" />
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

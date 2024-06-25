@@ -11,38 +11,24 @@ import jakarta.validation.constraints.Null;
 public interface IdentityUserRepo {
 
     @Transactional
-    public void insert(
-        @NotNull IdentityUser user);
+    public void insert(@NotNull IdentityUser user);
 
     @Transactional
-    public void delete(
-        @NotNull IdentityUser user);
+    public void delete(@NotNull IdentityUser user);
 
     @Transactional
-    public IdentityUser update(
-        @NotNull IdentityUser user);
+    public IdentityUser update(@NotNull IdentityUser user);
 
     @Transactional
-    public void deleteById(
-        @NotNull UUID id);
+    public void deleteById(@NotNull UUID id);
 
-    public Optional<IdentityUser> findById(
-        @NotNull UUID id);
+    public Optional<IdentityUser> findById(@NotNull UUID id);
 
-    public List<IdentityUser> findAll(
-        @NotNull String sort,
-        @Null Integer offset, 
-        @Null Integer limit);
+    public List<IdentityUser> findAll(@NotNull String sort, @Null Integer offset, @Null Integer limit);
 
-    public List<IdentityUser> findAllByGroupId(
-        @NotNull UUID groupId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<IdentityUser> findAllByGroupId(@NotNull UUID groupId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 
-    public List<IdentityUser> findAllByRoleId(
-        @NotNull UUID roleId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<IdentityUser> findAllByRoleId(@NotNull UUID roleId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 }

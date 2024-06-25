@@ -12,38 +12,24 @@ import jakarta.validation.constraints.Null;
 public interface CertifyTaskRepo {
 
     @Transactional
-    public void insert(
-        @NotNull @Valid CertifyTask task);
+    public void insert(@NotNull @Valid CertifyTask task);
 
     @Transactional
-    public void delete(
-        @NotNull @Valid CertifyTask task);
+    public void delete(@NotNull @Valid CertifyTask task);
 
     @Transactional
-    public CertifyTask update(
-        @NotNull @Valid CertifyTask task);
-    
+    public CertifyTask update(@NotNull @Valid CertifyTask task);
+
     @Transactional
-    public void deleteById(
-        @NotNull UUID id);
+    public void deleteById(@NotNull UUID id);
 
-    public Optional<CertifyTask> findById(
-        @NotNull UUID id);
+    public Optional<CertifyTask> findById(@NotNull UUID id);
 
-    public List<CertifyTask> findAll(
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyTask> findAll(@Null String sort, @Null Integer offset, @Null Integer limit);
 
-    public List<CertifyTask> findAllBySkillId(
-        @NotNull UUID skillId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyTask> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 
-    public List<CertifyTask> findAllByUserId(
-        @NotNull UUID userId,
-        @Null String sort,
-        @Null Integer offset,
-        @Null Integer limit);
+    public List<CertifyTask> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
+            @Null Integer limit);
 }
