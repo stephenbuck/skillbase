@@ -120,4 +120,12 @@ Interfacing (GraphQL, REST)
 
 The backend will support GraphQL and REST so the client will have to follow along. I’ll be using the Relay client library since it’s designed for the React framework.
 
+Development
+
+IDE (VisualStudio)
+
+Build (Maven)
+
+CI/CD (Jenkins)
+
 More coming soon!
