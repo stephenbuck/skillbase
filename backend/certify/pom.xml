@@ -13,6 +13,11 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
+  <properties>
+    <flowable.version>7.0.1</flowable.version> 
+    <h2.version>2.2.224</h2.version>
+  </properties>
+
   <build>
 
     <plugins>
@@ -117,10 +122,11 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowable</groupId>
       <artifactId>flowable-engine</artifactId>
+      <groupId>org.flowable</groupId>
+      <version>${flowable.version}</version>
     </dependency>
-    
+
     <dependency>
       <artifactId>archunit-junit5</artifactId>
       <groupId>com.tngtech.archunit</groupId>
@@ -151,6 +157,19 @@
     </dependency>
 
     <dependency>
+      <artifactId>flowable-engine</artifactId>
+      <groupId>org.flowable</groupId>
+      <version>${flowable.version}</version>
+    </dependency>
+    
+    <dependency>
+      <artifactId>h2</artifactId>
+      <groupId>com.h2database</groupId>
+      <version>${h2.version}</version>
+      <scope>test</scope>
+    </dependency>
+  
+    <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
     </dependency>
@@ -169,16 +188,6 @@
     <dependency>
       <groupId>jakarta.persistence</groupId>
       <artifactId>jakarta.persistence-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <artifactId>jmolecules-ddd</artifactId>
-      <groupId>org.jmolecules</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>jmolecules-events</artifactId>
-      <groupId>org.jmolecules</groupId>
     </dependency>
 
     <dependency>
@@ -243,11 +252,6 @@
     </dependency>
 
     <dependency>
-      <artifactId>mockito-core</artifactId>
-      <groupId>org.mockito</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>
@@ -285,12 +289,6 @@
     <dependency>
       <artifactId>spring-core</artifactId>
       <groupId>org.springframework</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>h2</artifactId>
-      <groupId>com.h2database</groupId>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
