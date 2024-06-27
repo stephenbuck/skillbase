@@ -112,11 +112,6 @@
   <dependencies>
 
     <dependency>
-      <artifactId>activiti-engine</artifactId>
-      <groupId>org.activiti</groupId>
-    </dependency>
-  
-    <dependency>
       <artifactId>archunit-junit5</artifactId>
       <groupId>com.tngtech.archunit</groupId>
       <scope>test</scope>
@@ -184,6 +179,12 @@
     <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
+    </dependency>
+
+
+    <dependency>
+      <artifactId>keycloak-admin-client</artifactId>
+      <groupId>org.keycloak</groupId>
     </dependency>
 
     <dependency>

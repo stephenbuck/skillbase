@@ -112,10 +112,15 @@
   <dependencies>
 
     <dependency>
-      <artifactId>activiti-engine</artifactId>
-      <groupId>org.activiti</groupId>
+      <artifactId>resteasy-client</artifactId>
+      <groupId>org.jboss.resteasy</groupId>
     </dependency>
 
+    <dependency>
+      <groupId>org.flowable</groupId>
+      <artifactId>flowable-engine</artifactId>
+    </dependency>
+    
     <dependency>
       <artifactId>archunit-junit5</artifactId>
       <groupId>com.tngtech.archunit</groupId>

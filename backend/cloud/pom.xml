@@ -1,0 +1,38 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>skillbase-cloud</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>skillbase_cloud</name>
+
+  <parent>
+    <artifactId>skillbase-backend</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+
+      <plugins>
+
+        <plugin>
+          <groupId>com.deliveredtechnologies</groupId>
+          <artifactId>tf-maven-plugin</artifactId>
+        </plugin>
+
+      </plugins>
+
+  </build>
+
+  <dependencies>
+
+    <dependency>
+      <artifactId>tf-maven-plugin</artifactId>
+      <groupId>com.deliveredtechnologies</groupId>
+    </dependency>
+
+  </dependencies>
+
+</project>
