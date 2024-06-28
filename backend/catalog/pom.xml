@@ -79,6 +79,7 @@
         <groupId>io.smallrye</groupId>
         <executions>
           <execution>
+            <?m2e execute onConfiguration,onIncremental?>
               <goals>
                   <goal>generate-schema</goal>
               </goals>

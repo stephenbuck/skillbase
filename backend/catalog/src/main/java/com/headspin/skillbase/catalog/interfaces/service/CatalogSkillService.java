@@ -35,6 +35,7 @@ public class CatalogSkillService {
     @Transactional
     @RolesAllowed({ "Admin" })
     public void insert(@NotNull @Valid CatalogSkill skill) {
+        log.info("FOO");
         repo.insert(skill);
         CatalogEvent.build("com.headspin.skillbase.catalog.skill.inserted");
     }

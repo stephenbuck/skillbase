@@ -5,6 +5,7 @@
   <artifactId>skillbase-backend-identity</artifactId>
   <groupId>com.headspin.skillbase</groupId>
   <version>1.0-SNAPSHOT</version>
+  
   <name>skillbase-backend-identity</name>
 
   <parent>
@@ -79,6 +80,7 @@
         <groupId>io.smallrye</groupId>
         <executions>
           <execution>
+            <?m2e execute onConfiguration?>
               <goals>
                   <goal>generate-schema</goal>
               </goals>

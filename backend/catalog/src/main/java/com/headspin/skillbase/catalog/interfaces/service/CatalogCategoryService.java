@@ -35,6 +35,7 @@ public class CatalogCategoryService {
     @Transactional
     @RolesAllowed({ "Admin" })
     public void insert(@NotNull @Valid CatalogCategory category) {
+        log.info("FOO");
         repo.insert(category);
         CatalogEvent.build("com.headspin.skillbase.catalog.category.inserted");
     }

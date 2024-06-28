@@ -84,11 +84,11 @@ resource "docker_container" "flagd" {
 */
 
 resource "docker_container" "flowable" {
-  name    = "flowable"
-  image   = docker_image.flowable.image_id
+  name  = "flowable"
+  image = docker_image.flowable.image_id
   ports {
     internal = 8080
-    external = 8080  
+    external = 8080
   }
 }
 
@@ -129,9 +129,9 @@ resource "docker_container" "keycloak" {
 */
 
 resource "docker_container" "postgres" {
-  name    = "postgres"
-  image   = docker_image.postgres.image_id
-  env     = ["POSTGRES_USER=postgres", "POSTGRES_PASSWORD=postgres"]
+  name  = "postgres"
+  image = docker_image.postgres.image_id
+  env   = ["POSTGRES_USER=postgres", "POSTGRES_PASSWORD=postgres"]
   ports {
     internal = 5432
     external = 15432
