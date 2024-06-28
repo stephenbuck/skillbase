@@ -22,8 +22,8 @@ public class CatalogCategoryGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("skill") CatalogCategory category) {
-        service.insert(category);
+    public UUID insert(@Name("skill") CatalogCategory category) {
+        return service.insert(category);
     }
 
     @Mutation("update")

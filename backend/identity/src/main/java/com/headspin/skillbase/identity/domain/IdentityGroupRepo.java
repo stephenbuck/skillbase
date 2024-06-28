@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Null;
 public interface IdentityGroupRepo {
 
     @Transactional
-    public void insert(@NotNull IdentityGroup group);
+    public UUID insert(@NotNull IdentityGroup group);
 
     @Transactional
     public void delete(@NotNull IdentityGroup group);

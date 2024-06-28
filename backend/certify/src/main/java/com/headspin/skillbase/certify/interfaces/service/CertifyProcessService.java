@@ -31,9 +31,10 @@ public class CertifyProcessService {
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
-    public void insert(@NotNull @Valid CertifyProcess process) {
-        repo.insert(process);
+    public UUID insert(@NotNull @Valid CertifyProcess process) {
+        UUID id = repo.insert(process);
         CertifyEvent.build("com.headspin.skillbase.certify.process.inserted");
+        return id;
     }
 
     @Transactional

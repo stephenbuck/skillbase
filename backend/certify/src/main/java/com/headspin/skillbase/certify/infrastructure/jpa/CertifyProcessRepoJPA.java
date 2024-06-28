@@ -27,9 +27,10 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
 
     @Override
     @Transactional
-    public void insert(@NotNull @Valid CertifyProcess process) {
+    public UUID insert(@NotNull @Valid CertifyProcess process) {
         log.info("insert()");
         em.persist(process);
+        return process.id();
     }
 
     @Override

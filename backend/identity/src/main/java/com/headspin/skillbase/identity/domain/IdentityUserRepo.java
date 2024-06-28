@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Null;
 public interface IdentityUserRepo {
 
     @Transactional
-    public void insert(@NotNull IdentityUser user);
+    public UUID insert(@NotNull IdentityUser user);
 
     @Transactional
     public void delete(@NotNull IdentityUser user);

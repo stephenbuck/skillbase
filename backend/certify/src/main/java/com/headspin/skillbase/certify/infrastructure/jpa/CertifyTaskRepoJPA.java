@@ -27,9 +27,10 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
 
     @Override
     @Transactional
-    public void insert(@NotNull @Valid CertifyTask task) {
+    public UUID insert(@NotNull @Valid CertifyTask task) {
         log.info("insert()");
         em.persist(task);
+        return task.id();
     }
 
     @Override

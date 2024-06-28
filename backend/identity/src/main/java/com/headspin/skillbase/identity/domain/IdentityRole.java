@@ -27,6 +27,8 @@ public record IdentityRole(
 
         @JsonbProperty("id") @Column(name = "id") @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
 
+        @JsonbProperty("peer_id") @Column(name = "peer_id") @Null String peerId,
+
         @JsonbProperty("title") @Column(name = "title") @NotNull @NotBlank String title,
 
         @JsonbProperty("note") @Column(name = "note") @NotNull @NotBlank String note,

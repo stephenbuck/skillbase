@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Null;
 public interface CertifyTaskRepo {
 
     @Transactional
-    public void insert(@NotNull @Valid CertifyTask task);
+    public UUID insert(@NotNull @Valid CertifyTask task);
 
     @Transactional
     public void delete(@NotNull @Valid CertifyTask task);

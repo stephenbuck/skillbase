@@ -30,8 +30,8 @@ public class IdentityUserREST {
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(IdentityUser user) {
-        service.insert(user);
+    public UUID insert(IdentityUser user) {
+        return service.insert(user);
     }
 
     @POST

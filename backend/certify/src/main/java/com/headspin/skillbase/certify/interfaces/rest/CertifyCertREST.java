@@ -29,8 +29,8 @@ public class CertifyCertREST {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(CertifyCert cert) {
-        service.insert(cert);
+    public UUID insert(CertifyCert cert) {
+        return service.insert(cert);
     }
 
     @PUT

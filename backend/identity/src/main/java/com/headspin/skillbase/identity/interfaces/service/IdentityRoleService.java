@@ -30,9 +30,10 @@ public class IdentityRoleService {
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public void insert(@NotNull IdentityRole role) {
-        repo.insert(role);
+    public UUID insert(@NotNull IdentityRole role) {
+        UUID id = repo.insert(role);
         IdentityEvent.build("com.headspin.skillbase.identity.role.inserted");
+        return id;
     }
 
     @Transactional

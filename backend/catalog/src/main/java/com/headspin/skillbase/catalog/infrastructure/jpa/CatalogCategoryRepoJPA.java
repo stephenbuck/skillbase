@@ -27,31 +27,32 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     private EntityManager em;
 
     @Transactional
-    public void insert(@NotNull @Valid CatalogCategory category) {
-        log.info("insert(" + category + ")");
+    public UUID insert(@NotNull @Valid CatalogCategory category) {
+        log.info("insert()");
         em.persist(category);
+        return category.id();
     }
 
     @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
-        log.info("update(" + category + ")");
+        log.info("update({})", category);
         return em.merge(category);
     }
 
     @Transactional
     public void delete(@NotNull @Valid CatalogCategory category) {
-        log.info("delete(" + category + ")");
+        log.info("delete({})", category.id());
         em.remove(category);
     }
 
     @Transactional
     public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
+        log.info("deleteById({})", id);
         em.remove(em.find(CatalogCategory.class, id));
     }
 
     public Optional<CatalogCategory> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(CatalogCategory.class, id));
     }
 
@@ -65,7 +66,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     public List<CatalogCategory> findAllByParentId(@NotNull UUID parentId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByParentId(" + parentId + ")");
+        log.info("findAllByParentId({})", parentId);
         return em
                 .createQuery("SELECT c FROM catalog_category c WHERE c.parent_id = :parentId ORDER BY :sort",
                         CatalogCategory.class)
@@ -76,7 +77,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByTitleLike(" + pattern + ")");
+        log.info("findAllByTitleLike({})", pattern);
         return em.createQuery("SELECT c FROM catalog_category c WHERE c.title LIKE ':pattern'", CatalogCategory.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))

@@ -34,9 +34,10 @@ public class CatalogCategoryService {
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public void insert(@NotNull @Valid CatalogCategory category) {
-        repo.insert(category);
+    public UUID insert(@NotNull @Valid CatalogCategory category) {
+        UUID id = repo.insert(category);
         CatalogEvent.build("com.headspin.skillbase.catalog.category.inserted");
+        return id;
     }
 
     @Transactional

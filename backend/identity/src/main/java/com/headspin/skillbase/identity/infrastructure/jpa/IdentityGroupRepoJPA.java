@@ -27,9 +27,10 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
 
     @Override
     @Transactional
-    public void insert(@NotNull IdentityGroup group) {
+    public UUID insert(@NotNull IdentityGroup group) {
         log.info("insert(" + group + ")");
         em.persist(group);
+        return group.id();
     }
 
     @Override

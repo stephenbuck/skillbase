@@ -22,8 +22,8 @@ public class CatalogSkillGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("skill") CatalogSkill skill) {
-        service.insert(skill);
+    public UUID insert(@Name("skill") CatalogSkill skill) {
+        return service.insert(skill);
     }
 
     @Mutation("update")

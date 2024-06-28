@@ -29,8 +29,8 @@ public class CertifyModelREST {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(CertifyModel model) {
-        service.insert(model);
+    public UUID insert(CertifyModel model) {
+        return service.insert(model);
     }
 
     @PUT

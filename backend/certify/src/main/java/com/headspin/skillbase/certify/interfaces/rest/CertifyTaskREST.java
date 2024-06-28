@@ -29,8 +29,8 @@ public class CertifyTaskREST {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(CertifyTask task) {
-        service.insert(task);
+    public UUID insert(CertifyTask task) {
+        return service.insert(task);
     }
 
     @PUT

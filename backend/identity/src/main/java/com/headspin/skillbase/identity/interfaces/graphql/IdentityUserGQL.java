@@ -22,8 +22,8 @@ public class IdentityUserGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("user") IdentityUser user) {
-        service.insert(user);
+    public UUID insert(@Name("user") IdentityUser user) {
+        return service.insert(user);
     }
 
     @Mutation("deleteById")

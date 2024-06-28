@@ -1,6 +1,8 @@
 package com.headspin.skillbase.catalog.interfaces.rest;
 
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -16,6 +18,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
@@ -29,57 +32,55 @@ public class CatalogCategoryREST {
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public void insert(CatalogCategory category) {
-        service.insert(category);
+    public Response insert(CatalogCategory category) throws URISyntaxException {
+        UUID id = service.insert(category);
+        URI uri = new URI("/categories/" + id);
+        return Response.ok(uri).build();
     }
 
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public CatalogCategory update(CatalogCategory category) {
-        return service.update(category);
+    public Response update(CatalogCategory category) {
+        return Response.ok(service.update(category)).build();
     }
 
     @DELETE
     @Path("{id}")
     @Operation(summary = "deleteById")
-    public void deleteById(@PathParam("id") UUID id) {
+    public Response deleteById(@PathParam("id") UUID id) {
         service.deleteById(id);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "findAll")
+    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
+            @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
-    public CatalogCategory findById(@PathParam("id") UUID id) {
-        return service.findById(id).orElse(null);
+    public Response findById(@PathParam("id") UUID id) {
+        Optional<CatalogCategory> match = service.findById(id);
+        if (match.isPresent()) {
+            return Response.ok(match, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
-    @Path("")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "findAll")
-    public List<CatalogCategory> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
-        return service.findAll(sort, offset, limit);
-    }
-
-    @GET
-    @Path("{id}")
+    @Path("/parent/{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAllByParentId")
-    public List<CatalogCategory> findAllByParentId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+    public Response findAllByParentId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
             @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return service.findAllByParentId(id, sort, offset, limit);
-    }
-
-    @GET
-    @Path("{pattern}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "findAllByTitleLike")
-    public List<CatalogCategory> findAllByTitleLike(@PathParam("pattern") String pattern,
-            @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return service.findAllByTitleLike(pattern, sort, offset, limit);
+        return Response.ok(service.findAllByParentId(id, sort, offset, limit)).build();
     }
 }

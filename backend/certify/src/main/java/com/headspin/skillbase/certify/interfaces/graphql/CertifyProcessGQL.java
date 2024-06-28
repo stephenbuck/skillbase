@@ -22,8 +22,8 @@ public class CertifyProcessGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("process") CertifyProcess process) {
-        service.insert(process);
+    public UUID insert(@Name("process") CertifyProcess process) {
+        return service.insert(process);
     }
 
     @Mutation("update")

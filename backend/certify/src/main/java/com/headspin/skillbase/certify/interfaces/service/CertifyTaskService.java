@@ -31,9 +31,10 @@ public class CertifyTaskService {
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
-    public void insert(@NotNull @Valid CertifyTask task) {
-        repo.insert(task);
+    public UUID insert(@NotNull @Valid CertifyTask task) {
+        UUID id = repo.insert(task);
         CertifyEvent.build("com.headspin.skillbase.certify.task.inserted");
+        return id;
     }
 
     @Transactional

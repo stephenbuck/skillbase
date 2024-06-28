@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Null;
 public interface CertifyProcessRepo {
 
     @Transactional
-    public void insert(@NotNull @Valid CertifyProcess cert);
+    public UUID insert(@NotNull @Valid CertifyProcess cert);
 
     @Transactional
     public void delete(@NotNull @Valid CertifyProcess cert);

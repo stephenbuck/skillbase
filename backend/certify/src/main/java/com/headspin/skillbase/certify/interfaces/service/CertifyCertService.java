@@ -31,9 +31,10 @@ public class CertifyCertService {
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
-    public void insert(@NotNull @Valid CertifyCert cert) {
+    public UUID insert(@NotNull @Valid CertifyCert cert) {
         repo.insert(cert);
         CertifyEvent.build("com.headspin.skillbase.certify.cert.inserted");
+        return cert.id();
     }
 
     @Transactional

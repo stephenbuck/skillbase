@@ -27,7 +27,9 @@ public record IdentityGroup(
 
         @JsonbProperty("id") @Column(name = "id") @NotNull @EmbeddedId @Id @GeneratedValue(strategy = GenerationType.IDENTITY) UUID id,
 
-        @JsonbProperty("parent_id") @Column(name = "parent_id") @NotNull @NotBlank UUID parent_id,
+        @JsonbProperty("peer_id") @Column(name = "peer_id") @Null String peerId,
+
+        @JsonbProperty("parent_id") @Column(name = "parent_id") @NotNull @NotBlank UUID parentId,
 
         @JsonbProperty("title") @Column(name = "title") @NotNull @NotBlank String title,
 

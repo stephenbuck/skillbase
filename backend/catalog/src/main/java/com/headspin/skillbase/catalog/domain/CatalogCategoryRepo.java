@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Null;
 public interface CatalogCategoryRepo {
 
     @Transactional
-    public void insert(@NotNull @Valid CatalogCategory category);
+    public UUID insert(@NotNull @Valid CatalogCategory category);
 
     @Transactional
     public void delete(@NotNull @Valid CatalogCategory category);

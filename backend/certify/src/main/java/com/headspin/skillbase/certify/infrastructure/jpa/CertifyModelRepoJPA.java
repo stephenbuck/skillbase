@@ -27,9 +27,10 @@ public class CertifyModelRepoJPA implements CertifyModelRepo {
 
     @Override
     @Transactional
-    public void insert(@NotNull @Valid CertifyModel model) {
+    public UUID insert(@NotNull @Valid CertifyModel model) {
         log.info("insert()");
         em.persist(model);
+        return model.id();
     }
 
     @Override

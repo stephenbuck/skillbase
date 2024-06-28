@@ -27,35 +27,36 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
 
     @Override
     @Transactional
-    public void insert(@NotNull IdentityRole role) {
-        log.info("insert(" + role + ")");
+    public UUID insert(@NotNull IdentityRole role) {
+        log.info("insert()");
         em.persist(role);
+        return role.id();
     }
 
     @Override
     @Transactional
     public IdentityRole update(@NotNull IdentityRole role) {
-        log.info("update(" + role + ")");
+        log.info("update({})", role.id());
         return em.merge(role);
     }
 
     @Override
     @Transactional
     public void delete(@NotNull IdentityRole role) {
-        log.info("delete(" + role + ")");
+        log.info("delete({})", role.id());
         em.remove(role);
     }
 
     @Override
     @Transactional
     public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
+        log.info("deleteById({})", id);
         findById(id).ifPresent(em::remove);
     }
 
     @Override
     public Optional<IdentityRole> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(IdentityRole.class, id));
     }
 
@@ -71,7 +72,7 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
     @Override
     public List<IdentityRole> findAllByGroupId(@NotNull UUID groupId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByGroupId(" + groupId + ")");
+        log.info("findAllByGroupId({})", groupId);
         return em
                 .createQuery("SELECT r FROM identity_role r WHERE r.group_id = :groupId ORDER BY :sort",
                         IdentityRole.class)
@@ -83,7 +84,7 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
     @Override
     public List<IdentityRole> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em
                 .createQuery("SELECT r FROM identity_role r WHERE r.user_id = :userId ORDER BY :sort",
                         IdentityRole.class)

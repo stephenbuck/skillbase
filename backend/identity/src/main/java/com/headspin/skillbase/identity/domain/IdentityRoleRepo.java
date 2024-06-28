@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Null;
 public interface IdentityRoleRepo {
 
     @Transactional
-    public void insert(@NotNull IdentityRole role);
+    public UUID insert(@NotNull IdentityRole role);
 
     @Transactional
     public void delete(@NotNull IdentityRole role);

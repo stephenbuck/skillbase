@@ -30,9 +30,10 @@ public class IdentityGroupService {
 
     @Transactional
     @RolesAllowed({ "Admin" })
-    public void insert(@NotNull IdentityGroup group) {
-        repo.insert(group);
+    public UUID insert(@NotNull IdentityGroup group) {
+        UUID id = repo.insert(group);
         IdentityEvent.build("com.headspin.skillbase.identity.group.inserted");
+        return id;
     }
 
     @Transactional

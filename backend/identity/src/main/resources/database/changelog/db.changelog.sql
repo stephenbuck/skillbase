@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS identity_user_role;
 
 CREATE TABLE IF NOT EXISTS identity_user (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  peer_id              VARCHAR         NULL DEFAULT NULL,
   status_code          VARCHAR     NOT NULL,
   user_name            VARCHAR     NOT NULL UNIQUE,
   first_name           VARCHAR     NOT NULL,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS identity_user (
   phone                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   icon                 TEXT            NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_user_pk PRIMARY KEY (id)
@@ -28,10 +29,12 @@ CREATE INDEX IF NOT EXISTS identity_user_by_user_name ON identity_user (user_nam
 
 CREATE TABLE IF NOT EXISTS identity_group (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  peer_id              VARCHAR         NULL DEFAULT NULL,
+  parent_id            UUID            NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   icon                 TEXT            NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_group_pk PRIMARY KEY (id)
@@ -49,9 +52,10 @@ CREATE TABLE IF NOT EXISTS identity_user_group (
 
 CREATE TABLE IF NOT EXISTS identity_role (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  peer_id              VARCHAR         NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_role_pk PRIMARY KEY (id)

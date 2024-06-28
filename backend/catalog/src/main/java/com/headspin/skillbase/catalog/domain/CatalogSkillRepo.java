@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Null;
 public interface CatalogSkillRepo {
 
     @Transactional
-    public void insert(@NotNull @Valid CatalogSkill skill);
+    public UUID insert(@NotNull @Valid CatalogSkill skill);
 
     @Transactional
     public void delete(@NotNull @Valid CatalogSkill skill);

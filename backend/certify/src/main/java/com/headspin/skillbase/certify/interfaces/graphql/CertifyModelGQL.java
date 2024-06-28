@@ -22,8 +22,8 @@ public class CertifyModelGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("model") CertifyModel model) {
-        service.insert(model);
+    public UUID insert(@Name("model") CertifyModel model) {
+        return service.insert(model);
     }
 
     @Mutation("update")

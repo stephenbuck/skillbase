@@ -15,36 +15,36 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
-import com.headspin.skillbase.certify.domain.CertifyCert;
-import com.headspin.skillbase.certify.domain.CertifyCertRepo;
+import com.headspin.skillbase.certify.domain.CertifyDocument;
+import com.headspin.skillbase.certify.domain.CertifyDocumentRepo;
 
 @Slf4j
 @RequestScoped
-public class CertifyCertRepoJPA implements CertifyCertRepo {
+public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
 
     @PersistenceContext(name = "skillbase_certify")
     private EntityManager em;
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid CertifyCert cert) {
+    public UUID insert(@NotNull @Valid CertifyDocument document) {
         log.info("insert()");
-        em.persist(cert);
-        return cert.id();
+        em.persist(document);
+        return document.id();
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull @Valid CertifyCert cert) {
+    public void delete(@NotNull @Valid CertifyDocument document) {
         log.info("delete()");
-        em.remove(cert);
+        em.remove(document);
     }
 
     @Override
     @Transactional
-    public CertifyCert update(@NotNull @Valid CertifyCert cert) {
+    public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
         log.info("update()");
-        return em.merge(cert);
+        return em.merge(document);
     }
 
     @Override
@@ -55,38 +55,39 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
     }
 
     @Override
-    public Optional<CertifyCert> findById(@NotNull UUID id) {
+    public Optional<CertifyDocument> findById(@NotNull UUID id) {
         log.info("findById(" + id + ")");
-        return Optional.ofNullable(em.find(CertifyCert.class, id));
+        return Optional.ofNullable(em.find(CertifyDocument.class, id));
     }
 
     @Override
-    public List<CertifyCert> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
+    public List<CertifyDocument> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
-        return em.createQuery("SELECT c FROM certify_cert c ORDER BY :sort", CertifyCert.class)
+        return em.createQuery("SELECT m FROM certify_document m ORDER BY :sort", CertifyDocument.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
     @Override
-    public List<CertifyCert> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
+    public List<CertifyDocument> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllBySkillId(" + skillId + ")");
         return em
-                .createQuery("SELECT c FROM certify_cert c WHERE c.skill_id = :skillId ORDER BY :sort",
-                        CertifyCert.class)
+                .createQuery("SELECT m FROM certify_document m WHERE m.skill_id = :skillId ORDER BY :sort",
+                        CertifyDocument.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
     @Override
-    public List<CertifyCert> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
+    public List<CertifyDocument> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByUserId(" + userId + ")");
         return em
-                .createQuery("SELECT c FROM certify_cert c WHERE c.user_id = :userId ORDER BY :sort", CertifyCert.class)
+                .createQuery("SELECT m FROM certify_document m WHERE m.user_id = :userId ORDER BY :sort",
+                        CertifyDocument.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();

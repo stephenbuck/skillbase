@@ -22,8 +22,8 @@ public class IdentityGroupGQL {
 
     @Mutation("insert")
     @Description("insert")
-    public void insert(@Name("group") IdentityGroup group) {
-        service.insert(group);
+    public UUID insert(@Name("group") IdentityGroup group) {
+        return service.insert(group);
     }
 
     @Mutation("deleteById")
