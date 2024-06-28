@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
+// import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
-@Slf4j
+// @Slf4j
 @Stateless
 @DeclareRoles({ "Admin", "User" })
 public class CatalogCategoryService {
@@ -35,7 +35,6 @@ public class CatalogCategoryService {
     @Transactional
     @RolesAllowed({ "Admin" })
     public void insert(@NotNull @Valid CatalogCategory category) {
-        log.info("FOO");
         repo.insert(category);
         CatalogEvent.build("com.headspin.skillbase.catalog.category.inserted");
     }
