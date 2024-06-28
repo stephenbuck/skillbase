@@ -32,30 +32,23 @@ public class IdentityGroupService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityGroup group) {
         UUID id = repo.insert(group);
-        IdentityEvent.build("com.headspin.skillbase.identity.group.inserted");
+        IdentityEvent.build(id, "com.headspin.skillbase.identity.group.inserted");
         return id;
+    }
+
+    @Transactional
+    @RolesAllowed({ "Admin" })
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        IdentityEvent.build(id, "com.headspin.skillbase.identity.group.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public IdentityGroup update(@NotNull IdentityGroup group) {
         IdentityGroup updated = repo.update(group);
-        IdentityEvent.build("com.headspin.skillbase.identity.group.updated");
+        IdentityEvent.build(group.id(), "com.headspin.skillbase.identity.group.updated");
         return updated;
-    }
-
-    @Transactional
-    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull IdentityGroup group) {
-        repo.delete(group);
-        IdentityEvent.build("com.headspin.skillbase.identity.group.deleted");
-    }
-
-    @Transactional
-    @RolesAllowed({ "Admin" })
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        IdentityEvent.build("com.headspin.skillbase.identity.group.deleted");
     }
 
     @RolesAllowed({ "Admin" })

@@ -14,13 +14,10 @@ public interface IdentityGroupRepo {
     public UUID insert(@NotNull IdentityGroup group);
 
     @Transactional
-    public void delete(@NotNull IdentityGroup group);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public IdentityGroup update(@NotNull IdentityGroup group);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<IdentityGroup> findById(@NotNull UUID id);
 

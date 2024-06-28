@@ -15,13 +15,10 @@ public interface CertifyModelRepo {
     public UUID insert(@NotNull @Valid CertifyModel model);
 
     @Transactional
-    public void delete(@NotNull @Valid CertifyModel model);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CertifyModel update(@NotNull @Valid CertifyModel model);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CertifyModel> findById(@NotNull UUID id);
 

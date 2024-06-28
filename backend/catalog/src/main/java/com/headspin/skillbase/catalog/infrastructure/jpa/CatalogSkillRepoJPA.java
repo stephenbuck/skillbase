@@ -34,21 +34,15 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     }
 
     @Transactional
+    public void delete(@NotNull UUID id) {
+        log.info("delete({})", id);
+        em.remove(em.find(CatalogSkill.class, id));
+    }
+
+    @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         log.info("update({})", skill.id());
         return em.merge(skill);
-    }
-
-    @Transactional
-    public void delete(@NotNull @Valid CatalogSkill skill) {
-        log.info("delete({})", skill.id());
-        em.remove(skill);
-    }
-
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById({})", id);
-        em.remove(em.find(CatalogSkill.class, id));
     }
 
     public Optional<CatalogSkill> findById(@NotNull UUID id) {

@@ -34,6 +34,13 @@ public class IdentityRoleREST {
         return service.insert(role);
     }
 
+    @DELETE
+    @Path("{id}")
+    @Operation(summary = "delete")
+    public void delete(@PathParam("id") UUID id) {
+        service.delete(id);
+    }
+
     @POST
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
@@ -41,13 +48,6 @@ public class IdentityRoleREST {
     @Operation(summary = "update")
     public IdentityRole update(IdentityRole role) {
         return service.update(role);
-    }
-
-    @DELETE
-    @Path("{id}")
-    @Operation(summary = "deleteById")
-    public void deleteById(@PathParam("id") UUID id) {
-        service.deleteById(id);
     }
 
     @GET

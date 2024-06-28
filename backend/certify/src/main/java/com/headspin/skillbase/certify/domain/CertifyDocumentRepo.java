@@ -15,13 +15,10 @@ public interface CertifyDocumentRepo {
     public UUID insert(@NotNull @Valid CertifyDocument document);
 
     @Transactional
-    public void delete(@NotNull @Valid CertifyDocument document);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CertifyDocument update(@NotNull @Valid CertifyDocument document);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CertifyDocument> findById(@NotNull UUID id);
 

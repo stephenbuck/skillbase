@@ -15,13 +15,10 @@ public interface CatalogSkillRepo {
     public UUID insert(@NotNull @Valid CatalogSkill skill);
 
     @Transactional
-    public void delete(@NotNull @Valid CatalogSkill skill);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CatalogSkill> findById(@NotNull UUID id);
 

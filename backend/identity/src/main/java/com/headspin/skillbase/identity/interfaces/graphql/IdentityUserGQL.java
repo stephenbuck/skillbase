@@ -26,10 +26,10 @@ public class IdentityUserGQL {
         return service.insert(user);
     }
 
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
     }
 
     @Mutation("update")

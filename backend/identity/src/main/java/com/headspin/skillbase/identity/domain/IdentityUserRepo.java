@@ -14,13 +14,10 @@ public interface IdentityUserRepo {
     public UUID insert(@NotNull IdentityUser user);
 
     @Transactional
-    public void delete(@NotNull IdentityUser user);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public IdentityUser update(@NotNull IdentityUser user);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<IdentityUser> findById(@NotNull UUID id);
 

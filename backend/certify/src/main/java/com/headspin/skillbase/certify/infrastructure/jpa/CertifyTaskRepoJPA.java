@@ -35,9 +35,9 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull @Valid CertifyTask task) {
-        log.info("delete()");
-        em.remove(task);
+    public void delete(@NotNull UUID id) {
+        log.info("delete(" + id + ")");
+        findById(id).ifPresent(em::remove);
     }
 
     @Override
@@ -45,13 +45,6 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     public CertifyTask update(@NotNull @Valid CertifyTask task) {
         log.info("update()");
         return em.merge(task);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

@@ -35,9 +35,9 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull @Valid CertifyProcess process) {
-        log.info("delete()");
-        em.remove(process);
+    public void delete(@NotNull UUID id) {
+        log.info("delete(" + id + ")");
+        findById(id).ifPresent(em::remove);
     }
 
     @Override
@@ -45,13 +45,6 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
         log.info("update()");
         return em.merge(process);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

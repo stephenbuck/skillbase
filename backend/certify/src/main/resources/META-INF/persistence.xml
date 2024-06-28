@@ -4,6 +4,7 @@
     <persistence-unit name="skillbase-certify">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <class>com.headspin.skillbase.certify.domain.CertifyCert</class>
+        <class>com.headspin.skillbase.certify.domain.CertifyDocument</class>
         <class>com.headspin.skillbase.certify.domain.CertifyModel</class>
         <class>com.headspin.skillbase.certify.domain.CertifyProcess</class>
         <class>com.headspin.skillbase.certify.domain.CertifyTask</class>

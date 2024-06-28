@@ -32,30 +32,23 @@ public class IdentityUserService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityUser user) {
         UUID id = repo.insert(user);
-        IdentityEvent.build("com.headspin.skillbase.identity.user.inserted");
+        IdentityEvent.build(id, "com.headspin.skillbase.identity.user.inserted");
         return id;
+    }
+
+    @Transactional
+    @RolesAllowed({ "Admin" })
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        IdentityEvent.build(id, "com.headspin.skillbase.identity.user.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public IdentityUser update(@NotNull IdentityUser user) {
         IdentityUser updated = repo.update(user);
-        IdentityEvent.build("com.headspin.skillbase.identity.user.updated");
+        IdentityEvent.build(user.id(), "com.headspin.skillbase.identity.user.updated");
         return updated;
-    }
-
-    @Transactional
-    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull IdentityUser user) {
-        repo.delete(user);
-        IdentityEvent.build("com.headspin.skillbase.identity.user.deleted");
-    }
-
-    @Transactional
-    @RolesAllowed({ "Admin" })
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        IdentityEvent.build("com.headspin.skillbase.identity.user.deleted");
     }
 
     @RolesAllowed({ "Admin" })

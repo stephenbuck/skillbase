@@ -26,16 +26,16 @@ public class CertifyTaskGQL {
         return service.insert(process);
     }
 
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
+    }
+
     @Mutation("update")
     @Description("update")
     public void update(@Name("process") CertifyTask process) {
         service.update(process);
-    }
-
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
     }
 
     @Query("findById")

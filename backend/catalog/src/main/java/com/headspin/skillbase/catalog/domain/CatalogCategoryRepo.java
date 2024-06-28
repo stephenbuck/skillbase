@@ -15,13 +15,10 @@ public interface CatalogCategoryRepo {
     public UUID insert(@NotNull @Valid CatalogCategory category);
 
     @Transactional
-    public void delete(@NotNull @Valid CatalogCategory category);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CatalogCategory> findById(@NotNull UUID id);
 

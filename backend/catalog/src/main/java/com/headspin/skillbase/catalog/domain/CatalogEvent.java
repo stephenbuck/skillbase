@@ -1,5 +1,7 @@
 package com.headspin.skillbase.catalog.domain;
 
+import java.util.UUID;
+
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 
@@ -13,7 +15,7 @@ import io.cloudevents.core.builder.CloudEventBuilder;
  */
 public class CatalogEvent {
 
-    public static CloudEvent build(String type) {
+    public static CloudEvent build(UUID id, String type) {
         return CloudEventBuilder.v1().withId("000").withType(type).build();
     }
 }

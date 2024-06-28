@@ -33,29 +33,22 @@ public class CertifyTaskService {
     @RolesAllowed({ "Admin", "User" })
     public UUID insert(@NotNull @Valid CertifyTask task) {
         UUID id = repo.insert(task);
-        CertifyEvent.build("com.headspin.skillbase.certify.task.inserted");
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.task.inserted");
         return id;
     }
 
     @Transactional
-    @RolesAllowed({ "Admin", "User" })
-    public void delete(@NotNull @Valid CertifyTask task) {
-        repo.delete(task);
-        CertifyEvent.build("com.headspin.skillbase.certify.task.deleted");
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.task.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
     public CertifyTask update(@NotNull @Valid CertifyTask task) {
         CertifyTask updated = repo.update(task);
-        CertifyEvent.build("com.headspin.skillbase.certify.task.updated");
+        CertifyEvent.build(task.id(), "com.headspin.skillbase.certify.task.updated");
         return updated;
-    }
-
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        CertifyEvent.build("com.headspin.skillbase.certify.task.deleted");
     }
 
     @RolesAllowed({ "Admin", "User" })

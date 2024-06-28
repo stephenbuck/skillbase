@@ -34,6 +34,13 @@ public class IdentityUserREST {
         return service.insert(user);
     }
 
+    @DELETE
+    @Path("{id}")
+    @Operation(summary = "delete")
+    public void delete(@PathParam("id") UUID id) {
+        service.delete(id);
+    }
+
     @POST
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
@@ -41,13 +48,6 @@ public class IdentityUserREST {
     @Operation(summary = "update")
     public IdentityUser update(IdentityUser user) {
         return service.update(user);
-    }
-
-    @DELETE
-    @Path("{id}")
-    @Operation(summary = "deleteById")
-    public void deleteById(@PathParam("id") UUID id) {
-        service.deleteById(id);
     }
 
     @GET

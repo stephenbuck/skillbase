@@ -34,21 +34,15 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     }
 
     @Transactional
+    public void delete(@NotNull UUID id) {
+        log.info("delete({})", id);
+        em.remove(em.find(CatalogCategory.class, id));
+    }
+
+    @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         log.info("update({})", category);
         return em.merge(category);
-    }
-
-    @Transactional
-    public void delete(@NotNull @Valid CatalogCategory category) {
-        log.info("delete({})", category.id());
-        em.remove(category);
-    }
-
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById({})", id);
-        em.remove(em.find(CatalogCategory.class, id));
     }
 
     public Optional<CatalogCategory> findById(@NotNull UUID id) {

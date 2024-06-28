@@ -15,13 +15,10 @@ public interface CertifyTaskRepo {
     public UUID insert(@NotNull @Valid CertifyTask task);
 
     @Transactional
-    public void delete(@NotNull @Valid CertifyTask task);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CertifyTask update(@NotNull @Valid CertifyTask task);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CertifyTask> findById(@NotNull UUID id);
 

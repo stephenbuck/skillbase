@@ -26,16 +26,16 @@ public class CatalogCategoryGQL {
         return service.insert(category);
     }
 
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
+    }
+
     @Mutation("update")
     @Description("update")
     public void update(@Name("category") CatalogCategory category) {
         service.update(category);
-    }
-
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
     }
 
     @Query("findById")

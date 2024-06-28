@@ -35,23 +35,16 @@ public class IdentityUserRepoJPA implements IdentityUserRepo {
 
     @Override
     @Transactional
+    public void delete(@NotNull UUID id) {
+        log.info("delete({})", id);
+        findById(id).ifPresent(em::remove);
+    }
+
+    @Override
+    @Transactional
     public IdentityUser update(@NotNull IdentityUser user) {
         log.info("update({})", user.id());
         return em.merge(user);
-    }
-
-    @Override
-    @Transactional
-    public void delete(@NotNull IdentityUser user) {
-        log.info("delete({})", user.id());
-        em.remove(user);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById({})", id);
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

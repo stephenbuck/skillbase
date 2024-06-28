@@ -26,16 +26,16 @@ public class CertifyCertGQL {
         return service.insert(cert);
     }
 
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
+    }
+
     @Mutation("update")
     @Description("update")
     public void update(@Name("cert") CertifyCert cert) {
         service.update(cert);
-    }
-
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
     }
 
     @Query("findById")

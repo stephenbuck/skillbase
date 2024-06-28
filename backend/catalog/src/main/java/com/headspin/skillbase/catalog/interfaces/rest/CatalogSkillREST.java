@@ -39,20 +39,20 @@ public class CatalogSkillREST {
         return Response.ok(uri).build();
     }
 
+    @DELETE
+    @Path("{id}")
+    @Operation(summary = "delete")
+    public Response delete(@PathParam("id") UUID id) {
+        service.delete(id);
+        return Response.ok().build();
+    }
+
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
     public Response update(CatalogSkill skill) {
         return Response.ok(service.update(skill)).build();
-    }
-
-    @DELETE
-    @Path("{id}")
-    @Operation(summary = "deleteById")
-    public Response deleteById(@PathParam("id") UUID id) {
-        service.deleteById(id);
-        return Response.ok().build();
     }
 
     @GET

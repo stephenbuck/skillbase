@@ -14,13 +14,10 @@ public interface IdentityRoleRepo {
     public UUID insert(@NotNull IdentityRole role);
 
     @Transactional
-    public void delete(@NotNull IdentityRole role);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public IdentityRole update(@NotNull IdentityRole role);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<IdentityRole> findById(@NotNull UUID id);
 

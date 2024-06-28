@@ -33,26 +33,19 @@ public class CertifyModelREST {
         return service.insert(model);
     }
 
+    @DELETE
+    @Path("{id}")
+    @Operation(summary = "delete")
+    public void deleteById(@PathParam("id") UUID id) {
+        service.delete(id);
+    }
+
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
     public CertifyModel update(CertifyModel model) {
         return service.update(model);
-    }
-
-    @DELETE
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "delete")
-    public void delete(CertifyModel model) {
-        service.delete(model);
-    }
-
-    @DELETE
-    @Path("{id}")
-    @Operation(summary = "deleteById")
-    public void deleteById(@PathParam("id") UUID id) {
-        // service.deleteById(id);
     }
 
     @GET

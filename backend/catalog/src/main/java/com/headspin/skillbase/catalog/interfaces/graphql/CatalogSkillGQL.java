@@ -26,16 +26,16 @@ public class CatalogSkillGQL {
         return service.insert(skill);
     }
 
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
+    }
+
     @Mutation("update")
     @Description("update")
     public void update(@Name("skill") CatalogSkill skill) {
         service.update(skill);
-    }
-
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
     }
 
     @Query("findById")

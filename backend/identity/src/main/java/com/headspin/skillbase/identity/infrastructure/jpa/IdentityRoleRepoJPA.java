@@ -35,23 +35,16 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
 
     @Override
     @Transactional
+    public void delete(@NotNull UUID id) {
+        log.info("delete({})", id);
+        findById(id).ifPresent(em::remove);
+    }
+
+    @Override
+    @Transactional
     public IdentityRole update(@NotNull IdentityRole role) {
         log.info("update({})", role.id());
         return em.merge(role);
-    }
-
-    @Override
-    @Transactional
-    public void delete(@NotNull IdentityRole role) {
-        log.info("delete({})", role.id());
-        em.remove(role);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById({})", id);
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

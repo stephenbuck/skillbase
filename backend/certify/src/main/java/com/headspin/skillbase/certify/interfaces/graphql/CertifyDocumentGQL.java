@@ -26,16 +26,16 @@ public class CertifyDocumentGQL {
         return service.insert(document);
     }
 
+    @Mutation("delete")
+    @Description("delete")
+    public void delete(@Name("id") UUID id) {
+        service.delete(id);
+    }
+
     @Mutation("update")
     @Description("update")
     public void update(@Name("document") CertifyDocument document) {
         service.update(document);
-    }
-
-    @Mutation("deleteById")
-    @Description("deleteById")
-    public void deleteById(@Name("id") UUID id) {
-        service.deleteById(id);
     }
 
     @Query("findById")

@@ -35,9 +35,9 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull @Valid CertifyDocument document) {
-        log.info("delete()");
-        em.remove(document);
+    public void delete(@NotNull UUID id) {
+        log.info("delete(" + id + ")");
+        findById(id).ifPresent(em::remove);
     }
 
     @Override
@@ -45,13 +45,6 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
         log.info("update()");
         return em.merge(document);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

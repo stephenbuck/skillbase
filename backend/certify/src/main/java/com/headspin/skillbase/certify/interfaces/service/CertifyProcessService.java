@@ -33,29 +33,22 @@ public class CertifyProcessService {
     @RolesAllowed({ "Admin", "User" })
     public UUID insert(@NotNull @Valid CertifyProcess process) {
         UUID id = repo.insert(process);
-        CertifyEvent.build("com.headspin.skillbase.certify.process.inserted");
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.process.inserted");
         return id;
     }
 
     @Transactional
-    @RolesAllowed({ "Admin", "User" })
-    public void delete(@NotNull @Valid CertifyProcess process) {
-        repo.delete(process);
-        CertifyEvent.build("com.headspin.skillbase.certify.process.deleted");
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.process.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
         CertifyProcess updated = repo.update(process);
-        CertifyEvent.build("com.headspin.skillbase.certify.process.updated");
+        CertifyEvent.build(process.id(), "com.headspin.skillbase.certify.process.updated");
         return updated;
-    }
-
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        CertifyEvent.build("com.headspin.skillbase.certify.process.deleted");
     }
 
     @RolesAllowed({ "Admin", "User" })

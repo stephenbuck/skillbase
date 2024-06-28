@@ -35,23 +35,16 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
 
     @Override
     @Transactional
+    public void delete(@NotNull UUID id) {
+        log.info("delete(" + id + ")");
+        findById(id).ifPresent(em::remove);
+    }
+
+    @Override
+    @Transactional
     public IdentityGroup update(@NotNull IdentityGroup group) {
         log.info("update(" + group + ")");
         return em.merge(group);
-    }
-
-    @Override
-    @Transactional
-    public void delete(@NotNull IdentityGroup group) {
-        log.info("delete(" + group + ")");
-        em.remove(group);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

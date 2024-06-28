@@ -35,9 +35,9 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull @Valid CertifyCert cert) {
-        log.info("delete()");
-        em.remove(cert);
+    public void delete(@NotNull UUID id) {
+        log.info("delete(" + id + ")");
+        findById(id).ifPresent(em::remove);
     }
 
     @Override
@@ -45,13 +45,6 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
     public CertifyCert update(@NotNull @Valid CertifyCert cert) {
         log.info("update()");
         return em.merge(cert);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        log.info("deleteById(" + id + ")");
-        findById(id).ifPresent(em::remove);
     }
 
     @Override

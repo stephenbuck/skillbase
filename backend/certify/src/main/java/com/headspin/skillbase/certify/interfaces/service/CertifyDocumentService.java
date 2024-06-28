@@ -33,29 +33,22 @@ public class CertifyDocumentService {
     @RolesAllowed({ "Admin", "User" })
     public UUID insert(@NotNull @Valid CertifyDocument document) {
         UUID id = repo.insert(document);
-        CertifyEvent.build("com.headspin.skillbase.certify.document.inserted");
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.document.inserted");
         return id;
     }
 
     @Transactional
-    @RolesAllowed({ "Admin", "User" })
-    public void delete(@NotNull @Valid CertifyDocument document) {
-        repo.delete(document);
-        CertifyEvent.build("com.headspin.skillbase.certify.document.deleted");
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        CertifyEvent.build(id, "com.headspin.skillbase.certify.document.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
         CertifyDocument updated = repo.update(document);
-        CertifyEvent.build("com.headspin.skillbase.certify.document.updated");
+        CertifyEvent.build(document.id(), "com.headspin.skillbase.certify.document.updated");
         return updated;
-    }
-
-    @Transactional
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        CertifyEvent.build("com.headspin.skillbase.certify.document.deleted");
     }
 
     @RolesAllowed({ "Admin", "User" })

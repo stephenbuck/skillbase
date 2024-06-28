@@ -36,29 +36,23 @@ public class CatalogSkillService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         UUID id = repo.insert(skill);
-        CatalogEvent.build("com.headspin.skillbase.catalog.skill.inserted");
+        CatalogEvent.build(id, "com.headspin.skillbase.catalog.skill.inserted");
         return id;
+    }
+
+    @Transactional
+    @RolesAllowed({ "Admin" })
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        CatalogEvent.build(id, "com.headspin.skillbase.catalog.skill.deleted");
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         CatalogSkill updated = repo.update(skill);
-        CatalogEvent.build("com.headspin.skillbase.catalog.skill.updated");
+        CatalogEvent.build(skill.id(), "com.headspin.skillbase.catalog.skill.updated");
         return updated;
-    }
-
-    @Transactional
-    public void delete(@NotNull @Valid CatalogSkill skill) {
-        repo.delete(skill);
-        CatalogEvent.build("com.headspin.skillbase.catalog.skill.deleted");
-    }
-
-    @Transactional
-    @RolesAllowed({ "Admin" })
-    public void deleteById(@NotNull UUID id) {
-        repo.deleteById(id);
-        CatalogEvent.build("com.headspin.skillbase.catalog.skill.deleted");
     }
 
     @RolesAllowed({ "Admin" })

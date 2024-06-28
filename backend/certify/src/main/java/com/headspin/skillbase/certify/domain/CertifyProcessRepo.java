@@ -15,13 +15,10 @@ public interface CertifyProcessRepo {
     public UUID insert(@NotNull @Valid CertifyProcess cert);
 
     @Transactional
-    public void delete(@NotNull @Valid CertifyProcess cert);
+    public void delete(@NotNull UUID id);
 
     @Transactional
     public CertifyProcess update(@NotNull @Valid CertifyProcess cert);
-
-    @Transactional
-    public void deleteById(@NotNull UUID id);
 
     public Optional<CertifyProcess> findById(@NotNull UUID id);
 
