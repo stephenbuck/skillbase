@@ -28,7 +28,7 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     @Transactional
     public UUID insert(@NotNull IdentityGroup group) {
-        log.info("insert(" + group + ")");
+        log.info("insert()");
         em.persist(group);
         return group.id();
     }
@@ -36,20 +36,20 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     @Transactional
     public void delete(@NotNull UUID id) {
-        log.info("delete(" + id + ")");
+        log.info("delete({})", id);
         findById(id).ifPresent(em::remove);
     }
 
     @Override
     @Transactional
     public IdentityGroup update(@NotNull IdentityGroup group) {
-        log.info("update(" + group + ")");
+        log.info("update({})", group.id());
         return em.merge(group);
     }
 
     @Override
     public Optional<IdentityGroup> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(IdentityGroup.class, id));
     }
 
@@ -65,7 +65,7 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     public List<IdentityGroup> findAllByRoleId(@NotNull UUID roleId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByRoleId(" + roleId + ")");
+        log.info("findAllByRoleId({})", roleId);
         return em
                 .createQuery("SELECT g FROM identity_group g WHERE g.role_id = :userId ORDER BY :sort",
                         IdentityGroup.class)
@@ -77,7 +77,7 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     public List<IdentityGroup> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em
                 .createQuery("SELECT g FROM identity_group g WHERE g.user_id = :userId ORDER BY :sort",
                         IdentityGroup.class)

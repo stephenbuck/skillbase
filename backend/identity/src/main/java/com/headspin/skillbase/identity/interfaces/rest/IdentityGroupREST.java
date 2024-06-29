@@ -19,12 +19,16 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/groups")
 public class IdentityGroupREST {
 
     @Inject
     private IdentityGroupService service;
+
+    @Inject
+    private SecurityContext ctx;
 
     @PUT
     @Path("")

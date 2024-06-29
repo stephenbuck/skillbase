@@ -36,20 +36,20 @@ public class CertifyModelRepoJPA implements CertifyModelRepo {
     @Override
     @Transactional
     public void delete(@NotNull UUID id) {
-        log.info("delete(" + id + ")");
+        log.info("delete({})", id);
         findById(id).ifPresent(em::remove);
     }
 
     @Override
     @Transactional
     public CertifyModel update(@NotNull @Valid CertifyModel model) {
-        log.info("update()");
+        log.info("update({})", model.id());
         return em.merge(model);
     }
 
     @Override
     public Optional<CertifyModel> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(CertifyModel.class, id));
     }
 
@@ -65,7 +65,7 @@ public class CertifyModelRepoJPA implements CertifyModelRepo {
     @Override
     public List<CertifyModel> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllBySkillId(" + skillId + ")");
+        log.info("findAllBySkillId({})", skillId);
         return em
                 .createQuery("SELECT m FROM certify_model m WHERE m.skill_id = :skillId ORDER BY :sort",
                         CertifyModel.class)
@@ -77,7 +77,7 @@ public class CertifyModelRepoJPA implements CertifyModelRepo {
     @Override
     public List<CertifyModel> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em
                 .createQuery("SELECT m FROM certify_model m WHERE m.user_id = :userId ORDER BY :sort",
                         CertifyModel.class)

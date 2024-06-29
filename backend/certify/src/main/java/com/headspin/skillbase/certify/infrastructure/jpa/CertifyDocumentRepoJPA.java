@@ -43,13 +43,13 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     @Override
     @Transactional
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
-        log.info("update()");
+        log.info("update({})", document.id());
         return em.merge(document);
     }
 
     @Override
     public Optional<CertifyDocument> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(CertifyDocument.class, id));
     }
 
@@ -65,7 +65,7 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     @Override
     public List<CertifyDocument> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllBySkillId(" + skillId + ")");
+        log.info("findAllBySkillId({})", skillId);
         return em
                 .createQuery("SELECT m FROM certify_document m WHERE m.skill_id = :skillId ORDER BY :sort",
                         CertifyDocument.class)
@@ -77,7 +77,7 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     @Override
     public List<CertifyDocument> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em
                 .createQuery("SELECT m FROM certify_document m WHERE m.user_id = :userId ORDER BY :sort",
                         CertifyDocument.class)

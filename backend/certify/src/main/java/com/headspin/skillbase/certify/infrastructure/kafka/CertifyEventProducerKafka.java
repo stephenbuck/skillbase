@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.kafka.CloudEventSerializer;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -16,6 +18,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import com.headspin.skillbase.certify.domain.CertifyEvent;
 
 @Slf4j
+@ApplicationScoped
 public class CertifyEventProducerKafka {
 
     public void produce(CertifyEvent event) {

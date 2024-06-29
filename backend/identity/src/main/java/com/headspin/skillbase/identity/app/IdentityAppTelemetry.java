@@ -3,5 +3,6 @@ package com.headspin.skillbase.identity.app;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class IdentityAppFeature {
+public class IdentityAppTelemetry {
+
 }

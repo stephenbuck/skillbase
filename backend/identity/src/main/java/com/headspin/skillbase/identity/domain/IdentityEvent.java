@@ -1,5 +1,6 @@
 package com.headspin.skillbase.identity.domain;
 
+import java.net.URI;
 import java.util.UUID;
 
 import io.cloudevents.CloudEvent;
@@ -19,7 +20,8 @@ import io.cloudevents.core.builder.CloudEventBuilder;
 public class IdentityEvent {
 
     public static CloudEvent build(UUID id, String type) {
-        return CloudEventBuilder.v1().withId("000").withType(type).build();
+        return CloudEventBuilder.v1().withId(id.toString()).withSource(URI.create("http://tbd.com")).withType(type)
+                .build();
     }
 
 }

@@ -36,20 +36,20 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     @Override
     @Transactional
     public void delete(@NotNull UUID id) {
-        log.info("delete(" + id + ")");
+        log.info("delete({})", id);
         findById(id).ifPresent(em::remove);
     }
 
     @Override
     @Transactional
     public CertifyTask update(@NotNull @Valid CertifyTask task) {
-        log.info("update()");
+        log.info("update({})", task.id());
         return em.merge(task);
     }
 
     @Override
     public Optional<CertifyTask> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(CertifyTask.class, id));
     }
 
@@ -65,7 +65,7 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     @Override
     public List<CertifyTask> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllBySkillId(" + skillId + ")");
+        log.info("findAllBySkillId({})", skillId);
         return em.createQuery("SELECT t FROM task t WHERE t.skill_id = :skillId ORDER BY :sort", CertifyTask.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
@@ -75,7 +75,7 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     @Override
     public List<CertifyTask> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em.createQuery("SELECT t FROM task t WHERE t.user_id = :userId ORDER BY :sort", CertifyTask.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))

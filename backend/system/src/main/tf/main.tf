@@ -16,47 +16,16 @@ provider "docker" {
   }
 }
 
+/*
+#
+# Etcd
+#
+
 resource "docker_image" "etcd" {
   name         = "quay.io/coreos/etcd:latest"
   keep_locally = true
 }
 
-resource "docker_image" "flagd" {
-  name         = "ghcr.io/open-feature/flagd:latest"
-  keep_locally = true
-}
-
-resource "docker_image" "flowable" {
-  name         = "flowable/all-in-one:latest"
-  keep_locally = true
-}
-
-resource "docker_image" "fluentd" {
-  name         = "fluent/fluentd:edge-debian"
-  keep_locally = true
-}
-
-resource "docker_image" "kafka" {
-  name         = "apache/kafka"
-  keep_locally = true
-}
-
-resource "docker_image" "keycloak" {
-  name         = "quay.io/keycloak/keycloak:latest"
-  keep_locally = true
-}
-
-resource "docker_image" "postgres" {
-  name         = "postgres:latest"
-  keep_locally = true
-}
-
-resource "docker_image" "prometheus" {
-  name         = "prom/prometheus:latest"
-  keep_locally = true
-}
-
-/*
 resource "docker_container" "etcd" {
   name    = "etcd"
   image   = docker_image.etcd.image_id
@@ -72,6 +41,15 @@ resource "docker_container" "etcd" {
 */
 
 /*
+#
+# Flagd
+#
+
+resource "docker_image" "flagd" {
+  name         = "ghcr.io/open-feature/flagd:latest"
+  keep_locally = true
+}
+
 resource "docker_container" "flagd" {
   name    = "flagd"
   image   = docker_image.flagd.image_id
@@ -83,6 +61,15 @@ resource "docker_container" "flagd" {
 }
 */
 
+#
+# Flowable
+#
+
+resource "docker_image" "flowable" {
+  name         = "flowable/all-in-one:latest"
+  keep_locally = true
+}
+
 resource "docker_container" "flowable" {
   name  = "flowable"
   image = docker_image.flowable.image_id
@@ -93,6 +80,15 @@ resource "docker_container" "flowable" {
 }
 
 /*
+#
+# Fluentd
+#
+
+resource "docker_image" "fluentd" {
+  name         = "fluent/fluentd:edge-debian"
+  keep_locally = true
+}
+
 resource "docker_container" "fluentd" {
   name    = "fluentd"
   image   = docker_image.fluentd.image_id
@@ -103,7 +99,15 @@ resource "docker_container" "fluentd" {
 }
 */
 
-/*
+#
+# Kafka
+#
+
+resource "docker_image" "kafka" {
+  name         = "apache/kafka:latest"
+  keep_locally = true
+}
+
 resource "docker_container" "kafka" {
   name    = "kafka"
   image   = docker_image.kafka.image_id
@@ -112,9 +116,16 @@ resource "docker_container" "kafka" {
     external = 9092
   }
 }
-*/
 
-/*
+#
+# KeyCloak
+#
+
+resource "docker_image" "keycloak" {
+  name         = "quay.io/keycloak/keycloak:latest"
+  keep_locally = true
+}
+
 resource "docker_container" "keycloak" {
   name    = "keycloak"
   image   = docker_image.keycloak.image_id
@@ -126,7 +137,15 @@ resource "docker_container" "keycloak" {
   depends_on = [docker_container.postgres]
   command = ["start-dev"]
 }
-*/
+
+#
+# Postgres
+#
+
+resource "docker_image" "postgres" {
+  name         = "postgres:latest"
+  keep_locally = true
+}
 
 resource "docker_container" "postgres" {
   name  = "postgres"
@@ -139,6 +158,15 @@ resource "docker_container" "postgres" {
 }
 
 /*
+#
+# Prometheus
+#
+
+resource "docker_image" "prometheus" {
+  name         = "prom/prometheus:latest"
+  keep_locally = true
+}
+
 resource "docker_container" "prometheus" {
   name    = "prometheus"
   image   = docker_image.prometheus.image_id
@@ -150,18 +178,12 @@ resource "docker_container" "prometheus" {
 */
 
 /*
+#
+# Skillbase Catalog
+#
+
 resource "docker_image" "catalog" {
   name         = "catalog"
-  keep_locally = false
-}
-
-resource "docker_image" "certify" {
-  name         = "certify"
-  keep_locally = false
-}
-
-resource "docker_image" "identity" {
-  name         = "identity"
   keep_locally = false
 }
 
@@ -170,11 +192,32 @@ resource "docker_container" "catalog" {
   image = docker_image.catalog.image_id
   depends_on = [docker_container.etcd, docker_container.postgres, docker_container.kafka]
 }
+*/
 
+/*
+#
+# Skillbase Certify
+#
+
+resource "docker_image" "certify" {
+  name         = "certify"
+  keep_locally = false
+}
 resource "docker_container" "certify" {
   name  = "certify"
   image = docker_image.certify.image_id
   depends_on = [docker_container.etcd, docker_container.postgres, docker_container.kafka, docker_container.flowable]
+}
+*/
+
+/*
+#
+# Identity
+#
+
+resource "docker_image" "identity" {
+  name         = "identity"
+  keep_locally = false
 }
 
 resource "docker_container" "identity" {

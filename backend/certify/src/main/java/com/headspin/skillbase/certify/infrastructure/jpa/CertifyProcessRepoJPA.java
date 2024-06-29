@@ -36,20 +36,20 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     @Override
     @Transactional
     public void delete(@NotNull UUID id) {
-        log.info("delete(" + id + ")");
+        log.info("delete({})", id);
         findById(id).ifPresent(em::remove);
     }
 
     @Override
     @Transactional
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
-        log.info("update()");
+        log.info("update({})", process.id());
         return em.merge(process);
     }
 
     @Override
     public Optional<CertifyProcess> findById(@NotNull UUID id) {
-        log.info("findById(" + id + ")");
+        log.info("findById({})", id);
         return Optional.ofNullable(em.find(CertifyProcess.class, id));
     }
 
@@ -65,7 +65,7 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     @Override
     public List<CertifyProcess> findAllBySkillId(@NotNull UUID skillId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllBySkillId(" + skillId + ")");
+        log.info("findAllBySkillId({})", skillId);
         return em
                 .createQuery("SELECT p FROM certify_process p WHERE p.skill_id = :skillId ORDER BY :sort",
                         CertifyProcess.class)
@@ -77,7 +77,7 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     @Override
     public List<CertifyProcess> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
-        log.info("findAllByUserId(" + userId + ")");
+        log.info("findAllByUserId({})", userId);
         return em.createQuery("SELECT p FROM process p WHERE p.user_id = :userId ORDER BY :sort", CertifyProcess.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))

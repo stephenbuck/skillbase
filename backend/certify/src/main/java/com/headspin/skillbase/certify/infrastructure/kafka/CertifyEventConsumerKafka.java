@@ -7,12 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.kafka.CloudEventDeserializer;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 @Slf4j
+@ApplicationScoped
 public class CertifyEventConsumerKafka {
 
     public void consume() {
