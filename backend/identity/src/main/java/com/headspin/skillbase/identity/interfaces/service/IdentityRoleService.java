@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.headspin.skillbase.identity.domain.IdentityEvent;
+import com.headspin.skillbase.identity.domain.IdentityProvider;
 import com.headspin.skillbase.identity.domain.IdentityRole;
 import com.headspin.skillbase.identity.domain.IdentityRoleRepo;
 
@@ -25,6 +26,9 @@ public class IdentityRoleService {
     @Inject
     private IdentityRoleRepo repo;
 
+    @Inject
+    private IdentityProvider prov;
+
     @Resource
     SessionContext ctx;
 
@@ -32,6 +36,7 @@ public class IdentityRoleService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityRole role) {
         UUID id = repo.insert(role);
+        prov.insertRole(id, role);
         IdentityEvent.build(id, "com.headspin.skillbase.identity.role.inserted");
         return id;
     }
@@ -40,6 +45,7 @@ public class IdentityRoleService {
     @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
+        prov.deleteRole(id);
         IdentityEvent.build(id, "com.headspin.skillbase.identity.role.deleted");
     }
 
@@ -47,6 +53,7 @@ public class IdentityRoleService {
     @RolesAllowed({ "Admin" })
     public IdentityRole update(@NotNull IdentityRole role) {
         IdentityRole updated = repo.update(role);
+        prov.updateRole(role);
         IdentityEvent.build(role.id(), "com.headspin.skillbase.identity.role.updated");
         return updated;
     }

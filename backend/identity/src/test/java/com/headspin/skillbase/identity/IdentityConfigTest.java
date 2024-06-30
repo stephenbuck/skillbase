@@ -17,7 +17,7 @@ public class IdentityConfigTest {
         Config config = ConfigProvider.getConfig();
         log.info("config {}", config);
 
-        String message = config.getValue("greeting.message", String.class);
-        log.info("message = {}", message);
+        String message = config.getValue("foo", String.class);
+        log.info("foo = {}", message);
     }
 }

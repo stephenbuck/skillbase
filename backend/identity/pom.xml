@@ -234,6 +234,16 @@
     </dependency>
 
     <dependency>
+      <artifactId>sdk</artifactId>
+      <groupId>dev.openfeature</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>flagd</artifactId>
+      <groupId>dev.openfeature.contrib.providers</groupId>
+    </dependency>
+    
+  <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>

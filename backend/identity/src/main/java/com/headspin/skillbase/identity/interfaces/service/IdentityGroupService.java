@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.headspin.skillbase.identity.domain.IdentityEvent;
 import com.headspin.skillbase.identity.domain.IdentityGroup;
 import com.headspin.skillbase.identity.domain.IdentityGroupRepo;
+import com.headspin.skillbase.identity.domain.IdentityProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
@@ -25,6 +26,9 @@ public class IdentityGroupService {
     @Inject
     private IdentityGroupRepo repo;
 
+    @Inject
+    private IdentityProvider prov;
+
     @Resource
     SessionContext ctx;
 
@@ -32,6 +36,7 @@ public class IdentityGroupService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityGroup group) {
         UUID id = repo.insert(group);
+        prov.insertGroup(id, group);
         IdentityEvent.build(id, "com.headspin.skillbase.identity.group.inserted");
         return id;
     }
@@ -40,6 +45,7 @@ public class IdentityGroupService {
     @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
+        prov.deleteGroup(id);
         IdentityEvent.build(id, "com.headspin.skillbase.identity.group.deleted");
     }
 
@@ -47,6 +53,7 @@ public class IdentityGroupService {
     @RolesAllowed({ "Admin" })
     public IdentityGroup update(@NotNull IdentityGroup group) {
         IdentityGroup updated = repo.update(group);
+        prov.updateGroup(updated);
         IdentityEvent.build(group.id(), "com.headspin.skillbase.identity.group.updated");
         return updated;
     }
