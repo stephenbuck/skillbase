@@ -1,36 +1,36 @@
 Overview
 
-SkillBase is an application that allows an organization to develop and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted certification. Users can search for other users that have specific skills. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
+SkillBase is a distributed application that allows an organization to develop, certify, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted certification. Users can search for other users that have specific skills. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
 
 Backend
 
 Domain-Driven Design
 
-I’ve become a big fan of domain-driven design, primarily because it forces the architecture to focus on the business on its terms. I’m particularly interested in the intersection between DDD, microservices, and GraphQL. I’m going to use a GraphQL schema to represent the domain model and it should serve as a “single source of truth” from which other artifacts, such as SQL schemas and Java objects, can be created.
+I’ve become a big fan of domain-driven design, primarily because it forces the architecture to focus on the business on its terms. I’m particularly interested in the intersection between DDD, microservices, and GraphQL. I’m going to use a GraphQL schema, in a schema-first approach, to represent the domain model and it should serve as a “single source of truth” from which other artifacts, such as SQL schemas and Java objects, can be created. Some parts of the system will be built with a code-first approach to take advantage of some of the GraphQL tools.
 
 Event-Driven Architecture
 
-An event-driven architecture is such a natural way of looking at applications that it’s hard to choose any other architecture. I’ve been doing some form of event-driven development for most of my career, so it’s gratifying to see it being so widely used these days. I’ll be using Kafka for the message broker and Cloud-Events for the event definitions.
-
-Event-Sourcing
-
-I'm not using Event-Sourcing for the first phase - just straightforward notifications. In future phases, it'll become important for Eventual-Consistency among the various distributed components (microservices, distributed caches, etc).
+An event-driven architecture is such a natural way of looking at applications that it’s hard to choose any other architecture. I’ve been doing some form of event-driven development for most of my career, so it’s gratifying to see it being so widely used these days. I’ll be using Kafka for the message broker and Cloud-Events for the event definitions. The initial version will not be designed using event-sourcing, but future version will make use of it to for eventual consistency among the various distributed components (microservices, distributed caches, etc).
 
 Microservice Implementation
 
-Past iterations have been implemented using a handful of services combined into one monolithic application, but there are definitely advantages to having a more fine-grained, microservice architecture and most new systems are being built this way. I’ll be using a combination of Jakarta EE and Spring Boot as they are the most popular microservice frameworks for Java. Some of the microservices may end up being facades for third-party components (e.g. KeyCloak for IAM).
+Past iterations have been implemented using a handful of services combined into one monolithic application, but there are definitely advantages to having a more fine-grained, microservice architecture and most new systems are being built this way. I’ll be using a combination of Jakarta EE and Spring Boot as they are the most popular microservice frameworks for Java. Some of the microservices will delegate a portion of their functionality to backend providers (e.g. KeyCloak for IAM).
 
 Jakarta EE
 
-Jakarta EE is the latest incarnation of the J2EE framework. I have extensive experience with J2EE so it will be interesting to see how the framework has advanced. I expect to use Jakarta EE, especially the MicroProfile, for the core framework.
+Jakarta EE is the latest incarnation of the J2EE framework. I have extensive experience with J2EE so it will be interesting to see how the framework has advanced. I expect to use Jakarta EE, especially the MicroProfile and its extensions, for the core framework.
+
+Services (Microprofile Extensions)
+
+The application will make use of Microprofile extensions for configuration, health, metrics, telemetry, etc. The health functionality will be used by Kubernetes. 
 
 Language (Java 21)
 
-I’ve used Java for every backend implementation of this project so far and can’t see any compelling reason to switch over to something like Python, JavaScript, especially given the recent evolution of Java. I may use another language in subsequent iterations, but Java has changed so much in recent years that I really need to get some hands-on time with the new features like closures, records, etc.
+I’ve used Java for every backend implementation of this project so far and will use it for this one as well, especially given the recent evolution of Java, with new features like closures, records, etc.
 
 Runtime (Spring Boot)
 
-Spring Boot is more or less the current go-to solution for running Java microservices.
+Spring Boot is more or less the current go-to solution for building Java microservices and I'll be using portions of it, primarily for launching and configuring services.
 
 GraphQL (SmallRye)
 
@@ -46,11 +46,11 @@ I’ll be using the Kafka as the backbone of the application as it’s the 500-l
 
 Identity (Keycloak)
 
-Lots of options here, but the bottom line is that I've chosen KeyCloak due to its ease of hosting and integration. It will also handle JWT tokens and OAuth. No more dinky user, group, role JDBC toys for me!
+Lots of options here, but the bottom line is that I've chosen KeyCloak due to its ease of hosting and integration. It will also handle JWT tokens and OAuth. No more dinky user, group, role JDBC toys for me! It will also provide authentication for other components, like the API gateway.
 
 Configuration (etcd)
 
-As a distributed application, skillbase needs a reliable way to change and propagate configuration information. In the microservices, I'll use the Microprofile Config API etcd, the gold standard, as the provider.
+As a distributed application, skillbase needs a reliable way to change and propagate configuration information. In the microservices, I'll use the Microprofile Config API for etcd, the gold standard, as the provider. Other components, such as Kafka, ApiSix, will use it as well.
 
 Log Aggregation (fluentd)
 
@@ -108,12 +108,18 @@ Caching (Redis)
 
 I love Redis! It’s easy to use as a caching layer and it’s crazy fast. What’s not to love? There are plenty of other alternatives, like memcached and Hazelcast, but I don’t see anything better than Redis for this application.
 
-Gateway (APISIX)
+Deployment (Kubernetes, Terraform)
 
-The API gateway will be APISIX, which based on top of ngnix. It also integrates
+The first version will use Terraform for small-scale deployment. Future versions will use Kubernetes.
+
+Gateway (ApiSix)
+
+The API gateway will be Apache's ApiSix, which based on top of ngnix and etcd. It also integrates
 with KeyCloak for authentication, authorization, and JWTs.
 
 Web Server (ngnix)
+
+The project will use ngnix for the primary web server. It's also used by the API gateway (ApiSix).
 
 Frontend
 
