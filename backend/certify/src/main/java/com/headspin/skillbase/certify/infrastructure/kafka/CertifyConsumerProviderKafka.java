@@ -22,7 +22,7 @@ import com.headspin.skillbase.certify.providers.CertifyConsumerProvider;
 public class CertifyConsumerProviderKafka implements CertifyConsumerProvider {
 
     public CertifyConsumerProviderKafka() {
-
+        log.info("consumer");
     }
 
     @Override
