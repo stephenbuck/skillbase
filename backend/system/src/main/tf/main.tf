@@ -1,11 +1,27 @@
+#
+# Terraform
+#
+
+# https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/container
+
 terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
       version = "~> 3.0.2"
     }
+    /*
+    apisix = {
+      source = "webbankir/apisix"
+      version = "0.0.26"
+    }
+    */
   }
 }
+
+#
+# Docker
+#
 
 provider "docker" {
   host = "unix:///var/run/docker.sock"
@@ -16,22 +32,105 @@ provider "docker" {
   }
 }
 
+resource "docker_network" "host" {
+  name = "apisix"
+  driver = "bridge"
+  ipam_config {
+    subnet = "172.18.0.0/16"
+    ip_range = "172.18.5.0/24"
+    gateway = "172.18.5.254"
+  }
+}
+
+#
+# ApiSix
+#
+
+resource "docker_image" "apisix" {
+   name = "apache/apisix:latest"
+   keep_locally = true
+}
+
+resource "docker_container" "apisix" {
+  name    = "apisix"
+  image   = docker_image.apisix.image_id
+  restart = "always"
+  env = [
+    "APISIX_STAND_ALONE=true"
+  ]
+  ports {
+    internal = 9080
+    external = 9080
+  }
+  ports {
+    internal = 9443
+    external = 9443
+  }
+  depends_on = [
+    docker_container.etcd
+  ]
+}
+
+/*
+resource "apisix_route" "ar" {
+  name = "ar"
+  host = "*"
+  uris = [
+    "/test"
+  ]
+}
+*/
+
+#
+# Ngnix
+#
+
+resource "docker_image" "ngnix" {
+  name = "nginx:1.19.0-alpine"
+  keep_locally = true
+}
+
+resource "docker_container" "ngnix" {
+  name    = "ngnix"
+  image   = docker_image.ngnix.image_id
+  restart = "always"
+  env = [
+    "NGINX_PORT=80"
+  ]
+  /*
+  networks_advanced {
+    name = "host"
+  }
+  */
+  ports {
+    internal = 80
+    external = 9980
+  }
+}
+
 #
 # Etcd
 #
 
 resource "docker_image" "etcd" {
-  name         = "quay.io/coreos/etcd:latest"
+  name         = "bitnami/etcd:latest"
   keep_locally = true
 }
 
 resource "docker_container" "etcd" {
   name    = "etcd"
   image   = docker_image.etcd.image_id
+  restart = "always"
   env = [
+    "ETCD_ENABLE_V2=true",
     "ALLOW_NONE_AUTHENTICATION=yes",
-//    "ETCD_ADVERTISE_CLIENT_URLS=127.0.0.0:2379"
-  ]  
+    "ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379",
+    "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379"
+  ]
+  volumes {
+    container_path = "/etcd_data"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker"
+  }
   ports {
     internal = 2379
     external = 2379
@@ -42,24 +141,25 @@ resource "docker_container" "etcd" {
   }
 }
 
+/*
 #
 # Flagd
 #
+
+# sudo docker run --rm --name flagd   -p 8013:8013   -v $(pwd):/etc/flagd   ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
+# curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
 
 resource "docker_image" "flagd" {
   name         = "ghcr.io/open-feature/flagd:latest"
   keep_locally = true
 }
 
-# sudo docker run --rm --name flagd   -p 8013:8013   -v $(pwd):/etc/flagd   ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
-# curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
-/*
 resource "docker_container" "flagd" {
   name    = "flagd"
   image   = docker_image.flagd.image_id
   volumes {
     container_path = "/etc/flagd"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker"
   }
   ports {
       internal = 8013
@@ -85,6 +185,9 @@ resource "docker_container" "flowable" {
     internal = 8080
     external = 8080
   }
+  depends_on = [
+    docker_container.postgres
+  ]
 }
 
 /*
@@ -107,6 +210,7 @@ resource "docker_container" "fluentd" {
 }
 */
 
+/*
 #
 # Kafka
 #
@@ -124,6 +228,7 @@ resource "docker_container" "kafka" {
     external = 9092
   }
 }
+*/
 
 #
 # KeyCloak
@@ -142,8 +247,10 @@ resource "docker_container" "keycloak" {
     internal = 8080
     external = 18080
   }
-  depends_on = [docker_container.postgres]
   command = ["start-dev"]
+  depends_on = [
+    docker_container.postgres
+  ]
 }
 
 #
@@ -158,7 +265,10 @@ resource "docker_image" "postgres" {
 resource "docker_container" "postgres" {
   name  = "postgres"
   image = docker_image.postgres.image_id
-  env   = ["POSTGRES_USER=postgres", "POSTGRES_PASSWORD=postgres"]
+  env   = [
+    "POSTGRES_USER=postgres",
+    "POSTGRES_PASSWORD=postgres"
+  ]
   ports {
     internal = 5432
     external = 15432
@@ -198,7 +308,11 @@ resource "docker_image" "catalog" {
 resource "docker_container" "catalog" {
   name  = "catalog"
   image = docker_image.catalog.image_id
-  depends_on = [docker_container.etcd, docker_container.postgres, docker_container.kafka]
+  depends_on = [
+    docker_container.etcd,
+    docker_container.postgres,
+    docker_container.kafka
+  ]
 }
 */
 
@@ -214,7 +328,12 @@ resource "docker_image" "certify" {
 resource "docker_container" "certify" {
   name  = "certify"
   image = docker_image.certify.image_id
-  depends_on = [docker_container.etcd, docker_container.postgres, docker_container.kafka, docker_container.flowable]
+  depends_on = [
+    docker_container.etcd,
+    docker_container.postgres,
+    docker_container.kafka,
+    docker_container.flowable
+  ]
 }
 */
 
@@ -231,6 +350,11 @@ resource "docker_image" "identity" {
 resource "docker_container" "identity" {
   name  = "identity"
   image = docker_image.identity.image_id
-  depends_on = [docker_container.etcd, docker_container.postgres, docker_container.kafka, docker_container.keycloak]
+  depends_on = [
+    docker_container.etcd,
+    docker_container.postgres,
+    docker_container.kafka,
+    docker_container.keycloak
+  ]
 }
 */

@@ -40,7 +40,7 @@ REST (RestEasy, Swagger)
 
 I’m including a REST API as well, as it’s still very popular and commonly used for integration with third-party tools. The endpoints will be documented with Swagger.
 
-Broker (Kafka)
+Message Broker (Kafka)
 
 I’ll be using the Kafka as the backbone of the application as it’s the 500-lb gorilla of message brokers and has performance to spare. It will also make the application more flexible, and easy to integrate into existing systems. I’ve got a lot of experience with message queueing and pub-sub systems, so I’m looking forward to using this. 
 
@@ -50,29 +50,29 @@ Lots of options here, but the bottom line is that I've chosen KeyCloak due to it
 
 Configuration (etcd)
 
-As a distributed application, skillbase needs a reliable way to change and propagate configuration information. In the microservices, I'll use the Microprofile Config API. In the runtime environment, I'll use etcd, which is really the gold standard.
+As a distributed application, skillbase needs a reliable way to change and propagate configuration information. In the microservices, I'll use the Microprofile Config API etcd, the gold standard, as the provider.
 
 Log Aggregation (fluentd)
 
-I'm using fluentd to consolidate log streams from the various components. Crucial for debugging at this point.
+I'm using fluentd to consolidate log streams from the various components. 
 
-Feature Flags (flagd)
+Feature Flags (OpenFeatures, flagd)
 
-I'm using flagd from the OpenFeature project to support feature flags.
+I'm using flagd from the OpenFeatures project to support feature flags.
 
-Observability (Prometheus)
+Observability (Prometheus, Grafana)
 
-I've chosen Prometheus for monitoring and alerting. For now...
+I've chosen Prometheus and grafana for monitoring and alerting.
 
 Containers (Docker)
 
 Containers are here to stay, and Docker is the gold standard. Having a good pipeline from the build system to a Docker system will help with making the application available in the “cloud” and when used with an orchestration system like Kubernetes, should help enormously with scaling the system up. There aren’t any alternatives that are as popular and flexible as Docker, so this is a keeper.
 
-Infrastructure (Terraform)
+Infrastructure (Terraform, Kubernetes)
 
-Terraform is an awesome "infrastructure as code" tool. I'm currently using it during development to populate my Docker instance with my containers. It should be a good segue into Kubernetes in future phases.
+Terraform is an awesome "infrastructure as code" tool. I'm currently using it during development to populate my Docker instance with my containers. It will be a good segue into Kubernetes in future phases.
 
-Persistence (JPA)
+Persistence (JPA, PostgreSQL)
 
 I've chosen JPA as it's the easy choice at this phase. Every time I've used JPA, I've eventually replaced it with JDBC access for performance, so we'll see how it goes.
 
@@ -88,7 +88,7 @@ SQL Changes (Liquibase)
 
 I’ve used Liquibase for SQL database change management in a number of projects and really like its flexibility. I’ll be using it for this project to keep the multiple databases used for microservices in sync.
 
-Unit Testing (JUnit)
+Unit Testing (JUnit, Weld)
 
 I’ll be using JUnit 5 for unit testing. Not much new here.
 
@@ -96,7 +96,7 @@ Architectural Testing (ArchUnit)
 
 I recently discovered the ArchUnit framework and it’s useful for making sure the architecture of the project matches the requirements.
 
-Integration Testing (Arquillian)
+Integration Testing (Arquillian, JUnit, Weld)
 
 I’ll be using Arquillian for integration testing. I’ve never used it before, but it seems like it will handle the distributed components of the project.
 
@@ -107,6 +107,13 @@ More gold standards: JavaDoc for code, Swagger for REST endpoints.
 Caching (Redis)
 
 I love Redis! It’s easy to use as a caching layer and it’s crazy fast. What’s not to love? There are plenty of other alternatives, like memcached and Hazelcast, but I don’t see anything better than Redis for this application.
+
+Gateway (APISIX)
+
+The API gateway will be APISIX, which based on top of ngnix. It also integrates
+with KeyCloak for authentication, authorization, and JWTs.
+
+Web Server (ngnix)
 
 Frontend
 
@@ -245,6 +252,9 @@ https://jenkins.io
 https://flagd.dev
 https://openfeature.dev
 
+https://apisix.apache.org
+https://grafana.com
+https://nginx.org
 
 https://sdkman.io
 
