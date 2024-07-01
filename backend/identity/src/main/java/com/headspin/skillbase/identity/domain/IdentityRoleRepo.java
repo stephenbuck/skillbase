@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
+@ApplicationScoped
 public interface IdentityRoleRepo {
 
     @Transactional
@@ -28,4 +30,6 @@ public interface IdentityRoleRepo {
 
     public List<IdentityRole> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit);
+
+    public Long count();
 }

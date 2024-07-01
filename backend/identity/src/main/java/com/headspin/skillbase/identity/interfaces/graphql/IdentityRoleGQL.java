@@ -14,6 +14,11 @@ import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
+/*
+ * IdentityRoleGQL implements a GraphQL interface for the
+ * Role domain.
+ */
+
 @GraphQLApi
 public class IdentityRoleGQL {
 

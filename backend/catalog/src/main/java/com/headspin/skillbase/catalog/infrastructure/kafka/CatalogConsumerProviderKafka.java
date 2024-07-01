@@ -7,14 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.kafka.CloudEventDeserializer;
+import jakarta.transaction.Transactional;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-@Slf4j
-public class CatalogEventConsumerKafka {
+import com.headspin.skillbase.catalog.providers.CatalogConsumerProvider;
 
+@Slf4j
+public class CatalogConsumerProviderKafka implements CatalogConsumerProvider {
+
+    @Override
+    @Transactional
     public void consume() {
 
         log.info("consume");

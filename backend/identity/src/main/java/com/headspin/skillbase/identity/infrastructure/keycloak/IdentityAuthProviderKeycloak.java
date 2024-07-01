@@ -3,10 +3,12 @@ package com.headspin.skillbase.identity.infrastructure.keycloak;
 import java.util.UUID;
 
 import com.headspin.skillbase.identity.domain.IdentityGroup;
-import com.headspin.skillbase.identity.domain.IdentityProvider;
 import com.headspin.skillbase.identity.domain.IdentityRole;
 import com.headspin.skillbase.identity.domain.IdentityUser;
+import com.headspin.skillbase.identity.providers.IdentityAuthProvider;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
 import org.keycloak.OAuth2Constants;
@@ -23,8 +25,16 @@ import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
+/*
+ * IdentityAuthProviderKeycloak implements the IdentityAuthProvider
+ * interface using the Keycloak IAM. The domain entities User,
+ * Group and Role have peer objects on the Keycloak side and
+ * this provider translates between the two.
+ */
+
 @Slf4j
-public class IdentityProviderKeycloak implements IdentityProvider {
+@ApplicationScoped
+public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
 
     private RealmResource getRealm() {
 
@@ -41,7 +51,7 @@ public class IdentityProviderKeycloak implements IdentityProvider {
         RealmResource realm = getRealm();
         UsersResource users = realm.users();
         UserRepresentation urep = new UserRepresentation();
-        urep.setId(id.toString());
+        urep.setId(String.valueOf(id));
         urep.setEmail(user.email());
         urep.setUsername(user.userName());
         urep.setFirstName(user.userName());
@@ -54,33 +64,38 @@ public class IdentityProviderKeycloak implements IdentityProvider {
     public void deleteUser(UUID id) {
         RealmResource realm = getRealm();
         UsersResource users = realm.users();
-        users.delete(id.toString());
+        users.delete(String.valueOf(id));
     }
 
     @Override
     public void updateUser(IdentityUser user) {
         RealmResource realm = getRealm();
         UsersResource users = realm.users();
-        UserResource ures = users.get(user.id().toString());
+        UserResource ures = users.get(String.valueOf(user.id()));
         UserRepresentation urep = ures.toRepresentation();
         ures.update(urep);
     }
 
     @Override
     public void insertGroup(UUID id, IdentityGroup group) {
+        log.info("***************** insertGroup *********");
         RealmResource realm = getRealm();
         GroupsResource groups = realm.groups();
         GroupRepresentation grep = new GroupRepresentation();
-        grep.setId(id.toString());
+        grep.setId(String.valueOf(id));
+        grep.setParentId("");
         grep.setName(group.title());
-        groups.add(grep);
+        grep.setPath("");
+        grep.setSubGroupCount(0L);
+        Response resp = groups.add(grep);
+        log.info("resp = {}", resp);
     }
 
     @Override
     public void deleteGroup(UUID id) {
         RealmResource realm = getRealm();
         GroupsResource groups = realm.groups();
-        GroupResource gres = groups.group(id.toString());
+        GroupResource gres = groups.group(String.valueOf(id));
         gres.remove();
     }
 
@@ -88,7 +103,7 @@ public class IdentityProviderKeycloak implements IdentityProvider {
     public void updateGroup(IdentityGroup group) {
         RealmResource realm = getRealm();
         GroupsResource groups = realm.groups();
-        GroupResource gres = groups.group(group.id().toString());
+        GroupResource gres = groups.group(String.valueOf(group.id()));
         GroupRepresentation grep = gres.toRepresentation();
         gres.update(grep);
     }
@@ -98,7 +113,7 @@ public class IdentityProviderKeycloak implements IdentityProvider {
         RealmResource realm = getRealm();
         RolesResource roles = realm.roles();
         RoleRepresentation rrep = new RoleRepresentation();
-        rrep.setId(id.toString());
+        rrep.setId(String.valueOf(id));
         rrep.setName(role.title());
         roles.create(rrep);
     }
@@ -107,7 +122,7 @@ public class IdentityProviderKeycloak implements IdentityProvider {
     public void deleteRole(UUID id) {
         RealmResource realm = getRealm();
         RolesResource roles = realm.roles();
-        RoleResource rres = roles.get(id.toString());
+        RoleResource rres = roles.get(String.valueOf(id));
         rres.remove();
     }
 
@@ -115,7 +130,7 @@ public class IdentityProviderKeycloak implements IdentityProvider {
     public void updateRole(IdentityRole role) {
         RealmResource realm = getRealm();
         RolesResource roles = realm.roles();
-        RoleResource rres = roles.get(role.id().toString());
+        RoleResource rres = roles.get(String.valueOf(role.id()));
         RoleRepresentation rrep = rres.toRepresentation();
         rres.update(rrep);
     }

@@ -29,4 +29,6 @@ public interface CatalogSkillRepo {
 
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit);
+
+    public Long count();
 }

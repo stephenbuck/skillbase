@@ -18,6 +18,11 @@ import jakarta.validation.constraints.Null;
 import com.headspin.skillbase.identity.domain.IdentityRole;
 import com.headspin.skillbase.identity.domain.IdentityRoleRepo;
 
+/*
+ * IdentityRoleRepoJPA implements the IdentityRoleRepo
+ * interface using JPA and PostgreSQL.
+ */
+
 @Slf4j
 @RequestScoped
 public class IdentityRoleRepoJPA implements IdentityRoleRepo {
@@ -84,5 +89,11 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        log.info("count()");
+        return em.createQuery("SELECT COUNT(*) FROM identity_role r", Long.class).getSingleResult().longValue();
     }
 }

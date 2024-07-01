@@ -5,21 +5,38 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.headspin.skillbase.identity.domain.IdentityEvent;
-import com.headspin.skillbase.identity.domain.IdentityProvider;
 import com.headspin.skillbase.identity.domain.IdentityRole;
 import com.headspin.skillbase.identity.domain.IdentityRoleRepo;
+import com.headspin.skillbase.identity.providers.IdentityAuthProvider;
+import com.headspin.skillbase.identity.providers.IdentityProducerProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import lombok.extern.slf4j.Slf4j;
 
+/*
+ * IdentityRoleService is a stateless service provider for
+ * the Role domain. It integrates the IdentityRoleRepo,
+ * IdentityAuthProvider, and IdentyEventProducer services
+ * and acts as the main transaction and authorization point.
+ *
+ * One of the main responsibilities of this service is to
+ * maintain the relationship between the User, Group, and Role
+ * entities with their counterparts managed by the external
+ * IdentityAuthProvider (e.g. Keycloak).
+ */
+
+@Slf4j
 @Stateless
+@ApplicationScoped
 @DeclareRoles({ "Admin", "User" })
 public class IdentityRoleService {
 
@@ -27,7 +44,10 @@ public class IdentityRoleService {
     private IdentityRoleRepo repo;
 
     @Inject
-    private IdentityProvider prov;
+    private IdentityAuthProvider auth;
+
+    @Inject
+    private IdentityProducerProvider prod;
 
     @Resource
     SessionContext ctx;
@@ -36,8 +56,8 @@ public class IdentityRoleService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityRole role) {
         UUID id = repo.insert(role);
-        prov.insertRole(id, role);
-        IdentityEvent.build(id, "com.headspin.skillbase.identity.role.inserted");
+        auth.insertRole(id, role);
+        prod.produce(IdentityEvent.buildEvent(id, IdentityEvent.IDENTITY_EVENT_ROLE_INSERTED));
         return id;
     }
 
@@ -45,17 +65,22 @@ public class IdentityRoleService {
     @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        prov.deleteRole(id);
-        IdentityEvent.build(id, "com.headspin.skillbase.identity.role.deleted");
+        auth.deleteRole(id);
+        prod.produce(IdentityEvent.buildEvent(id, IdentityEvent.IDENTITY_EVENT_ROLE_DELETED));
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public IdentityRole update(@NotNull IdentityRole role) {
         IdentityRole updated = repo.update(role);
-        prov.updateRole(role);
-        IdentityEvent.build(role.id(), "com.headspin.skillbase.identity.role.updated");
+        auth.updateRole(role);
+        prod.produce(IdentityEvent.buildEvent(role.id(), IdentityEvent.IDENTITY_EVENT_ROLE_UPDATED));
         return updated;
+    }
+
+    @RolesAllowed({ "Admin" })
+    public Long count() {
+        return repo.count();
     }
 
     @RolesAllowed({ "Admin" })
@@ -78,5 +103,9 @@ public class IdentityRoleService {
     public List<IdentityRole> findAllByGroupId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllByUserId(userId, sort, offset, limit);
+    }
+
+    public void ping(String msg) {
+        log.info("ping = {}", msg);
     }
 }

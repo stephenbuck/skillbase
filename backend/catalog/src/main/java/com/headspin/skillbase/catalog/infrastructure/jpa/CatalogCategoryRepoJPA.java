@@ -26,6 +26,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     @PersistenceContext(name = "skillbase_catalog")
     private EntityManager em;
 
+    @Override
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         log.info("insert()");
@@ -33,23 +34,27 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
         return category.id();
     }
 
+    @Override
     @Transactional
     public void delete(@NotNull UUID id) {
         log.info("delete({})", id);
         em.remove(em.find(CatalogCategory.class, id));
     }
 
+    @Override
     @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         log.info("update({})", category);
         return em.merge(category);
     }
 
+    @Override
     public Optional<CatalogCategory> findById(@NotNull UUID id) {
         log.info("findById({})", id);
         return Optional.ofNullable(em.find(CatalogCategory.class, id));
     }
 
+    @Override
     public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
         return em.createQuery("SELECT c FROM catalog_category c ORDER BY :sort", CatalogCategory.class)
@@ -58,6 +63,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
+    @Override
     public List<CatalogCategory> findAllByParentId(@NotNull UUID parentId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByParentId({})", parentId);
@@ -69,6 +75,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
+    @Override
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByTitleLike({})", pattern);
@@ -76,5 +83,10 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        return 0L;
     }
 }

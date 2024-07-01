@@ -20,6 +20,11 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
+/*
+ * IdentityRoleREST implements a REST resource for the Role
+ * domain.
+ */
+
 @Path("/roles")
 public class IdentityRoleREST {
 
@@ -48,6 +53,15 @@ public class IdentityRoleREST {
     @Operation(summary = "update")
     public IdentityRole update(IdentityRole role) {
         return service.update(role);
+    }
+
+    @GET
+    @Path("/count")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "count")
+    public Long count() {
+        return service.count();
     }
 
     @GET

@@ -84,4 +84,9 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
+
+    @Override
+    public Long count() {
+        return 0L;
+    }
 }

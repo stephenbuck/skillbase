@@ -1,16 +1,22 @@
 package com.headspin.skillbase.identity;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.jboss.weld.junit5.WeldJunit5Extension;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.junit.jupiter.api.Test;
-
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
+// @Disabled
+
 @Slf4j
+@ApplicationScoped
+@ExtendWith(WeldJunit5Extension.class)
 public class IdentityControlTest {
 
-    @Test
-    void demoTestMethod() {
-        log.info("TBD");
+    @BeforeAll
+    public static void beforeAll() {
+        log.info("control");
     }
 }

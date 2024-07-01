@@ -20,6 +20,11 @@ import jakarta.security.enterprise.jwt.JsonWebToken;
 
 */
 
+/*
+ * IdentityREST implements a REST resource for the identity
+ * domain.
+ */
+
 @ApplicationPath("/api/v1/skillbase/identity")
 @LoginConfig(authMethod = "MP-JWT")
 

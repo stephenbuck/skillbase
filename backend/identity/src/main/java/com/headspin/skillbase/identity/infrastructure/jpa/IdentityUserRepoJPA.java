@@ -18,6 +18,11 @@ import jakarta.validation.constraints.Null;
 import com.headspin.skillbase.identity.domain.IdentityUser;
 import com.headspin.skillbase.identity.domain.IdentityUserRepo;
 
+/*
+ * IdentityUserRepoJPA implements the IdentityUserRepo
+ * interface using JPA and PostgreSQL.
+ */
+
 @Slf4j
 @RequestScoped
 public class IdentityUserRepoJPA implements IdentityUserRepo {
@@ -84,5 +89,11 @@ public class IdentityUserRepoJPA implements IdentityUserRepo {
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        log.info("count()");
+        return em.createQuery("SELECT COUNT(*) FROM identity_user u", Long.class).getSingleResult().longValue();
     }
 }

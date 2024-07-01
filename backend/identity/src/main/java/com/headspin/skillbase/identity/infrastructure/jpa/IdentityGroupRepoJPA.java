@@ -18,6 +18,11 @@ import jakarta.validation.constraints.Null;
 import com.headspin.skillbase.identity.domain.IdentityGroup;
 import com.headspin.skillbase.identity.domain.IdentityGroupRepo;
 
+/*
+ * IdentityGroupRepoJPA implements the IdentityGroupRepo
+ * interface using JPA and PostgreSQL.
+ */
+
 @Slf4j
 @RequestScoped
 public class IdentityGroupRepoJPA implements IdentityGroupRepo {
@@ -84,5 +89,11 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        log.info("count()");
+        return em.createQuery("SELECT COUNT(*) FROM identity_group g", Long.class).getSingleResult().longValue();
     }
 }

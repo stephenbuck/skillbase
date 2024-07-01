@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import com.headspin.skillbase.certify.domain.CertifyProcess;
 import com.headspin.skillbase.certify.domain.CertifyProcessRepo;
+import com.headspin.skillbase.certify.providers.CertifyProducerProvider;
 import com.headspin.skillbase.certify.domain.CertifyEvent;
 
 @Stateless
@@ -26,6 +27,9 @@ public class CertifyProcessService {
     @Inject
     private CertifyProcessRepo repo;
 
+    @Inject
+    private CertifyProducerProvider prod;
+
     @Resource
     private SessionContext ctx;
 
@@ -33,21 +37,21 @@ public class CertifyProcessService {
     @RolesAllowed({ "Admin", "User" })
     public UUID insert(@NotNull @Valid CertifyProcess process) {
         UUID id = repo.insert(process);
-        CertifyEvent.build(id, "com.headspin.skillbase.certify.process.inserted");
+        prod.produce(CertifyEvent.buildEvent(id, CertifyEvent.CERTIFY_EVENT_PROCESS_INSERTED));
         return id;
     }
 
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        CertifyEvent.build(id, "com.headspin.skillbase.certify.process.deleted");
+        prod.produce(CertifyEvent.buildEvent(id, CertifyEvent.CERTIFY_EVENT_PROCESS_DELETED));
     }
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
         CertifyProcess updated = repo.update(process);
-        CertifyEvent.build(process.id(), "com.headspin.skillbase.certify.process.updated");
+        prod.produce(CertifyEvent.buildEvent(updated.id(), CertifyEvent.CERTIFY_EVENT_PROCESS_UPDATED));
         return updated;
     }
 

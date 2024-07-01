@@ -1,10 +1,15 @@
-package com.headspin.skillbase.identity.domain;
+package com.headspin.skillbase.identity.providers;
 
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
+import com.headspin.skillbase.identity.domain.IdentityGroup;
+import com.headspin.skillbase.identity.domain.IdentityRole;
+import com.headspin.skillbase.identity.domain.IdentityUser;
 
-public interface IdentityProvider {
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public interface IdentityAuthProvider {
 
     public void insertUser(UUID id, IdentityUser user);
 

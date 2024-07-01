@@ -14,6 +14,11 @@ import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
+/*
+ * IdentityUserGQL implements a GraphQL interface for the
+ * User domain.
+ */
+
 @GraphQLApi
 public class IdentityUserGQL {
 

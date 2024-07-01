@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS certify_cert;
 DROP TABLE IF EXISTS certify_process;
 DROP TABLE IF EXISTS certify_task;
 DROP TABLE IF EXISTS certify_document;
+DROP TABLE IF EXISTS certify_outbox;
 
 CREATE TABLE IF NOT EXISTS certify_model (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -76,3 +77,13 @@ CREATE TABLE IF NOT EXISTS certify_document (
   CONSTRAINT certify_document_fk_process FOREIGN KEY (process_id) REFERENCES certify_process (id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS certify_document_by_process_id ON certify_process (id);
+
+CREATE TABLE IF NOT EXISTS certify_outbox (
+  id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  event                VARCHAR     NOT NULL,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP       NULL DEFAULT NULL,
+
+  CONSTRAINT certify_outbox_pk PRIMARY KEY (id)
+);
+

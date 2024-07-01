@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogEvent;
+import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
@@ -29,6 +30,9 @@ public class CatalogCategoryService {
     @Inject
     private CatalogCategoryRepo repo;
 
+    @Inject
+    CatalogProducerProvider prod;
+
     @Resource
     private SessionContext ctx;
 
@@ -36,7 +40,7 @@ public class CatalogCategoryService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         UUID id = repo.insert(category);
-        CatalogEvent.build(id, "com.headspin.skillbase.catalog.category.inserted");
+        prod.produce(CatalogEvent.buildEvent(category.id(), CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
         return id;
     }
 
@@ -44,14 +48,14 @@ public class CatalogCategoryService {
     @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        CatalogEvent.build(id, "com.headspin.skillbase.catalog.category.deleted");
+        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_EVENT_CATEGORY_DELETED));
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         CatalogCategory updated = repo.update(category);
-        CatalogEvent.build(category.id(), "com.headspin.skillbase.catalog.category.updated");
+        prod.produce(CatalogEvent.buildEvent(category.id(), CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
         return updated;
     }
 

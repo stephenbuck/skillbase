@@ -1,4 +1,4 @@
-package com.headspin.skillbase.catalog.infrastructure.kafka;
+package com.headspin.skillbase.certify.infrastructure.kafka;
 
 import java.net.URI;
 import java.util.Properties;
@@ -8,17 +8,28 @@ import lombok.extern.slf4j.Slf4j;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.kafka.CloudEventSerializer;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import com.headspin.skillbase.catalog.domain.CatalogEvent;
+import com.headspin.skillbase.certify.domain.CertifyEvent;
+import com.headspin.skillbase.certify.providers.CertifyProducerProvider;
 
 @Slf4j
-public class CatalogEventProducerKafka {
+@ApplicationScoped
+public class CertifyProducerProviderKafka implements CertifyProducerProvider {
 
-    public void produce(CatalogEvent event) {
+    public CertifyProducerProviderKafka() {
+        log.info("producer");
+    }
+
+    @Override
+    @Transactional
+    public void produce(CertifyEvent event) {
 
         log.info("produce");
 
@@ -31,12 +42,11 @@ public class CatalogEventProducerKafka {
         try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(props)) {
 
             // Build an event
-            CloudEvent cloudEvent = CloudEventBuilder.v1().withId("catalog")
-                    .withType("com.headspin.skillbase.catalog.event").withSource(URI.create("http://localhost"))
-                    .build();
+            CloudEvent cloudEvent = CloudEventBuilder.v1().withId("certify").withType("com.headspin.skillbase.certify")
+                    .withSource(URI.create("http://localhost")).build();
 
             // Produce the event
-            producer.send(new ProducerRecord<>("com.headspin.skillbase.catalog.event", cloudEvent));
+            producer.send(new ProducerRecord<>("com.headspin.skillbase.certify", cloudEvent));
         }
     }
 }

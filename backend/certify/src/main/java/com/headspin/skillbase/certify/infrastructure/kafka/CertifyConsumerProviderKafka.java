@@ -8,16 +8,25 @@ import lombok.extern.slf4j.Slf4j;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.kafka.CloudEventDeserializer;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import com.headspin.skillbase.certify.providers.CertifyConsumerProvider;
+
 @Slf4j
 @ApplicationScoped
-public class CertifyEventConsumerKafka {
+public class CertifyConsumerProviderKafka implements CertifyConsumerProvider {
 
+    public CertifyConsumerProviderKafka() {
+
+    }
+
+    @Override
+    @Transactional
     public void consume() {
 
         log.info("consume");

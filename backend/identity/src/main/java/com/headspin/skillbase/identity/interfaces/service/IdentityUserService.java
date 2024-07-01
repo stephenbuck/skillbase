@@ -5,21 +5,33 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.headspin.skillbase.identity.domain.IdentityEvent;
-import com.headspin.skillbase.identity.domain.IdentityProvider;
 import com.headspin.skillbase.identity.domain.IdentityUser;
 import com.headspin.skillbase.identity.domain.IdentityUserRepo;
+import com.headspin.skillbase.identity.providers.IdentityAuthProvider;
+import com.headspin.skillbase.identity.providers.IdentityProducerProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import lombok.extern.slf4j.Slf4j;
 
+/*
+ * IdentityUserService is a stateless service provider for
+ * the User domain. It integrates the IdentityUserRepo,
+ * IdentityAuthProvider, and IdentyEventProducer services
+ * and acts as the main transaction and authorization point.
+ */
+
+@Slf4j
 @Stateless
+@ApplicationScoped
 @DeclareRoles({ "Admin", "User" })
 public class IdentityUserService {
 
@@ -27,7 +39,10 @@ public class IdentityUserService {
     private IdentityUserRepo repo;
 
     @Inject
-    private IdentityProvider prov;
+    private IdentityAuthProvider auth;
+
+    @Inject
+    private IdentityProducerProvider prod;
 
     @Resource
     SessionContext ctx;
@@ -36,8 +51,8 @@ public class IdentityUserService {
     @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull IdentityUser user) {
         UUID id = repo.insert(user);
-        prov.insertUser(id, user);
-        IdentityEvent.build(id, "com.headspin.skillbase.identity.user.inserted");
+        auth.insertUser(id, user);
+        prod.produce(IdentityEvent.buildEvent(id, IdentityEvent.IDENTITY_EVENT_USER_INSERTED));
         return id;
     }
 
@@ -45,17 +60,22 @@ public class IdentityUserService {
     @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        prov.deleteUser(id);
-        IdentityEvent.build(id, "com.headspin.skillbase.identity.user.deleted");
+        auth.deleteUser(id);
+        prod.produce(IdentityEvent.buildEvent(id, IdentityEvent.IDENTITY_EVENT_USER_DELETED));
     }
 
     @Transactional
     @RolesAllowed({ "Admin" })
     public IdentityUser update(@NotNull IdentityUser user) {
         IdentityUser updated = repo.update(user);
-        prov.updateUser(updated);
-        IdentityEvent.build(user.id(), "com.headspin.skillbase.identity.user.updated");
+        auth.updateUser(updated);
+        prod.produce(IdentityEvent.buildEvent(user.id(), IdentityEvent.IDENTITY_EVENT_USER_UPDATED));
         return updated;
+    }
+
+    @RolesAllowed({ "Admin" })
+    public Long count() {
+        return repo.count();
     }
 
     @RolesAllowed({ "Admin" })
@@ -78,5 +98,9 @@ public class IdentityUserService {
     public List<IdentityUser> findAllByRoleId(@NotNull UUID id, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         return repo.findAllByRoleId(id, sort, offset, limit);
+    }
+
+    public void ping(String msg) {
+        log.info("ping = {}", msg);
     }
 }

@@ -21,6 +21,11 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 
+/*
+ * IdentityGroupREST implements a REST resource for the Group
+ * domain.
+ */
+
 @Path("/groups")
 public class IdentityGroupREST {
 
@@ -52,6 +57,15 @@ public class IdentityGroupREST {
     @Operation(summary = "update")
     public IdentityGroup update(IdentityGroup group) {
         return service.update(group);
+    }
+
+    @GET
+    @Path("/count")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "count")
+    public Long count() {
+        return service.count();
     }
 
     @GET

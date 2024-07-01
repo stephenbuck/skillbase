@@ -16,7 +16,6 @@ provider "docker" {
   }
 }
 
-/*
 #
 # Etcd
 #
@@ -29,6 +28,10 @@ resource "docker_image" "etcd" {
 resource "docker_container" "etcd" {
   name    = "etcd"
   image   = docker_image.etcd.image_id
+  env = [
+    "ALLOW_NONE_AUTHENTICATION=yes",
+//    "ETCD_ADVERTISE_CLIENT_URLS=127.0.0.0:2379"
+  ]  
   ports {
     internal = 2379
     external = 2379
@@ -38,9 +41,7 @@ resource "docker_container" "etcd" {
     external = 2380
   }
 }
-*/
 
-/*
 #
 # Flagd
 #
@@ -50,14 +51,21 @@ resource "docker_image" "flagd" {
   keep_locally = true
 }
 
+# sudo docker run --rm --name flagd   -p 8013:8013   -v $(pwd):/etc/flagd   ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
+# curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
+/*
 resource "docker_container" "flagd" {
   name    = "flagd"
   image   = docker_image.flagd.image_id
-  ports {
-    internal = 8013
-    external = 8013
+  volumes {
+    container_path = "/etc/flagd"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system"
   }
-  entrypoint = ["start"]
+  ports {
+      internal = 8013
+      external = 8013
+  }
+  command = ["start"]
 }
 */
 

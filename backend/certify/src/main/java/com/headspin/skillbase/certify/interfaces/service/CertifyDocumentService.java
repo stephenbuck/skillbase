@@ -18,6 +18,7 @@ import java.util.UUID;
 import com.headspin.skillbase.certify.domain.CertifyDocument;
 import com.headspin.skillbase.certify.domain.CertifyDocumentRepo;
 import com.headspin.skillbase.certify.domain.CertifyEvent;
+import com.headspin.skillbase.certify.providers.CertifyProducerProvider;
 
 @Stateless
 @DeclareRoles({ "Admin", "User" })
@@ -26,6 +27,9 @@ public class CertifyDocumentService {
     @Inject
     private CertifyDocumentRepo repo;
 
+    @Inject
+    private CertifyProducerProvider prod;
+
     @Resource
     private SessionContext ctx;
 
@@ -33,21 +37,21 @@ public class CertifyDocumentService {
     @RolesAllowed({ "Admin", "User" })
     public UUID insert(@NotNull @Valid CertifyDocument document) {
         UUID id = repo.insert(document);
-        CertifyEvent.build(id, "com.headspin.skillbase.certify.document.inserted");
+        prod.produce(CertifyEvent.buildEvent(id, CertifyEvent.CERTIFY_EVENT_DOCUMENT_INSERTED));
         return id;
     }
 
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        CertifyEvent.build(id, "com.headspin.skillbase.certify.document.deleted");
+        prod.produce(CertifyEvent.buildEvent(id, CertifyEvent.CERTIFY_EVENT_DOCUMENT_DELETED));
     }
 
     @Transactional
     @RolesAllowed({ "Admin", "User" })
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
         CertifyDocument updated = repo.update(document);
-        CertifyEvent.build(document.id(), "com.headspin.skillbase.certify.document.updated");
+        prod.produce(CertifyEvent.buildEvent(document.id(), CertifyEvent.CERTIFY_EVENT_DOCUMENT_UPDATED));
         return updated;
     }
 

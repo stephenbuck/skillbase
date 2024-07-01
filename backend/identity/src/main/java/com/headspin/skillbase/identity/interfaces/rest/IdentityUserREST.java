@@ -20,6 +20,11 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
+/*
+ * IdentityUserREST implements a REST resource for the User
+ * domain.
+ */
+
 @Path("/users")
 public class IdentityUserREST {
 
@@ -48,6 +53,15 @@ public class IdentityUserREST {
     @Operation(summary = "update")
     public IdentityUser update(IdentityUser user) {
         return service.update(user);
+    }
+
+    @GET
+    @Path("/count")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "count")
+    public Long count() {
+        return service.count();
     }
 
     @GET

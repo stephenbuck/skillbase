@@ -3,6 +3,7 @@
 
 DROP TABLE IF EXISTS catalog_category;
 DROP TABLE IF EXISTS catalog_skill;
+DROP TABLE IF EXISTS catalog_outbox;
 
 CREATE TABLE IF NOT EXISTS catalog_category (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -36,3 +37,12 @@ CREATE TABLE IF NOT EXISTS catalog_skill (
   CONSTRAINT catalog_skill_fk_catalog_category FOREIGN KEY (category_id) REFERENCES catalog_category(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS catalog_skill_by_title ON catalog_skill (title);
+
+CREATE TABLE IF NOT EXISTS catalog_outbox (
+  id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  event                VARCHAR     NOT NULL,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP       NULL DEFAULT NULL,
+
+  CONSTRAINT catalog_outbox_pk PRIMARY KEY (id)
+);

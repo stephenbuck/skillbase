@@ -29,4 +29,6 @@ public interface CertifyDocumentRepo {
 
     public List<CertifyDocument> findAllByUserId(@NotNull UUID userId, @Null String sort, @Null Integer offset,
             @Null Integer limit);
+
+    public Long count();
 }

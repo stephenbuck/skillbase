@@ -26,6 +26,7 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     @PersistenceContext(name = "skillbase_catalog")
     private EntityManager em;
 
+    @Override
     @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         log.info("insert()");
@@ -33,23 +34,27 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
         return skill.id();
     }
 
+    @Override
     @Transactional
     public void delete(@NotNull UUID id) {
         log.info("delete({})", id);
         em.remove(em.find(CatalogSkill.class, id));
     }
 
+    @Override
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         log.info("update({})", skill.id());
         return em.merge(skill);
     }
 
+    @Override
     public Optional<CatalogSkill> findById(@NotNull UUID id) {
         log.info("findById({})", id);
         return Optional.ofNullable(em.find(CatalogSkill.class, id));
     }
 
+    @Override
     public List<CatalogSkill> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
         return em.createQuery("SELECT s FROM catalog_skill s ORDER BY :sort", CatalogSkill.class)
@@ -58,6 +63,7 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
+    @Override
     public List<CatalogSkill> findAllByCategoryId(@NotNull UUID categoryId, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByCategoryId({})", categoryId);
@@ -69,6 +75,7 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
     }
 
+    @Override
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByTitleLike({})", pattern);
@@ -76,5 +83,10 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        return 0L;
     }
 }

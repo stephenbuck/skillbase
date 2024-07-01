@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS identity_user_group;
 DROP TABLE IF EXISTS identity_role;
 DROP TABLE IF EXISTS identity_group_role;
 DROP TABLE IF EXISTS identity_user_role;
+DROP TABLE IF EXISTS identity_outbox;
 
 CREATE TABLE IF NOT EXISTS identity_user (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -80,3 +81,11 @@ CREATE TABLE IF NOT EXISTS identity_group_role (
 --  CONSTRAINT identity_group_role_fk_role FOREIGN KEY (role_id) REFERENCES identity_role(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS identity_outbox (
+  id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  event                VARCHAR     NOT NULL,
+  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP       NULL DEFAULT NULL,
+
+  CONSTRAINT identity_outbox_pk PRIMARY KEY (id)
+);
