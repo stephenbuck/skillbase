@@ -18,7 +18,7 @@ import com.headspin.skillbase.identity.providers.IdentityFeatureProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-//@Disabled
+@Disabled
 
 @Slf4j
 @ApplicationScoped

@@ -1,6 +1,6 @@
-#
+################################################################################
 # Terraform
-#
+################################################################################
 
 # https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/container
 
@@ -19,9 +19,9 @@ terraform {
   }
 }
 
-#
+################################################################################
 # Docker
-#
+################################################################################
 
 provider "docker" {
   host = "unix:///var/run/docker.sock"
@@ -42,9 +42,9 @@ resource "docker_network" "host" {
   }
 }
 
-#
+################################################################################
 # ApiSix
-#
+################################################################################
 
 resource "docker_image" "apisix" {
    name = "apache/apisix:latest"
@@ -71,19 +71,9 @@ resource "docker_container" "apisix" {
   ]
 }
 
-/*
-resource "apisix_route" "ar" {
-  name = "ar"
-  host = "*"
-  uris = [
-    "/test"
-  ]
-}
-*/
-
-#
+################################################################################
 # Ngnix
-#
+################################################################################
 
 resource "docker_image" "ngnix" {
   name = "nginx:1.19.0-alpine"
@@ -108,9 +98,9 @@ resource "docker_container" "ngnix" {
   }
 }
 
-#
+################################################################################
 # Etcd
-#
+################################################################################
 
 resource "docker_image" "etcd" {
   name         = "bitnami/etcd:latest"
@@ -142,9 +132,9 @@ resource "docker_container" "etcd" {
 }
 
 /*
-#
+################################################################################
 # Flagd
-#
+################################################################################
 
 # sudo docker run --rm --name flagd   -p 8013:8013   -v $(pwd):/etc/flagd   ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
 # curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
@@ -169,9 +159,9 @@ resource "docker_container" "flagd" {
 }
 */
 
-#
+################################################################################
 # Flowable
-#
+################################################################################
 
 resource "docker_image" "flowable" {
   name         = "flowable/all-in-one:latest"
@@ -191,9 +181,9 @@ resource "docker_container" "flowable" {
 }
 
 /*
-#
+################################################################################
 # Fluentd
-#
+################################################################################
 
 resource "docker_image" "fluentd" {
   name         = "fluent/fluentd:edge-debian"
@@ -210,10 +200,9 @@ resource "docker_container" "fluentd" {
 }
 */
 
-/*
-#
+################################################################################
 # Kafka
-#
+################################################################################
 
 resource "docker_image" "kafka" {
   name         = "apache/kafka:latest"
@@ -228,11 +217,10 @@ resource "docker_container" "kafka" {
     external = 9092
   }
 }
-*/
 
-#
+################################################################################
 # KeyCloak
-#
+################################################################################
 
 resource "docker_image" "keycloak" {
   name         = "quay.io/keycloak/keycloak:latest"
@@ -253,9 +241,9 @@ resource "docker_container" "keycloak" {
   ]
 }
 
-#
+################################################################################
 # Postgres
-#
+################################################################################
 
 resource "docker_image" "postgres" {
   name         = "postgres:latest"
@@ -276,9 +264,9 @@ resource "docker_container" "postgres" {
 }
 
 /*
-#
+################################################################################
 # Prometheus
-#
+################################################################################
 
 resource "docker_image" "prometheus" {
   name         = "prom/prometheus:latest"
@@ -296,9 +284,9 @@ resource "docker_container" "prometheus" {
 */
 
 /*
-#
+################################################################################
 # Skillbase Catalog
-#
+################################################################################
 
 resource "docker_image" "catalog" {
   name         = "catalog"
@@ -317,9 +305,9 @@ resource "docker_container" "catalog" {
 */
 
 /*
-#
+################################################################################
 # Skillbase Certify
-#
+################################################################################
 
 resource "docker_image" "certify" {
   name         = "certify"
@@ -338,9 +326,9 @@ resource "docker_container" "certify" {
 */
 
 /*
-#
+################################################################################
 # Identity
-#
+################################################################################
 
 resource "docker_image" "identity" {
   name         = "identity"
