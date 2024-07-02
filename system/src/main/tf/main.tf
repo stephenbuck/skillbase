@@ -32,6 +32,7 @@ provider "docker" {
   }
 }
 
+/*
 resource "docker_network" "host" {
   name = "apisix"
   driver = "bridge"
@@ -41,7 +42,9 @@ resource "docker_network" "host" {
     gateway = "172.18.5.254"
   }
 }
+*/
 
+/*
 ################################################################################
 # ApiSix
 ################################################################################
@@ -70,34 +73,66 @@ resource "docker_container" "apisix" {
     docker_container.etcd
   ]
 }
+*/
 
+/*
 ################################################################################
-# Ngnix
+# Nginx
 ################################################################################
 
-resource "docker_image" "ngnix" {
+resource "docker_image" "nginx" {
   name = "nginx:1.19.0-alpine"
   keep_locally = true
 }
 
-resource "docker_container" "ngnix" {
-  name    = "ngnix"
-  image   = docker_image.ngnix.image_id
+resource "docker_container" "nginx" {
+  name    = "nginx"
+  image   = docker_image.nginx.image_id
   restart = "always"
   env = [
     "NGINX_PORT=80"
   ]
-  /*
-  networks_advanced {
-    name = "host"
-  }
-  */
   ports {
     internal = 80
     external = 9980
   }
 }
+*/
 
+/*
+################################################################################
+# Debezium
+################################################################################
+
+resource "docker_image" "debezium" {
+  name = "debezium/server:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "debezium" {
+  name = "debezium"
+  image = docker_image.debezium.image_id
+  restart = "always"
+  ports {
+    internal = 8085
+    external = 8085
+  }
+  volumes {
+    container_path = "/debezum/conf"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/conf"
+  }
+  volumes {
+    container_path = "/debezum/data"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/data"
+  }
+  depends_on = [
+    docker_container.postgres,
+    docker_container.kafka  
+  ]
+}
+*/
+
+/*
 ################################################################################
 # Etcd
 ################################################################################
@@ -119,7 +154,7 @@ resource "docker_container" "etcd" {
   ]
   volumes {
     container_path = "/etcd_data"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/etcd/etcd_data"
   }
   ports {
     internal = 2379
@@ -130,6 +165,7 @@ resource "docker_container" "etcd" {
     external = 2380
   }
 }
+*/
 
 /*
 ################################################################################
@@ -149,7 +185,7 @@ resource "docker_container" "flagd" {
   image   = docker_image.flagd.image_id
   volumes {
     container_path = "/etc/flagd"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd"
   }
   ports {
       internal = 8013
@@ -200,6 +236,7 @@ resource "docker_container" "fluentd" {
 }
 */
 
+/*
 ################################################################################
 # Kafka
 ################################################################################
@@ -217,6 +254,7 @@ resource "docker_container" "kafka" {
     external = 9092
   }
 }
+*/
 
 ################################################################################
 # KeyCloak

@@ -6,7 +6,7 @@ I’ve become a big fan of domain-driven design, primarily because it forces the
 
 Event-Driven Architecture
 
-An event-driven architecture is such a natural way of looking at applications that it’s hard to choose any other architecture. I’ve been doing some form of event-driven development for most of my career, so it’s gratifying to see it being so widely used these days. I’ll be using Kafka for the message broker and Cloud-Events for the event definitions. The initial version will not be designed using event-sourcing, but future version will make use of it to for eventual consistency among the various distributed components (microservices, distributed caches, etc).
+An event-driven architecture is such a natural way of looking at applications that it’s hard to choose any other architecture. I’ve been doing some form of event-driven development for most of my career, so it’s gratifying to see it being so widely used these days. I’ll be using Kafka for the message broker and Cloud-Events for the event definitions. The initial version will not use event-sourcing, but future versions will use Debezium for eventual consistency among the various distributed components (microservices, distributed caches, etc).
 
 Microservice Implementation
 
@@ -68,6 +68,10 @@ Infrastructure (Terraform, Kubernetes)
 
 Terraform is an awesome "infrastructure as code" tool. I'm currently using it during development to populate my Docker instance with my containers. It will be a good segue into Kubernetes in future phases.
 
+Change-Data Capture (Debezium)
+
+See http://debezium.io
+
 Persistence (JPA, PostgreSQL)
 
 I've chosen JPA as it's the easy choice at this phase. Every time I've used JPA, I've eventually replaced it with JDBC access for performance, so we'll see how it goes.
@@ -118,6 +122,15 @@ Web Server (ngnix)
 The project will use ngnix for the primary web server. It's also used by the API gateway (ApiSix).
 
 
+Additional documentation can be found in the README.md files within the project subdirectories:
+
+Catalog
+Certify
+Common
+Identity
+
+Instructions:
+
 Links:
 
 https://dzone.com/refcardz/getting-started-domain-driven
@@ -147,11 +160,6 @@ https://github.com/smallrye/smallrye-opentelemetry
 https://github.com/smallrye/smallrye-opentracing
 https://github.com/smallrye/smallrye-reactive-messaging
 
-https://terraform.io
-https://github.com/deliveredtechnologies/terraform-maven
-
-https://kubernetes.io
-
 https://maven.apache.org
 https://maven.apache.org/plugins/maven-javadoc-plugin
 https://maven.apache.org/plugins/maven-resources-plugin/
@@ -175,21 +183,9 @@ https://github.com/graphql/graphiql
 
 https://resteasy.org
 https://openapis.org
-https://www.thunderclient.com
 https://swagger.io
 
 https://grpc.io
-
-https://react.dev
-https://reactrouter.com
-
-https://www.flowable.com
-https://bpmn.org
-
-https://www.keycloak.org
-https://oauth.net/2
-https://www.baeldung.com/java-ee-oauth2-implementation
-https://www.baeldung.com/java-json-web-tokens-jjwt
 
 https://apache.kafka.org
 https://docs.confluent.io/kafka-clients/java/current/overview.html
@@ -201,40 +197,16 @@ https://github.com/mtxr/vscode-sqltools
 
 https://log4j.org
 https://slf4j.org
-https://www.fluentd.org
 
-https://connect2id.com/products/nimbus-jose-jwt
-<dependency>
-    <groupId>com.nimbusds</groupId>
-    <artifactId>nimbus-jose-jwt</artifactId>
-    <version>9.x</version>
-</dependency
 
 https://opentelemetry.io/
-https://prometheus.io
 
 https://github.com/enriquemolinari/jqueue
 
-https://etcd.io
-
-https://redis.io
-
 https://github.com/gruelbox/transaction-outbox
-
-https://projectlombok.org
-
-https://jenkins.io
 
 https://flagd.dev
 https://openfeature.dev
-
-https://apisix.apache.org
-https://grafana.com
-https://nginx.org
-
-https://sdkman.io
-
-https://code.visualstudio.com
 
 https://json-schema.org/draft-07/schema#
 

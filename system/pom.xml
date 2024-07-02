@@ -25,6 +25,7 @@
         <artifactId>tf-maven-plugin</artifactId>
         <groupId>com.deliveredtechnologies</groupId>
         <version>${tf.maven.version}</version>
+        <!--
         <executions>
           <execution>
             <id>terraform-clean</id>
@@ -72,8 +73,9 @@
             </goals>
           </execution>
         </executions>
+        -->
       </plugin>
-
+    
     </plugins>
 
   </build>

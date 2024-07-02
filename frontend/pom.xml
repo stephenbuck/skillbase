@@ -2,20 +2,20 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>skillbase</artifactId>
+  <artifactId>skillbase_frontend</artifactId>
   <groupId>com.headspin.skillbase</groupId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>skillbase</name>
+  <name>skillbase_frontend</name>
+
+  <parent>
+    <artifactId>skillbase</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <modules>
-    <module>backend</module>
-    <module>frontend</module>
-    <module>system</module>
-  </modules>
 
 </project>
