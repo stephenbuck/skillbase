@@ -10,8 +10,6 @@ Additional documentation can be found in the README.md files within the project 
 
 Backend
 
-Common
-
 Frontend
 
 System
