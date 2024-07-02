@@ -9,8 +9,11 @@ SkillBase is a distributed application that allows an organization to develop, c
 Additional documentation can be found in the README.md files within the project subdirectories:
 
 Backend
+
 Common
+
 Frontend
+
 System
 
 
