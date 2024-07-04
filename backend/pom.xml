@@ -289,12 +289,6 @@
       </dependency>
 
       <dependency>
-        <artifactId>liquibase-core</artifactId>
-        <groupId>org.liquibase</groupId>
-        <version>${liquibase.version}</version>
-      </dependency>
-
-      <dependency>
         <artifactId>log4j-api</artifactId>
         <groupId>org.apache.logging.log4j</groupId>
         <version>${log4j.version}</version>
@@ -396,6 +390,7 @@
   </dependencyManagement>
   
   <modules>
+    <module>common</module>
     <module>catalog</module>
     <module>certify</module>
     <module>identity</module>

@@ -97,14 +97,6 @@
       <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
-        <executions>
-          <execution>
-            <?m2e execute onConfiguration?>
-              <goals>
-                  <goal>generate-schema</goal>
-              </goals>
-          </execution>
-        </executions>
       </plugin>
 
       <!--
@@ -218,11 +210,6 @@
     <dependency>
       <artifactId>keycloak-admin-client</artifactId>
       <groupId>org.keycloak</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>liquibase-core</artifactId>
-      <groupId>org.liquibase</groupId>
     </dependency>
 
     <dependency>
