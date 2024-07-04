@@ -7,12 +7,12 @@
 
   <artifactId>skillbase-backend-identity</artifactId>
   <groupId>com.headspin.skillbase</groupId>
-  <version>0.1</version>
+  <version>1.0-SNAPSHOT</version>
 
   <parent>
     <artifactId>skillbase-backend</artifactId>
     <groupId>com.headspin.skillbase</groupId>
-    <version>0.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
   <build>

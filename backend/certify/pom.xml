@@ -4,13 +4,13 @@
 
   <artifactId>skillbase-backend-certify</artifactId>
   <groupId>com.headspin.skillbase</groupId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1</version>
   <name>skillbase-backend-certify</name>
 
   <parent>
     <artifactId>skillbase-backend</artifactId>
     <groupId>com.headspin.skillbase</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
   </parent>
 
   <properties>
@@ -123,6 +123,11 @@
         </executions>
       </plugin>
       -->
+
+      <plugin>  
+        <artifactId>versions-maven-plugin</artifactId>  
+        <groupId>org.codehaus.mojo</groupId>  
+      </plugin>  
 
       <plugin>
         <artifactId>wildfly-maven-plugin</artifactId>

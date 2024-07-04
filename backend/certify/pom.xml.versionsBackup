@@ -2,18 +2,21 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <name>skillbase-backend-identity</name>
-  <packaging>war</packaging>
-
-  <artifactId>skillbase-backend-identity</artifactId>
+  <artifactId>skillbase-backend-certify</artifactId>
   <groupId>com.headspin.skillbase</groupId>
-  <version>0.1</version>
+  <version>1.0-SNAPSHOT</version>
+  <name>skillbase-backend-certify</name>
 
   <parent>
     <artifactId>skillbase-backend</artifactId>
     <groupId>com.headspin.skillbase</groupId>
-    <version>0.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
+
+  <properties>
+    <flowable.version>7.0.1</flowable.version> 
+    <h2.version>2.2.224</h2.version>
+  </properties>
 
   <build>
 
@@ -25,7 +28,7 @@
         <configuration>
           <images>
             <image>
-              <name>skillbase/identity:${project.version}</name>
+              <name>skillbase/certify:${project.version}</name>
               <build>
                 <dockerFileDir>${project.dir}</dockerFileDir>
               </build>
@@ -45,8 +48,8 @@
           </execution>
         </executions>
       </plugin>
-      
-       <!--
+
+      <!--
       <plugin>
         <artifactId>formatter-maven-plugin</artifactId>
         <groupId>net.revelc.code.formatter</groupId>
@@ -58,14 +61,15 @@
           </execution>
         </executions>
       </plugin>
-    -->
+      -->
+
       <plugin>
         <artifactId>liquibase-maven-plugin</artifactId>
         <groupId>org.liquibase</groupId>
         <version>${liquibase.maven.version}</version>
         <configuration>
           <changeLogFile>
-            /home/stephenbuck/Desktop/skillbase/backend/identity/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
+            /home/stephenbuck/Desktop/skillbase/backend/certify/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
           <driver>org.postgresql.Driver</driver>
           <url>jdbc:postgresql://localhost:5432/skillbase</url>
           <username>postgres</username>
@@ -85,6 +89,11 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+      
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
@@ -93,17 +102,11 @@
         <artifactId>maven-war-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
-      
+
       <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
         <executions>
-          <execution>
-            <?m2e execute onConfiguration?>
-              <goals>
-                  <goal>generate-schema</goal>
-              </goals>
-          </execution>
         </executions>
       </plugin>
 
@@ -146,10 +149,11 @@
     <dependency>
       <artifactId>arquillian-bom</artifactId>
       <groupId>org.jboss.arquillian</groupId>
+      <version>${arquillian.version}</version>
       <scope>test</scope>
       <type>pom</type>
     </dependency>
-  
+
     <dependency>
       <artifactId>cloudevents-api</artifactId>
       <groupId>io.cloudevents</groupId>
@@ -166,23 +170,11 @@
     </dependency>
 
     <dependency>
-      <artifactId>configsource-base</artifactId>
-      <groupId>org.microprofile-ext.config-ext</groupId>
-      <version>3.0.1</version>
+      <artifactId>flowable-engine</artifactId>
+      <groupId>org.flowable</groupId>
+      <version>${flowable.version}</version>
     </dependency>
-
-    <dependency>
-      <artifactId>configsource-etcd</artifactId>
-      <groupId>org.microprofile-ext.config-ext</groupId>
-      <version>3.0.1</version>
-    </dependency>
-
-    <dependency>
-      <artifactId>jetcd-core</artifactId>
-      <groupId>com.coreos</groupId>
-      <version>0.0.2</version>
-    </dependency>
-  
+    
     <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
@@ -213,11 +205,6 @@
     <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>keycloak-admin-client</artifactId>
-      <groupId>org.keycloak</groupId>
     </dependency>
 
     <dependency>
@@ -260,27 +247,12 @@
       <groupId>org.eclipse.microprofile.health</groupId>
     </dependency>
 
-      <dependency>
-        <artifactId>microprofile-jwt-auth-api</artifactId>
-        <groupId>org.eclipse.microprofile.jwt</groupId>
-      </dependency>
-    
     <dependency>
       <artifactId>microprofile-openapi-api</artifactId>
       <groupId>org.eclipse.microprofile.openapi</groupId>
     </dependency>
 
     <dependency>
-      <artifactId>sdk</artifactId>
-      <groupId>dev.openfeature</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>flagd</artifactId>
-      <groupId>dev.openfeature.contrib.providers</groupId>
-    </dependency>
-    
-  <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>
@@ -293,11 +265,6 @@
     <dependency>
       <artifactId>smallrye-graphql-api</artifactId>
       <groupId>io.smallrye</groupId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.smallrye</groupId>
-      <artifactId>smallrye-health</artifactId>
     </dependency>
 
     <dependency>
