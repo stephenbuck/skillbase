@@ -6,11 +6,25 @@ Integration with KeyCloak will be through its REST endpoints. Skillbase entities
 
 Instructions:
 
-* Open './target/generated/schema.graphql' for GraphQL schema
-* Open 'http://localhost:18080' for KeyCloak tool
-* Type 'psql -d skillbase -U postgres -h localhost -p 5432' for PostgreSQL tool (password is 'postgres')
+* Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')
 * Type 'sudo mvn liquibase:help' for Liquibase tool
 * Type 'sudo mvn docker:help' for Docker tool
+* Type 'sudo mvn wildfly:help' for Wildfly tool
+
+Dependencies:
+
+* Open 'http://localhost:18080/admin/master/console/' for KeyCloak tool
+
+REST Endpoints:
+
+* Open '/identity' for identity REST endpoint
+* Open '/identity/groups' for groups REST endpoint
+* Open '/identity/roles' for roles REST endpoint
+* Open '/identity/users' for users REST endpoint
+
+GraphQL Endpoints:
+
+* Open './target/generated/schema.graphql' for GraphQL schema
 
 Links:
 

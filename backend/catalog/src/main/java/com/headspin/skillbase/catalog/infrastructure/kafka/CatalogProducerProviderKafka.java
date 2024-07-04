@@ -37,7 +37,8 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
 
             // Build an event
             CloudEvent cloudEvent = CloudEventBuilder.v1().withId("catalog")
-                    .withType("com.headspin.skillbase.catalog.event").withSource(URI.create("http://localhost"))
+                    .withType("com.headspin.skillbase.catalog.event")
+                    .withSource(URI.create("http://localhost"))
                     .build();
 
             // Produce the event

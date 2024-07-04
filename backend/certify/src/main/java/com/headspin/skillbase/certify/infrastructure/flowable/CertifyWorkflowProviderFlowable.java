@@ -32,8 +32,10 @@ public class CertifyWorkflowProviderFlowable implements CertifyWorkflowProvider 
     public CertifyWorkflowProviderFlowable() {
         log.info("workflow");
 
-        config = new StandaloneProcessEngineConfiguration().setJdbcUrl("jdbc:h2:mem:flowable;DB_CLOSE_DELAY=-1")
-                .setJdbcUsername("sa").setJdbcPassword("").setJdbcDriver("org.h2.Driver")
+        config = new StandaloneProcessEngineConfiguration()
+                .setJdbcUrl("jdbc:h2:mem:flowable;DB_CLOSE_DELAY=-1")
+                .setJdbcUsername("sa").setJdbcPassword("")
+                .setJdbcDriver("org.h2.Driver")
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
 
         processEngine = config.buildProcessEngine();
@@ -44,12 +46,14 @@ public class CertifyWorkflowProviderFlowable implements CertifyWorkflowProvider 
     @Override
     public void test() {
 
-        Deployment deployment = repositoryService.createDeployment().addClasspathResource("holiday-request.bpmn20.xml")
-                .deploy();
+        Deployment deployment = repositoryService.createDeployment()
+            .addClasspathResource("holiday-request.bpmn20.xml")
+            .deploy();
         log.info("deployment = {}", deployment);
 
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-                .deploymentId(deployment.getId()).singleResult();
+            .deploymentId(deployment.getId())
+            .singleResult();
         log.info("Found process definition : " + processDefinition.getName());
 
         RuntimeService runtimeService = processEngine.getRuntimeService();
@@ -62,7 +66,9 @@ public class CertifyWorkflowProviderFlowable implements CertifyWorkflowProvider 
         log.info("pi = {}", processInstance);
 
         TaskService taskService = processEngine.getTaskService();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("managers").list();
+        List<Task> tasks = taskService.createTaskQuery()
+            .taskCandidateGroup("managers")
+            .list();
         log.info("You have " + tasks.size() + " tasks:");
         for (int i = 0; i < tasks.size(); i++) {
             log.info((i + 1) + ") " + tasks.get(i).getName());

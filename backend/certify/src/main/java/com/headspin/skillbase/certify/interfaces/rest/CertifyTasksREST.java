@@ -21,7 +21,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/tasks")
-public class CertifyTaskREST {
+public class CertifyTasksREST {
 
     @Inject
     private CertifyTaskService service;

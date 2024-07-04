@@ -1,12 +1,13 @@
 package com.headspin.skillbase.identity.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.UUID;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 
-public class IdentityEvent {
+public class IdentityEvent implements Serializable {
 
     private static URI source = URI.create("http://skillbase.com");
 
@@ -43,7 +44,11 @@ public class IdentityEvent {
     }
 
     public static CloudEvent buildCloud(IdentityEvent event) {
-        return CloudEventBuilder.v1().withId(String.valueOf(event.id())).withType(event.type()).withSource(source)
+        return CloudEventBuilder
+                .v1()
+                .withId(String.valueOf(event.id()))
+                .withType(event.type())
+                .withSource(source)
                 .build();
     }
 }

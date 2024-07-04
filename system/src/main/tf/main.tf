@@ -172,7 +172,7 @@ resource "docker_container" "etcd" {
 # Flagd
 ################################################################################
 
-# sudo docker run --rm --name flagd   -p 8013:8013   -v $(pwd):/etc/flagd   ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
+# sudo docker run --it --rm --name flagd   -p 8013:8013   -v /etc/flagd:/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd  ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
 # curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
 
 resource "docker_image" "flagd" {
@@ -191,10 +191,13 @@ resource "docker_container" "flagd" {
       internal = 8013
       external = 8013
   }
-  command = ["start"]
+  stdin_open = true
+#  command = ["start", "-f", "file:/etc/flagd/demo.flagd.json"]
+  command = ["start", "--uri", "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"]
 }
 */
 
+/*
 ################################################################################
 # Flowable
 ################################################################################
@@ -212,9 +215,10 @@ resource "docker_container" "flowable" {
     external = 8080
   }
   depends_on = [
-    docker_container.postgres
+#    docker_container.postgres
   ]
 }
+*/
 
 /*
 ################################################################################
@@ -256,6 +260,7 @@ resource "docker_container" "kafka" {
 }
 */
 
+/*
 ################################################################################
 # KeyCloak
 ################################################################################
@@ -275,9 +280,10 @@ resource "docker_container" "keycloak" {
   }
   command = ["start-dev"]
   depends_on = [
-    docker_container.postgres
+#    docker_container.postgres
   ]
 }
+*/
 
 ################################################################################
 # Postgres
@@ -320,6 +326,28 @@ resource "docker_container" "prometheus" {
   }
 }
 */
+
+################################################################################
+# Wildfly
+################################################################################
+
+resource "docker_image" "wildfly" {
+  name         = "quay.io/wildfly/wildfly:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "wildfly" {
+  name    = "wildfly"
+  image   = docker_image.wildfly.image_id
+  ports {
+    internal = 9990
+    external = 9990
+  }
+  ports {
+    internal = 8080
+    external = 18080
+  }
+}
 
 /*
 ################################################################################

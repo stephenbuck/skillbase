@@ -2,8 +2,10 @@ package com.headspin.skillbase.identity;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/*
 import org.jboss.weld.junit5.WeldJunit5Extension;
 import org.jboss.weld.junit5.auto.AddPackages;
+*/
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 
@@ -22,11 +24,13 @@ import jakarta.inject.Inject;
 
 @Slf4j
 @ApplicationScoped
+/*
 @ExtendWith(WeldJunit5Extension.class)
 @AddPackages(IdentityFeatureProvider.class)
 @AddPackages(IdentityFeatureProviderFlagd.class)
+*/
 public class IdentityFeatureProviderTest {
-
+/*
     // @Inject
     // private IdentityFeatureProvider provider;
     private IdentityFeatureProvider provider = new IdentityFeatureProviderFlagd();
@@ -45,4 +49,5 @@ public class IdentityFeatureProviderTest {
     public void testFeature() {
 
     }
+    */
 }

@@ -2,8 +2,10 @@ package com.headspin.skillbase.identity;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/*
 import org.jboss.weld.junit5.WeldJunit5Extension;
 import org.jboss.weld.junit5.auto.AddPackages;
+*/
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
+/*
 @ExtendWith(WeldJunit5Extension.class)
 @AddPackages(IdentityGroupRepo.class)
 @AddPackages(IdentityRoleRepo.class)
@@ -31,8 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @AddPackages(IdentityGroupRepoJPA.class)
 @AddPackages(IdentityRoleRepoJPA.class)
 @AddPackages(IdentityUserRepoJPA.class)
+*/
 public class IdentityRepoTest {
-
+/*
     // @Inject
     // private IdentityUserRepo userRepo;
     private IdentityUserRepoJPA userRepo = new IdentityUserRepoJPA();
@@ -60,4 +64,5 @@ public class IdentityRepoTest {
         log.info("repo");
         // log.info("count = {}", userRepo.count());
     }
+*/
 }

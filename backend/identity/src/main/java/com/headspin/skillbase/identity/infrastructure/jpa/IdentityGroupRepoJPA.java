@@ -35,7 +35,7 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     public UUID insert(@NotNull IdentityGroup group) {
         log.info("insert()");
         em.persist(group);
-        return group.id();
+        return group.id;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     @Transactional
     public IdentityGroup update(@NotNull IdentityGroup group) {
-        log.info("update({})", group.id());
+        log.info("update({})", group.id);
         return em.merge(group);
     }
 
@@ -61,10 +61,11 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
     @Override
     public List<IdentityGroup> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
-        return em.createQuery("SELECT g FROM identity_group g ORDER BY :sort", IdentityGroup.class)
+        return em.createQuery("SELECT g FROM IdentityGroup g ORDER BY :sort", IdentityGroup.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
@@ -72,11 +73,12 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
             @Null Integer limit) {
         log.info("findAllByRoleId({})", roleId);
         return em
-                .createQuery("SELECT g FROM identity_group g WHERE g.role_id = :userId ORDER BY :sort",
+                .createQuery("SELECT g FROM IdentityGroup g WHERE g.role_id = :userId ORDER BY :sort",
                         IdentityGroup.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
@@ -84,16 +86,18 @@ public class IdentityGroupRepoJPA implements IdentityGroupRepo {
             @Null Integer limit) {
         log.info("findAllByUserId({})", userId);
         return em
-                .createQuery("SELECT g FROM identity_group g WHERE g.user_id = :userId ORDER BY :sort",
+                .createQuery("SELECT g FROM IdentityGroup g WHERE g.user_id = :userId ORDER BY :sort",
                         IdentityGroup.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
     public Long count() {
         log.info("count()");
-        return em.createQuery("SELECT COUNT(*) FROM identity_group g", Long.class).getSingleResult().longValue();
+        return em.createQuery("SELECT COUNT(*) FROM IdentityGroup g", Long.class)
+                .getSingleResult().longValue();
     }
 }

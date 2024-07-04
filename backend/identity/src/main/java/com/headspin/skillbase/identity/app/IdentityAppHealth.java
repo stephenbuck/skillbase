@@ -7,7 +7,9 @@ import org.eclipse.microprofile.health.Startup;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
+import jakarta.ws.rs.Path;
 
+@Path("/health")
 @ApplicationScoped
 public class IdentityAppHealth {
 

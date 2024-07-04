@@ -1,17 +1,28 @@
 package com.headspin.skillbase.identity.app;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.headspin.skillbase.identity.interfaces.rest.IdentityGroupsREST;
+import com.headspin.skillbase.identity.interfaces.rest.IdentityRolesREST;
+import com.headspin.skillbase.identity.interfaces.rest.IdentityUsersREST;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 /*
- * Identity is the main entry point. It does basic configuration
- * and uses Spring Boot to launch.
+ * IdentityApp is the main entry point.
  */
 
-@SpringBootApplication
-public class IdentityApp {
+@ApplicationPath("/identity")
+public class IdentityApp extends Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(IdentityApp.class);
+    @Override
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> classSet = new HashSet<>();
+        classSet.add(IdentityGroupsREST.class);
+        classSet.add(IdentityRolesREST.class);
+        classSet.add(IdentityUsersREST.class);
+        return classSet;
     }
 }

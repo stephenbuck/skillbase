@@ -1,0 +1,10 @@
+<webapp>
+    <servlet>
+        <servlet-name>identity</servlet-name>
+        <servlet-class>com.headspin.skillbase.identity.app.IdentityApp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>identity</servlet-name>
+        <url-pattern>/identity/*</url-pattern>
+    </servlet-mapping>
+</webapp>

@@ -51,7 +51,7 @@ public class CertifyTaskService {
     @RolesAllowed({ "Admin", "User" })
     public CertifyTask update(@NotNull @Valid CertifyTask task) {
         CertifyTask updated = repo.update(task);
-        prod.produce(CertifyEvent.buildEvent(task.id(), CertifyEvent.CERTIFY_EVENT_TASK_UPDATED));
+        prod.produce(CertifyEvent.buildEvent(task.id, CertifyEvent.CERTIFY_EVENT_TASK_UPDATED));
         return updated;
     }
 

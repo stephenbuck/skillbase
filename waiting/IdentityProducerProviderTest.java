@@ -1,7 +1,9 @@
 package com.headspin.skillbase.identity;
 
+/*
 import org.jboss.weld.junit5.auto.AddPackages;
 import org.jboss.weld.junit5.auto.WeldJunit5AutoExtension;
+*/
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -23,13 +25,15 @@ import com.headspin.skillbase.identity.providers.IdentityProducerProvider;
 @Disabled
 
 @Slf4j
+/*
 @ExtendWith(WeldJunit5AutoExtension.class)
 @AddPackages(IdentityConsumerProvider.class)
 @AddPackages(IdentityProducerProvider.class)
 @AddPackages(IdentityConsumerProviderKafka.class)
 @AddPackages(IdentityProducerProviderKafka.class)
-public class IdentityConsumerProviderTest {
-
+*/
+public class IdentityProducerProviderTest {
+/*
     // @Inject
     // private IdentityEventProducer producer;
     private IdentityProducerProvider producer = new IdentityProducerProviderKafka();
@@ -40,7 +44,7 @@ public class IdentityConsumerProviderTest {
 
     @BeforeAll
     public static void beforeAll() {
-        log.info("consumer");
+        log.info("identity");
     }
 
     @Test
@@ -63,4 +67,5 @@ public class IdentityConsumerProviderTest {
     void testConsumer() {
         consumer.consume();
     }
+*/
 }

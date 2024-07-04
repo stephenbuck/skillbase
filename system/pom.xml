@@ -1,11 +1,13 @@
 <project>
 
   <modelVersion>4.0.0</modelVersion>
+
+  <name>skillbase_system</name>
+  <packaging>pom</packaging>
+  
   <artifactId>skillbase-system</artifactId>
   <groupId>com.headspin.skillbase</groupId>
-  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>skillbase_system</name>
 
   <parent>
     <artifactId>skillbase</artifactId>

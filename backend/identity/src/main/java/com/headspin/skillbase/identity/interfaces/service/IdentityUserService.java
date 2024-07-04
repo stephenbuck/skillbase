@@ -69,13 +69,8 @@ public class IdentityUserService {
     public IdentityUser update(@NotNull IdentityUser user) {
         IdentityUser updated = repo.update(user);
         auth.updateUser(updated);
-        prod.produce(IdentityEvent.buildEvent(user.id(), IdentityEvent.IDENTITY_EVENT_USER_UPDATED));
+        prod.produce(IdentityEvent.buildEvent(user.id, IdentityEvent.IDENTITY_EVENT_USER_UPDATED));
         return updated;
-    }
-
-    @RolesAllowed({ "Admin" })
-    public Long count() {
-        return repo.count();
     }
 
     @RolesAllowed({ "Admin" })
@@ -100,7 +95,8 @@ public class IdentityUserService {
         return repo.findAllByRoleId(id, sort, offset, limit);
     }
 
-    public void ping(String msg) {
-        log.info("ping = {}", msg);
+    @RolesAllowed({ "Admin" })
+    public Long count() {
+        return repo.count();
     }
 }

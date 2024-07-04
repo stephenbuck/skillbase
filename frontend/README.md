@@ -14,7 +14,6 @@ Instructions:
 
 Links:
 
-https://react.dev
+[https://react.dev](/)
 https://reactrouter.com
 https://relay.dev
-

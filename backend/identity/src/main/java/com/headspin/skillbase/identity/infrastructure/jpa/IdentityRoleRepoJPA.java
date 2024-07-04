@@ -35,7 +35,7 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
     public UUID insert(@NotNull IdentityRole role) {
         log.info("insert()");
         em.persist(role);
-        return role.id();
+        return role.id;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
     @Override
     @Transactional
     public IdentityRole update(@NotNull IdentityRole role) {
-        log.info("update({})", role.id());
+        log.info("update({})", role.id);
         return em.merge(role);
     }
 
@@ -61,10 +61,11 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
     @Override
     public List<IdentityRole> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
-        return em.createQuery("SELECT r FROM identity_role r ORDER BY :sort", IdentityRole.class)
+        return em.createQuery("SELECT r FROM IdentityRole r ORDER BY :sort", IdentityRole.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
@@ -72,11 +73,12 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
             @Null Integer limit) {
         log.info("findAllByGroupId({})", groupId);
         return em
-                .createQuery("SELECT r FROM identity_role r WHERE r.group_id = :groupId ORDER BY :sort",
+                .createQuery("SELECT r FROM IdentityRole r WHERE r.group_id = :groupId ORDER BY :sort",
                         IdentityRole.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
@@ -84,16 +86,18 @@ public class IdentityRoleRepoJPA implements IdentityRoleRepo {
             @Null Integer limit) {
         log.info("findAllByUserId({})", userId);
         return em
-                .createQuery("SELECT r FROM identity_role r WHERE r.user_id = :userId ORDER BY :sort",
+                .createQuery("SELECT r FROM IdentityRole r WHERE r.user_id = :userId ORDER BY :sort",
                         IdentityRole.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
     public Long count() {
         log.info("count()");
-        return em.createQuery("SELECT COUNT(*) FROM identity_role r", Long.class).getSingleResult().longValue();
+        return em.createQuery("SELECT COUNT(*) FROM IdentityRole r", Long.class)
+                .getSingleResult().longValue();
     }
 }

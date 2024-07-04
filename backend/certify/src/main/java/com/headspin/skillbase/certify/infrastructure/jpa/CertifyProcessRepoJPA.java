@@ -30,7 +30,7 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     public UUID insert(@NotNull @Valid CertifyProcess process) {
         log.info("insert()");
         em.persist(process);
-        return process.id();
+        return process.id;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CertifyProcessRepoJPA implements CertifyProcessRepo {
     @Override
     @Transactional
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
-        log.info("update({})", process.id());
+        log.info("update({})", process.id);
         return em.merge(process);
     }
 

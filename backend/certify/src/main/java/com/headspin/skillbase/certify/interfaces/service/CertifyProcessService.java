@@ -51,7 +51,7 @@ public class CertifyProcessService {
     @RolesAllowed({ "Admin", "User" })
     public CertifyProcess update(@NotNull @Valid CertifyProcess process) {
         CertifyProcess updated = repo.update(process);
-        prod.produce(CertifyEvent.buildEvent(updated.id(), CertifyEvent.CERTIFY_EVENT_PROCESS_UPDATED));
+        prod.produce(CertifyEvent.buildEvent(updated.id, CertifyEvent.CERTIFY_EVENT_PROCESS_UPDATED));
         return updated;
     }
 

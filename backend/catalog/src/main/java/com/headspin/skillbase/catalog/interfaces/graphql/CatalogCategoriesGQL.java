@@ -2,8 +2,8 @@ package com.headspin.skillbase.catalog.interfaces.graphql;
 
 import jakarta.inject.Inject;
 
-import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
+import com.headspin.skillbase.catalog.domain.CatalogCategory;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,15 +15,15 @@ import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
-public class CatalogSkillGQL {
+public class CatalogCategoriesGQL {
 
     @Inject
-    private CatalogSkillService service;
+    private CatalogCategoryService service;
 
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("skill") CatalogSkill skill) {
-        return service.insert(skill);
+    public UUID insert(@Name("skill") CatalogCategory category) {
+        return service.insert(category);
     }
 
     @Mutation("delete")
@@ -34,33 +34,33 @@ public class CatalogSkillGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("skill") CatalogSkill skill) {
-        service.update(skill);
+    public void update(@Name("category") CatalogCategory category) {
+        service.update(category);
     }
 
     @Query("findById")
     @Description("findById")
-    public CatalogSkill findById(@Name("id") UUID id) {
+    public CatalogCategory findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
     @Description("findAll")
-    public List<CatalogSkill> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
+    public List<CatalogCategory> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
-    @Query("findAllByCategoryId")
-    @Description("findAllByCategoryId")
-    public List<CatalogSkill> findAllByCategoryId(@Name("category_id") UUID category_id, @Name("sort") String sort,
+    @Query("findAllByParentId")
+    @Description("findAllByParentId")
+    public List<CatalogCategory> findAllByParentId(@Name("parent_id") UUID parent_id, @Name("sort") String sort,
             @Name("offset") Integer offset, @Name("limit") Integer limit) {
-        return service.findAllByCategoryId(category_id, sort, offset, limit);
+        return service.findAllByParentId(parent_id, sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")
     @Description("findAllByTitleLike")
-    public List<CatalogSkill> findAllByTitleLike(@Name("pattern") String pattern, @Name("sort") String sort,
+    public List<CatalogCategory> findAllByTitleLike(@Name("pattern") String pattern, @Name("sort") String sort,
             @Name("offset") Integer offset, @Name("limit") Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);
     }

@@ -30,7 +30,7 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     public UUID insert(@NotNull @Valid CertifyDocument document) {
         log.info("insert()");
         em.persist(document);
-        return document.id();
+        return document.id;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CertifyDocumentRepoJPA implements CertifyDocumentRepo {
     @Override
     @Transactional
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
-        log.info("update({})", document.id());
+        log.info("update({})", document.id);
         return em.merge(document);
     }
 

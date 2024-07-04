@@ -1,11 +1,26 @@
 package com.headspin.skillbase.catalog.app;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.HashSet;
+import java.util.Set;
 
-@SpringBootApplication
-public class CatalogApp {
-    public static void main(String[] args) {
-        SpringApplication.run(CatalogApp.class);
+import com.headspin.skillbase.catalog.interfaces.rest.CatalogCategoriesREST;
+import com.headspin.skillbase.catalog.interfaces.rest.CatalogSkillsREST;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+/*
+ * CatalogApp is the main entry point.
+ */
+
+ @ApplicationPath("/catalog")
+public class CatalogApp extends Application {
+
+    @Override
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> classSet = new HashSet<>();
+        classSet.add(CatalogCategoriesREST.class);
+        classSet.add(CatalogSkillsREST.class);
+        return classSet;
     }
 }

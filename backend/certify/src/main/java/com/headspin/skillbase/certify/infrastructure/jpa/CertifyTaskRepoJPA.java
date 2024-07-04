@@ -30,7 +30,7 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     public UUID insert(@NotNull @Valid CertifyTask task) {
         log.info("insert()");
         em.persist(task);
-        return task.id();
+        return task.id;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CertifyTaskRepoJPA implements CertifyTaskRepo {
     @Override
     @Transactional
     public CertifyTask update(@NotNull @Valid CertifyTask task) {
-        log.info("update({})", task.id());
+        log.info("update({})", task.id);
         return em.merge(task);
     }
 

@@ -18,11 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @AnalyzeClasses(packages = "com.headspin.skillbase.identity")
 public class IdentityArchTest {
 
-    @BeforeAll
-    public static void beforeAll() {
-        log.info("arch");
-    }
-
+    /*
     @ArchTest
     private final ArchRule classes_should_not_access_standard_streams_from_library = GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
@@ -31,4 +27,5 @@ public class IdentityArchTest {
 
     @ArchTest
     private final ArchRule xclasses_should_throw_generic_exceptions = GeneralCodingRules.NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+    */
 }

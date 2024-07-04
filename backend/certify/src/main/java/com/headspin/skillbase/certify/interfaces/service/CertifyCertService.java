@@ -51,7 +51,7 @@ public class CertifyCertService {
     @RolesAllowed({ "Admin", "User" })
     public CertifyCert update(@NotNull @Valid CertifyCert cert) {
         CertifyCert updated = repo.update(cert);
-        prod.produce(CertifyEvent.buildEvent(cert.id(), CertifyEvent.CERTIFY_EVENT_CERT_UPDATED));
+        prod.produce(CertifyEvent.buildEvent(cert.id, CertifyEvent.CERTIFY_EVENT_CERT_UPDATED));
         return updated;
     }
 

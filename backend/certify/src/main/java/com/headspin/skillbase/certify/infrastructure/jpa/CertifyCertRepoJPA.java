@@ -30,7 +30,7 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
     public UUID insert(@NotNull @Valid CertifyCert cert) {
         log.info("insert()");
         em.persist(cert);
-        return cert.id();
+        return cert.id;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CertifyCertRepoJPA implements CertifyCertRepo {
     @Override
     @Transactional
     public CertifyCert update(@NotNull @Valid CertifyCert cert) {
-        log.info("update({})", cert.id());
+        log.info("update({})", cert.id);
         return em.merge(cert);
     }
 

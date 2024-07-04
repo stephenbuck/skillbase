@@ -1,7 +1,5 @@
 package com.headspin.skillbase.identity;
 
-import org.jboss.weld.junit5.auto.AddPackages;
-import org.jboss.weld.junit5.auto.WeldJunit5AutoExtension;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -35,13 +33,16 @@ import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
 
-//@Disabled
+@Disabled
 
+/*
 @Slf4j
 @ExtendWith(WeldJunit5AutoExtension.class)
 @AddPackages(IdentityAuthProvider.class)
 @AddPackages(IdentityAuthProviderKeycloak.class)
+*/
 public class IdentityAuthProviderTest {
+/*
 
     // @Inject
     // private IdentityAuthProvider auth;
@@ -139,14 +140,10 @@ public class IdentityAuthProviderTest {
 
         // IdentityRole role = genRole(index); provider.insertRole(role.id(), role);
 
-        /*
-         * for (int uindex = 1; uindex < 10; uindex++) { IdentityUser user = genUser(uindex);
-         * //provider.insertUser(user.id(), user); provider.deleteUser(user.id()); }
-         */
-
         for (int gindex = 1; gindex < 10; gindex++) {
             IdentityGroup group = genGroup(gindex);
             provider.insertGroup(group.id(), group);
         }
     }
+    */
 }

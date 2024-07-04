@@ -51,7 +51,7 @@ public class CertifyModelService {
     @RolesAllowed({ "Admin", "User" })
     public CertifyModel update(@NotNull @Valid CertifyModel model) {
         CertifyModel updated = repo.update(model);
-        prod.produce(CertifyEvent.buildEvent(model.id(), CertifyEvent.CERTIFY_EVENT_MODEL_UPDATED));
+        prod.produce(CertifyEvent.buildEvent(model.id, CertifyEvent.CERTIFY_EVENT_MODEL_UPDATED));
         return updated;
     }
 

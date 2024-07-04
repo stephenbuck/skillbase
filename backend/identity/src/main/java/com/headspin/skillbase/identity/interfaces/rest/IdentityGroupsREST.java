@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
-import com.headspin.skillbase.identity.domain.IdentityRole;
-import com.headspin.skillbase.identity.interfaces.service.IdentityRoleService;
+import com.headspin.skillbase.identity.domain.IdentityGroup;
+import com.headspin.skillbase.identity.interfaces.service.IdentityGroupService;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -19,24 +19,28 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 /*
- * IdentityRoleREST implements a REST resource for the Role
+ * IdentityGroupsREST implements a REST resource for the Group
  * domain.
  */
 
-@Path("/roles")
-public class IdentityRoleREST {
+@Path("/groups")
+public class IdentityGroupsREST {
 
     @Inject
-    private IdentityRoleService service;
+    private IdentityGroupService service;
+
+    @Inject
+    private SecurityContext ctx;
 
     @PUT
     @Path("")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public UUID insert(IdentityRole role) {
-        return service.insert(role);
+    public UUID insert(IdentityGroup group) {
+        return service.insert(group);
     }
 
     @DELETE
@@ -51,8 +55,25 @@ public class IdentityRoleREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public IdentityRole update(IdentityRole role) {
-        return service.update(role);
+    public IdentityGroup update(IdentityGroup group) {
+        return service.update(group);
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "findById")
+    public IdentityGroup findById(@PathParam("id") UUID id) {
+        return service.findById(id).orElse(null);
+    }
+
+    @GET
+    @Path("")
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "findAll")
+    public List<IdentityGroup> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
+            @QueryParam("limit") Integer limit) {
+        return service.findAll(sort, offset, limit);
     }
 
     @GET
@@ -62,22 +83,5 @@ public class IdentityRoleREST {
     @Operation(summary = "count")
     public Long count() {
         return service.count();
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "findById")
-    public IdentityRole findById(@PathParam("id") UUID id) {
-        return service.findById(id).orElse(null);
-    }
-
-    @GET
-    @Path("")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "findAll")
-    public List<IdentityRole> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
-        return service.findAll(sort, offset, limit);
     }
 }

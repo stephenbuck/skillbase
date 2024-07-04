@@ -51,7 +51,7 @@ public class CertifyDocumentService {
     @RolesAllowed({ "Admin", "User" })
     public CertifyDocument update(@NotNull @Valid CertifyDocument document) {
         CertifyDocument updated = repo.update(document);
-        prod.produce(CertifyEvent.buildEvent(document.id(), CertifyEvent.CERTIFY_EVENT_DOCUMENT_UPDATED));
+        prod.produce(CertifyEvent.buildEvent(document.id, CertifyEvent.CERTIFY_EVENT_DOCUMENT_UPDATED));
         return updated;
     }
 

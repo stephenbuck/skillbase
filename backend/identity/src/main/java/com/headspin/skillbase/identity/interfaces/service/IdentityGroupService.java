@@ -69,13 +69,8 @@ public class IdentityGroupService {
     public IdentityGroup update(@NotNull IdentityGroup group) {
         IdentityGroup updated = repo.update(group);
         auth.updateGroup(updated);
-        prod.produce(IdentityEvent.buildEvent(group.id(), IdentityEvent.IDENTITY_EVENT_ROLE_UPDATED));
+        prod.produce(IdentityEvent.buildEvent(group.id, IdentityEvent.IDENTITY_EVENT_ROLE_UPDATED));
         return updated;
-    }
-
-    @RolesAllowed({ "Admin" })
-    public Long count() {
-        return repo.count();
     }
 
     @RolesAllowed({ "Admin" })
@@ -100,7 +95,8 @@ public class IdentityGroupService {
         return repo.findAllByUserId(userId, sort, offset, limit);
     }
 
-    public void ping(String msg) {
-        log.info("ping = {}", msg);
+    @RolesAllowed({ "Admin" })
+    public Long count() {
+        return repo.count();
     }
 }

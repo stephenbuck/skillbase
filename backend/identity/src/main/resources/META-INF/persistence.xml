@@ -2,19 +2,15 @@
 <persistence>
 
     <persistence-unit name="skillbase_identity">
-        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
         <class>com.headspin.skillbase.identity.domain.IdentityGroup</class>
         <class>com.headspin.skillbase.identity.domain.IdentityRole</class>
         <class>com.headspin.skillbase.identity.domain.IdentityUser</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="jakarta.persistence.jdbc.url"
-                value="jdbc:postgresql://MACHINE_IP>:5432/docker" />
-            <property name="jakarta.persistence.jdbc.user" value="docker" />
-            <property name="jakarta.persistence.jdbc.password" value="docker" />
-            <property name="jakarta.persistence.schema-generation.database.action"
-                value="drop-and-create" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:15432/skillbase" />
+            <property name="jakarta.persistence.jdbc.user" value="postgres" />
+            <property name="jakarta.persistence.jdbc.password" value="postgres" />
         </properties>
     </persistence-unit>
 

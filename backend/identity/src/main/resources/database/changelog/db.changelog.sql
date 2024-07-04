@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS identity_user (
   phone                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   icon                 TEXT            NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_user_pk PRIMARY KEY (id)
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS identity_group (
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   icon                 TEXT            NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_group_pk PRIMARY KEY (id)
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS identity_role (
   peer_id              VARCHAR         NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_role_pk PRIMARY KEY (id)
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS identity_group_role (
 CREATE TABLE IF NOT EXISTS identity_outbox (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   event                VARCHAR     NOT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT identity_outbox_pk PRIMARY KEY (id)

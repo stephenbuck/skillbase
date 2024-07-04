@@ -21,12 +21,12 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 /*
- * IdentityUserREST implements a REST resource for the User
+ * IdentityUsersREST implements a REST resource for the User
  * domain.
  */
 
 @Path("/users")
-public class IdentityUserREST {
+public class IdentityUsersREST {
 
     @Inject
     private IdentityUserService service;
@@ -56,15 +56,6 @@ public class IdentityUserREST {
     }
 
     @GET
-    @Path("/count")
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "count")
-    public Long count() {
-        return service.count();
-    }
-
-    @GET
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
@@ -79,5 +70,14 @@ public class IdentityUserREST {
     public List<IdentityUser> findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
             @QueryParam("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
+    }
+
+    @GET
+    @Path("/count")
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(summary = "count")
+    public Long count() {
+        return service.count();
     }
 }

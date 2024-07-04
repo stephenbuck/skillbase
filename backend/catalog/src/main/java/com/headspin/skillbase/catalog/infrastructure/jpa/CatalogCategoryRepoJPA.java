@@ -31,7 +31,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         log.info("insert()");
         em.persist(category);
-        return category.id();
+        return category.id;
     }
 
     @Override
@@ -57,10 +57,11 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     @Override
     public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
         log.info("findAll()");
-        return em.createQuery("SELECT c FROM catalog_category c ORDER BY :sort", CatalogCategory.class)
+        return em.createQuery("SELECT c FROM CatalogCategory c ORDER BY :sort", CatalogCategory.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
@@ -68,25 +69,29 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
             @Null Integer limit) {
         log.info("findAllByParentId({})", parentId);
         return em
-                .createQuery("SELECT c FROM catalog_category c WHERE c.parent_id = :parentId ORDER BY :sort",
+                .createQuery("SELECT c FROM CatalogCategory c WHERE c.parentId = :parentId ORDER BY :sort",
                         CatalogCategory.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
             @Null Integer limit) {
         log.info("findAllByTitleLike({})", pattern);
-        return em.createQuery("SELECT c FROM catalog_category c WHERE c.title LIKE ':pattern'", CatalogCategory.class)
+        return em.createQuery("SELECT c FROM CatalogCategory c WHERE c.title LIKE ':pattern'", CatalogCategory.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
     }
 
     @Override
     public Long count() {
-        return 0L;
+        log.info("count()");
+        return em.createQuery("SELECT COUNT(*) FROM CatalogCategory c", Long.class)
+                .getSingleResult().longValue();
     }
 }

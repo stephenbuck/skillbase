@@ -2,11 +2,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
+  <name>skillbase-backend-identity</name>
+  <packaging>war</packaging>
+
   <artifactId>skillbase-backend-identity</artifactId>
   <groupId>com.headspin.skillbase</groupId>
   <version>1.0-SNAPSHOT</version>
-
-  <name>skillbase-backend-identity</name>
 
   <parent>
     <artifactId>skillbase-backend</artifactId>
@@ -34,6 +35,19 @@
       </plugin>
 
       <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+       <!--
+      <plugin>
         <artifactId>formatter-maven-plugin</artifactId>
         <groupId>net.revelc.code.formatter</groupId>
         <executions>
@@ -44,7 +58,7 @@
           </execution>
         </executions>
       </plugin>
-
+    -->
       <plugin>
         <artifactId>liquibase-maven-plugin</artifactId>
         <groupId>org.liquibase</groupId>
@@ -76,6 +90,11 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+      
+      <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
         <executions>
@@ -103,8 +122,8 @@
       -->
 
       <plugin>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <groupId>org.springframework.boot</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <groupId>org.wildfly.plugins</groupId>
       </plugin>
 
     </plugins>
@@ -217,11 +236,6 @@
     </dependency>
 
     <dependency>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <groupId>org.apache.maven.plugins</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>microprofile-config-api</artifactId>
       <groupId>org.eclipse.microprofile.config</groupId>
     </dependency>
@@ -284,31 +298,6 @@
     <dependency>
       <artifactId>smallrye-open-api-maven-plugin</artifactId>
       <groupId>io.smallrye</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>spring-boot</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>spring-boot-autoconfigure</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>spring-core</artifactId>
-      <groupId>org.springframework</groupId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.weld</groupId>
-      <artifactId>weld-junit5</artifactId>
     </dependency>
 
   </dependencies>

@@ -6,11 +6,19 @@ Integration with Flowable will be through its REST endpoints. Skillbase entities
 
 Instructions:
 
-* Open './target/generated/schema.graphql' for GraphQL schema
-* Type 'psql -d skillbase -U postgres -h localhost -p 5432' for PostgreSQL tool (password is 'postgres')
-* Open 'http://localhost:8080' for Flowable tool
+* Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')
 * Type 'sudo mvn liquibase:help' for Liquibase tool
 * Type 'sudo mvn docker:help' for Docker tool
+
+Dependencies:
+
+* Open 'http://localhost:8080/flowable-admin' for Flowable tool
+
+REST Endpoints:
+
+GraphQL Endpoints:
+
+* Open './target/generated/schema.graphql' for GraphQL schema
 
 Links:
 

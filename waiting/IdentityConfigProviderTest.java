@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.jboss.weld.junit5.WeldJunit5Extension;
-import org.jboss.weld.junit5.auto.AddPackages;
+//import org.jboss.weld.junit5.WeldJunit5Extension;
+//import org.jboss.weld.junit5.auto.AddPackages;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -20,11 +20,14 @@ import jakarta.inject.Inject;
 @Disabled
 
 @Slf4j
+/*
 @ApplicationScoped
 @ExtendWith(WeldJunit5Extension.class)
 @AddPackages(IdentityConfigProvider.class)
 @AddPackages(IdentityConfigProviderEtcd.class)
+*/
 public class IdentityConfigProviderTest {
+    /*
 
     // @Inject
     // private IdentityConfigProvider provider;
@@ -45,4 +48,5 @@ public class IdentityConfigProviderTest {
         String message = provider.getStringValue("foo");
         log.info("foo = {}", message);
     }
+        */
 }

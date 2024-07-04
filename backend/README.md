@@ -32,7 +32,7 @@ GraphQL (SmallRye)
 
 One thing I’ve learned from all the reading I’ve been doing lately is that GraphQL is here to stay. It’s such a huge improvement over clumsy old REST that it’s hard to not use it. I expect that it will improve performance and simplify code, but what I’m most excited about is that can be used as a “single source of truth” when doing domain-driven design. Once a design has been captured in a GraphQL schema, it can be used to generate a variety of other artifacts like value objects, SQL tables, etc. It’s makes it much easier to keep everything in synch.
 
-REST (RestEasy, Swagger)
+REST (Jakarta, Swagger)
 
 I’m including a REST API as well, as it’s still very popular and commonly used for integration with third-party tools. The endpoints will be documented with Swagger.
 
@@ -129,8 +129,6 @@ Certify
 Common
 Identity
 
-Instructions:
-
 Links:
 
 https://dzone.com/refcardz/getting-started-domain-driven
@@ -181,7 +179,6 @@ https://graphql.org
 https://smallrye.io/smallrye-graphql/maven-plugin/
 https://github.com/graphql/graphiql
 
-https://resteasy.org
 https://openapis.org
 https://swagger.io
 

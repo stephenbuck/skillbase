@@ -38,7 +38,7 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
 
     private RealmResource getRealm() {
 
-        Keycloak admin = KeycloakBuilder.builder().serverUrl("http://127.0.0.0:18080").realm("master")
+        Keycloak admin = KeycloakBuilder.builder().serverUrl("http://localhost:18080").realm("master")
                 .clientId("admin-cli").grantType(OAuth2Constants.PASSWORD).username("admin").password("admin").build();
 
         RealmResource realm = admin.realm("master");
@@ -52,10 +52,10 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
         UsersResource users = realm.users();
         UserRepresentation urep = new UserRepresentation();
         urep.setId(String.valueOf(id));
-        urep.setEmail(user.email());
-        urep.setUsername(user.userName());
-        urep.setFirstName(user.userName());
-        urep.setLastName(user.lastName());
+        urep.setEmail(user.email);
+        urep.setUsername(user.userName);
+        urep.setFirstName(user.userName);
+        urep.setLastName(user.lastName);
         urep.setEnabled(true);
         users.create(urep);
     }
@@ -71,20 +71,19 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
     public void updateUser(IdentityUser user) {
         RealmResource realm = getRealm();
         UsersResource users = realm.users();
-        UserResource ures = users.get(String.valueOf(user.id()));
+        UserResource ures = users.get(String.valueOf(user.id));
         UserRepresentation urep = ures.toRepresentation();
         ures.update(urep);
     }
 
     @Override
     public void insertGroup(UUID id, IdentityGroup group) {
-        log.info("***************** insertGroup *********");
         RealmResource realm = getRealm();
         GroupsResource groups = realm.groups();
         GroupRepresentation grep = new GroupRepresentation();
         grep.setId(String.valueOf(id));
         grep.setParentId("");
-        grep.setName(group.title());
+        grep.setName(group.title);
         grep.setPath("");
         grep.setSubGroupCount(0L);
         Response resp = groups.add(grep);
@@ -103,7 +102,7 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
     public void updateGroup(IdentityGroup group) {
         RealmResource realm = getRealm();
         GroupsResource groups = realm.groups();
-        GroupResource gres = groups.group(String.valueOf(group.id()));
+        GroupResource gres = groups.group(String.valueOf(group.id));
         GroupRepresentation grep = gres.toRepresentation();
         gres.update(grep);
     }
@@ -114,7 +113,7 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
         RolesResource roles = realm.roles();
         RoleRepresentation rrep = new RoleRepresentation();
         rrep.setId(String.valueOf(id));
-        rrep.setName(role.title());
+        rrep.setName(role.title);
         roles.create(rrep);
     }
 
@@ -130,7 +129,7 @@ public class IdentityAuthProviderKeycloak implements IdentityAuthProvider {
     public void updateRole(IdentityRole role) {
         RealmResource realm = getRealm();
         RolesResource roles = realm.roles();
-        RoleResource rres = roles.get(String.valueOf(role.id()));
+        RoleResource rres = roles.get(String.valueOf(role.id));
         RoleRepresentation rrep = rres.toRepresentation();
         rres.update(rrep);
     }

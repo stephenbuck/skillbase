@@ -28,4 +28,10 @@ public class CertifyConfigProviderTest {
     public void testProvider() {
         assertNotNull(provider, "Provider not found");
     }
+
+    @Test
+    public void testConfig() {
+        String message = provider.getValue("foo");
+        log.info("foo = {}", message);
+    }
 }

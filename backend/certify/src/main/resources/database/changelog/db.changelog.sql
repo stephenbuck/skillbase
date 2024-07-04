@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS certify_model (
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   bpmn                 TEXT            NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now,
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_model_pk PRIMARY KEY (id)
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS certify_cert (
   granted_at           TIMESTAMP       NULL DEFAULT NULL,
   revoked_at           TIMESTAMP       NULL DEFAULT NULL,
   expires_at           TIMESTAMP       NULL DEFAULT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now,
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_cert_pk PRIMARY KEY (id),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS certify_process (
   cert_id              UUID        NOT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now,
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_process_pk PRIMARY KEY (id),
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS certify_task (
   process_id           UUID        NOT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now,
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_task_pk PRIMARY KEY (id),
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS certify_document (
   process_id           UUID        NOT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now,
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_document_pk PRIMARY KEY (id),
@@ -81,7 +81,7 @@ CREATE INDEX IF NOT EXISTS certify_document_by_process_id ON certify_process (id
 CREATE TABLE IF NOT EXISTS certify_outbox (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   event                VARCHAR     NOT NULL,
-  inserted_at          TIMESTAMP   NOT NULL DEFAULT now(),
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL,
 
   CONSTRAINT certify_outbox_pk PRIMARY KEY (id)
