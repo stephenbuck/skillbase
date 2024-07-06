@@ -39,13 +39,13 @@ public class CatalogCategoryService {
     private CatalogCategoryRepo repo;
 
 //    @Inject
-//    CatalogProducerProviderKafka prod = new CatalogProducerProviderKafka();
+//    CatalogProducerProvider prod = null; // new CatalogProducerProviderKafka();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         UUID id = repo.insert(category);
-//        prod.produce(CatalogEvent.buildEvent(category.id(), CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
+//        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
         return id;
     }
 
@@ -60,7 +60,7 @@ public class CatalogCategoryService {
 //    @RolesAllowed({ "Admin" })
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         CatalogCategory updated = repo.update(category);
-//        prod.produce(CatalogEvent.buildEvent(category.id(), CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
+//        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
         return updated;
     }
 
@@ -70,8 +70,10 @@ public class CatalogCategoryService {
     }
 
 //    @RolesAllowed({ "Admin" })
-    public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
-        return repo.findAll(sort, offset, limit);
+    public List<CatalogCategory> findAll() { // @Null String sort, @Null Integer offset, @Null Integer limit) {
+        log.info("service.findAll()");
+//        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_EVENT_CATEGORY_UPDATED));
+        return repo.findAll(); // sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })

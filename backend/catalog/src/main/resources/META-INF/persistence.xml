@@ -2,14 +2,15 @@
 <persistence>
 
     <persistence-unit name="skillbase_catalog">
-        <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
+        <jta-data-source>java:/jdbc/SkillbaseDS</jta-data-source>
         <class>com.headspin.skillbase.catalog.domain.CatalogCategory</class>
         <class>com.headspin.skillbase.catalog.domain.CatalogSkill</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql:localhost:15432/skillbase" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql:localhost:5432/skillbase" />
             <property name="jakarta.persistence.jdbc.user" value="postgres" />
             <property name="jakarta.persistence.jdbc.password" value="postgres" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
         </properties>
     </persistence-unit>
 

@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -25,6 +26,7 @@ import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
 
 @Path("/skills")
+@ApplicationScoped
 public class CatalogSkillsREST {
 
     @Inject

@@ -23,6 +23,25 @@
 
     <plugins>
         
+
+
+      <plugin>
+        <artifactId>docker-maven-plugin</artifactId>
+        <groupId>io.fabric8</groupId>
+        <version>0.44.0</version>
+        <configuration>
+          <images>
+            <image>
+              <registry>127.0.0.1:5000</registry>
+              <name>catalog</name>
+              <build>
+                <dockerFileDir>${project.dir}</dockerFileDir>
+              </build>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
+
       <plugin>
         <artifactId>tf-maven-plugin</artifactId>
         <groupId>com.deliveredtechnologies</groupId>

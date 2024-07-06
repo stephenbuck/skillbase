@@ -22,7 +22,7 @@ public interface CatalogCategoryRepo {
 
     public Optional<CatalogCategory> findById(@NotNull UUID id);
 
-    public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit);
+    public List<CatalogCategory> findAll(); // @Null String sort, @Null Integer offset, @Null Integer limit);
 
     public List<CatalogCategory> findAllByParentId(@NotNull UUID parentId, @Null String sort, @Null Integer offset,
             @Null Integer limit);

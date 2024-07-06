@@ -8,6 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.kafka.CloudEventSerializer;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSProducer;
+import jakarta.jms.Topic;
 import jakarta.transaction.Transactional;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -19,10 +25,31 @@ import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
 
 @Slf4j
+@ApplicationScoped
 public class CatalogProducerProviderKafka implements CatalogProducerProvider {
+
+//    @Resource(lookup = "java:/KafkaConnectionFactory")
+//    private static ConnectionFactory connectionFactory;
+
+//    @Resource(lookup = "java:/topic/com.headspin.skillbase.catalog.event")
+//    private static Topic topic;
 
     @Override
     @Transactional
+    public void produce(CatalogEvent event) {
+
+        log.info("$$$$$$$$$$$$$$$ produce()");
+        log.info(String.valueOf(event));
+        /*
+        try (JMSContext context = connectionFactory.createContext();) {
+            JMSProducer producer = context.createProducer();
+            producer.send(topic, event);
+        }
+        */
+    }
+
+    /*
+    @Override
     public void produce(CatalogEvent event) {
 
         log.info("produce");
@@ -45,4 +72,5 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
             producer.send(new ProducerRecord<>("com.headspin.skillbase.catalog.event", cloudEvent));
         }
     }
+    */
 }

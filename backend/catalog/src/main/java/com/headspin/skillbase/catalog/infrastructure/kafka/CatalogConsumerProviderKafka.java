@@ -24,6 +24,7 @@ public class CatalogConsumerProviderKafka implements CatalogConsumerProvider {
     public void consume() {
 
         log.info("consume");
+        /*
 
         Properties props = new Properties();
 
@@ -39,5 +40,6 @@ public class CatalogConsumerProviderKafka implements CatalogConsumerProvider {
                 log.info(rec.value().toString());
             });
         }
+        */
     }
 }

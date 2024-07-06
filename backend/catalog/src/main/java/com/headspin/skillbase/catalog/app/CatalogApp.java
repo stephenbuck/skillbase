@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Application;
  * CatalogApp is the main entry point.
  */
 
- @ApplicationPath("/catalog")
+@ApplicationPath("/catalog")
 public class CatalogApp extends Application {
 
     @Override

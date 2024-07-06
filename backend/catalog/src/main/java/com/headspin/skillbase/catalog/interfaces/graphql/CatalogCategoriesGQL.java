@@ -46,9 +46,9 @@ public class CatalogCategoriesGQL {
 
     @Query("findAll")
     @Description("findAll")
-    public List<CatalogCategory> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
-            @Name("limit") Integer limit) {
-        return service.findAll(sort, offset, limit);
+    public List<CatalogCategory> findAll() { // @Name("sort") String sort, @Name("offset") Integer offset,
+//            @Name("limit") Integer limit) {
+        return service.findAll(); // sort, offset, limit);
     }
 
     @Query("findAllByParentId")

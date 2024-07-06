@@ -240,7 +240,6 @@ resource "docker_container" "fluentd" {
 }
 */
 
-/*
 ################################################################################
 # Kafka
 ################################################################################
@@ -258,7 +257,6 @@ resource "docker_container" "kafka" {
     external = 9092
   }
 }
-*/
 
 /*
 ################################################################################
@@ -332,7 +330,7 @@ resource "docker_container" "prometheus" {
 ################################################################################
 
 resource "docker_image" "wildfly" {
-  name         = "quay.io/wildfly/wildfly:latest"
+  name         = "skillbase/wildfly:latest"
   keep_locally = true
 }
 
@@ -345,7 +343,7 @@ resource "docker_container" "wildfly" {
   }
   ports {
     internal = 8080
-    external = 18080
+    external = 8081
   }
 }
 

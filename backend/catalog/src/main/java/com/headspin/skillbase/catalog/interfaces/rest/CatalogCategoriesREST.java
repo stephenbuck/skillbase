@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -19,11 +20,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
 
+@Slf4j
 @Path("/categories")
+@ApplicationScoped
 public class CatalogCategoriesREST {
 
     @Inject
@@ -60,9 +64,10 @@ public class CatalogCategoriesREST {
     @Path("/")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
-        return Response.ok(service.findAll(sort, offset, limit)).build();
+    public Response findAll() { // @QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
+//            @QueryParam("limit") Integer limit) {
+        log.info("rest.findAll()");
+        return Response.ok(service.findAll()).build(); // sort, offset, limit)).build();
     }
 
     @GET

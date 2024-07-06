@@ -55,12 +55,12 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     }
 
     @Override
-    public List<CatalogCategory> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
-        log.info("findAll()");
-        return em.createQuery("SELECT c FROM CatalogCategory c ORDER BY :sort", CatalogCategory.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
-                .setFirstResult(Objects.requireNonNullElse(offset, 0))
-                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+    public List<CatalogCategory> findAll() { // @Null String sort, @Null Integer offset, @Null Integer limit) {
+        log.info("repo.findAll()");
+        return em.createQuery("SELECT c FROM CatalogCategory c", CatalogCategory.class)
+ //               .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+//                .setFirstResult(Objects.requireNonNullElse(offset, 0))
+ //               .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
