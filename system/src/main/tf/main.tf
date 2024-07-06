@@ -77,30 +77,6 @@ resource "docker_container" "apisix" {
 
 /*
 ################################################################################
-# Nginx
-################################################################################
-
-resource "docker_image" "nginx" {
-  name = "nginx:1.19.0-alpine"
-  keep_locally = true
-}
-
-resource "docker_container" "nginx" {
-  name    = "nginx"
-  image   = docker_image.nginx.image_id
-  restart = "always"
-  env = [
-    "NGINX_PORT=80"
-  ]
-  ports {
-    internal = 80
-    external = 9980
-  }
-}
-*/
-
-/*
-################################################################################
 # Debezium
 ################################################################################
 
@@ -280,6 +256,30 @@ resource "docker_container" "keycloak" {
   depends_on = [
 #    docker_container.postgres
   ]
+}
+*/
+
+/*
+################################################################################
+# Nginx
+################################################################################
+
+resource "docker_image" "nginx" {
+  name = "nginx:1.19.0-alpine"
+  keep_locally = true
+}
+
+resource "docker_container" "nginx" {
+  name    = "nginx"
+  image   = docker_image.nginx.image_id
+  restart = "always"
+  env = [
+    "NGINX_PORT=80"
+  ]
+  ports {
+    internal = 80
+    external = 9980
+  }
 }
 */
 

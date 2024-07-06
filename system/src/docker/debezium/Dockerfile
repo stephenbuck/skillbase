@@ -1,0 +1,1 @@
+FROM debezium/server:latest

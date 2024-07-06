@@ -1,0 +1,1 @@
+FROM flowable/all-in-one:latest

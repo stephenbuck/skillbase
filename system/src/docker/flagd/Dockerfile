@@ -1,0 +1,1 @@
+FROM ghcr.io/open-feature/flagd:latest

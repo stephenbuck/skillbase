@@ -47,45 +47,55 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" >Catalog</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../design/">Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../build/">Build</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../test/">Test</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Services</a>
     <ul class="current">
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">Overview</a>
+                <li class="toctree-l2 current"><a class="reference internal current" >Catalog</a>
+    <ul class="current">
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">Overview</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="design/">Design</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="build/">Build</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="test/">Test</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="deploy/">Deploy</a>
-                </li>
-    </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" >Certify</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../certify/">Overview</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../certify/design/">Design</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../certify/build/">Build</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../certify/test/">Test</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../certify/deploy/">Deploy</a>
+                <li class="toctree-l3"><a class="reference internal" href="endpoints/">Endpoints</a>
                 </li>
     </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" >Identity</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Certify</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../identity/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../certify/">Overview</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../identity/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../certify/design/">Design</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../identity/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../certify/build/">Build</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../identity/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../certify/test/">Test</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../identity/deploy/">Deploy</a>
+                <li class="toctree-l3"><a class="reference internal" href="../certify/endpoints/">Endpoints</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Identity</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../identity/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../identity/design/">Design</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../identity/build/">Build</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../identity/test/">Test</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../identity/endpoints/">Endpoints</a>
+                </li>
+    </ul>
                 </li>
     </ul>
                   </li>
@@ -100,12 +110,16 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../frontend/test/">Test</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../frontend/deploy/">Deploy</a>
-                  </li>
               </ul>
               <p class="caption"><span class="caption-text">System</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../system/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../system/design/">Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../system/build/">Build</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../system/test/">Test</a>
                   </li>
               </ul>
       </div>
@@ -123,6 +137,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Backend</li>
+          <li class="breadcrumb-item">Services</li>
           <li class="breadcrumb-item">Catalog</li>
       <li class="breadcrumb-item active">Overview</li>
     <li class="wy-breadcrumbs-aside">
@@ -133,30 +148,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>*** Work in Progress ***</p>
-<p>Instructions:</p>
-<ul>
-<li>Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')</li>
-<li>Type 'sudo mvn liquibase:help' for Liquibase tool</li>
-<li>Type 'sudo mvn docker:help' for Docker tool</li>
-<li>Type 'sudo mvn wildfly:help' for Wildfly tool</li>
-</ul>
-<p>REST Endpoints:</p>
-<ul>
-<li>Open '/catalog' for catalog REST endpoint</li>
-<li>Open '/catalog/categories' for categories REST endpoint</li>
-<li>Open '/catalog/skills' for skills REST endpoint</li>
-</ul>
-<p>GraphQL Endpoints:</p>
-<ul>
-<li>Open './target/generated/schema.graphql' for GraphQL schema</li>
-</ul>
-<p>Links:</p>
+                <p>Overview:</p>
+<p>The catalog service provides skillbase-specific functionality.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../test/" class="btn btn-neutral float-left" title="Test"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="design/" class="btn btn-neutral float-right" title="Design">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -180,7 +178,7 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../test/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="design/" style="color: #fcfcfc">Next &raquo;</a></span>

@@ -3,32 +3,38 @@ nav:
   - 'Home': 'index.md'
   - 'Backend':
     - 'Overview': 'backend/index.md'
-    - 'Catalog': 
-      - 'Overview': 'backend/catalog/index.md'
-      - 'Design': 'backend/catalog/design.md'
-      - 'Build': 'backend/catalog/build.md'
-      - 'Test': 'backend/catalog/test.md'
-      - 'Deploy': 'backend/catalog/deploy.md'
-    - 'Certify':
-      - 'Overview': 'backend/certify/index.md'
-      - 'Design': 'backend/certify/design.md'
-      - 'Build': 'backend/certify/build.md'
-      - 'Test': 'backend/certify/test.md'
-      - 'Deploy': 'backend/certify/deploy.md'
-    - 'Identity':
-      - 'Overview': 'backend/identity/index.md'
-      - 'Design': 'backend/identity/design.md'
-      - 'Build': 'backend/identity/build.md'
-      - 'Test': 'backend/identity/test.md'
-      - 'Deploy': 'backend/identity/deploy.md'
+    - 'Design': 'backend/design.md'
+    - 'Build': 'backend/build.md'
+    - 'Test': 'backend/test.md'
+    - 'Services':
+      - 'Catalog':
+        - 'Overview': 'backend/catalog/index.md'
+        - 'Design': 'backend/catalog/design.md'
+        - 'Build': 'backend/catalog/build.md'
+        - 'Test': 'backend/catalog/test.md'
+        - 'Endpoints': 'backend/catalog/endpoints.md'
+      - 'Certify':
+        - 'Overview': 'backend/certify/index.md'
+        - 'Design': 'backend/certify/design.md'
+        - 'Build': 'backend/certify/build.md'
+        - 'Test': 'backend/certify/test.md'
+        - 'Endpoints': 'backend/certify/endpoints.md'
+      - 'Identity':
+        - 'Overview': 'backend/identity/index.md'
+        - 'Design': 'backend/identity/design.md'
+        - 'Build': 'backend/identity/build.md'
+        - 'Test': 'backend/identity/test.md'
+        - 'Endpoints': 'backend/identity/endpoints.md'
   - 'Frontend':
       - 'Overview': 'frontend/index.md'
       - 'Design': 'frontend/design.md'
       - 'Build': 'frontend/build.md'
       - 'Test': 'frontend/test.md'
-      - 'Deploy': 'frontend/deploy.md'
   - 'System':
     - 'Overview': 'system/index.md'
+    - 'Design': 'system/design.md'
+    - 'Build': 'system/build.md'
+    - 'Test': 'system/test.md'
 
 theme: readthedocs
 
