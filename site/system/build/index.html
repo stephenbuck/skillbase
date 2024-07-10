@@ -146,21 +146,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Build:</p>
+                <p><strong>Build:</strong></p>
+<p><strong>Commands:</strong></p>
 <ul>
 <li>Type 'sudo mvn tf:apply' to apply terraform plan</li>
 <li>Type 'sudo mvn tf:destroy' to destroy terraform plan</li>
 </ul>
-<p>Tools:</p>
+<p><strong>Tools:</strong></p>
 <ul>
 <li>Type 'sudo docker ps' to see container status</li>
-<li>Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')</li>
-<li>Open 'http://localhost:9013' for ApiSix tool</li>
-<li>Open 'http://localhost:8080/flowable-admin' for Flowable tool</li>
-<li>Open 'http://localhost:8080/admin' for Keycloak tool</li>
-<li>Open 'http://localhost:9080' for Ngnix tool</li>
+<li>Type 'psql -d skillbase -U postgres -h 172.17.0.1 -p 5432' for PostgreSQL tool (password is 'postgres')</li>
+<li>Open 'http://172.17.0.1:9013' for ApiSix tool</li>
+<li>Open 'http://172.17.0.1:8080/flowable-admin' for Flowable tool</li>
+<li>Open 'http://172.17.0.1:8081/admin' for Keycloak tool</li>
+<li>Open 'http://172.17.0.1:9080' for Ngnix tool</li>
 </ul>
-<p>Links:</p>
+<p><strong>Links:</strong></p>
 <ul>
 <li>See https://github.com/deliveredtechnologies/terraform-maven</li>
 </ul>

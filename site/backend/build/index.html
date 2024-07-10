@@ -146,7 +146,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Build:</p>
+                <p><strong>Build:</strong></p>
 <p>The Skillbase backend is built using Maven and a variety of plugins for dependency management, packaging, source formatting, etc.</p>
 <p>The Docker container names are:</p>
 <ul>
@@ -154,29 +154,20 @@
 <li>'skillbase/workflow:latest'</li>
 <li>'skillbase/member:latest'</li>
 </ul>
-<p>Clean:</p>
+<p><strong>Commands:</strong></p>
 <ul>
 <li>Type 'mvn clean' to clean</li>
-</ul>
-<p>Build:</p>
-<ul>
 <li>Type 'mvn verify' to build</li>
-</ul>
-<p>Test:</p>
-<ul>
 <li>Type 'mvn test' to test</li>
-</ul>
-<p>Deploy:</p>
-<ul>
 <li>Type 'mvn wildfly:deploy' to deploy</li>
 </ul>
-<p>Tools:</p>
+<p><strong>Tools:</strong></p>
 <ul>
-<li>Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')</li>
-<li>Type 'sudo mvn liquibase:help' for Liquibase tool</li>
+<li>Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')Type 'sudo mvn liquibase:help' for Liquibase tool</li>
 <li>Type 'sudo mvn docker:help' for Docker tool</li>
 <li>Type 'sudo mvn wildfly:help' for Wildfly tool</li>
 </ul>
+<hr />
 <p>Change-Data Capture (Debezium)</p>
 <p>See http://debezium.io</p>
 <p>Database Changes (Liquibase)</p>

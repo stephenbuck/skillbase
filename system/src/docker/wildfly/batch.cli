@@ -6,6 +6,4 @@ module add --name=org.postgres --resources=postgresql-42.7.3.jar --dependencies=
 
 deploy /opt/jboss/wildfly/postgresql-42.7.3.jar
 
-deploy /opt/jboss/wildfly/kafka-rar-1.0.0.rar
-
 run-batch

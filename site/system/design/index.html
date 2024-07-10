@@ -146,36 +146,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Design:</p>
-<p>The Skillbase backend is designed a set of distributed microservices running in Docker containers. Each component of the backend is packaged into a custom Docker image derived from a standard image. For example, the 'skillbase/postgres' image is derived from the standard 'postgres' image, but adds configuration information, etc. </p>
+                <p><strong>Design:</strong></p>
+<p>The Skillbase backend is designed a set of distributed microservices running in Docker containers. Each component of the backend is packaged into a custom Docker image derived from a standard image. For example, the 'skillbase/postgres' image is derived from the standard 'postgres' image, but adds configuration information, etc.</p>
 <p><img alt="image" src="https://github.com/stephenbuck/skillbase/assets/1750488/857efe62-18e9-4426-b38f-1d339c8b4a8c" /></p>
-<p>The Docker container names are:</p>
+<p><strong>Containers:</strong>**</p>
+<p><strong>Database (skillbase/postgres):</strong></p>
+<p>Database functionality (Postgres) runs in a custom container derived from the 'postges:latest' image.</p>
 <ul>
-<li>'skillbase/apisix:latest'</li>
-<li>'skillbase/debezium:latest'</li>
-<li>'skillbase/etcd:latest'</li>
-<li>'skillbase/flagd:latest'</li>
-<li>'skillbase/flowable:latest'</li>
-<li>'skillbase/fluentd:latest'</li>
-<li>'skillbase/kafka:latest'</li>
-<li>'skillbase/keycloak:latest'</li>
-<li>'skillbase/nginx:latest'</li>
-<li>'skillbase/postgres:latest'</li>
-<li>'skillbase/wildfly:latest'</li>
+<li>See https://postgresql.org</li>
 </ul>
-<p>The containers used are:</p>
-<p>API Gateway (ApiSix):</p>
-<p>API gateway functionality is provided by ApiSix.</p>
+<p><strong>Features (skillbase/flagd):</strong></p>
+<p>Feature flag functionality (Flagd) runs in a custom container derived from the
+'ghcr.io/open-feature/flagd:latest' image.</p>
 <ul>
-<li>See https://apisix.apache.org</li>
-<li>Image skillbase/apisix</li>
+<li>See https://flagd.io</li>
 </ul>
-<p>Security (Keycloak):</p>
-<p>Security functionality (authentication and authorization) is provided by Keycloak. Integration with Keycloak is through its client implementation.</p>
+<p><strong>Identity (skillbase/keycloak):</strong></p>
+<p>Identity functionaliy (Keycloak) runs in a custom container derived from the
+'quay.io/keycloak/keycloak:latest' image.</p>
 <ul>
 <li>See https://www.keycloak.org</li>
-<li>Image skillbase/keycloak</li>
 </ul>
+<p><strong>Messaging (skillbase/kafka):</strong></p>
+<p>Messaging functionality (Kafka) runs in a custom container derived from the 'bitnami/kafka:latest' image.</p>
+<ul>
+<li>See https://kafka.apache.org</li>
+</ul>
+<p><strong>Runtime (skillbase/wildfly):</strong></p>
+<p>Runtime functionality (Wildfly) runs in a custom container derived from the
+'quay.io/wildfly/wildfly:latest' image.</p>
+<ul>
+<li>See https://www.wildfly.org</li>
+</ul>
+<p><strong>Workflow (skillbase/flowable):</strong></p>
+<p>Workflow functionality (Flowable) runs in a custom container derived from the
+'flowable/flowable-rest:latest' image.</p>
+<ul>
+<li>See https://www.flowable.org</li>
+</ul>
+<hr />
 <p>Caching (Redis):</p>
 <p>Caching functionality is provided by Redis. Integration with Redis is through its client implementation.</p>
 <ul>
@@ -194,23 +203,11 @@
 <li>See https://etcd.io</li>
 <li>Image skillbase/etcd</li>
 </ul>
-<p>Features (Flagd):</p>
-<p>Feature flag functionality is provided by Flagd. Integration with Flagd is through its provider implementation.</p>
-<ul>
-<li>See https://flagd.io</li>
-<li>Image skillbase/flagd</li>
-</ul>
 <p>Logging (Fluentd):</p>
 <p>Logging aggregation is provided by Fluentd.</p>
 <ul>
 <li>See https://fluentd.org</li>
 <li>Image skillbase/fluentd</li>
-</ul>
-<p>Messaging (Kafka):</p>
-<p>Messaging functionality is provided by Kafka. Integration with Kafka is through its JMS client libary.</p>
-<ul>
-<li>See https://kafka.apache.org</li>
-<li>Image skillbase/kafka</li>
 </ul>
 <p>Monitoring (Prometheus):</p>
 <p>Monitoring functionality is provided by Prometheus.</p>
@@ -218,29 +215,11 @@
 <li>See https://prometheus.io</li>
 <li>Image skillbase/prometheus</li>
 </ul>
-<p>Persistence (Postgres):</p>
-<p>Persistence functionality is provided by Postgres. Integration with Postgres is through its JDBC driver.</p>
-<ul>
-<li>See https://postgresql.org</li>
-<li>Image skillbase/postgres</li>
-</ul>
-<p>Runtime (Wildfly):</p>
-<p>Runtime functionality is provided by jBoss Wildfly. Integration with Wildfly is through its management interfaces.</p>
-<ul>
-<li>Image skillbase/wildfly</li>
-<li>See https://www.wildfly.org</li>
-</ul>
 <p>Web (Nginx):</p>
 <p>Web functionality is provided by Nginx.</p>
 <ul>
 <li>See https://nginx.org</li>
 <li>Image skillbase/nginx</li>
-</ul>
-<p>Workflow (Flowable):</p>
-<p>Workflow functionality is provided by a third-party BPM: Flowable. Integration with Flowable is through its REST endpoints. Skillbase entities are associated with Flowable entities via a peer_id.</p>
-<ul>
-<li>See https://www.flowable.org</li>
-<li>Image skillbase/flowable</li>
 </ul>
 <p>Links:</p>
 <p>https://docker.com

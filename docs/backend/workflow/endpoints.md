@@ -1,13 +1,11 @@
+**Endpoints:**
 
-Endpoints:
-
-REST Endpoints:
+**REST Endpoints:**
 
 * '/workflow'
 * '/workflow/models'
 * '/workflow/processes'
 
-GraphQL Endpoints:
+**GraphQL Endpoints:**
 
 * Open './target/generated/schema.graphql' for GraphQL schema
-

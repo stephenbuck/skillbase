@@ -1,13 +1,11 @@
+**Endpoints:**
 
-Endpoints:
-
-REST Endpoints:
+**REST Endpoints:**
 
 * '/member'
 * '/member/groups'
 * '/member/users'
 
-GraphQL Endpoints:
+**GraphQL Endpoints:**
 
 * Open './target/generated/schema.graphql' for GraphQL schema
-

@@ -1,13 +1,11 @@
+**Endpoints:**
 
-Endpoints:
-
-REST Endpoints:
+**REST Endpoints:**
 
 * '/catalog'
 * '/catalog/categories'
 * '/catalog/skills'
 
-GraphQL Endpoints:
+**GraphQL Endpoints:**
 
 * Open './target/generated/schema.graphql' for GraphQL schema
-

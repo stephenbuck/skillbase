@@ -35,7 +35,7 @@ terraform {
 provider "docker" {
   host = "unix:///var/run/docker.sock"
   registry_auth {
-    address = "172.17.0.1:5000"
+    address  = "172.17.0.1:5000"
     username = "stephenbuck"
     password = "buckstephen"
   }
@@ -60,7 +60,6 @@ resource "docker_container" "apisix" {
   name         = "apisix"
   image        = docker_image.apisix.image_id
   restart      = "always"
-  network_mode = "host"
   env = [
     "APISIX_STAND_ALONE=true"
   ]
@@ -92,7 +91,6 @@ resource "docker_container" "debezium" {
   name         = "debezium"
   image        = docker_image.debezium.image_id
   restart      = "always"
-  network_mode = "host"
   ports {
     internal = 8085
     external = 8085
@@ -126,7 +124,6 @@ resource "docker_container" "etcd" {
   name         = "etcd"
   image        = docker_image.etcd.image_id
   restart      = "always"
-  network_mode = "host"
   env = [
     "ETCD_ENABLE_V2=true",
     "ALLOW_NONE_AUTHENTICATION=yes",
@@ -164,7 +161,7 @@ resource "docker_image" "flagd" {
 resource "docker_container" "flagd" {
   name         = "flagd"
   image        = docker_image.flagd.image_id
-  network_mode = "host"
+  stdin_open = true
   volumes {
     container_path = "/etc/flagd"
     host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd"
@@ -173,7 +170,6 @@ resource "docker_container" "flagd" {
       internal = 8013
       external = 8013
   }
-  stdin_open = true
 #  command = ["start", "-f", "file:/etc/flagd/demo.flagd.json"]
   command = ["start", "--uri", "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"]
 }
@@ -189,14 +185,14 @@ resource "docker_image" "flowable" {
 }
 
 resource "docker_container" "flowable" {
-  name         = "flowable"
-  image        = docker_image.flowable.image_id
+  name  = "flowable"
+  image = docker_image.flowable.image_id
   ports {
     internal = 8080
     external = 8081
   }
   depends_on = [
-#    docker_container.postgres
+    docker_container.postgres
   ]
 }
 
@@ -213,7 +209,6 @@ resource "docker_image" "fluentd" {
 resource "docker_container" "fluentd" {
   name         = "fluentd"
   image        = docker_image.fluentd.image_id
-  network_mode = "host"
   ports {
     internal = 9880
     external = 9880
@@ -266,7 +261,6 @@ resource "docker_container" "kafka" {
 }
 */
 
-/*
 ################################################################################
 # KeyCloak
 ################################################################################
@@ -277,19 +271,21 @@ resource "docker_image" "keycloak" {
 }
 
 resource "docker_container" "keycloak" {
-  name         = "keycloak"
-  image        = docker_image.keycloak.image_id
-  env          = ["KEYCLOAK_ADMIN=admin", "KEYCLOAK_ADMIN_PASSWORD=admin"]
+  name  = "keycloak"
+  image = docker_image.keycloak.image_id
+  env = [
+    "KEYCLOAK_ADMIN=admin",
+    "KEYCLOAK_ADMIN_PASSWORD=admin"
+  ]
   ports {
     internal = 8080
     external = 18080
   }
-  command = ["start-dev"]
   depends_on = [
     docker_container.postgres
   ]
+  command = ["start-dev"]
 }
-*/
 
 /*
 ################################################################################
@@ -304,7 +300,6 @@ resource "docker_image" "nginx" {
 resource "docker_container" "nginx" {
   name         = "nginx"
   image        = docker_image.nginx.image_id
-  network_mode = "host"
   restart      = "always"
   env = [
     "NGINX_PORT=80"
@@ -326,12 +321,9 @@ resource "docker_image" "postgres" {
 }
 
 resource "docker_container" "postgres" {
-  name         = "postgres"
-  image        = docker_image.postgres.image_id
-#  networks_advanced {
-#    name = "skillbase"
-#  }
-  env   = [
+  name  = "postgres"
+  image = docker_image.postgres.image_id
+  env = [
     "POSTGRES_USER=postgres",
     "POSTGRES_PASSWORD=postgres"
   ]
@@ -346,14 +338,14 @@ resource "docker_container" "postgres" {
 ################################################################################
 
 resource "docker_image" "registry" {
-   name         = "registry:latest"
-   keep_locally = true
+  name         = "registry:latest"
+  keep_locally = true
 }
 
 resource "docker_container" "registry" {
-  name         = "registry"
-  image        = docker_image.registry.image_id
-  restart      = "always"
+  name    = "registry"
+  image   = docker_image.registry.image_id
+  restart = "always"
   ports {
     internal = 5000
     external = 5000
@@ -373,7 +365,6 @@ resource "docker_image" "prometheus" {
 resource "docker_container" "prometheus" {
   name         = "prometheus"
   image        = docker_image.prometheus.image_id
-  network_mode = "host"
   ports {
     internal = 9090
     external = 9090
@@ -386,13 +377,13 @@ resource "docker_container" "prometheus" {
 ################################################################################
 
 resource "docker_image" "wildfly" {
-  name         = "skillbase/wildfly:${var.skillbase_tag}" # "quay.io/wildfly/wildfly:latest"
+  name         = "skillbase/wildfly:${var.skillbase_tag}"
   keep_locally = true
 }
 
 resource "docker_container" "wildfly" {
-  name         = "wildfly"
-  image        = docker_image.wildfly.image_id
+  name  = "wildfly"
+  image = docker_image.wildfly.image_id
   ports {
     internal = 9990
     external = 9990
@@ -403,7 +394,7 @@ resource "docker_container" "wildfly" {
   }
   host {
     host = "localhost"
-    ip = "0.0.0.0"
+    ip   = "0.0.0.0"
   }
   env = [
     "WILDFLY_BIND_INTERFACE=0.0.0.0",
@@ -411,7 +402,6 @@ resource "docker_container" "wildfly" {
   ]
   depends_on = [
     docker_container.postgres
-#    docker_container.kafka
   ]
 }
 

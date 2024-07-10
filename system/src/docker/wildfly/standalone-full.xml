@@ -570,7 +570,6 @@
                 <pooled-connection-factory name="activemq-ra"
                     entries="java:/JmsXA java:jboss/DefaultJMSConnectionFactory" connectors="in-vm"
                     transaction="xa" />
-                <jms-topic name="com.headspin.skillbase.catalog.event" entries="java:/jms/topic/com.headspin.skillbase.catalog.event"/>            
                 </server>
         </subsystem>
         <subsystem xmlns="urn:wildfly:metrics:1.0" security-enabled="false" exposed-subsystems="*"
@@ -589,28 +588,6 @@
         <subsystem xmlns="urn:jboss:domain:request-controller:1.0" />
 
         <subsystem xmlns="urn:jboss:domain:resource-adapters:7.1">
-            <resource-adapters>
-                <resource-adapter id="kafka">
-                    <archive>
-                        kafka-rar-1.0.0.rar
-                    </archive>
-                    <transaction-support>XATransaction</transaction-support>
-                    <connection-definitions>
-                        <connection-definition
-                            class-name="fish.payara.cloud.connectors.kafka.outbound.KafkaManagedConnectionFactory"
-                            jndi-name="java:/KafkaConnectionFactory" enabled="true"
-                            connectable="true" pool-name="KafkaConnectionFactory">
-							<config-property name="bootstrapServersConfig">172.17.0.1:9092</config-property>
-                            <xa-pool>
-                                <min-pool-size>1</min-pool-size>
-                                <max-pool-size>20</max-pool-size>
-                                <prefill>false</prefill>
-                                <is-same-rm-override>false</is-same-rm-override>
-                            </xa-pool>
-                        </connection-definition>
-                    </connection-definitions>
-                </resource-adapter>
-            </resource-adapters>
         </subsystem>
 
         <subsystem xmlns="urn:jboss:domain:sar:1.0" />
