@@ -26,27 +26,23 @@ import jakarta.validation.constraints.NotNull;
 
 @Stateless
 @PermitAll
-// @DeclareRoles({ "Admin", "User" })
+// @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
+// @DeclareRoles(SecurityRole.list())
 public class CatalogCategoryService {
 
-    /*
     @Resource
     private SessionContext ctx;
-    */
     
     @Inject
     private CatalogCategoryRepo repo;
 
-    /*
-    @Inject
-    CatalogProducerProvider prod; // = null; // new CatalogProducerProviderKafka();
-    */
+    CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public UUID insert(@NotNull @Valid CatalogCategory user) {
-        UUID id = repo.insert(user);
-//        prod.produce(CatalogEvent.buildEvent(user.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
+    public UUID insert(@NotNull @Valid CatalogCategory category) {
+        UUID id = repo.insert(category);
+        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
         return id;
     }
 
@@ -54,14 +50,14 @@ public class CatalogCategoryService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-//        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CATEGORY_DELETED));
+        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CATEGORY_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public CatalogCategory update(@NotNull @Valid CatalogCategory user) {
-        CatalogCategory updated = repo.update(user);
-//        prod.produce(CatalogEvent.buildEvent(user.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
+    public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
+        CatalogCategory updated = repo.update(category);
+        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
         return updated;
     }
 
@@ -83,6 +79,7 @@ public class CatalogCategoryService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_CATEGORY_UPDATED));
         return repo.count();
     }
 }

@@ -196,11 +196,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowable</groupId>
-      <artifactId>flowable-engine</artifactId>
-    </dependency>
-  
-    <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
     </dependency>

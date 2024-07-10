@@ -1,3 +1,7 @@
+pushd src/docker/flowable
+sudo docker build -t skillbase/flowable:latest . < Dockerfile
+popd
+
 pushd src/docker/kafka
 sudo docker build -t skillbase/kafka:latest . < Dockerfile
 popd

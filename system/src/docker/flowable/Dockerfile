@@ -1,1 +1,1 @@
-FROM flowable/all-in-one:latest
+FROM flowable/flowable-rest:latest

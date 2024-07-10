@@ -2,49 +2,59 @@ package com.headspin.skillbase.workflow.infrastructure.flowable;
 
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+
 import lombok.extern.slf4j.Slf4j;
 
-import org.flowable.engine.repository.Deployment;
-import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.task.api.Task;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.flowable.engine.ProcessEngine;
-import org.flowable.engine.ProcessEngineConfiguration;
-import org.flowable.engine.RepositoryService;
-import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
-import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import java.util.Base64;
 
 @Slf4j
-@ApplicationScoped
 public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
-    private ProcessEngineConfiguration config;
-    private ProcessEngine processEngine;
-    private RepositoryService repositoryService;
-
     public WorkflowEngineProviderFlowable() {
-        log.info("workflow");
-
-        config = new StandaloneProcessEngineConfiguration()
-                .setJdbcUrl("jdbc:h2:mem:flowable;DB_CLOSE_DELAY=-1")
-                .setJdbcUsername("sa").setJdbcPassword("")
-                .setJdbcDriver("org.h2.Driver")
-                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
-
-        processEngine = config.buildProcessEngine();
-
-        repositoryService = processEngine.getRepositoryService();
     }
 
     @Override
     public void test() {
+
+        log.info("TEST TEST TEST");
+
+try {
+
+        Client client = ClientBuilder.newClient();
+        WebTarget base = client.target("http://172.17.0.1:8081/flowable-rest");
+        WebTarget info = base.path("service/repository/deployments");
+
+        String credentials = "rest-admin:test";
+        String base64encoded = Base64.getEncoder().encodeToString(credentials.getBytes());
+
+        String result = info
+//            .path("{id}")
+//            .queryParam("foo", "bar")
+            .request(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + base64encoded)
+            .get(String.class);
+
+
+        log.info("================================");
+        log.info("result = {}", result);
+        log.info("================================");
+}
+catch (Exception e) {
+    log.info(String.valueOf(e));
+}
+
+
+
+
+
+
+        /*
 
         Deployment deployment = repositoryService.createDeployment()
             .addClasspathResource("holiday-request.bpmn20.xml")
@@ -72,6 +82,6 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         log.info("You have " + tasks.size() + " tasks:");
         for (int i = 0; i < tasks.size(); i++) {
             log.info((i + 1) + ") " + tasks.get(i).getName());
-        }
+        */
     }
 }

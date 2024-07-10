@@ -226,13 +226,6 @@
       <groupId>org.apache.kafka</groupId>
     </dependency>
 
-    <!--
-    <dependency>
-      <artifactId>keycloak-admin-client</artifactId>
-      <groupId>org.keycloak</groupId>
-    </dependency>
-    -->
-
     <dependency>
       <artifactId>log4j-api</artifactId>
       <groupId>org.apache.logging.log4j</groupId>

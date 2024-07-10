@@ -2,5 +2,5 @@ package com.headspin.skillbase.common.domain;
 
 import java.io.Serializable;
 
-public record DomainValue() implements Serializable {
+public abstract class DomainValue implements Serializable {
 }

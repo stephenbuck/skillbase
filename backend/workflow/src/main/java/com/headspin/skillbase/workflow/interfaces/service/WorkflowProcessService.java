@@ -10,7 +10,9 @@ import java.util.UUID;
 import com.headspin.skillbase.workflow.domain.WorkflowProcess;
 import com.headspin.skillbase.workflow.domain.WorkflowProcessRepo;
 import com.headspin.skillbase.workflow.domain.WorkflowEvent;
+import com.headspin.skillbase.workflow.infrastructure.flowable.WorkflowEngineProviderFlowable;
 import com.headspin.skillbase.workflow.infrastructure.kafka.WorkflowProducerProviderKafka;
+import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 import jakarta.annotation.Resource;
@@ -26,27 +28,25 @@ import jakarta.validation.constraints.NotNull;
 
 @Stateless
 @PermitAll
-// @DeclareRoles({ "Admin", "User" })
+// @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
+// @DeclareRoles(SecurityRole.list())
 public class WorkflowProcessService {
 
-    /*
     @Resource
     private SessionContext ctx;
-    */
     
     @Inject
     private WorkflowProcessRepo repo;
 
-    /*
-    @Inject
-    WorkflowProducerProvider prod; // = null; // new WorkflowProducerProviderKafka();
-    */
+    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
+
+    private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public UUID insert(@NotNull @Valid WorkflowProcess user) {
-        UUID id = repo.insert(user);
-//        prod.produce(WorkflowEvent.buildEvent(user.id, WorkflowEvent.MEMBER_USER_UPDATED));
+    public UUID insert(@NotNull @Valid WorkflowProcess process) {
+        UUID id = repo.insert(process);
+        prod.produce(WorkflowEvent.buildEvent(process.id, WorkflowEvent.WORKFLOW_PROCESS_UPDATED));
         return id;
     }
 
@@ -54,14 +54,14 @@ public class WorkflowProcessService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-//        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.MEMBER_USER_DELETED));
+        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_PROCESS_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public WorkflowProcess update(@NotNull @Valid WorkflowProcess user) {
-        WorkflowProcess updated = repo.update(user);
-//        prod.produce(WorkflowEvent.buildEvent(user.id, WorkflowEvent.MEMBER_USER_UPDATED));
+    public WorkflowProcess update(@NotNull @Valid WorkflowProcess process) {
+        WorkflowProcess updated = repo.update(process);
+        prod.produce(WorkflowEvent.buildEvent(process.id, WorkflowEvent.WORKFLOW_PROCESS_UPDATED));
         return updated;
     }
 
@@ -77,6 +77,8 @@ public class WorkflowProcessService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        work.test();
+        prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_PROCESS_UPDATED));
         return repo.count();
     }
 }

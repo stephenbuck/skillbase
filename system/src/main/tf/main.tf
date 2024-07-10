@@ -179,29 +179,26 @@ resource "docker_container" "flagd" {
 }
 */
 
-/*
 ################################################################################
 # Flowable
 ################################################################################
 
 resource "docker_image" "flowable" {
-  name         = "flowable/all-in-one:latest"
+  name         = "skillbase/flowable:latest"
   keep_locally = true
 }
 
 resource "docker_container" "flowable" {
   name         = "flowable"
   image        = docker_image.flowable.image_id
-  network_mode = "host"
   ports {
     internal = 8080
-    external = 8080
+    external = 8081
   }
   depends_on = [
 #    docker_container.postgres
   ]
 }
-*/
 
 /*
 ################################################################################
@@ -269,6 +266,7 @@ resource "docker_container" "kafka" {
 }
 */
 
+/*
 ################################################################################
 # KeyCloak
 ################################################################################
@@ -291,6 +289,7 @@ resource "docker_container" "keycloak" {
     docker_container.postgres
   ]
 }
+*/
 
 /*
 ################################################################################

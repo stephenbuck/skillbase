@@ -25,25 +25,24 @@ import jakarta.validation.constraints.NotNull;
 
 @Stateless
 @PermitAll
-//@DeclareRoles({ "Admin", "User" })
+// @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
+// @DeclareRoles(SecurityRole.list())
 public class CatalogSkillService {
 
-    /*
     @Resource
     private SessionContext ctx;
-    */
     
     @Inject
     private CatalogSkillRepo repo;
 
 //    @Inject
-//    private CatalogProducerProviderKafka prod = new CatalogProducerProviderKafka();
+    private CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public UUID insert(@NotNull @Valid CatalogSkill group) {
-        UUID id = repo.insert(group);
-//        prod.produce(CatalogEvent.buildEvent(group.id(), CatalogEvent.CATALOG_SKILL_CREATED));
+    public UUID insert(@NotNull @Valid CatalogSkill skill) {
+        UUID id = repo.insert(skill);
+        prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_CREATED));
         return id;
     }
 
@@ -51,14 +50,14 @@ public class CatalogSkillService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-//        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
+        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public CatalogSkill update(@NotNull @Valid CatalogSkill group) {
-        CatalogSkill updated = repo.update(group);
-//        prod.produce(CatalogEvent.buildEvent(group.id(), CatalogEvent.CATALOG_SKILL_UPDATED));
+    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
+        CatalogSkill updated = repo.update(skill);
+        prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_UPDATED));
         return updated;
     }
 
@@ -80,6 +79,7 @@ public class CatalogSkillService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_SKILL_UPDATED));
         return repo.count();
     }
 }

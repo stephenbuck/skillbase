@@ -1,6 +1,7 @@
 package com.headspin.skillbase.workflow.infrastructure.kafka;
 
 import java.net.URI;
+import java.util.Base64;
 import java.util.Properties;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,11 @@ import jakarta.jms.JMSContext;
 import jakarta.jms.JMSProducer;
 import jakarta.jms.Topic;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -43,6 +49,33 @@ public class WorkflowProducerProviderKafka implements WorkflowProducerProvider {
 
         log.info("$$$$$$$$$$$$$$$ produce()");
         log.info(String.valueOf(event));
+
+/*
+try {
+
+        Client client = ClientBuilder.newClient();
+        WebTarget base = client.target("http://172.17.0.1:8081/flowable-rest");
+        WebTarget info = base.path("service/repository/deployments");
+
+        String credentials = "rest-admin:test";
+        String base64encoded = Base64.getEncoder().encodeToString(credentials.getBytes());
+
+        String result = info
+//            .path("{id}")
+//            .queryParam("foo", "bar")
+            .request(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + base64encoded)
+            .get(String.class);
+
+
+        log.info("================================");
+        log.info("result = {}", result);
+        log.info("================================");
+}
+catch (Exception e) {
+    log.info(String.valueOf(e));
+}
+*/
         
 //        try (JMSContext context = connectionFactory.createContext();) {
 //            JMSProducer producer = context.createProducer();

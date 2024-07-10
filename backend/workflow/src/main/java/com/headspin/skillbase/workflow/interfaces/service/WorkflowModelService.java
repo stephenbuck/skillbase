@@ -27,27 +27,25 @@ import jakarta.validation.constraints.NotNull;
 
 @Stateless
 @PermitAll
-//@DeclareRoles({ "Admin", "User" })
+// @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
+// @DeclareRoles(SecurityRole.list())
 public class WorkflowModelService {
 
-    /*
     @Resource
     private SessionContext ctx;
-    */
     
     @Inject
     private WorkflowModelRepo repo;
 
-//    private WorkflowEngineProviderFlowable work = new WorkflowEngineProviderFlowable();
+    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
-//    @Inject
-//    private WorkflowProducerProviderKafka prod = new WorkflowProducerProviderKafka();
+    private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid WorkflowModel model) {
         UUID id = repo.insert(model);
-//        prod.produce(WorkflowEvent.buildEvent(model.id(), WorkflowEvent.MEMBER_GROUP_CREATED));
+        prod.produce(WorkflowEvent.buildEvent(model.id, WorkflowEvent.WORKFLOW_MODEL_CREATED));
         return id;
     }
 
@@ -55,14 +53,14 @@ public class WorkflowModelService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-//        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.MEMBER_GROUP_DELETED));
+        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_MODEL_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
     public WorkflowModel update(@NotNull @Valid WorkflowModel model) {
         WorkflowModel updated = repo.update(model);
-//        prod.produce(WorkflowEvent.buildEvent(model.id(), WorkflowEvent.MEMBER_GROUP_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(model.id, WorkflowEvent.WORKFLOW_MODEL_UPDATED));
         return updated;
     }
 
@@ -78,6 +76,8 @@ public class WorkflowModelService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        work.test();
+        prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_MODEL_UPDATED));
         return repo.count();
     }
 }
