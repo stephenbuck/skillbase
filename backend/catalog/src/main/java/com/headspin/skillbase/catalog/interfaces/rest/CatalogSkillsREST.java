@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -25,25 +24,28 @@ import jakarta.ws.rs.core.Response;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
 
-@Path("/skills")
-@ApplicationScoped
+@Path("skills")
+@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
 public class CatalogSkillsREST {
 
     @Inject
     private CatalogSkillService service;
 
+    public CatalogSkillsREST() {
+    }
+    
     @PUT
-    @Path("/")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public Response insert(CatalogSkill skill) throws URISyntaxException {
-        UUID id = service.insert(skill);
-        URI uri = new URI("/skills/" + id);
+    public Response insert(CatalogSkill group) throws URISyntaxException {
+        UUID id = service.insert(group);
+        URI uri = new URI("/groups/" + id);
         return Response.ok(uri).build();
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("{id}")
     @Operation(summary = "delete")
     public Response delete(@PathParam("id") UUID id) {
         service.delete(id);
@@ -51,25 +53,22 @@ public class CatalogSkillsREST {
     }
 
     @POST
-    @Path("/")
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public Response update(CatalogSkill skill) {
-        return Response.ok(service.update(skill)).build();
+    public Response update(CatalogSkill group) {
+        return Response.ok(service.update(group)).build();
     }
 
     @GET
-    @Path("/")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset,
-            @QueryParam("limit") Integer limit) {
+    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
@@ -82,20 +81,10 @@ public class CatalogSkillsREST {
     }
 
     @GET
-    @Path("/category/{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(summary = "findAllByCategoryId")
-    public List<CatalogSkill> findAllByCategoryId(@PathParam("id") UUID id, @QueryParam("sort") String sort,
-            @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return service.findAllByCategoryId(id, sort, offset, limit);
-    }
-
-    @GET
-    @Path("/count")
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Path("count")
+    @Produces({ MediaType.TEXT_PLAIN })
     @Operation(summary = "count")
     public Response count() {
-        Long count = service.count();
-        return Response.ok(count, MediaType.APPLICATION_JSON).build();
+        return Response.ok(String.valueOf(service.count()), MediaType.APPLICATION_JSON).build();
     }
 }

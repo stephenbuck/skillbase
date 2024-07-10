@@ -19,6 +19,9 @@ import com.headspin.skillbase.catalog.providers.CatalogConsumerProvider;
 @Slf4j
 public class CatalogConsumerProviderKafka implements CatalogConsumerProvider {
 
+    public CatalogConsumerProviderKafka() {
+    }
+
     @Override
     @Transactional
     public void consume() {

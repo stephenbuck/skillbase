@@ -31,8 +31,11 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
 //    @Resource(lookup = "java:/KafkaConnectionFactory")
 //    private static ConnectionFactory connectionFactory;
 
-//    @Resource(lookup = "java:/topic/com.headspin.skillbase.catalog.event")
+//    @Resource(lookup = "java:/jms/topic/com.headspin.skillbase.catalog.event")
 //    private static Topic topic;
+
+    public CatalogProducerProviderKafka() {
+    }
 
     @Override
     @Transactional
@@ -40,12 +43,12 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
 
         log.info("$$$$$$$$$$$$$$$ produce()");
         log.info(String.valueOf(event));
-        /*
-        try (JMSContext context = connectionFactory.createContext();) {
-            JMSProducer producer = context.createProducer();
-            producer.send(topic, event);
-        }
-        */
+        
+//        try (JMSContext context = connectionFactory.createContext();) {
+//            JMSProducer producer = context.createProducer();
+//            producer.send(topic, event);
+//        }
+        
     }
 
     /*

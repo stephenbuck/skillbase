@@ -16,9 +16,14 @@ import jakarta.ws.rs.core.Application;
 @ApplicationPath("/catalog")
 public class CatalogApp extends Application {
 
+    public CatalogApp() {
+    }
+
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classSet = new HashSet<>();
+        classSet.add(CatalogApp.class);
+//        classSet.add(CatalogAppHealth.class);
         classSet.add(CatalogCategoriesREST.class);
         classSet.add(CatalogSkillsREST.class);
         return classSet;

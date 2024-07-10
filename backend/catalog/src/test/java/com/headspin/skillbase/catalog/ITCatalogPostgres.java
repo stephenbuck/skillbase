@@ -33,7 +33,7 @@ public class ITCatalogPostgres {
     @Test
     void test() {
 
-        try (Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:15432/skillbase", "postgres",
+        try (Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/skillbase", "postgres",
                 "postgres")) {
             log.info("con = {}", con);
         } catch (Exception e) {

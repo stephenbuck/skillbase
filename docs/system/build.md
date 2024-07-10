@@ -4,6 +4,7 @@ Build:
 * Type 'sudo mvn tf:apply' to apply terraform plan
 * Type 'sudo mvn tf:destroy' to destroy terraform plan
 
+
 Tools:
 
 * Type 'sudo docker ps' to see container status
@@ -12,3 +13,7 @@ Tools:
 * Open 'http://localhost:8080/flowable-admin' for Flowable tool
 * Open 'http://localhost:8080/admin' for Keycloak tool
 * Open 'http://localhost:9080' for Ngnix tool
+
+Links:
+
+* See https://github.com/deliveredtechnologies/terraform-maven

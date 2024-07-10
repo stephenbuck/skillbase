@@ -1,4 +1,4 @@
-site_name: skillbase
+site_name: Skillbase
 nav:
   - 'Home': 'index.md'
   - 'Backend':
@@ -13,18 +13,18 @@ nav:
         - 'Build': 'backend/catalog/build.md'
         - 'Test': 'backend/catalog/test.md'
         - 'Endpoints': 'backend/catalog/endpoints.md'
-      - 'Certify':
-        - 'Overview': 'backend/certify/index.md'
-        - 'Design': 'backend/certify/design.md'
-        - 'Build': 'backend/certify/build.md'
-        - 'Test': 'backend/certify/test.md'
-        - 'Endpoints': 'backend/certify/endpoints.md'
-      - 'Identity':
-        - 'Overview': 'backend/identity/index.md'
-        - 'Design': 'backend/identity/design.md'
-        - 'Build': 'backend/identity/build.md'
-        - 'Test': 'backend/identity/test.md'
-        - 'Endpoints': 'backend/identity/endpoints.md'
+      - 'Workflow':
+        - 'Overview': 'backend/workflow/index.md'
+        - 'Design': 'backend/workflow/design.md'
+        - 'Build': 'backend/workflow/build.md'
+        - 'Test': 'backend/workflow/test.md'
+        - 'Endpoints': 'backend/workflow/endpoints.md'
+      - 'Member':
+        - 'Overview': 'backend/member/index.md'
+        - 'Design': 'backend/member/design.md'
+        - 'Build': 'backend/member/build.md'
+        - 'Test': 'backend/member/test.md'
+        - 'Endpoints': 'backend/member/endpoints.md'
   - 'Frontend':
       - 'Overview': 'frontend/index.md'
       - 'Design': 'frontend/design.md'

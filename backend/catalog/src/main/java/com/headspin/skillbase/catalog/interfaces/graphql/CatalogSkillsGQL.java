@@ -1,5 +1,6 @@
 package com.headspin.skillbase.catalog.interfaces.graphql;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
@@ -15,15 +16,19 @@ import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
+@ApplicationScoped
 public class CatalogSkillsGQL {
 
     @Inject
     private CatalogSkillService service;
 
+    public CatalogSkillsGQL() {
+    }
+    
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("skill") CatalogSkill skill) {
-        return service.insert(skill);
+    public UUID insert(@Name("group") CatalogSkill group) {
+        return service.insert(group);
     }
 
     @Mutation("delete")
@@ -34,8 +39,8 @@ public class CatalogSkillsGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("skill") CatalogSkill skill) {
-        service.update(skill);
+    public void update(@Name("group") CatalogSkill group) {
+        service.update(group);
     }
 
     @Query("findById")
@@ -49,13 +54,6 @@ public class CatalogSkillsGQL {
     public List<CatalogSkill> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
-    }
-
-    @Query("findAllByCategoryId")
-    @Description("findAllByCategoryId")
-    public List<CatalogSkill> findAllByCategoryId(@Name("category_id") UUID category_id, @Name("sort") String sort,
-            @Name("offset") Integer offset, @Name("limit") Integer limit) {
-        return service.findAllByCategoryId(category_id, sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")

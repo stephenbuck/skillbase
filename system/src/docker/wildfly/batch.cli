@@ -1,14 +1,11 @@
-embed-server --std-out=echo
+embed-server --std-out=echo --server-config=standalone-full.xml
 
 batch
 
 module add --name=org.postgres --resources=postgresql-42.7.3.jar --dependencies=javax.api,javax.transaction.api
 
-/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
-
 deploy /opt/jboss/wildfly/postgresql-42.7.3.jar
 
-data-source add --jndi-name=java:/jdbc/SkillbaseDS --name=SkillbaseDS --connection-url=jdbc:postgresql://localhost:15432/skillbase --driver-name=postgres --user-name=postgres --password=postgres
+deploy /opt/jboss/wildfly/kafka-rar-1.0.0.rar
 
 run-batch
-

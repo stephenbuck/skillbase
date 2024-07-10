@@ -2,16 +2,16 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <name>skillbase-backend-common</name>
+  <name>groupbase-backend-common</name>
   <packaging>jar</packaging>
 
-  <artifactId>skillbase-backend-common</artifactId>
-  <groupId>com.headspin.skillbase</groupId>
+  <artifactId>groupbase-backend-common</artifactId>
+  <groupId>com.headspin.groupbase</groupId>
   <version>0.1</version>
 
   <parent>
-    <artifactId>skillbase-backend</artifactId>
-    <groupId>com.headspin.skillbase</groupId>
+    <artifactId>groupbase-backend</artifactId>
+    <groupId>com.headspin.groupbase</groupId>
     <version>0.1</version>
   </parent>
 
@@ -20,12 +20,17 @@
     <plugins>
 
       <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+
+      <plugin>
         <artifactId>docker-maven-plugin</artifactId>
         <groupId>io.fabric8</groupId>
         <configuration>
           <images>
             <image>
-              <name>skillbase/skill:${project.version}</name>
+              <name>groupbase/group:${project.version}</name>
               <build>
                 <dockerFileDir>${project.dir}</dockerFileDir>
               </build>
@@ -54,7 +59,17 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
 
@@ -65,15 +80,8 @@
 
       <!--
       <plugin>
-        <artifactId>smallrye-openapi-maven-plugin</artifactId>
+        <artifactId>smallrye-open-api-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate-schema</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       -->
 
@@ -92,13 +100,6 @@
       <artifactId>archunit-junit5</artifactId>
       <groupId>com.tngtech.archunit</groupId>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <artifactId>arquillian-bom</artifactId>
-      <groupId>org.jboss.arquillian</groupId>
-      <scope>test</scope>
-      <type>pom</type>
     </dependency>
 
     <dependency>
@@ -122,8 +123,8 @@
     </dependency>
 
     <dependency>
-      <groupId>jakarta.inject</groupId>
       <artifactId>jakarta.inject-api</artifactId>
+      <groupId>jakarta.inject</groupId>
     </dependency>
 
     <dependency>
@@ -189,11 +190,6 @@
     </dependency>
 
     <dependency>
-      <artifactId>postgresql</artifactId>
-      <groupId>org.postgresql</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>
@@ -204,10 +200,48 @@
     </dependency>
 
     <dependency>
-      <artifactId>smallrye-open-api-maven-plugin</artifactId>
+      <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
     </dependency>
 
+    <!-- Test -->
+
+    <dependency>
+      <artifactId>archunit-junit5</artifactId>
+      <groupId>com.tngtech.archunit</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>kafka</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <artifactId>postgresql</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>testcontainers</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+    
   </dependencies>
 
 </project>

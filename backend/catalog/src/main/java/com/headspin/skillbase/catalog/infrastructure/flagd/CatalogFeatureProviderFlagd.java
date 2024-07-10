@@ -4,6 +4,9 @@ import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 
 public class CatalogFeatureProviderFlagd implements CatalogFeatureProvider {
 
+    public CatalogFeatureProviderFlagd() {
+    }
+
     @Override
     public String getValue(String key) {
         return null;

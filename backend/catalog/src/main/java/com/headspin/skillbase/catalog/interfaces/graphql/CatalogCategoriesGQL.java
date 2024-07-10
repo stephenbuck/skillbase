@@ -1,5 +1,6 @@
 package com.headspin.skillbase.catalog.interfaces.graphql;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
@@ -15,15 +16,19 @@ import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
+@ApplicationScoped
 public class CatalogCategoriesGQL {
 
     @Inject
     private CatalogCategoryService service;
 
+    public CatalogCategoriesGQL() {
+    }
+    
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("skill") CatalogCategory category) {
-        return service.insert(category);
+    public UUID insert(@Name("group") CatalogCategory user) {
+        return service.insert(user);
     }
 
     @Mutation("delete")
@@ -34,8 +39,8 @@ public class CatalogCategoriesGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("category") CatalogCategory category) {
-        service.update(category);
+    public void update(@Name("user") CatalogCategory user) {
+        service.update(user);
     }
 
     @Query("findById")
@@ -46,16 +51,9 @@ public class CatalogCategoriesGQL {
 
     @Query("findAll")
     @Description("findAll")
-    public List<CatalogCategory> findAll() { // @Name("sort") String sort, @Name("offset") Integer offset,
-//            @Name("limit") Integer limit) {
-        return service.findAll(); // sort, offset, limit);
-    }
-
-    @Query("findAllByParentId")
-    @Description("findAllByParentId")
-    public List<CatalogCategory> findAllByParentId(@Name("parent_id") UUID parent_id, @Name("sort") String sort,
-            @Name("offset") Integer offset, @Name("limit") Integer limit) {
-        return service.findAllByParentId(parent_id, sort, offset, limit);
+    public List<CatalogCategory> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
+            @Name("limit") Integer limit) {
+        return service.findAll(sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")

@@ -7,12 +7,20 @@ import org.eclipse.microprofile.health.Startup;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 
-@Path("/health")
-@ApplicationScoped
+// Check Kafka
+
+// @Path("health")
+// @Consumes({ MediaType.APPLICATION_JSON })
+// @Produces({ MediaType.APPLICATION_JSON })
 public class CatalogAppHealth {
 
+    public CatalogAppHealth() {
+    }
+/*
     @Produces
     @Readiness
     public HealthCheckResponse readiness() {
@@ -30,4 +38,5 @@ public class CatalogAppHealth {
     public HealthCheckResponse startup() {
         return HealthCheckResponse.up("Catalog Startup OK");
     }
+        */
 }

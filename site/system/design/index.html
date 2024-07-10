@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Design - skillbase</title>
+    <title>Design - Skillbase</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -30,7 +30,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="../.." class="icon icon-home"> skillbase
+          <a href="../.." class="icon icon-home"> Skillbase
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -69,31 +69,31 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Certify</a>
+                <li class="toctree-l2"><a class="reference internal" >Workflow</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/certify/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/workflow/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/certify/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/workflow/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/certify/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/workflow/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/certify/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/workflow/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/certify/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/workflow/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Identity</a>
+                <li class="toctree-l2"><a class="reference internal" >Member</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/identity/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/member/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/identity/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/member/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/identity/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/member/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/identity/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/member/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/identity/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/member/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -129,7 +129,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../..">skillbase</a>
+          <a href="../..">Skillbase</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -147,6 +147,105 @@
             <div class="section" itemprop="articleBody">
               
                 <p>Design:</p>
+<p>The Skillbase backend is designed a set of distributed microservices running in Docker containers. Each component of the backend is packaged into a custom Docker image derived from a standard image. For example, the 'skillbase/postgres' image is derived from the standard 'postgres' image, but adds configuration information, etc. </p>
+<p><img alt="image" src="https://github.com/stephenbuck/skillbase/assets/1750488/857efe62-18e9-4426-b38f-1d339c8b4a8c" /></p>
+<p>The Docker container names are:</p>
+<ul>
+<li>'skillbase/apisix:latest'</li>
+<li>'skillbase/debezium:latest'</li>
+<li>'skillbase/etcd:latest'</li>
+<li>'skillbase/flagd:latest'</li>
+<li>'skillbase/flowable:latest'</li>
+<li>'skillbase/fluentd:latest'</li>
+<li>'skillbase/kafka:latest'</li>
+<li>'skillbase/keycloak:latest'</li>
+<li>'skillbase/nginx:latest'</li>
+<li>'skillbase/postgres:latest'</li>
+<li>'skillbase/wildfly:latest'</li>
+</ul>
+<p>The containers used are:</p>
+<p>API Gateway (ApiSix):</p>
+<p>API gateway functionality is provided by ApiSix.</p>
+<ul>
+<li>See https://apisix.apache.org</li>
+<li>Image skillbase/apisix</li>
+</ul>
+<p>Security (Keycloak):</p>
+<p>Security functionality (authentication and authorization) is provided by Keycloak. Integration with Keycloak is through its client implementation.</p>
+<ul>
+<li>See https://www.keycloak.org</li>
+<li>Image skillbase/keycloak</li>
+</ul>
+<p>Caching (Redis):</p>
+<p>Caching functionality is provided by Redis. Integration with Redis is through its client implementation.</p>
+<ul>
+<li>See https://redis.io</li>
+<li>Image skillbase/redis</li>
+</ul>
+<p>Change-Data (Debezium):</p>
+<p>Change-Data Capture functionality is provided by Debezium. Integration with Debezium is through its Postgres and Kafka interfaces.</p>
+<ul>
+<li>See https://debezium.io</li>
+<li>Image skillbase/debezium</li>
+</ul>
+<p>Configuration (Etcd):</p>
+<p>Configuration functionality is provided by Etcd. Integration with Etcd is through its provider implementation.</p>
+<ul>
+<li>See https://etcd.io</li>
+<li>Image skillbase/etcd</li>
+</ul>
+<p>Features (Flagd):</p>
+<p>Feature flag functionality is provided by Flagd. Integration with Flagd is through its provider implementation.</p>
+<ul>
+<li>See https://flagd.io</li>
+<li>Image skillbase/flagd</li>
+</ul>
+<p>Logging (Fluentd):</p>
+<p>Logging aggregation is provided by Fluentd.</p>
+<ul>
+<li>See https://fluentd.org</li>
+<li>Image skillbase/fluentd</li>
+</ul>
+<p>Messaging (Kafka):</p>
+<p>Messaging functionality is provided by Kafka. Integration with Kafka is through its JMS client libary.</p>
+<ul>
+<li>See https://kafka.apache.org</li>
+<li>Image skillbase/kafka</li>
+</ul>
+<p>Monitoring (Prometheus):</p>
+<p>Monitoring functionality is provided by Prometheus.</p>
+<ul>
+<li>See https://prometheus.io</li>
+<li>Image skillbase/prometheus</li>
+</ul>
+<p>Persistence (Postgres):</p>
+<p>Persistence functionality is provided by Postgres. Integration with Postgres is through its JDBC driver.</p>
+<ul>
+<li>See https://postgresql.org</li>
+<li>Image skillbase/postgres</li>
+</ul>
+<p>Runtime (Wildfly):</p>
+<p>Runtime functionality is provided by jBoss Wildfly. Integration with Wildfly is through its management interfaces.</p>
+<ul>
+<li>Image skillbase/wildfly</li>
+<li>See https://www.wildfly.org</li>
+</ul>
+<p>Web (Nginx):</p>
+<p>Web functionality is provided by Nginx.</p>
+<ul>
+<li>See https://nginx.org</li>
+<li>Image skillbase/nginx</li>
+</ul>
+<p>Workflow (Flowable):</p>
+<p>Workflow functionality is provided by a third-party BPM: Flowable. Integration with Flowable is through its REST endpoints. Skillbase entities are associated with Flowable entities via a peer_id.</p>
+<ul>
+<li>See https://www.flowable.org</li>
+<li>Image skillbase/flowable</li>
+</ul>
+<p>Links:</p>
+<p>https://docker.com
+https://kubernetes.io
+https://terraform.io</p>
               
             </div>
           </div><footer>

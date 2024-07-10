@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence>
+
+    <persistence-unit name="skillbase_member">
+        <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
+        <class>com.headspin.skillbase.member.domain.MemberGroup</class>
+        <class>com.headspin.skillbase.member.domain.MemberRole</class>
+        <class>com.headspin.skillbase.member.domain.MemberUser</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://172.17.0.1:5432/skillbase" />
+            <property name="jakarta.persistence.jdbc.user" value="postgres" />
+            <property name="jakarta.persistence.jdbc.password" value="postgres" />
+        </properties>
+    </persistence-unit>
+
+</persistence>

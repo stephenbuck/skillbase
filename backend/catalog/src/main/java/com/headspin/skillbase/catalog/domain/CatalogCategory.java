@@ -17,17 +17,16 @@ import jakarta.persistence.TemporalType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 @Entity
-@Table(name = "catalog_category")
+@Table(schema = "catalog", name = "category")
 public class CatalogCategory implements Serializable {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
 
         @JsonbProperty("parent_id")
-        @Column(name = "parent_id") @Null public UUID parentId;
+        @Column(name = "parent_id") public UUID parentId;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
@@ -35,12 +34,12 @@ public class CatalogCategory implements Serializable {
         @JsonbProperty("note")
         @Column(name = "note") @NotNull public String note;
 
-//        @JsonbProperty("icon")
-//        @Column(name = "icon") @Null public byte[] icon;
+        @JsonbProperty("image")
+        @Column(name = "image") public byte[] image;
 
         @JsonbProperty("created_at")
         @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date createdAt;
 
         @JsonbProperty("updated_at")
-        @Column(name = "updated_at") @Null @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+        @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
 }

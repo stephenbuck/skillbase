@@ -1,0 +1,86 @@
+package com.headspin.groupbase.workflow.infrastructure.jpa;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import com.headspin.groupbase.workflow.domain.WorkflowModel;
+import com.headspin.groupbase.workflow.domain.WorkflowModelRepo;
+
+@RequestScoped
+public class WorkflowModelRepoJPA implements WorkflowModelRepo {
+
+    @PersistenceContext(name = "groupbase_workflow")
+    private EntityManager em;
+
+    public WorkflowModelRepoJPA() {
+    }
+    
+    @Override
+    @Transactional
+    public UUID insert(@NotNull @Valid WorkflowModel model) {
+        em.persist(model);
+        return model.id;
+    }
+
+    @Override
+    @Transactional
+    public void delete(@NotNull UUID id) {
+        findById(id).ifPresent(em::remove);
+    }
+
+    @Override
+    @Transactional
+    public WorkflowModel update(@NotNull @Valid WorkflowModel model) {
+        return em.merge(model);
+    }
+
+    @Override
+    public Optional<WorkflowModel> findById(@NotNull UUID id) {
+        return Optional.ofNullable(em.find(WorkflowModel.class, id));
+    }
+
+    @Override
+    public List<WorkflowModel> findAll(String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT m FROM WorkflowModel m ORDER BY :sort", WorkflowModel.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 1))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public List<WorkflowModel> findAllBySkillId(@NotNull UUID groupId, String sort, Integer offset,
+            Integer limit) {
+        return em
+                .createQuery("SELECT m FROM WorkflowModel m WHERE m.group_id = :groupId ORDER BY :sort",
+                        WorkflowModel.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 1))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public List<WorkflowModel> findAllByUserId(@NotNull UUID userId, String sort, Integer offset,
+            Integer limit) {
+        return em
+                .createQuery("SELECT m FROM WorkflowModel m WHERE m.user_id = :userId ORDER BY :sort",
+                        WorkflowModel.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 1))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10)).getResultList();
+    }
+
+    @Override
+    public Long count() {
+        return em.createQuery("SELECT COUNT(*) FROM WorkflowModel m", Long.class)
+                .getSingleResult().longValue();
+    }
+}

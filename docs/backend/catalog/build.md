@@ -1,15 +1,26 @@
 
 Build:
 
-* Type 'mvn clean verify' to build
+
+Clean:
+
+* Type 'mvn clean' to clean
+
+
+Build:
+
+* Type 'mvn verify' to build
+
 
 Test:
 
-* Type 'mvn clean test' to test
+* Type 'mvn test' to test
+
 
 Deploy:
 
-* Type 'mvn deploy' to deploy
+* Type 'mvn wildfly:deploy' to deploy
+
 
 Tools:
 

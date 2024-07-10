@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
@@ -24,17 +22,17 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
-@Slf4j
 @Stateless
 @PermitAll
-@DeclareRoles({ "Admin", "User" })
+//@DeclareRoles({ "Admin", "User" })
 public class CatalogSkillService {
 
+    /*
     @Resource
     private SessionContext ctx;
-
+    */
+    
     @Inject
     private CatalogSkillRepo repo;
 
@@ -43,9 +41,9 @@ public class CatalogSkillService {
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public UUID insert(@NotNull @Valid CatalogSkill skill) {
-        UUID id = repo.insert(skill);
-//        prod.produce(CatalogEvent.buildEvent(skill.id(), CatalogEvent.CATALOG_EVENT_SKILL_INSERTED));
+    public UUID insert(@NotNull @Valid CatalogSkill group) {
+        UUID id = repo.insert(group);
+//        prod.produce(CatalogEvent.buildEvent(group.id(), CatalogEvent.CATALOG_SKILL_CREATED));
         return id;
     }
 
@@ -53,14 +51,14 @@ public class CatalogSkillService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-//        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_EVENT_SKILL_DELETED));
+//        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
-        CatalogSkill updated = repo.update(skill);
-//        prod.produce(CatalogEvent.buildEvent(skill.id(), CatalogEvent.CATALOG_EVENT_SKILL_UPDATED));
+    public CatalogSkill update(@NotNull @Valid CatalogSkill group) {
+        CatalogSkill updated = repo.update(group);
+//        prod.produce(CatalogEvent.buildEvent(group.id(), CatalogEvent.CATALOG_SKILL_UPDATED));
         return updated;
     }
 
@@ -70,19 +68,13 @@ public class CatalogSkillService {
     }
 
 //    @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAll(@Null String sort, @Null Integer offset, @Null Integer limit) {
+    public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAllByCategoryId(@NotNull UUID categoryId, @Null String sort, @Null Integer offset,
-            @Null Integer limit) {
-        return repo.findAllByCategoryId(categoryId, sort, offset, limit);
-    }
-
-//    @RolesAllowed({ "Admin" })
-    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, @Null String sort, @Null Integer offset,
-            @Null Integer limit) {
+    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
+            Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
