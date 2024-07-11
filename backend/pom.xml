@@ -128,7 +128,7 @@
           <groupId>org.liquibase</groupId>
           <version>${liquibase.maven.version}</version>
         </plugin>
-     
+       
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
@@ -494,6 +494,7 @@
   </dependencyManagement>
   
   <modules>
+    <module>common</module>
     <module>catalog</module>
     <module>member</module>
     <module>workflow</module>

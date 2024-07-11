@@ -13,45 +13,45 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-import com.headspin.skillbase.catalog.domain.CatalogCategory;
-import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
+import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 
 @RequestScoped
-public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
+public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
 
     @PersistenceContext(name = "skillbase_catalog")
     private EntityManager em;
 
-    public CatalogCategoryRepoJPA() {
+    public CatalogCredentialRepoJPA() {
     }
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogCategory category) {
-        em.persist(category);
-        return category.id;
+    public UUID insert(@NotNull @Valid CatalogCredential credential) {
+        em.persist(credential);
+        return credential.id;
     }
 
     @Override
     @Transactional
     public void delete(@NotNull UUID id) {
-        em.remove(em.find(CatalogCategory.class, id));
+        em.remove(em.find(CatalogCredential.class, id));
     }
 
     @Override
     @Transactional
-    public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
-        return em.merge(category);
+    public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
+        return em.merge(credential);
     }
 
     @Override
-    public Optional<CatalogCategory> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(CatalogCategory.class, id));
+    public Optional<CatalogCredential> findById(@NotNull UUID id) {
+        return Optional.ofNullable(em.find(CatalogCredential.class, id));
     }
 
     @Override
-    public List<CatalogCategory> findAll(String sort, Integer offset, Integer limit) {
-        return em.createQuery("SELECT c FROM CatalogCategory c ORDER BY :sort", CatalogCategory.class)
+    public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT c FROM CatalogCredential c ORDER BY :sort", CatalogCredential.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 1))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
@@ -59,9 +59,9 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     }
 
     @Override
-    public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
+    public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit) {
-        return em.createQuery("SELECT c FROM CatalogCategory c WHERE c.title LIKE ':pattern' ORDER BY :sort", CatalogCategory.class)
+        return em.createQuery("SELECT s FROM CatalogCredential s WHERE s.title LIKE ':pattern' ORDER BY :sort LIMIT :limit OFFSET :offset", CatalogCredential.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 1))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
@@ -70,7 +70,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     public Long count() {
-        return em.createQuery("SELECT COUNT(*) FROM CatalogCategory c", Long.class)
+        return em.createQuery("SELECT COUNT(*) FROM CatalogCredential s", Long.class)
                 .getSingleResult().longValue();
     }
 }

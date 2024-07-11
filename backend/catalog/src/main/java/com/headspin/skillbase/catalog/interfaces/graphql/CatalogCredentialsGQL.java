@@ -3,8 +3,8 @@ package com.headspin.skillbase.catalog.interfaces.graphql;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.headspin.skillbase.catalog.domain.CatalogCategory;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialService;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,18 +17,18 @@ import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
 @ApplicationScoped
-public class CatalogCategoriesGQL {
+public class CatalogCredentialsGQL {
 
     @Inject
-    private CatalogCategoryService service;
+    private CatalogCredentialService service;
 
-    public CatalogCategoriesGQL() {
+    public CatalogCredentialsGQL() {
     }
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("category") CatalogCategory category) {
-        return service.insert(category);
+    public UUID insert(@Name("credential") CatalogCredential credential) {
+        return service.insert(credential);
     }
 
     @Mutation("delete")
@@ -39,26 +39,26 @@ public class CatalogCategoriesGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("category") CatalogCategory category) {
-        service.update(category);
+    public void update(@Name("credential") CatalogCredential credential) {
+        service.update(credential);
     }
 
     @Query("findById")
     @Description("findById")
-    public CatalogCategory findById(@Name("id") UUID id) {
+    public CatalogCredential findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
     @Description("findAll")
-    public List<CatalogCategory> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
+    public List<CatalogCredential> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")
     @Description("findAllByTitleLike")
-    public List<CatalogCategory> findAllByTitleLike(@Name("pattern") String pattern, @Name("sort") String sort,
+    public List<CatalogCredential> findAllByTitleLike(@Name("pattern") String pattern, @Name("sort") String sort,
             @Name("offset") Integer offset, @Name("limit") Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);
     }

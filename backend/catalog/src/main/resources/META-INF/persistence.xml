@@ -4,6 +4,7 @@
     <persistence-unit name="skillbase_catalog">
         <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
         <class>com.headspin.skillbase.catalog.domain.CatalogCategory</class>
+        <class>com.headspin.skillbase.catalog.domain.CatalogCredential</class>
         <class>com.headspin.skillbase.catalog.domain.CatalogSkill</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />

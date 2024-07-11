@@ -27,9 +27,9 @@ public class WorkflowModelRepoJPA implements WorkflowModelRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowModel group) {
-        em.persist(group);
-        return group.id;
+    public UUID insert(@NotNull @Valid WorkflowModel model) {
+        em.persist(model);
+        return model.id;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class WorkflowModelRepoJPA implements WorkflowModelRepo {
 
     @Override
     @Transactional
-    public WorkflowModel update(@NotNull @Valid WorkflowModel group) {
-        return em.merge(group);
+    public WorkflowModel update(@NotNull @Valid WorkflowModel model) {
+        return em.merge(model);
     }
 
     @Override

@@ -27,8 +27,8 @@ public class CatalogSkillsGQL {
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("group") CatalogSkill group) {
-        return service.insert(group);
+    public UUID insert(@Name("skill") CatalogSkill skill) {
+        return service.insert(skill);
     }
 
     @Mutation("delete")
@@ -39,8 +39,8 @@ public class CatalogSkillsGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("group") CatalogSkill group) {
-        service.update(group);
+    public void update(@Name("skill") CatalogSkill skill) {
+        service.update(skill);
     }
 
     @Query("findById")

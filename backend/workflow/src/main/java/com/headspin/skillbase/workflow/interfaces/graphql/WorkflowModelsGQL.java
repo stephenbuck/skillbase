@@ -27,8 +27,8 @@ public class WorkflowModelsGQL {
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("skill") WorkflowModel skill) {
-        return service.insert(skill);
+    public UUID insert(@Name("model") WorkflowModel model) {
+        return service.insert(model);
     }
 
     @Mutation("delete")
@@ -39,8 +39,8 @@ public class WorkflowModelsGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("skill") WorkflowModel skill) {
-        service.update(skill);
+    public void update(@Name("model") WorkflowModel model) {
+        service.update(model);
     }
 
     @Query("findById")

@@ -37,9 +37,9 @@ public class WorkflowModelsREST {
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public Response insert(WorkflowModel group) throws URISyntaxException {
-        UUID id = service.insert(group);
-        URI uri = new URI("/groups/" + id);
+    public Response insert(WorkflowModel model) throws URISyntaxException {
+        UUID id = service.insert(model);
+        URI uri = new URI("/models/" + id);
         return Response.ok(uri).build();
     }
 
@@ -55,8 +55,8 @@ public class WorkflowModelsREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public Response update(WorkflowModel group) {
-        return Response.ok(service.update(group)).build();
+    public Response update(WorkflowModel model) {
+        return Response.ok(service.update(model)).build();
     }
 
     @GET

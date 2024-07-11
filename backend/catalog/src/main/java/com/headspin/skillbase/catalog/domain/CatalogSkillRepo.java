@@ -11,13 +11,13 @@ import jakarta.validation.constraints.NotNull;
 public interface CatalogSkillRepo {
 
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogSkill group);
+    public UUID insert(@NotNull @Valid CatalogSkill skill);
 
     @Transactional
     public void delete(@NotNull UUID id);
 
     @Transactional
-    public CatalogSkill update(@NotNull @Valid CatalogSkill group);
+    public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
 
     public Optional<CatalogSkill> findById(@NotNull UUID id);
 

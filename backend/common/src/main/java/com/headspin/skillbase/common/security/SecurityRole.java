@@ -18,6 +18,6 @@ public enum SecurityRole {
             PUBLISHER.name,
             CREATOR.name,
             MEMBER.name
-        }
+        };
     }
 }

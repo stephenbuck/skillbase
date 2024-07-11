@@ -27,8 +27,8 @@ public class WorkflowProcessesGQL {
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("group") WorkflowProcess user) {
-        return service.insert(user);
+    public UUID insert(@Name("process") WorkflowProcess process) {
+        return service.insert(process);
     }
 
     @Mutation("delete")
@@ -39,8 +39,8 @@ public class WorkflowProcessesGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("user") WorkflowProcess user) {
-        service.update(user);
+    public void update(@Name("process") WorkflowProcess process) {
+        service.update(process);
     }
 
     @Query("findById")

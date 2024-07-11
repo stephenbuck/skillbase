@@ -3,8 +3,8 @@ package com.headspin.skillbase.member.interfaces.graphql;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.headspin.skillbase.member.domain.MemberUser;
-import com.headspin.skillbase.member.interfaces.service.MemberUserService;
+import com.headspin.skillbase.member.domain.MemberAchievement;
+import com.headspin.skillbase.member.interfaces.service.MemberAchievementService;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,18 +17,18 @@ import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
 @ApplicationScoped
-public class MemberUsersGQL {
+public class MemberAchievementsGQL {
 
     @Inject
-    private MemberUserService service;
+    private MemberAchievementService service;
 
-    public MemberUsersGQL() {
+    public MemberAchievementsGQL() {
     }
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("user") MemberUser user) {
-        return service.insert(user);
+    public UUID insert(@Name("achievement") MemberAchievement achievement) {
+        return service.insert(achievement);
     }
 
     @Mutation("delete")
@@ -39,19 +39,19 @@ public class MemberUsersGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("user") MemberUser user) {
-        service.update(user);
+    public void update(@Name("achievement") MemberAchievement achievement) {
+        service.update(achievement);
     }
 
     @Query("findById")
     @Description("findById")
-    public MemberUser findById(@Name("id") UUID id) {
+    public MemberAchievement findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
     @Description("findAll")
-    public List<MemberUser> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
+    public List<MemberAchievement> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }

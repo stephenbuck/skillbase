@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.headspin.skillbase.member.interfaces.rest.MemberUsersREST;
+import com.headspin.skillbase.member.interfaces.rest.MemberAchievementsREST;
 import com.headspin.skillbase.member.interfaces.rest.MemberGroupsREST;
 
 import jakarta.ws.rs.ApplicationPath;
@@ -24,8 +25,9 @@ public class MemberApp extends Application {
         Set<Class<?>> classSet = new HashSet<>();
         classSet.add(MemberApp.class);
 //        classSet.add(MemberAppHealth.class);
-        classSet.add(MemberUsersREST.class);
+        classSet.add(MemberAchievementsREST.class);
         classSet.add(MemberGroupsREST.class);
+        classSet.add(MemberUsersREST.class);
         return classSet;
     }
 }

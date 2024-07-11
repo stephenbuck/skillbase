@@ -44,9 +44,6 @@
               </build>
               <run>
                 <autoRemove>false</autoRemove>
-                <env>
-                  <FOO>BAR</FOO>
-                </env>
                 <ports>8080:8080</ports>
                 <ports>9990:9990</ports>
               </run>

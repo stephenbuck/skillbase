@@ -21,26 +21,26 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialService;
 
-@Path("skills")
+@Path("credentials")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-public class CatalogSkillsREST {
+public class CatalogCredentialsREST {
 
     @Inject
-    private CatalogSkillService service;
+    private CatalogCredentialService service;
 
-    public CatalogSkillsREST() {
+    public CatalogCredentialsREST() {
     }
     
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public Response insert(CatalogSkill skill) throws URISyntaxException {
-        UUID id = service.insert(skill);
-        URI uri = new URI("/skills/" + id);
+    public Response insert(CatalogCredential credential) throws URISyntaxException {
+        UUID id = service.insert(credential);
+        URI uri = new URI("/credentials/" + id);
         return Response.ok(uri).build();
     }
 
@@ -56,8 +56,8 @@ public class CatalogSkillsREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public Response update(CatalogSkill skill) {
-        return Response.ok(service.update(skill)).build();
+    public Response update(CatalogCredential credential) {
+        return Response.ok(service.update(credential)).build();
     }
 
     @GET
@@ -72,7 +72,7 @@ public class CatalogSkillsREST {
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
-        Optional<CatalogSkill> match = service.findById(id);
+        Optional<CatalogCredential> match = service.findById(id);
         if (match.isPresent()) {
             return Response.ok(match).build();
         } else {

@@ -1,3 +1,7 @@
+pushd src/docker/flagd
+sudo docker build -t skillbase/flagd:latest . < Dockerfile
+popd
+
 pushd src/docker/flowable
 sudo docker build -t skillbase/flowable:latest . < Dockerfile
 popd

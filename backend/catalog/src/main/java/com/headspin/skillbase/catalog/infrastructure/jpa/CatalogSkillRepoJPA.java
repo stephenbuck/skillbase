@@ -27,9 +27,9 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogSkill group) {
-        em.persist(group);
-        return group.id;
+    public UUID insert(@NotNull @Valid CatalogSkill skill) {
+        em.persist(skill);
+        return skill.id;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public CatalogSkill update(@NotNull @Valid CatalogSkill group) {
-        return em.merge(group);
+    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
+        return em.merge(skill);
     }
 
     @Override

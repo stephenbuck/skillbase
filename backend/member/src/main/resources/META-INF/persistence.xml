@@ -3,8 +3,9 @@
 
     <persistence-unit name="skillbase_member">
         <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
-        <class>com.headspin.skillbase.member.domain.WorkflowModel</class>
-        <class>com.headspin.skillbase.member.domain.WorkflowProcess</class>
+        <class>com.headspin.skillbase.member.domain.MemberAchievement</class>
+        <class>com.headspin.skillbase.member.domain.MemberGroup</class>
+        <class>com.headspin.skillbase.member.domain.MemberUser</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://172.17.0.1:5432/skillbase"/>

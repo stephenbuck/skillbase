@@ -145,7 +145,6 @@ resource "docker_container" "etcd" {
 }
 */
 
-/*
 ################################################################################
 # Flagd
 ################################################################################
@@ -161,10 +160,10 @@ resource "docker_image" "flagd" {
 resource "docker_container" "flagd" {
   name         = "flagd"
   image        = docker_image.flagd.image_id
-  stdin_open = true
+  stdin_open   = true
   volumes {
     container_path = "/etc/flagd"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd"
+    host_path      = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd"
   }
   ports {
       internal = 8013
@@ -173,7 +172,6 @@ resource "docker_container" "flagd" {
 #  command = ["start", "-f", "file:/etc/flagd/demo.flagd.json"]
   command = ["start", "--uri", "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"]
 }
-*/
 
 ################################################################################
 # Flowable

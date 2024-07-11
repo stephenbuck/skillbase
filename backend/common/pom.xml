@@ -2,16 +2,16 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <name>groupbase-backend-common</name>
+  <name>skillbase-backend-common</name>
   <packaging>jar</packaging>
 
-  <artifactId>groupbase-backend-common</artifactId>
-  <groupId>com.headspin.groupbase</groupId>
+  <artifactId>skillbase-backend-common</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
   <version>0.1</version>
 
   <parent>
-    <artifactId>groupbase-backend</artifactId>
-    <groupId>com.headspin.groupbase</groupId>
+    <artifactId>skillbase-backend</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
     <version>0.1</version>
   </parent>
 
@@ -30,7 +30,7 @@
         <configuration>
           <images>
             <image>
-              <name>groupbase/group:${project.version}</name>
+              <name>skillbase/group:${project.version}</name>
               <build>
                 <dockerFileDir>${project.dir}</dockerFileDir>
               </build>
@@ -77,6 +77,13 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
+
+      <!--
+      <plugin>
+        <artifactId>smallrye-graphql-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+      </plugin>
+      -->
 
       <!--
       <plugin>

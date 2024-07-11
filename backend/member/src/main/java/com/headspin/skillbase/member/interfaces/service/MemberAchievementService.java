@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.headspin.skillbase.member.domain.MemberUser;
+// import lombok.extern.slf4j.Slf4j;
+
+import com.headspin.skillbase.member.domain.MemberAchievement;
+import com.headspin.skillbase.member.domain.MemberAchievementRepo;
 import com.headspin.skillbase.member.domain.MemberEvent;
-import com.headspin.skillbase.member.domain.MemberGroup;
-import com.headspin.skillbase.member.domain.MemberGroupRepo;
 import com.headspin.skillbase.member.infrastructure.kafka.MemberProducerProviderKafka;
 import com.headspin.skillbase.member.infrastructure.keycloak.MemberAuthProviderKeycloak;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
@@ -30,25 +31,25 @@ import jakarta.validation.constraints.NotNull;
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class MemberGroupService {
+public class MemberAchievementService {
 
     @Resource
     private SessionContext ctx;
     
     @Inject
-    private MemberGroupRepo repo;
+    private MemberAchievementRepo repo;
 
 //    @Inject
-    private MemberProducerProvider prod = new MemberProducerProviderKafka();
+    MemberProducerProvider prod = new MemberProducerProviderKafka();
 
 //    @Inject
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public UUID insert(@NotNull @Valid MemberGroup group) {
-        UUID id = repo.insert(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_CREATED));
+    public UUID insert(@NotNull @Valid MemberAchievement achievement) {
+        UUID id = repo.insert(achievement);
+        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_USER_UPDATED));
         return id;
     }
 
@@ -56,31 +57,31 @@ public class MemberGroupService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED));
+        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
-    public MemberGroup update(@NotNull @Valid MemberGroup group) {
-        MemberGroup updated = repo.update(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_UPDATED));
+    public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
+        MemberAchievement updated = repo.update(achievement);
+        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_USER_UPDATED));
         return updated;
     }
 
 //    @RolesAllowed({ "Admin" })
-    public Optional<MemberGroup> findById(@NotNull UUID id) {
+    public Optional<MemberAchievement> findById(@NotNull UUID id) {
         return repo.findById(id);
     }
 
-//    @RolesAllowed({ "Admin" })
-    public List<MemberGroup> findAll(String sort, Integer offset, Integer limit) {
+    //    @RolesAllowed({ "Admin" })
+    public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_GROUP_UPDATED));
+        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
         return repo.count();
     }
 }

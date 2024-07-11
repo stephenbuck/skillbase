@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.headspin.skillbase.catalog.interfaces.rest.CatalogCategoriesREST;
+import com.headspin.skillbase.catalog.interfaces.rest.CatalogCredentialsREST;
 import com.headspin.skillbase.catalog.interfaces.rest.CatalogSkillsREST;
 
 import jakarta.ws.rs.ApplicationPath;
@@ -25,6 +26,7 @@ public class CatalogApp extends Application {
         classSet.add(CatalogApp.class);
 //        classSet.add(CatalogAppHealth.class);
         classSet.add(CatalogCategoriesREST.class);
+        classSet.add(CatalogCredentialsREST.class);
         classSet.add(CatalogSkillsREST.class);
         return classSet;
     }

@@ -36,6 +36,19 @@ CREATE TABLE IF NOT EXISTS member.group (
 insert into member.group(title, note) values('Group-1', 'Note-1');
 insert into member.group(title, note) values('Group-2', 'Note-2');
 
+CREATE TABLE IF NOT EXISTS member.achievement (
+  id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  title                VARCHAR     NOT NULL,
+  note                 VARCHAR     NOT NULL DEFAULT '',
+  image                TEXT            NULL DEFAULT NULL,
+  valid_for            INT             NULL DEFAULT NULL,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP       NULL DEFAULT NULL
+);
+
+insert into member.achievement(title, note) values('Achievement-1', 'Note-1');
+insert into member.achievement(title, note) values('Achievement-2', 'Note-2');
+
 CREATE TABLE IF NOT EXISTS member.outbox (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   event                VARCHAR     NOT NULL,

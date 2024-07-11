@@ -39,7 +39,7 @@ public class MemberUsersREST {
     @Operation(summary = "insert")
     public Response insert(MemberUser user) throws URISyntaxException {
         UUID id = service.insert(user);
-        URI uri = new URI("/categories/" + id);
+        URI uri = new URI("/users/" + id);
         return Response.ok(uri).build();
     }
 

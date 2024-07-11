@@ -27,9 +27,9 @@ public class WorkflowProcessRepoJPA implements WorkflowProcessRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowProcess user) {
-        em.persist(user);
-        return user.id;
+    public UUID insert(@NotNull @Valid WorkflowProcess process) {
+        em.persist(process);
+        return process.id;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class WorkflowProcessRepoJPA implements WorkflowProcessRepo {
 
     @Override
     @Transactional
-    public WorkflowProcess update(@NotNull @Valid WorkflowProcess user) {
-        return em.merge(user);
+    public WorkflowProcess update(@NotNull @Valid WorkflowProcess process) {
+        return em.merge(process);
     }
 
     @Override

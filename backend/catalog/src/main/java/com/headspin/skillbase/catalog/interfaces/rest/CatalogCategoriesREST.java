@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -38,8 +37,8 @@ public class CatalogCategoriesREST {
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
-    public Response insert(CatalogCategory user) throws URISyntaxException {
-        UUID id = service.insert(user);
+    public Response insert(CatalogCategory category) throws URISyntaxException {
+        UUID id = service.insert(category);
         URI uri = new URI("/categories/" + id);
         return Response.ok(uri).build();
     }
@@ -56,8 +55,8 @@ public class CatalogCategoriesREST {
     @Consumes({ MediaType.APPLICATION_JSON })
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
-    public Response update(CatalogCategory user) {
-        return Response.ok(service.update(user)).build();
+    public Response update(CatalogCategory category) {
+        return Response.ok(service.update(category)).build();
     }
 
     @GET
