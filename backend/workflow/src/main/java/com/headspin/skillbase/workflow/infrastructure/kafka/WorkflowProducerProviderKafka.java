@@ -31,7 +31,6 @@ public class WorkflowProducerProviderKafka implements WorkflowProducerProvider {
     @Transactional
     public void produce(WorkflowEvent event) {
 
-        log.info("$$$$$$$$$$$$$$$ produce()");
         log.info(String.valueOf(event));
 
 /*

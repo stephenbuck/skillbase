@@ -24,8 +24,6 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
     @Override
     @Transactional
     public void produce(CatalogEvent event) {
-
-        log.info("$$$$$$$$$$$$$$$ produce()");
         log.info(String.valueOf(event));
     }
 

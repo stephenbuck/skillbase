@@ -192,6 +192,18 @@
       <groupId>io.cloudevents</groupId>
     </dependency>
 
+    <!--
+    <dependency>
+      <artifactId>configsource-etcd</artifactId>
+      <groupId>org.microprofile-ext.config-ext</groupId>
+    </dependency>
+    -->
+
+    <dependency>
+      <artifactId>flagd</artifactId>
+      <groupId>dev.openfeature.contrib.providers</groupId>
+    </dependency>
+
     <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
@@ -279,9 +291,21 @@
     </dependency>
   
     <dependency>
+      <artifactId>sdk</artifactId>
+      <groupId>dev.openfeature</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>smallrye-config</artifactId>
+      <groupId>io.smallrye.config</groupId>
+    </dependency>
+    -->
 
     <dependency>
       <artifactId>smallrye-graphql-api</artifactId>

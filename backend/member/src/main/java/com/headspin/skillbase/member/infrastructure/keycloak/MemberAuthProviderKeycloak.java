@@ -57,32 +57,5 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
     @Override
     public void test() {
         log.info("test");
-
-try {
-
-        Client client = ClientBuilder.newClient();
-        WebTarget base = client.target("http://172.17.0.1:8081/flowable-rest");
-        WebTarget info = base.path("service/repository/deployments");
-
-        String credentials = "rest-admin:test";
-        String base64encoded = Base64.getEncoder().encodeToString(credentials.getBytes());
-
-        String result = info
-//            .path("{id}")
-//            .queryParam("foo", "bar")
-            .request(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, "Basic " + base64encoded)
-            .get(String.class);
-
-
-        log.info("================================");
-        log.info("result = {}", result);
-        log.info("================================");
-}
-catch (Exception e) {
-    log.info(String.valueOf(e));
-}
-
-
     }
 }

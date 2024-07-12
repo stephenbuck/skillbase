@@ -61,17 +61,17 @@ public class CatalogSkillService {
         return updated;
     }
 
-//    @RolesAllowed({ "Admin" })
+//    @RolesAllowed({ "Member" })
     public Optional<CatalogSkill> findById(@NotNull UUID id) {
         return repo.findById(id);
     }
 
-//    @RolesAllowed({ "Admin" })
+//    @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
-//    @RolesAllowed({ "Admin" })
+//    @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
