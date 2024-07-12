@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 
 public interface CatalogProducerProvider {
 
+    public void test();
+    
     @Transactional
     public void produce(CatalogEvent event);
 }

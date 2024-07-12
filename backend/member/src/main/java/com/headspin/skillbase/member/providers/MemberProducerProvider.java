@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 
 public interface MemberProducerProvider {
 
+    public void test();
+    
     @Transactional
     public void produce(MemberEvent event);
 }

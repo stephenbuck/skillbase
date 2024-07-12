@@ -26,5 +26,8 @@ public interface CatalogSkillRepo {
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
+    public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
+            Integer limit);
+
     public Long count();
 }

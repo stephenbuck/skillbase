@@ -7,6 +7,8 @@ import com.headspin.skillbase.member.domain.MemberUser;
 
 public interface MemberAuthProvider {
 
+    public void test();
+
     public void insertUser(UUID id, MemberUser user);
 
     public void deleteUser(UUID id);
@@ -18,7 +20,5 @@ public interface MemberAuthProvider {
     public void deleteGroup(UUID id);
 
     public void updateGroup(MemberGroup group);
-
-    public void test();
 
 }

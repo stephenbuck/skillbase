@@ -26,7 +26,7 @@ public class CatalogCategory implements Serializable {
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
 
         @JsonbProperty("parent_id")
-        @Column(name = "parent_id") public UUID parentId;
+        @Column(name = "parent_id") public UUID parent_id;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;

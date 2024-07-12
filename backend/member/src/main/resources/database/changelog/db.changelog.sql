@@ -38,6 +38,7 @@ insert into member.group(title, note) values('Group-2', 'Note-2');
 
 CREATE TABLE IF NOT EXISTS member.achievement (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  user_id              UUID        NOT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,
@@ -46,8 +47,11 @@ CREATE TABLE IF NOT EXISTS member.achievement (
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
 
-insert into member.achievement(title, note) values('Achievement-1', 'Note-1');
-insert into member.achievement(title, note) values('Achievement-2', 'Note-2');
+insert into member.achievement(title, user_id, note) values('Achievement-1', (select id from member.user where user_name like '%-1' limit 1), 'Note-1');
+insert into member.achievement(title, user_id, note) values('Achievement-2', (select id from member.user where user_name like '%-1' limit 1), 'Note-2');
+insert into member.achievement(title, user_id, note) values('Achievement-3', (select id from member.user where user_name like '%-1' limit 1), 'Note-2');
+insert into member.achievement(title, user_id, note) values('Achievement-4', (select id from member.user where user_name like '%-1' limit 1), 'Note-2');
+insert into member.achievement(title, user_id, note) values('Achievement-6', (select id from member.user where user_name like '%-1' limit 1), 'Note-2');
 
 CREATE TABLE IF NOT EXISTS member.outbox (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),

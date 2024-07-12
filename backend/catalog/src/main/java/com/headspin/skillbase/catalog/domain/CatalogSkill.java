@@ -26,7 +26,7 @@ public class CatalogSkill implements Serializable {
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
 
         @JsonbProperty("category_id")
-        @Column(name = "category_id") @NotNull public UUID categoryId;
+        @Column(name = "category_id") @NotNull public UUID category_id;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;

@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 
 public interface WorkflowProducerProvider {
 
+    public void test();
+    
     @Transactional
     public void produce(WorkflowEvent event);
 }

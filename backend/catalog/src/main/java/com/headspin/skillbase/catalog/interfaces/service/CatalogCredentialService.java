@@ -1,15 +1,17 @@
 package com.headspin.skillbase.catalog.interfaces.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogEvent;
+import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
+import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
+import com.headspin.skillbase.catalog.infrastructure.producer.CatalogProducerProviderKafka;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
-import com.headspin.skillbase.catalog.infrastructure.kafka.CatalogProducerProviderKafka;
+import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
 
 import jakarta.annotation.Resource;
@@ -35,7 +37,8 @@ public class CatalogCredentialService {
     @Inject
     private CatalogCredentialRepo repo;
 
-//    @Inject
+    private CatalogConfigProvider conf = new CatalogConfigProviderDefault();
+    private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     private CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
     @Transactional
@@ -79,6 +82,9 @@ public class CatalogCredentialService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        conf.test();
+        feat.test();
+        prod.test();
         prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_SKILL_UPDATED));
         return repo.count();
     }

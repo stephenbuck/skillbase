@@ -10,8 +10,8 @@ import java.util.UUID;
 import com.headspin.skillbase.workflow.domain.WorkflowProcess;
 import com.headspin.skillbase.workflow.domain.WorkflowProcessRepo;
 import com.headspin.skillbase.workflow.domain.WorkflowEvent;
-import com.headspin.skillbase.workflow.infrastructure.flowable.WorkflowEngineProviderFlowable;
-import com.headspin.skillbase.workflow.infrastructure.kafka.WorkflowProducerProviderKafka;
+import com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable;
+import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowProducerProviderKafka;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 

@@ -26,5 +26,7 @@ public interface CatalogCategoryRepo {
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
+    public List<CatalogSkill> findCategorySkills(@NotNull UUID id, String sort, Integer offset, Integer limit);
+
     public Long count();
 }

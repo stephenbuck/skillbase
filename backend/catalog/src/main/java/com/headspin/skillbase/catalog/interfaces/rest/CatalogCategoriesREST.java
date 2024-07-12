@@ -19,10 +19,12 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
 
+@Slf4j
 @Path("categories")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -35,7 +37,6 @@ public class CatalogCategoriesREST {
     }
 
     @PUT
-    @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
     public Response insert(CatalogCategory category) throws URISyntaxException {
         UUID id = service.insert(category);
@@ -52,15 +53,12 @@ public class CatalogCategoriesREST {
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
     public Response update(CatalogCategory category) {
         return Response.ok(service.update(category)).build();
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
@@ -68,15 +66,21 @@ public class CatalogCategoriesREST {
 
     @GET
     @Path("{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
         Optional<CatalogCategory> match = service.findById(id);
         if (match.isPresent()) {
-            return Response.ok(match, MediaType.APPLICATION_JSON).build();
+            return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @GET
+    @Path("{id}/skills")
+    @Operation(summary = "findCategorySkills")
+    public Response findCategorySkills(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findCategorySkills(id, sort, offset, limit)).build();
     }
 
     @GET

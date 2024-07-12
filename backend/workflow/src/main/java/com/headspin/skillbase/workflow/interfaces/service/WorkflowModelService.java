@@ -9,9 +9,11 @@ import com.headspin.skillbase.workflow.domain.WorkflowProcess;
 import com.headspin.skillbase.workflow.domain.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowModel;
 import com.headspin.skillbase.workflow.domain.WorkflowModelRepo;
-import com.headspin.skillbase.workflow.infrastructure.flipt.WorkflowFeatureProviderFlipt;
-import com.headspin.skillbase.workflow.infrastructure.flowable.WorkflowEngineProviderFlowable;
-import com.headspin.skillbase.workflow.infrastructure.kafka.WorkflowProducerProviderKafka;
+import com.headspin.skillbase.workflow.infrastructure.config.WorkflowConfigProviderEtcd;
+import com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable;
+import com.headspin.skillbase.workflow.infrastructure.feature.WorkflowFeatureProviderFlipt;
+import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowProducerProviderKafka;
+import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
@@ -39,11 +41,10 @@ public class WorkflowModelService {
     @Inject
     private WorkflowModelRepo repo;
 
-    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
-
+    private WorkflowConfigProvider conf = new WorkflowConfigProviderEtcd();
     private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
-
     private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
+    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
@@ -80,7 +81,9 @@ public class WorkflowModelService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        conf.test();
         feat.test();
+        prod.test();
         work.test();
         prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_MODEL_UPDATED));
         return repo.count();

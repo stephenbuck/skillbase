@@ -25,6 +25,9 @@ public class MemberAchievement implements Serializable {
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
 
+        @JsonbProperty("user_id")
+        @Column(name = "user_id") @NotNull public UUID user_id;
+
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
 

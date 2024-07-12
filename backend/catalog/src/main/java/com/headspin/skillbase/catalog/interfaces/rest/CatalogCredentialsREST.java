@@ -36,7 +36,6 @@ public class CatalogCredentialsREST {
     }
     
     @PUT
-    @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
     public Response insert(CatalogCredential credential) throws URISyntaxException {
         UUID id = service.insert(credential);
@@ -53,15 +52,12 @@ public class CatalogCredentialsREST {
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
     public Response update(CatalogCredential credential) {
         return Response.ok(service.update(credential)).build();
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
@@ -69,12 +65,11 @@ public class CatalogCredentialsREST {
 
     @GET
     @Path("{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
         Optional<CatalogCredential> match = service.findById(id);
         if (match.isPresent()) {
-            return Response.ok(match).build();
+            return Response.ok(match.get()).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
