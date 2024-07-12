@@ -35,7 +35,6 @@ public class MemberAchievementsREST {
     }
 
     @PUT
-    @Consumes({ MediaType.APPLICATION_JSON })
     @Operation(summary = "insert")
     public Response insert(MemberAchievement achievement) throws URISyntaxException {
         UUID id = service.insert(achievement);
@@ -52,15 +51,12 @@ public class MemberAchievementsREST {
     }
 
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "update")
     public Response update(MemberAchievement achievement) {
         return Response.ok(service.update(achievement)).build();
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findAll")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
@@ -68,12 +64,11 @@ public class MemberAchievementsREST {
 
     @GET
     @Path("{id}")
-    @Produces({ MediaType.APPLICATION_JSON })
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
         Optional<MemberAchievement> match = service.findById(id);
         if (match.isPresent()) {
-            return Response.ok(match, MediaType.APPLICATION_JSON).build();
+            return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -84,6 +79,14 @@ public class MemberAchievementsREST {
     @Produces({ MediaType.TEXT_PLAIN })
     @Operation(summary = "count")
     public Response count() {
-        return Response.ok(String.valueOf(service.count()), MediaType.APPLICATION_JSON).build();
+        return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
+    }
+
+    @GET
+    @Path("test")
+    @Produces({ MediaType.TEXT_PLAIN })
+    @Operation(summary = "test")
+    public Response test() {
+        return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }
 }

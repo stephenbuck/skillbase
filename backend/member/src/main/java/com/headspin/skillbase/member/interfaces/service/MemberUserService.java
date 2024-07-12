@@ -83,11 +83,16 @@ public class MemberUserService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        return repo.count();
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public Integer test() {
         conf.test();
         feat.test();
         prod.test();
         auth.test();
         prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
-        return repo.count();
+        return 0;
     }
 }

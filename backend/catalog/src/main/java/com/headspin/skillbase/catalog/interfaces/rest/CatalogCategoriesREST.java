@@ -88,6 +88,14 @@ public class CatalogCategoriesREST {
     @Produces({ MediaType.TEXT_PLAIN })
     @Operation(summary = "count")
     public Response count() {
-        return Response.ok(String.valueOf(service.count()), MediaType.APPLICATION_JSON).build();
+        return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
+    }
+
+    @GET
+    @Path("test")
+    @Produces({ MediaType.TEXT_PLAIN })
+    @Operation(summary = "test")
+    public Response test() {
+        return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }
 }

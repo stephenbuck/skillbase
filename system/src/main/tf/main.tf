@@ -397,6 +397,9 @@ resource "docker_container" "wildfly" {
   depends_on = [
     docker_container.postgres,
     docker_container.flipt,
+    docker_container.kafka,
+    docker_container.keycloak,
+    docker_container.flowable
   ]
 }
 

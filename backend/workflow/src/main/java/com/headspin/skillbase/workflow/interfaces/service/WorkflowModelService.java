@@ -81,11 +81,16 @@ public class WorkflowModelService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        return repo.count();
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public Integer test() {
         conf.test();
         feat.test();
         prod.test();
         work.test();
         prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_MODEL_UPDATED));
-        return repo.count();
+        return 0;
     }
 }

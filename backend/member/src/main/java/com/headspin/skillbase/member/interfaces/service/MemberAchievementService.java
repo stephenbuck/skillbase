@@ -11,8 +11,12 @@ import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberAchievementRepo;
 import com.headspin.skillbase.member.domain.MemberEvent;
 import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
+import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
+import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
 import com.headspin.skillbase.member.infrastructure.messaging.MemberProducerProviderKafka;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
+import com.headspin.skillbase.member.providers.MemberConfigProvider;
+import com.headspin.skillbase.member.providers.MemberFeatureProvider;
 //import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberProducerProvider;
 
@@ -39,10 +43,9 @@ public class MemberAchievementService {
     @Inject
     private MemberAchievementRepo repo;
 
-//    @Inject
-    MemberProducerProvider prod = new MemberProducerProviderKafka();
-
-//    @Inject
+    private MemberConfigProvider conf = new MemberConfigProviderDefault();
+    private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
+    private MemberProducerProvider prod = new MemberProducerProviderKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
     @Transactional
@@ -80,8 +83,16 @@ public class MemberAchievementService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        return repo.count();
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public Integer test() {
+        conf.test();
+        feat.test();
+        prod.test();
         auth.test();
         prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
-        return repo.count();
+        return 0;
     }
 }

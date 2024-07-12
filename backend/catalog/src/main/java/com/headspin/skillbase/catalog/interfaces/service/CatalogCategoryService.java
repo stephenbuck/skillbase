@@ -92,10 +92,15 @@ public class CatalogCategoryService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        return repo.count();
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public Integer test() {
         conf.test();
         feat.test();
         prod.test();
         prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_CATEGORY_UPDATED));
-        return repo.count();
+        return 0;
     }
 }
