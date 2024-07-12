@@ -1,5 +1,5 @@
-pushd src/docker/flagd
-sudo docker build -t skillbase/flagd:latest . < Dockerfile
+pushd src/docker/flipt
+sudo docker build -t skillbase/flipt:latest . < Dockerfile
 popd
 
 pushd src/docker/flowable

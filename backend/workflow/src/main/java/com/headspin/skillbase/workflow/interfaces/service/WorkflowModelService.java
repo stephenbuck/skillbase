@@ -9,9 +9,11 @@ import com.headspin.skillbase.workflow.domain.WorkflowProcess;
 import com.headspin.skillbase.workflow.domain.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowModel;
 import com.headspin.skillbase.workflow.domain.WorkflowModelRepo;
+import com.headspin.skillbase.workflow.infrastructure.flipt.WorkflowFeatureProviderFlipt;
 import com.headspin.skillbase.workflow.infrastructure.flowable.WorkflowEngineProviderFlowable;
 import com.headspin.skillbase.workflow.infrastructure.kafka.WorkflowProducerProviderKafka;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 import jakarta.annotation.Resource;
@@ -38,6 +40,8 @@ public class WorkflowModelService {
     private WorkflowModelRepo repo;
 
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
+
+    private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
 
     private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
 
@@ -76,6 +80,7 @@ public class WorkflowModelService {
 
 //    @RolesAllowed({ "Admin" })
     public Long count() {
+        feat.test();
         work.test();
         prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_MODEL_UPDATED));
         return repo.count();

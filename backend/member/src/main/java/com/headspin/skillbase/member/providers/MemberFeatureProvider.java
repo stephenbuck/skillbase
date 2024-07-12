@@ -2,5 +2,8 @@ package com.headspin.skillbase.member.providers;
 
 public interface MemberFeatureProvider {
 
-    public String getValue(String key);
+    public void test();
+
+    public boolean evaluateBoolean(String key, boolean def);
+    
 }

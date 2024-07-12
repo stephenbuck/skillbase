@@ -104,12 +104,6 @@
   <dependencies>
 
     <dependency>
-      <artifactId>archunit-junit5</artifactId>
-      <groupId>com.tngtech.archunit</groupId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <artifactId>cloudevents-api</artifactId>
       <groupId>io.cloudevents</groupId>
     </dependency>
@@ -148,12 +142,6 @@
     <dependency>
       <artifactId>jakarta.persistence-api</artifactId>
       <groupId>jakarta.persistence</groupId>
-    </dependency>
-
-    <dependency>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <groupId>org.junit.jupiter</groupId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>

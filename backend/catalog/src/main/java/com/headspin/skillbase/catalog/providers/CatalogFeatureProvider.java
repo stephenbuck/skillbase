@@ -2,5 +2,9 @@ package com.headspin.skillbase.catalog.providers;
 
 public interface CatalogFeatureProvider {
 
-    public String getValue(String key);
+
+    public void test();
+
+    public boolean evaluateBoolean(String key, boolean def);
+    
 }

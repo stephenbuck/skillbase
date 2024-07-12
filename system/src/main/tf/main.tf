@@ -146,36 +146,28 @@ resource "docker_container" "etcd" {
 */
 
 ################################################################################
-# Flagd
+# Flipt
 ################################################################################
 
-# sudo docker run --it --rm --name flagd   -p 8013:8013   -v /etc/flagd:/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd  ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/demo.flagd.json
-# curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
-
-resource "docker_image" "flagd" {
-  name         = "skillbase/flagd:latest"
+resource "docker_image" "flipt" {
+  name         = "skillbase/flipt:latest"
   keep_locally = true
 }
 
-resource "docker_container" "flagd" {
-  name         = "flagd"
-  image        = docker_image.flagd.image_id
+resource "docker_container" "flipt" {
+  name         = "flipt"
+  image        = docker_image.flipt.image_id
   stdin_open   = true
-  volumes {
-    container_path = "/etc/flagd"
-    host_path      = "/home/stephenbuck/Desktop/skillbase/system/runtime/flagd"
+  ports {
+      internal = 8080
+      external = 8087
   }
   ports {
-      internal = 8013
-      external = 8013
+      internal = 9000
+      external = 9007
   }
-  ports {
-      internal = 8015
-      external = 8015
-  }
-//  command = ["start", "-f", "file:/etc/flagd"]
-  command = ["start", "--socket-path", "0.0.0.0", "--uri", "file:etc/flagd/demo.flagd.json"]
 }
+
 
 ################################################################################
 # Flowable
@@ -404,7 +396,7 @@ resource "docker_container" "wildfly" {
   ]
   depends_on = [
     docker_container.postgres,
-    docker_container.flagd,
+    docker_container.flipt,
   ]
 }
 

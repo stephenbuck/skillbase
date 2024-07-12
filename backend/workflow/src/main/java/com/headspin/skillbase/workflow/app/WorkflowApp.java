@@ -23,7 +23,7 @@ public class WorkflowApp extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classSet = new HashSet<>();
         classSet.add(WorkflowApp.class);
-//        classSet.add(WorkflowAppHealth.class);
+        classSet.add(WorkflowAppHealth.class);
         classSet.add(WorkflowModelsREST.class);
         classSet.add(WorkflowProcessesREST.class);
         return classSet;

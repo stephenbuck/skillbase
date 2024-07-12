@@ -11,7 +11,7 @@ import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.infrastructure.etcd.CatalogConfigProviderEtcd;
-import com.headspin.skillbase.catalog.infrastructure.flagd.CatalogFeatureProviderFlagd;
+import com.headspin.skillbase.catalog.infrastructure.flipt.CatalogFeatureProviderFlipt;
 import com.headspin.skillbase.catalog.infrastructure.kafka.CatalogProducerProviderKafka;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
 import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
@@ -44,7 +44,7 @@ public class CatalogCategoryService {
 
     CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
-    CatalogFeatureProvider feat = new CatalogFeatureProviderFlagd();
+    CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
 
     CatalogConfigProvider conf = new CatalogConfigProviderEtcd();
 

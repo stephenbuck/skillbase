@@ -191,7 +191,12 @@
       <artifactId>cloudevents-kafka</artifactId>
       <groupId>io.cloudevents</groupId>
     </dependency>
-
+  
+    <dependency>
+      <artifactId>flipt-java</artifactId>
+      <groupId>io.flipt</groupId>
+    </dependency>
+  
     <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
@@ -277,16 +282,12 @@
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>
-  
 
-    <!--
     <dependency>
-      <artifactId>resteasy-multipart-provider</artifactId>
-      <groupId>org.jboss.resteasy</groupId>
-      <version>7.0.0.Alpha2</version>
+      <artifactId>sdk</artifactId>
+      <groupId>dev.openfeature</groupId>
+      <version>${openfeature.version}</version>
     </dependency>
-    -->
-
 
     <dependency>
       <artifactId>slf4j-api</artifactId>

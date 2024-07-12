@@ -55,14 +55,14 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private String basicAuth;
 
     public WorkflowEngineProviderFlowable() {
-        
+
         client = ClientBuilder.newClient();
 
         targetService = client.target("http://172.17.0.1:8081/flowable-rest/service");
 
         targetRepository = targetService.path("repository");
         targetDeployments = targetRepository.path("deployments");
-        targetModels = targetRepository.path("models");    
+        targetModels = targetRepository.path("models");
         targetProcessDefinitions = targetRepository.path("process-definitions");
 
         targetRuntime = targetService.path("runtime");
@@ -77,15 +77,12 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             List<EntityPart> parts = Arrays.asList(
                     EntityPart.withName("file")
-                            .fileName("test.bpmn20.xml")
+                            .fileName(resourceName)
                             .content(this.getClass().getResourceAsStream(resourceName))
-                            .build(),
-                    EntityPart.withName("key")
-                            .content("fob'")
-                            .build()
-            );
+                            .build());
 
-            GenericEntity<List<EntityPart>> genericEntity = new GenericEntity<>(parts){};
+            GenericEntity<List<EntityPart>> genericEntity = new GenericEntity<>(parts) {
+            };
 
             var entity = Entity.entity(genericEntity, MediaType.MULTIPART_FORM_DATA);
 
@@ -107,22 +104,21 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             return null;
         }
     }
-    
+
     private JsonObject listDeployments() {
         try {
             Response resp = targetDeployments
-            .request(MediaType.TEXT_PLAIN_TYPE)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .get();
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .get();
 
             String respStr = resp.readEntity(String.class);
             JsonReader respReader = Json.createReader(new StringReader(respStr));
             JsonObject respObject = respReader.readObject();
 
             return respObject;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.info(String.valueOf(e));
             throw e;
         }
@@ -131,19 +127,18 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private JsonObject listModels(String deploymentId) {
         try {
             Response resp = targetModels
-            .queryParam("deploymentId", deploymentId)
-            .request(MediaType.TEXT_PLAIN_TYPE)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .get();
+                    .queryParam("deploymentId", deploymentId)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .get();
 
             String respStr = resp.readEntity(String.class);
             JsonReader respReader = Json.createReader(new StringReader(respStr));
             JsonObject respObject = respReader.readObject();
 
             return respObject;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.info(String.valueOf(e));
             throw e;
         }
@@ -153,19 +148,18 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         try {
 
             Response resp = targetProcessDefinitions
-            .queryParam("deploymentId", deploymentId)
-            .request(MediaType.TEXT_PLAIN_TYPE)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .get();
+                    .queryParam("deploymentId", deploymentId)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .get();
 
             String respStr = resp.readEntity(String.class);
             JsonReader respReader = Json.createReader(new StringReader(respStr));
             JsonObject respObject = respReader.readObject();
 
             return respObject;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.info(String.valueOf(e));
             throw e;
         }
@@ -174,19 +168,18 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private JsonObject listProcessInstances(String pid) {
         try {
             Response resp = targetProcessInstances
-            .queryParam("processDefinitionId", pid)
-            .request(MediaType.TEXT_PLAIN_TYPE)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .get();
+                    .queryParam("processDefinitionId", pid)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .get();
 
             String respStr = resp.readEntity(String.class);
             JsonReader respReader = Json.createReader(new StringReader(respStr));
             JsonObject respObject = respReader.readObject();
 
             return respObject;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.info(String.valueOf(e));
             throw e;
         }
@@ -200,13 +193,13 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             jvb.add("employee", "admin");
             jvb.add("nrOfHolidays", "3");
             jvb.add("description", "beach");
-   
+
             JsonArrayBuilder jab = Json.createArrayBuilder();
             jab.add(jvb.build());
 
             JsonObjectBuilder job = Json.createObjectBuilder();
             job.add("processDefinitionId", pdid);
-//            job.add("processDefinitionKey", "holidayRequest");
+            // job.add("processDefinitionKey", "holidayRequest");
             job.add("returnVariables", true);
             job.add("variables", jab.build());
 
@@ -215,10 +208,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             var start = Entity.json(jvp.toString());
 
             Response resps = targetProcessInstances
-            .request(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .post(start);
+                    .request(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .post(start);
 
             String respStr = resps.readEntity(String.class);
 
@@ -237,11 +230,11 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private JsonObject listTasks(String piid) {
         try {
             Response resp = targetTasks
-// /            .queryParam("processInstanceId", piid)
-            .request(MediaType.TEXT_PLAIN_TYPE)
-            .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, basicAuth)
-            .get();
+                    // / .queryParam("processInstanceId", piid)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
+                    .get();
 
             String respStr = resp.readEntity(String.class);
             JsonReader respReader = Json.createReader(new StringReader(respStr));
@@ -259,21 +252,20 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private void claimTask() {
 
     }
-    
-    private void completeTask() {
-        
-    }
-    
-    private void resolveTask() {
-        
-    }
-    
-    private void delegateTask() {
-        
-    }
-    
-    private void testRest(String resourceName) {
 
+    private void completeTask() {
+
+    }
+
+    private void resolveTask() {
+
+    }
+
+    private void delegateTask() {
+
+    }
+
+    private void testRest(String resourceName) {
 
         try {
             log.info("================================\n");
@@ -317,7 +309,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             JsonObject startProcessInstanceResp = startProcessInstance(pdid);
             log.info("startProcessInstanceResp = {}", startProcessInstanceResp);
-            
+
             String piid = startProcessInstanceResp.getString("id");
             log.info("piid = {}", piid);
 
@@ -344,23 +336,16 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             log.info("================================\n");
 
-
-
-
-
-
-
-            
         } catch (Exception e) {
             log.info(String.valueOf(e));
         } finally {
-//            client.close();
+            // client.close();
         }
 
     }
 
     @Override
     public void test() {
-        testRest("/test.bpmn20.xml");
+        testRest("/test.bpmn20.bpmn");
     }
 }

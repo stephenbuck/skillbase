@@ -12,12 +12,12 @@ Database functionality (Postgres) runs in a custom container derived from the 'p
 
 * See https://postgresql.org
 
-**Features (skillbase/flagd):**
+**Features (skillbase/flipt):**
 
-Feature flag functionality (Flagd) runs in a custom container derived from the
-'ghcr.io/open-feature/flagd:latest' image.
+Feature flag functionality (Flipt) runs in a custom container derived from the
+'docker.flipt.io/flipt/flipt:latest' image.
 
-* See https://flagd.io
+* See https://flipt.io
 
 **Identity (skillbase/keycloak):**
 

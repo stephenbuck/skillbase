@@ -36,7 +36,7 @@
     <cloudevents.version>2.3.0</cloudevents.version>
     <config.etcd.version>3.0.1</config.etcd.version>
     <docker.plugin.version>0.44.0</docker.plugin.version>
-    <flagd.version>0.8.3</flagd.version>
+    <flipt.version>1.1.1</flipt.version>
     <flowable.version>7.0.1</flowable.version>
     <graphql.version>22.1</graphql.version>
     <handlebars.version>4.3.1</handlebars.version>
@@ -296,11 +296,11 @@
       </dependency>
     
       <dependency>
-        <artifactId>flagd</artifactId>
-        <groupId>dev.openfeature.contrib.providers</groupId>
-        <version>${flagd.version}</version>
+        <artifactId>flipt-java</artifactId>
+        <groupId>io.flipt</groupId>
+        <version>${flipt.version}</version>
       </dependency>
-
+    
       <dependency>
         <artifactId>flowable-engine</artifactId>
         <groupId>org.flowable</groupId>

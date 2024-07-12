@@ -193,6 +193,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>flipt-java</artifactId>
+      <groupId>io.flipt</groupId>
+    </dependency>
+  
+    <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
     </dependency>

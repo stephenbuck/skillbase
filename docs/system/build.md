@@ -16,6 +16,7 @@
 * Open 'http://172.17.0.1:8080/flowable-admin' for Flowable tool
 * Open 'http://172.17.0.1:8081/admin' for Keycloak tool
 * Open 'http://172.17.0.1:9080' for Ngnix tool
+* Open 'http://172.17.0.1:8087' for Flipt tool
 
 
 **Links:**
