@@ -153,7 +153,7 @@ resource "docker_container" "etcd" {
 # curl -X POST "http://localhost:8013/flagd.evaluation.v1.Service/ResolveString"   -d '{"flagKey":"background-color","context":{}}' -H "Content-Type: application/json"
 
 resource "docker_image" "flagd" {
-  name         = "ghcr.io/open-feature/flagd:latest"
+  name         = "skillbase/flagd:latest"
   keep_locally = true
 }
 
@@ -163,14 +163,18 @@ resource "docker_container" "flagd" {
   stdin_open   = true
   volumes {
     container_path = "/etc/flagd"
-    host_path      = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/flagd"
+    host_path      = "/home/stephenbuck/Desktop/skillbase/system/runtime/flagd"
   }
   ports {
       internal = 8013
       external = 8013
   }
-#  command = ["start", "-f", "file:/etc/flagd/demo.flagd.json"]
-  command = ["start", "--uri", "https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json"]
+  ports {
+      internal = 8015
+      external = 8015
+  }
+//  command = ["start", "-f", "file:/etc/flagd"]
+  command = ["start", "--socket-path", "0.0.0.0", "--uri", "file:etc/flagd/demo.flagd.json"]
 }
 
 ################################################################################
@@ -399,7 +403,8 @@ resource "docker_container" "wildfly" {
     "WILDFLY_MGMT_BIND_INTERFACE=0.0.0.0"
   ]
   depends_on = [
-    docker_container.postgres
+    docker_container.postgres,
+    docker_container.flagd,
   ]
 }
 
