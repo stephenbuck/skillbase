@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
 import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.producer.CatalogProducerProviderKafka;
+import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogProducerProviderKafka;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
@@ -45,7 +45,7 @@ public class CatalogCredentialService {
 //    @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         UUID id = repo.insert(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_SKILL_CREATED));
+        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_CREATED));
         return id;
     }
 
@@ -53,14 +53,14 @@ public class CatalogCredentialService {
 //    @RolesAllowed({ "Admin" })
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
+        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CREDENTIAL_DELETED));
     }
 
     @Transactional
 //    @RolesAllowed({ "Admin" })
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
         CatalogCredential updated = repo.update(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_SKILL_UPDATED));
+        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_UPDATED));
         return updated;
     }
 
@@ -90,7 +90,7 @@ public class CatalogCredentialService {
         conf.test();
         feat.test();
         prod.test();
-        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_SKILL_UPDATED));
+        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_CREDENTIAL_UPDATED));
         return 0;
     }
 }

@@ -19,6 +19,10 @@ public class MemberEvent implements Serializable {
     public static final String MEMBER_GROUP_DELETED = "com.headspin.skillbase.member.group.deleted";
     public static final String MEMBER_GROUP_UPDATED = "com.headspin.skillbase.member.group.updated";
 
+    public static final String MEMBER_ACHIEVEMENT_CREATED = "com.headspin.skillbase.member.achievement.created";
+    public static final String MEMBER_ACHIEVEMENT_DELETED = "com.headspin.skillbase.member.achievement.deleted";
+    public static final String MEMBER_ACHIEVEMENT_UPDATED = "com.headspin.skillbase.member.achievement.updated";
+
     private UUID id;
     private String type;
 

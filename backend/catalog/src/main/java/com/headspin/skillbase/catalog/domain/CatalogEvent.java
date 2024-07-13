@@ -19,6 +19,10 @@ public class CatalogEvent implements Serializable {
     public static final String CATALOG_SKILL_DELETED = "com.headspin.skillbase.catalog.skill.deleted";
     public static final String CATALOG_SKILL_UPDATED = "com.headspin.skillbase.catalog.skill.updated";
 
+    public static final String CATALOG_CREDENTIAL_CREATED = "com.headspin.skillbase.catalog.credential.created";
+    public static final String CATALOG_CREDENTIAL_DELETED = "com.headspin.skillbase.catalog.credential.deleted";
+    public static final String CATALOG_CREDENTIAL_UPDATED = "com.headspin.skillbase.catalog.credential.updated";
+
     private UUID id;
     private String type;
 

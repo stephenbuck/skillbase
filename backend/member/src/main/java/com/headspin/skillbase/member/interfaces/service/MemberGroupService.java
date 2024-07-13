@@ -91,7 +91,7 @@ public class MemberGroupService {
         feat.test();
         prod.test();
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_GROUP_UPDATED));
         return 0;
     }
 }

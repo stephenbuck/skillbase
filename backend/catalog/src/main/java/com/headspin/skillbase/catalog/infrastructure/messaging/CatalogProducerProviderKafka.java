@@ -1,4 +1,4 @@
-package com.headspin.skillbase.catalog.infrastructure.producer;
+package com.headspin.skillbase.catalog.infrastructure.messaging;
 
 import java.net.URI;
 import java.util.Properties;

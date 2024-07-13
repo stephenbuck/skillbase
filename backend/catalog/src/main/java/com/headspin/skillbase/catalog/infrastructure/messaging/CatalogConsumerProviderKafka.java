@@ -1,4 +1,4 @@
-package com.headspin.skillbase.catalog.infrastructure.consumer;
+package com.headspin.skillbase.catalog.infrastructure.messaging;
 
 import java.time.Duration;
 import java.util.Properties;

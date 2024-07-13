@@ -52,7 +52,7 @@ public class MemberAchievementService {
 //    @RolesAllowed({ "Admin" })
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
         UUID id = repo.insert(achievement);
-        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return id;
     }
 
@@ -67,7 +67,7 @@ public class MemberAchievementService {
 //    @RolesAllowed({ "Admin" })
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
-        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return updated;
     }
 
@@ -92,7 +92,7 @@ public class MemberAchievementService {
         feat.test();
         prod.test();
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return 0;
     }
 }

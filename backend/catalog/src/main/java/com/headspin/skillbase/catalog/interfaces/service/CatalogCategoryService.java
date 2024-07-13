@@ -12,7 +12,7 @@ import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
 import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.producer.CatalogProducerProviderKafka;
+import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogProducerProviderKafka;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
 import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
