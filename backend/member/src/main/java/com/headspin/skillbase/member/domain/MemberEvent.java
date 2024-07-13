@@ -51,4 +51,14 @@ public class MemberEvent implements Serializable {
                 .withSource(source)
                 .build();
     }
+
+
+    @Override
+    public String toString() {
+        return
+            "MemberEvent {\n" +
+                "id   = " + id + "\n" +
+                "type = " + type + "\n" +
+            "}\n";
+    }
 }

@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS catalog.category (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX catalog.category_parent ON catalog.category(parent_id);
+CREATE INDEX catalog.category_title ON catalog.category(title);
 
 INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-1', 'Note-1');
 INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-2', 'Note-2');
@@ -29,6 +31,8 @@ CREATE TABLE IF NOT EXISTS catalog.skill (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX catalog.skill_category ON catalog.skill(category_id);
+CREATE INDEX catalog.skill_title ON catalog.skill(title);
 
 insert into catalog.skill (title, category_id, note) values('Skill-1', (select id from catalog.category where title like '%-1' limit 1), 'Note-1');
 insert into catalog.skill (title, category_id, note) values('Skill-2', (select id from catalog.category where title like '%-1' limit 1), 'Note-2');
@@ -46,6 +50,9 @@ CREATE TABLE IF NOT EXISTS catalog.credential (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX catalog.credential_skill ON catalog.credential(skill_id);
+CREATE INDEX catalog.credential_title ON catalog.credential(title);
+
 
 insert into catalog.credential (title, skill_id, note) values('Credential-1', (select id from catalog.skill where title like '%-1' limit 1), 'Note-1');
 insert into catalog.credential (title, skill_id, note) values('Credential-2', (select id from catalog.skill where title like '%-1' limit 1), 'Note-2');

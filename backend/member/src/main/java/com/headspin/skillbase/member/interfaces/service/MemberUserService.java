@@ -9,7 +9,9 @@ import java.util.UUID;
 
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.domain.MemberUserRepo;
+import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberEvent;
+import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
 import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
 import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
@@ -48,23 +50,23 @@ public class MemberUserService {
     private MemberProducerProvider prod = new MemberProducerProviderKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
         UUID id = repo.insert(user);
         prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
         prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user) {
         MemberUser updated = repo.update(user);
         prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED));
@@ -79,6 +81,29 @@ public class MemberUserService {
     //    @RolesAllowed({ "Admin" })
     public List<MemberUser> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
+    }
+
+
+//    @RolesAllowed({ "Admin" })
+    public List<MemberAchievement> findUserAchievements(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return repo.findUserAchievements(id, sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return repo.findUserGroups(id, sort, offset, limit);
+    }
+
+//    @RolesAllow({ "Admin" })
+    @Transactional
+    public void insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        repo.insertUserAchievement(id, achievement_id);
+    }
+
+//    @RolesAllow({ "Admin" })
+    @Transactional
+    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        repo.deleteUserAchievement(id, achievement_id);
     }
 
 //    @RolesAllowed({ "Admin" })

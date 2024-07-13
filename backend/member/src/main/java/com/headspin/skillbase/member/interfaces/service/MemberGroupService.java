@@ -47,23 +47,23 @@ public class MemberGroupService {
     private MemberProducerProvider prod = new MemberProducerProviderKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
         UUID id = repo.insert(group);
         prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_CREATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
         prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED));
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group) {
         MemberGroup updated = repo.update(group);
         prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_UPDATED));
@@ -78,6 +78,23 @@ public class MemberGroupService {
 //    @RolesAllowed({ "Admin" })
     public List<MemberGroup> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return repo.findGroupUsers(id, sort, offset, limit);
+    }
+
+//    @RolesAllow({ "Admin" })
+    @Transactional
+    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        repo.insertGroupUser(id, user_id);
+    }
+
+//    @RolesAllow({ "Admin" })
+    @Transactional
+    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        repo.deleteGroupUser(id, user_id);
     }
 
 //    @RolesAllowed({ "Admin" })

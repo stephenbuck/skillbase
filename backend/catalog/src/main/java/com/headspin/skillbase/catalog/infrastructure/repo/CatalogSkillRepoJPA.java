@@ -82,6 +82,18 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     }
 
     @Override
+    @Transactional
+    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        
+    }
+
+    @Override
     public Long count() {
         return em.createQuery("SELECT COUNT(*) FROM CatalogSkill s", Long.class)
                 .getSingleResult().longValue();

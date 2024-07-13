@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS member.user (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX member.user_name ON member.user(user_name);
 
 INSERT INTO member.user(user_name, first_name, last_name, email, phone, note) values('User-1', 'First-1', 'Last-1', 'Email-1', 'Phone-1', 'Note-1');
 INSERT INTO member.user(user_name, first_name, last_name, email, phone, note) values('User-2', 'First-1', 'Last-1', 'Email-1', 'Phone-1', 'Note-2');
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS member.group (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX member.group_title ON member.group(title);
 
 insert into member.group(title, note) values('Group-1', 'Note-1');
 insert into member.group(title, note) values('Group-2', 'Note-2');
@@ -46,6 +48,8 @@ CREATE TABLE IF NOT EXISTS member.achievement (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX member.achievement_user ON member.achievement(user_id);
+CREATE INDEX member.achievement_title ON member.achievement(title);
 
 insert into member.achievement(title, user_id, note) values('Achievement-1', (select id from member.user where user_name like '%-1' limit 1), 'Note-1');
 insert into member.achievement(title, user_id, note) values('Achievement-2', (select id from member.user where user_name like '%-1' limit 1), 'Note-2');

@@ -75,6 +75,36 @@ public class MemberUsersREST {
     }
 
     @GET
+    @Path("{id}/achievements")
+    @Operation(summary = "findUserAchievements")
+    public Response findUserAchievements(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findUserAchievements(id, sort, offset, limit)).build();
+    }
+
+    @GET
+    @Path("{id}/groups")
+    @Operation(summary = "findUserGroups")
+    public Response findUserGroups(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findUserGroups(id, sort, offset, limit)).build();
+    }
+
+    @PUT
+    @Path("{id}/achievements/{achievement_id}")
+    @Operation(summary = "insertUserAchievement")
+    public Response insertUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
+        service.insertUserAchievement(id, achievement_id);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/achievements/{achievement_id}")
+    @Operation(summary = "deleteUserAchievement")
+    public Response deleteUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
+        service.deleteUserAchievement(id, achievement_id);
+        return Response.ok().build();
+    }
+
+    @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
     @Operation(summary = "count")

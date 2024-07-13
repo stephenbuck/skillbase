@@ -51,4 +51,13 @@ public class CatalogEvent implements Serializable {
                 .withSource(source)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return
+            "CatalogEvent {\n" +
+                "id   = " + id + "\n" +
+                "type = " + type + "\n" +
+            "}\n";
+    }
 }

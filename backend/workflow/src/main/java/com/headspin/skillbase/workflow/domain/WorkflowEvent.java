@@ -47,4 +47,13 @@ public class WorkflowEvent implements Serializable {
                 .withSource(source)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return
+            "WorkflowEvent {\n" +
+                "id   = " + id + "\n" +
+                "type = " + type + "\n" +
+            "}\n";
+    }
 }

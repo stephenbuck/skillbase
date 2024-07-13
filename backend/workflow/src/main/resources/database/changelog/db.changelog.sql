@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS workflow.model (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX workflow.model_title ON workflow.model(title);
 
 INSERT INTO workflow.model(title, note) values('Model-1', 'Note-1');
 INSERT INTO workflow.model(title, note) values('Model-2', 'Note-2');
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS workflow.process (
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP       NULL DEFAULT NULL
 );
+CREATE INDEX workflow.process_title ON workflow.process(title);
 
 INSERT INTO workflow.process(title, note) values('Process-1', 'Note-1');
 INSERT INTO workflow.process(title, note) values('Process-2', 'Note-2');

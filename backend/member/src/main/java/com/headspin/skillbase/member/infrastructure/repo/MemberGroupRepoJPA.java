@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberGroupRepo;
+import com.headspin.skillbase.member.domain.MemberUser;
 
 @RequestScoped
 public class MemberGroupRepoJPA implements MemberGroupRepo {
@@ -58,6 +59,27 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
                 .getResultList();
     }
 
+    @Override
+    public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT u FROM MemberUser u ORDER BY :sort", MemberUser.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 0))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+
+    }
+    
     @Override
     public Long count() {
         return em.createQuery("SELECT COUNT(*) FROM MemberGroup g", Long.class)

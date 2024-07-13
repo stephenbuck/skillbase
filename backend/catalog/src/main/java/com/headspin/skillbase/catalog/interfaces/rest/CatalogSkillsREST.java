@@ -83,6 +83,22 @@ public class CatalogSkillsREST {
         return Response.ok(service.findSkillCredentials(id, sort, offset, limit)).build();
     }
 
+    @PUT
+    @Path("{id}/credentials/{credential_id}")
+    @Operation(summary = "insertSkillCredential")
+    public Response insertSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
+        service.insertSkillCredential(id, credential_id);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/credentials/{credential_id}")
+    @Operation(summary = "deleteSkillCredential")
+    public Response deleteSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
+        service.deleteSkillCredential(id, credential_id);
+        return Response.ok().build();
+    }
+
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })

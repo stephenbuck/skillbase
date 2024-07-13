@@ -46,23 +46,23 @@ public class CatalogCategoryService {
     CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         UUID id = repo.insert(category);
         prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
         prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CATEGORY_DELETED));
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         CatalogCategory updated = repo.update(category);
         prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED));
@@ -86,8 +86,25 @@ public class CatalogCategoryService {
     }
 
 //    @RolesAllowed({ "Member" })
+    public List<CatalogCategory> findCategoryCategories(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return repo.findCategoryCategories(id, sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Member" })
     public List<CatalogSkill> findCategorySkills(@NotNull UUID id, String sort, Integer offset, Integer limit) {
         return repo.findCategorySkills(id, sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    @Transactional
+    public void insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        repo.insertCategoryCategory(id, category_id);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    @Transactional
+    public void deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        repo.deleteCategoryCategory(id, category_id);
     }
 
 //    @RolesAllowed({ "Admin" })

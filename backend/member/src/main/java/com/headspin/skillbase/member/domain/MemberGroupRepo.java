@@ -23,5 +23,13 @@ public interface MemberGroupRepo {
 
     public List<MemberGroup> findAll(String sort, Integer offset, Integer limit);
 
+    public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit);
+
+    @Transactional
+    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+
+    @Transactional
+    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+
     public Long count();
 }

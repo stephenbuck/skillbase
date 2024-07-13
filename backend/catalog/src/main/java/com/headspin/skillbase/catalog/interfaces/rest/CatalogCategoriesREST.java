@@ -77,11 +77,52 @@ public class CatalogCategoriesREST {
     }
 
     @GET
+    @Path("{id}/categories")
+    @Operation(summary = "findCategoryCategories")
+    public Response findCategoryCategories(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findCategoryCategories(id, sort, offset, limit)).build();
+    }
+
+    @PUT
+    @Path("{id}/categories/{category_id}")
+    @Operation(summary = "insertCategoryCategory")
+    public Response insertCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
+        service.insertCategoryCategory(id, category_id);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/categories/{category_id}")
+    @Operation(summary = "deleteCategoryCategory")
+    public Response deleteCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
+        service.deleteCategoryCategory(id, category_id);
+        return Response.ok().build();
+    }
+
+    @GET
     @Path("{id}/skills")
     @Operation(summary = "findCategorySkills")
     public Response findCategorySkills(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findCategorySkills(id, sort, offset, limit)).build();
     }
+
+    /*
+    @PUT
+    @Path("{id}/skills/{skill_id}")
+    @Operation(summary = "insertCategorySkill")
+    public Response insertCategorySkill(@PathParam("id") UUID id, @PathParam("skill_id") UUID skill_id) {
+        service.insertCategorySkill(id, skill_id);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/skills/{skill_id}")
+    @Operation(summary = "deleteCategorySkill")
+    public Response deleteCategorySkill(@PathParam("id") UUID id, @PathParam("skill_id") UUID skill_id) {
+        service.deleteCategorySkill(id, skill_id);
+        return Response.ok().build();
+    }
+    */
 
     @GET
     @Path("count")

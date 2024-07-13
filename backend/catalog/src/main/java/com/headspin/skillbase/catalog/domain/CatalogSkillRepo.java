@@ -29,5 +29,11 @@ public interface CatalogSkillRepo {
     public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
             Integer limit);
 
+    @Transactional
+    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+
+    @Transactional
+    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+
     public Long count();
 }

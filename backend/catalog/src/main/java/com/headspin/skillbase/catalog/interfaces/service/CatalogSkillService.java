@@ -27,7 +27,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -44,23 +46,23 @@ public class CatalogSkillService {
     private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     private CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         UUID id = repo.insert(skill);
         prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_CREATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
         prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         CatalogSkill updated = repo.update(skill);
         prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_UPDATED));
@@ -87,6 +89,18 @@ public class CatalogSkillService {
     public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
     Integer limit) {
         return repo.findSkillCredentials(id, sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    @Transactional
+    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        repo.insertSkillCredential(id, credential_id);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    @Transactional
+    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        repo.deleteSkillCredential(id, credential_id);
     }
 
 //    @RolesAllowed({ "Admin" })

@@ -26,7 +26,21 @@ public interface CatalogCategoryRepo {
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
+    public List<CatalogCategory> findCategoryCategories(@NotNull UUID id, String sort, Integer offset, Integer limit);
+
     public List<CatalogSkill> findCategorySkills(@NotNull UUID id, String sort, Integer offset, Integer limit);
+
+    @Transactional
+    public void insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id);
+
+    @Transactional
+    public void deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id);
+
+    @Transactional
+    public void insertCategorySkill(@NotNull UUID id, @NotNull UUID skill_id);
+
+    @Transactional
+    public void deleteCategorySkill(@NotNull UUID id, @NotNull UUID skill_id);
 
     public Long count();
 }

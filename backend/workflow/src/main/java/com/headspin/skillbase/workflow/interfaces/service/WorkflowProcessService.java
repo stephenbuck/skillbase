@@ -1,11 +1,10 @@
 package com.headspin.skillbase.workflow.interfaces.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-// import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.workflow.domain.WorkflowProcess;
 import com.headspin.skillbase.workflow.domain.WorkflowProcessRepo;
@@ -30,6 +29,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })

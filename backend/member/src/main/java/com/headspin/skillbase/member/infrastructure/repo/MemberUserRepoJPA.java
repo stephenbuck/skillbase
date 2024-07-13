@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+import com.headspin.skillbase.member.domain.MemberAchievement;
+import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.domain.MemberUserRepo;
 
@@ -56,6 +58,34 @@ public class MemberUserRepoJPA implements MemberUserRepo {
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
+    }
+
+    @Override
+    public List<MemberAchievement> findUserAchievements(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT a FROM MemberAchievement a ORDER BY :sort", MemberAchievement.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 0))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
+    }
+
+    @Override
+    public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT g FROM MemberGroup g ORDER BY :sort", MemberGroup.class)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setFirstResult(Objects.requireNonNullElse(offset, 0))
+                .setMaxResults(Objects.requireNonNullElse(limit, 10))
+                .getResultList();
+    }
+
+    @Transactional
+    public void insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+
+    }
+
+    @Transactional
+    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+
     }
 
     @Override

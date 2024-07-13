@@ -75,6 +75,29 @@ public class MemberGroupsREST {
     }
 
     @GET
+    @Path("{id}/users")
+    @Operation(summary = "findGroupUsers")
+    public Response findGroupUsers(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findGroupUsers(id, sort, offset, limit)).build();
+    }
+    
+    @PUT
+    @Path("{id}/users/{user_id}")
+    @Operation(summary = "insertGroupUser")
+    public Response insertGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
+        service.insertGroupUser(id, user_id);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}/users/{user_id}")
+    @Operation(summary = "deleteGroupUser")
+    public Response deleteGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
+        service.deleteGroupUser(id, user_id);
+        return Response.ok().build();
+    }
+
+    @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
     @Operation(summary = "count")
