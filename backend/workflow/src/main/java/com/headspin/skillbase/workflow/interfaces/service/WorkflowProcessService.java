@@ -49,23 +49,24 @@ public class WorkflowProcessService {
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid WorkflowProcess process) {
         UUID id = repo.insert(process);
         prod.produce(WorkflowEvent.buildEvent(process.id, WorkflowEvent.WORKFLOW_PROCESS_UPDATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    @Transactional
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_PROCESS_DELETED));
+        return result;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public WorkflowProcess update(@NotNull @Valid WorkflowProcess process) {
         WorkflowProcess updated = repo.update(process);
         prod.produce(WorkflowEvent.buildEvent(process.id, WorkflowEvent.WORKFLOW_PROCESS_UPDATED));

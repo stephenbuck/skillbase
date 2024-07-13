@@ -48,8 +48,7 @@ public class CatalogCategoriesREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response deleteById(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST
@@ -83,20 +82,18 @@ public class CatalogCategoriesREST {
         return Response.ok(service.findCategoryCategories(id, sort, offset, limit)).build();
     }
 
-    @PUT
+    @POST
     @Path("{id}/categories/{category_id}")
     @Operation(summary = "insertCategoryCategory")
     public Response insertCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
-        service.insertCategoryCategory(id, category_id);
-        return Response.ok().build();
+        return Response.ok(service.insertCategoryCategory(id, category_id)).build();
     }
 
     @DELETE
     @Path("{id}/categories/{category_id}")
     @Operation(summary = "deleteCategoryCategory")
     public Response deleteCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
-        service.deleteCategoryCategory(id, category_id);
-        return Response.ok().build();
+        return Response.ok(service.deleteCategoryCategory(id, category_id)).build();
     }
 
     @GET
@@ -107,20 +104,18 @@ public class CatalogCategoriesREST {
     }
 
     /*
-    @PUT
+    @POST
     @Path("{id}/skills/{skill_id}")
     @Operation(summary = "insertCategorySkill")
     public Response insertCategorySkill(@PathParam("id") UUID id, @PathParam("skill_id") UUID skill_id) {
-        service.insertCategorySkill(id, skill_id);
-        return Response.ok().build();
+        return Response.ok(service.insertCategorySkill(id, skill_id)).build();
     }
 
     @DELETE
     @Path("{id}/skills/{skill_id}")
     @Operation(summary = "deleteCategorySkill")
     public Response deleteCategorySkill(@PathParam("id") UUID id, @PathParam("skill_id") UUID skill_id) {
-        service.deleteCategorySkill(id, skill_id);
-        return Response.ok().build();
+        return Response.ok(service.deleteCategorySkill(id, skill_id)).build();
     }
     */
 

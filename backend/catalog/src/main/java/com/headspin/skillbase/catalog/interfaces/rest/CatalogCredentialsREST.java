@@ -47,8 +47,7 @@ public class CatalogCredentialsREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST
@@ -73,6 +72,13 @@ public class CatalogCredentialsREST {
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @POST
+    @Path("{id}/start")
+    @Operation(summary = "start")
+    public Response start(@PathParam("id") UUID id) {
+        return Response.ok(service.start(id)).build();
     }
 
     @GET

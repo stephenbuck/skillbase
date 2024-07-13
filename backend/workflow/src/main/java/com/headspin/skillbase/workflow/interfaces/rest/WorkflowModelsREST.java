@@ -46,8 +46,7 @@ public class WorkflowModelsREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST

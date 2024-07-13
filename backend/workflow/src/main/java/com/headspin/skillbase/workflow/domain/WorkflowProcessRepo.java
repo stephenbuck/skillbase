@@ -14,7 +14,7 @@ public interface WorkflowProcessRepo {
     public UUID insert(@NotNull @Valid WorkflowProcess user);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public WorkflowProcess update(@NotNull @Valid WorkflowProcess user);

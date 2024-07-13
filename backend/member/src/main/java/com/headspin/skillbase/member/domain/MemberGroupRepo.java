@@ -14,7 +14,7 @@ public interface MemberGroupRepo {
     public UUID insert(@NotNull @Valid MemberGroup group);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group);
@@ -26,10 +26,10 @@ public interface MemberGroupRepo {
     public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit);
 
     @Transactional
-    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+    public boolean insertGroupUser(@NotNull UUID id, @NotNull UUID user_id);
 
     @Transactional
-    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+    public boolean deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id);
 
     public Long count();
 }

@@ -34,8 +34,9 @@ public class MemberAchievementRepoJPA implements MemberAchievementRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(MemberAchievement.class, id));
+        return true;
     }
 
     @Override

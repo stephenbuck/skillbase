@@ -14,7 +14,7 @@ public interface MemberUserRepo {
     public UUID insert(@NotNull @Valid MemberUser user);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user);
@@ -28,10 +28,10 @@ public interface MemberUserRepo {
     public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit);
 
     @Transactional
-    public void insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
+    public boolean insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
 
     @Transactional
-    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
+    public boolean deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
 
     public Long count();
 }

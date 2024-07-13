@@ -46,23 +46,24 @@ public class WorkflowModelService {
     private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid WorkflowModel model) {
         UUID id = repo.insert(model);
         prod.produce(WorkflowEvent.buildEvent(model.id, WorkflowEvent.WORKFLOW_MODEL_CREATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    @Transactional
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_MODEL_DELETED));
+        return result;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public WorkflowModel update(@NotNull @Valid WorkflowModel model) {
         WorkflowModel updated = repo.update(model);
         prod.produce(WorkflowEvent.buildEvent(model.id, WorkflowEvent.WORKFLOW_MODEL_UPDATED));

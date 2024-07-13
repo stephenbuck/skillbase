@@ -46,8 +46,7 @@ public class MemberUsersREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response deleteById(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST
@@ -88,20 +87,18 @@ public class MemberUsersREST {
         return Response.ok(service.findUserGroups(id, sort, offset, limit)).build();
     }
 
-    @PUT
+    @POST
     @Path("{id}/achievements/{achievement_id}")
     @Operation(summary = "insertUserAchievement")
     public Response insertUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
-        service.insertUserAchievement(id, achievement_id);
-        return Response.ok().build();
+        return Response.ok(service.insertUserAchievement(id, achievement_id)).build();
     }
 
     @DELETE
     @Path("{id}/achievements/{achievement_id}")
     @Operation(summary = "deleteUserAchievement")
     public Response deleteUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
-        service.deleteUserAchievement(id, achievement_id);
-        return Response.ok().build();
+        return Response.ok(service.deleteUserAchievement(id, achievement_id)).build();
     }
 
     @GET

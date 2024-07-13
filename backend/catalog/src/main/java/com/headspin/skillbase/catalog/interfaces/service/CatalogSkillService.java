@@ -56,9 +56,10 @@ public class CatalogSkillService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED));
+        return result;
     }
 
 //    @RolesAllowed({ "Admin" })
@@ -93,14 +94,14 @@ public class CatalogSkillService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        repo.insertSkillCredential(id, credential_id);
+    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        return repo.insertSkillCredential(id, credential_id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        repo.deleteSkillCredential(id, credential_id);
+    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        return repo.deleteSkillCredential(id, credential_id);
     }
 
 //    @RolesAllowed({ "Admin" })

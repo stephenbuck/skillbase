@@ -34,8 +34,9 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(CatalogCredential.class, id));
+        return true;
     }
 
     @Override

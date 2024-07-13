@@ -14,7 +14,7 @@ public interface WorkflowModelRepo {
     public UUID insert(@NotNull @Valid WorkflowModel group);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public WorkflowModel update(@NotNull @Valid WorkflowModel group);

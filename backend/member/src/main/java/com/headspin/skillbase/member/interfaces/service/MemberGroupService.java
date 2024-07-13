@@ -57,9 +57,10 @@ public class MemberGroupService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED));
+        return result;
     }
 
 //    @RolesAllowed({ "Admin" })
@@ -87,14 +88,14 @@ public class MemberGroupService {
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        repo.insertGroupUser(id, user_id);
+    public boolean insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        return repo.insertGroupUser(id, user_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        repo.deleteGroupUser(id, user_id);
+    public boolean deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        return repo.deleteGroupUser(id, user_id);
     }
 
 //    @RolesAllowed({ "Admin" })

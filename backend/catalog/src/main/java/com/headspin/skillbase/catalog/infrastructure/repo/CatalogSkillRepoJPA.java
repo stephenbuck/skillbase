@@ -35,8 +35,9 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(CatalogSkill.class, id));
+        return true;
     }
 
     @Override
@@ -83,14 +84,14 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-
+    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        return true;
     }
 
     @Override
     @Transactional
-    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        
+    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
+        return true;        
     }
 
     @Override

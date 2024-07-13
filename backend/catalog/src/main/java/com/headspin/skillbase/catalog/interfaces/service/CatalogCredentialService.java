@@ -43,23 +43,24 @@ public class CatalogCredentialService {
     private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     private CatalogProducerProvider prod = new CatalogProducerProviderKafka();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         UUID id = repo.insert(credential);
         prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_CREATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    @Transactional
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CREDENTIAL_DELETED));
+        return result;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
         CatalogCredential updated = repo.update(credential);
         prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_UPDATED));
@@ -80,6 +81,11 @@ public class CatalogCredentialService {
     public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
+    }
+
+//    @RolesAllowed({ "Admin" })
+    public boolean start(@NotNull UUID id) {
+        return true;
     }
 
 //    @RolesAllowed({ "Admin" })

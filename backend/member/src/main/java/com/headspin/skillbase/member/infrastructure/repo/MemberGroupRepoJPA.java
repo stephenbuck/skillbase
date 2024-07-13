@@ -35,8 +35,9 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(MemberGroup.class, id));
+        return true;
     }
 
     @Override
@@ -70,14 +71,14 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
 
     @Override
     @Transactional
-    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-
+    public boolean insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        return true;
     }
 
     @Override
     @Transactional
-    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-
+    public boolean deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        return true;
     }
     
     @Override

@@ -60,9 +60,10 @@ public class MemberUserService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
+        return result;
     }
 
 //    @RolesAllowed({ "Admin" })
@@ -96,14 +97,14 @@ public class MemberUserService {
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        repo.insertUserAchievement(id, achievement_id);
+    public boolean insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        return repo.insertUserAchievement(id, achievement_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        repo.deleteUserAchievement(id, achievement_id);
+    public boolean deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        return repo.deleteUserAchievement(id, achievement_id);
     }
 
 //    @RolesAllowed({ "Admin" })

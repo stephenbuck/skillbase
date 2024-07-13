@@ -14,7 +14,7 @@ public interface MemberAchievementRepo {
     public UUID insert(@NotNull @Valid MemberAchievement achievement);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement);

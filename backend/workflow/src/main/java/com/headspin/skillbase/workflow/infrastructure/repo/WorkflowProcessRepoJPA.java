@@ -34,8 +34,9 @@ public class WorkflowProcessRepoJPA implements WorkflowProcessRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(WorkflowProcess.class, id));
+        return true;
     }
 
     @Override

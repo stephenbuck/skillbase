@@ -56,9 +56,10 @@ public class CatalogCategoryService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CATEGORY_DELETED));
+        return result;
     }
 
 //    @RolesAllowed({ "Admin" })
@@ -97,14 +98,14 @@ public class CatalogCategoryService {
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-        repo.insertCategoryCategory(id, category_id);
+    public boolean insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        return repo.insertCategoryCategory(id, category_id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-        repo.deleteCategoryCategory(id, category_id);
+    public boolean deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        return repo.deleteCategoryCategory(id, category_id);
     }
 
 //    @RolesAllowed({ "Admin" })

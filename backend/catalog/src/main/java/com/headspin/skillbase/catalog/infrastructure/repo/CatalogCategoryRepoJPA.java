@@ -35,8 +35,9 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
+    public boolean delete(@NotNull UUID id) {
         em.remove(em.find(CatalogCategory.class, id));
+        return true;
     }
 
     @Override
@@ -94,26 +95,26 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
-    public void insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-
+    public boolean insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        return true;
     }
 
     @Override
     @Transactional
-    public void deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-
+    public boolean deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
+        return true;
     }
 
     @Override
     @Transactional
-    public void insertCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
-
+    public boolean insertCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
+        return true;
     }
 
     @Override
     @Transactional
-    public void deleteCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
-
+    public boolean deleteCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
+        return true;
     }
     
     @Override

@@ -48,23 +48,24 @@ public class MemberAchievementService {
     private MemberProducerProvider prod = new MemberProducerProviderKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
         UUID id = repo.insert(achievement);
         prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return id;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    @Transactional
+    public boolean delete(@NotNull UUID id) {
+        boolean result = repo.delete(id);
         prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
+        return result;
     }
 
-    @Transactional
 //    @RolesAllowed({ "Admin" })
+    @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
         prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));

@@ -48,8 +48,7 @@ public class CatalogSkillsREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST
@@ -83,20 +82,18 @@ public class CatalogSkillsREST {
         return Response.ok(service.findSkillCredentials(id, sort, offset, limit)).build();
     }
 
-    @PUT
+    @POST
     @Path("{id}/credentials/{credential_id}")
     @Operation(summary = "insertSkillCredential")
     public Response insertSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
-        service.insertSkillCredential(id, credential_id);
-        return Response.ok().build();
+        return Response.ok(service.insertSkillCredential(id, credential_id)).build();
     }
 
     @DELETE
     @Path("{id}/credentials/{credential_id}")
     @Operation(summary = "deleteSkillCredential")
     public Response deleteSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
-        service.deleteSkillCredential(id, credential_id);
-        return Response.ok().build();
+        return Response.ok(service.deleteSkillCredential(id, credential_id)).build();
     }
 
     @GET

@@ -46,8 +46,7 @@ public class MemberGroupsREST {
     @Path("{id}")
     @Operation(summary = "delete")
     public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
-        return Response.ok().build();
+        return Response.ok(service.delete(id)).build();
     }
 
     @POST
@@ -81,20 +80,18 @@ public class MemberGroupsREST {
         return Response.ok(service.findGroupUsers(id, sort, offset, limit)).build();
     }
     
-    @PUT
+    @POST
     @Path("{id}/users/{user_id}")
     @Operation(summary = "insertGroupUser")
     public Response insertGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
-        service.insertGroupUser(id, user_id);
-        return Response.ok().build();
+        return Response.ok(service.insertGroupUser(id, user_id)).build();
     }
 
     @DELETE
     @Path("{id}/users/{user_id}")
     @Operation(summary = "deleteGroupUser")
     public Response deleteGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
-        service.deleteGroupUser(id, user_id);
-        return Response.ok().build();
+        return Response.ok(service.deleteGroupUser(id, user_id)).build();
     }
 
     @GET

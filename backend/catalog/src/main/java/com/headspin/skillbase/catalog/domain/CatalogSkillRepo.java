@@ -14,7 +14,7 @@ public interface CatalogSkillRepo {
     public UUID insert(@NotNull @Valid CatalogSkill skill);
 
     @Transactional
-    public void delete(@NotNull UUID id);
+    public boolean delete(@NotNull UUID id);
 
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
@@ -30,10 +30,10 @@ public interface CatalogSkillRepo {
             Integer limit);
 
     @Transactional
-    public void insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
 
     @Transactional
-    public void deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
 
     public Long count();
 }
