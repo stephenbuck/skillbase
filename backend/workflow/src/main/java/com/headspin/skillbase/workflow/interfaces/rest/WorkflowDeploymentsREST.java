@@ -20,25 +20,32 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.headspin.skillbase.workflow.domain.WorkflowModel;
-import com.headspin.skillbase.workflow.interfaces.service.WorkflowModelService;
+import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 
-@Path("models")
+/**
+ * REST resource for workflow deployments.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Path("deployments")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-public class WorkflowModelsREST {
+public class WorkflowDeploymentsREST {
 
     @Inject
-    private WorkflowModelService service;
+    private WorkflowDeploymentsService service;
 
-    public WorkflowModelsREST() {
+    public WorkflowDeploymentsREST() {
     }
     
     @PUT
     @Operation(summary = "insert")
-    public Response insert(WorkflowModel model) throws URISyntaxException {
-        UUID id = service.insert(model);
-        URI uri = new URI("/models/" + id);
+    public Response insert(WorkflowDeployment deployment) throws URISyntaxException {
+        UUID id = service.insert(deployment);
+        URI uri = new URI("/deployments/" + id);
         return Response.ok(uri).build();
     }
 
@@ -51,8 +58,8 @@ public class WorkflowModelsREST {
 
     @POST
     @Operation(summary = "update")
-    public Response update(WorkflowModel model) {
-        return Response.ok(service.update(model)).build();
+    public Response update(WorkflowDeployment deployment) {
+        return Response.ok(service.update(deployment)).build();
     }
 
     @GET
@@ -65,7 +72,7 @@ public class WorkflowModelsREST {
     @Path("{id}")
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
-        Optional<WorkflowModel> match = service.findById(id);
+        Optional<WorkflowDeployment> match = service.findById(id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {

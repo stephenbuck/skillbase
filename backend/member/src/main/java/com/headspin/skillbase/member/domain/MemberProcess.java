@@ -1,7 +1,7 @@
-package com.headspin.skillbase.workflow.domain;
+package com.headspin.skillbase.member.domain;
 
 import java.io.Serializable;
-
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,16 +14,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(schema = "workflow", name = "process")
-public class WorkflowProcess implements Serializable {
+@Table(schema = "member", name = "process")
+public class MemberProcess implements Serializable {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
+
+        @JsonbProperty("user_id")
+        @Column(name = "user_id") @NotNull public UUID user_id;
+
+        @JsonbProperty("process_id")
+        @Column(name = "process_id") public UUID process_id;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
@@ -39,4 +44,19 @@ public class WorkflowProcess implements Serializable {
 
         @JsonbProperty("updated_at")
         @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+
+        @Override
+        public String toString() {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("MemberProcess {\n");
+                stringBuilder.append("    id         = " + id + "\n");
+                stringBuilder.append("    user_id    = " + user_id + "\n");
+                stringBuilder.append("    process_id = " + process_id + "\n");
+                stringBuilder.append("    title      = " + title + "\n");
+                stringBuilder.append("    note       = " + note + "\n");
+                stringBuilder.append("    createdAt  = " + createdAt + "\n");
+                stringBuilder.append("    updatedAt  = " + updatedAt + "\n");
+                stringBuilder.append("}\n");
+                return stringBuilder.toString();
+        }
 }

@@ -4,6 +4,13 @@ import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Etcd implementation of workflow configure provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Slf4j
 public class WorkflowConfigProviderEtcd implements WorkflowConfigProvider {
 

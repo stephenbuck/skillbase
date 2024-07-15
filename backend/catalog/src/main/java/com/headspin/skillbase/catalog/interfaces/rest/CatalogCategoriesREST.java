@@ -7,6 +7,14 @@ import java.util.UUID;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+/*
+import org.eclipse.microprofile.openapi.annotations.ApiResponse;
+import org.eclipse.microprofile.openapi.annotations.ApiResponses;
+import org.eclipse.microprofile.openapi.annotations.Content;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.Schema;
+*/
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -65,7 +73,13 @@ public class CatalogCategoriesREST {
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find catalog category by ID")
+    /*
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"), 
+        @ApiResponse(responseCode = "404", description = "Category not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")})
+    */
     public Response findById(@PathParam("id") UUID id) {
         Optional<CatalogCategory> match = service.findById(id);
         if (match.isPresent()) {

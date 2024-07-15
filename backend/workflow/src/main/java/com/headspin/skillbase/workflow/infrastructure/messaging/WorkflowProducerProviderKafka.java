@@ -20,6 +20,13 @@ import jakarta.ws.rs.core.MediaType;
 import com.headspin.skillbase.workflow.domain.WorkflowEvent;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
+/**
+ * Kafka implementation of workflow producer provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Slf4j
 @ApplicationScoped
 public class WorkflowProducerProviderKafka implements WorkflowProducerProvider {

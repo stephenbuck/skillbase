@@ -156,13 +156,56 @@
 </ul>
 <p><strong>Domain Events:</strong></p>
 <ul>
-<li>SKILLBASE_WORKFLOW_MODEL_CREATED</li>
-<li>SKILLBASE_WORKFLOW_MODEL_DELETED</li>
-<li>SKILLBASE_WORKFLOW_MODEL_UPDATED</li>
-<li>SKILLBASE_WORKFLOW_PROCESS_CREATED</li>
-<li>SKILLBASE_WORKFLOW_PROCESS_DELETED</li>
-<li>SKILLBASE_WORKFLOW_PROCESS_UPDATED</li>
+<li>SKILLBASE_WORKFLOW_DEFINITION_CREATED</li>
+<li>SKILLBASE_WORKFLOW_DEFINITION_DELETED</li>
+<li>
+<p>SKILLBASE_WORKFLOW_DEFINITION_UPDATED</p>
+</li>
+<li>
+<p>SKILLBASE_WORKFLOW_DEPLOYMENT_CREATED</p>
+</li>
+<li>SKILLBASE_WORKFLOW_DEPLOYMENT_DELETED</li>
+<li>
+<p>SKILLBASE_WORKFLOW_DEPLOYMENT_UPDATED</p>
+</li>
+<li>
+<p>SKILLBASE_WORKFLOW_INSTANCE_CREATED</p>
+</li>
+<li>SKILLBASE_WORKFLOW_INSTANCE_DELETED</li>
+<li>
+<p>SKILLBASE_WORKFLOW_INSTANCE_UPDATED</p>
+</li>
+<li>
+<p>SKILLBASE_WORKFLOW_TASK_CREATED</p>
+</li>
+<li>SKILLBASE_WORKFLOW_TASK_DELETED</li>
+<li>SKILLBASE_WORKFLOW_TASK_UPDATED</li>
 </ul>
+<p><strong>Subscribed Events:</strong></p>
+<p>SKILLBASE_CATALOG_SKILL_CREATED:
+In response to a skill created event, the workflow service creates the corresponding
+workflow deployment entity.</p>
+<p>SKILLBASE_CATALOG_SKILL_DELETED:
+In response to a skill deleted event, the workflow service deletes the corresponding
+workflow deployment entity.</p>
+<p>SKILLBASE_CATALOG_SKILL_UPDATED:
+In response to a skill updated event, the workflow service updates the corresponding
+workflow deployment entity.</p>
+<p>SKILLBASE_CATALOG_CREDENTIAL_CREATED:
+In response to a credential created event, the workflow service creates the corresponding
+workflow definition entity.</p>
+<p>SKILLBASE_CATALOG_CREDENTIAL_DELETED:
+In response to a credential deleted event, the workflow service deletes the corresponding
+workflow definition entity.</p>
+<p>SKILLBASE_CATALOG_CREDENTIAL_UPDATED:
+In response to a credential updated event, the workflow service updates the corresponding
+workflow definition entity.</p>
+<p>SKILLBASE_MEMBER_PROCESS_CREATED:
+SKILLBASE_MEMBER_PROCESS_DELETED:
+SKILLBASE_MEMBER_PROCESS_UPDATED:</p>
+<p>SKILLBASE_MEMBER_USER_CREATED:
+SKILLBASE_MEMBER_USER_DELETED:
+SKILLBASE_MEMBER_USER_UPDATED:</p>
 <p>See Backend / Design for common design elements.</p>
               
             </div>

@@ -13,6 +13,13 @@ import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Flipt implementation of workflow feature provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Slf4j
 public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
 

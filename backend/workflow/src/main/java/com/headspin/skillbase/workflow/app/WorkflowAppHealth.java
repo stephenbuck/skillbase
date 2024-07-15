@@ -1,8 +1,11 @@
 package com.headspin.skillbase.workflow.app;
 
-// import org.eclipse.microprofile.health.HealthCheck;
-
-// Check Kafka
+/**
+* Application health for the workflow service.
+* 
+* @author Stephen Buck
+* @since 1.0
+*/
 
 public class WorkflowAppHealth {
 

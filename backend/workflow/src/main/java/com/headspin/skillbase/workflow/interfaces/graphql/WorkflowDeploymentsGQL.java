@@ -3,8 +3,8 @@ package com.headspin.skillbase.workflow.interfaces.graphql;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.headspin.skillbase.workflow.domain.WorkflowModel;
-import com.headspin.skillbase.workflow.interfaces.service.WorkflowModelService;
+import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,20 +15,27 @@ import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
 
+/**
+ * GraphQL interface for workflow deployments.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @GraphQLApi
 @ApplicationScoped
-public class WorkflowModelsGQL {
+public class WorkflowDeploymentsGQL {
 
     @Inject
-    private WorkflowModelService service;
+    private WorkflowDeploymentsService service;
 
-    public WorkflowModelsGQL() {
+    public WorkflowDeploymentsGQL() {
     }
     
     @Mutation("insert")
     @Description("insert")
-    public UUID insert(@Name("model") WorkflowModel model) {
-        return service.insert(model);
+    public UUID insert(@Name("deployment") WorkflowDeployment deployment) {
+        return service.insert(deployment);
     }
 
     @Mutation("delete")
@@ -39,19 +46,19 @@ public class WorkflowModelsGQL {
 
     @Mutation("update")
     @Description("update")
-    public void update(@Name("model") WorkflowModel model) {
-        service.update(model);
+    public void update(@Name("deployment") WorkflowDeployment deployment) {
+        service.update(deployment);
     }
 
     @Query("findById")
     @Description("findById")
-    public WorkflowModel findById(@Name("id") UUID id) {
+    public WorkflowDeployment findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
     @Description("findAll")
-    public List<WorkflowModel> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
+    public List<WorkflowDeployment> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
     }

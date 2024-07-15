@@ -1,7 +1,7 @@
 package com.headspin.skillbase.member.domain;
 
 import java.io.Serializable;
-
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -39,4 +38,17 @@ public class MemberGroup implements Serializable {
 
         @JsonbProperty("updated_at")
         @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+
+        @Override
+        public String toString() {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("MemberGroup {\n");
+                stringBuilder.append("    id        = " + id + "\n");
+                stringBuilder.append("    title     = " + title + "\n");
+                stringBuilder.append("    note      = " + note + "\n");
+                stringBuilder.append("    createdAt = " + createdAt + "\n");
+                stringBuilder.append("    updatedAt = " + updatedAt + "\n");
+                stringBuilder.append("}\n");
+                return stringBuilder.toString();
+        }
 }

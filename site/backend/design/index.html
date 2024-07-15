@@ -149,90 +149,122 @@
                 <p><strong>Design:</strong></p>
 <p><strong>Domain-Driven Design:</strong></p>
 <p>I’ve become a big fan of domain-driven design, primarily because it forces the architecture to focus on the business on its terms. I’m particularly interested in the intersection between DDD, microservices, and GraphQL. I’m going to use a GraphQL schema, in a schema-first approach, to represent the domain model and it should serve as a “single source of truth” from which other artifacts, such as SQL schemas and Java objects, can be created. Some parts of the system will be built with a code-first approach to take advantage of some of the GraphQL tools.</p>
+<ul>
+<li>See https://dzone.com/refcardz/getting-started-domain-driven</li>
+</ul>
 <p><strong>Event-Driven Architecture:</strong></p>
 <p>An event-driven architecture is such a natural way of looking at applications that it’s hard to choose any other architecture. I’ve been doing some form of event-driven development for most of my career, so it’s gratifying to see it being so widely used these days. I’ll be using Kafka for the message broker and Cloud-Events for the event definitions. The initial version will not use event-sourcing, but future versions will use Debezium for eventual consistency among the various distributed components (microservices, distributed caches, etc).</p>
+<ul>
+<li>See https://apache.kafka.org</li>
+<li>See https://docs.confluent.io/kafka-clients/java/current/overview.html</li>
+<li>See https://cloudevents.io</li>
+<li>See https://github.com/enriquemolinari/jqueue</li>
+<li>See https://github.com/gruelbox/transaction-outbox</li>
+</ul>
 <p><strong>Microservice Implementation:</strong></p>
 <p>Past iterations have been implemented using a handful of services combined into one monolithic application, but there are definitely advantages to having a more fine-grained, microservice architecture and most new systems are being built this way. I’ll be using a combination of Jakarta EE and Spring Boot as they are the most popular microservice frameworks for Java. Some of the microservices will delegate a portion of their functionality to backend providers (e.g. KeyCloak for IAM).</p>
+<ul>
+<li>See https://microprofile.io/</li>
+<li>See https://smallrye.io</li>
+</ul>
 <p><strong>Language (Java 21):</strong></p>
 <p>I’ve used Java for every backend implementation of this project so far and will use it for this one as well, especially given the recent evolution of Java, with new features like closures, records, etc.</p>
+<ul>
+<li>See https://docs.oracle.com/en/java/javase/21/docs/api/index.html</li>
+</ul>
 <p><strong>Framework (Jakarta EE):</strong></p>
 <p>Jakarta EE is the latest incarnation of the J2EE framework. I have extensive experience with J2EE so it will be interesting to see how the framework has advanced. I expect to use Jakarta EE, especially the MicroProfile and its extensions, for the core framework.</p>
+<ul>
+<li>See https://jakarta.ee</li>
+<li>See https://microprofile.io/</li>
+</ul>
 <p><strong>Authentication / Authorization (Jakarta EE JWT):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE JWT framework for runtime authentication and authorization.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-jwt-auth/</li>
+<li>See https://github.com/smallrye/smallrye-jwt</li>
+</ul>
 <p><strong>Configuration (Jakarta EE Configuration):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE Config framework for runtime configuration.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-config/</li>
+<li>See https://github.com/smallrye/smallrye-config</li>
+</ul>
 <p><strong>Fault-Tolerance (Jakarta EE Fault-Tolerance):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE Fault-Tolerance framework to implement fault-tolerance.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-fault-tolerance/</li>
+<li>See https://github.com/smallrye/smallrye-fault-tolerance</li>
+</ul>
 <p><strong>Feature Flags (OpenFeatures):</strong></p>
 <p>The Skillbase backend uses the OpenFeatures framework to manage feature flags.</p>
-<p><strong>GraphQL (Jakarta Microprofile GraphQL):</strong></p>
-<p>The Skillbase backend uses the Jakarta Microprofile GraphQL framework to provide GraphQL endpoints.</p>
+<ul>
+<li>See https://openfeature.dev</li>
+</ul>
 <p><strong>Health (Jakarta EE Health):</strong></p>
 <p>Sklllbase uses the Jakarta EE Health framework to runtime health information.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-health/</li>
+<li>See https://github.com/smallrye/smallrye-health</li>
+</ul>
 <p><strong>Messaging (Jakarta EE JMS):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE JMS framework to produce and consume events.</p>
 <p><strong>Metrics (Jakarta EE Metrics):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE Metrics framework to provide runtime metrics.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-metrics/</li>
+<li>See https://github.com/smallrye/smallrye-metrics</li>
+</ul>
 <p><strong>Persistence (Jakarta EE Persistence):</strong></p>
 <p>The Skillbase backend uses the Jakara EE Persistence framework for object storage.</p>
+<ul>
+<li>See https://postgresql.org</li>
+<li>See https://www.liquibase.com</li>
+<li>See https://github.com/mtxr/vscode-sqltools</li>
+</ul>
+<p><strong>GraphQL (Jakarta Microprofile GraphQL):</strong></p>
+<p>The Skillbase backend uses the Jakarta Microprofile GraphQL framework to provide GraphQL endpoints.</p>
+<ul>
+<li>See https://graphql.org</li>
+<li>See https://github.com/graphql/graphiql</li>
+<li>See https://github.com/smallrye/smallrye-graphql</li>
+<li>See https://smallrye.io/smallrye-graphql/maven-plugin/</li>
+</ul>
 <p><strong>REST (Jakarta EE JAX-RS):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE JAX-RS framework to provide REST endpoints.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-open-api/</li>
+<li>See https://github.com/smallrye/smallrye-open-api</li>
+<li>See https://openapis.org</li>
+<li>See https://swagger.io</li>
+</ul>
 <p><strong>Telemetry (Jakarta EE Telemetry):</strong></p>
 <p>The Skillbase backend uses the Jakarta EE Telemetry framework to provide runtime telemetry.</p>
+<ul>
+<li>See https://microprofile.io/specifications/microprofile-telemetry/</p></li>
+<li>See https://opentelemetry.io/</li>
+<li>See https://github.com/smallrye/smallrye-opentelemetry</li>
+<li>See https://github.com/smallrye/smallrye-opentracing</li>
+</ul>
 <p><strong>Logging (Log4j, Slf4j):</strong></p>
 <p>The Skillbase backend uses the Log4j and Slf4j libraries to generate logs.</p>
+<ul>
+<li>See https://log4j.org</li>
+<li>See https://slf4j.org</li>
+</ul>
+<p><strong>Testing (JUnit, ArchUnit, Testcontainers):</strong></p>
+<p>The Skillbase backend uses the JUnit, ArchUnit, and Testcontainers frameworks
+for testing.</p>
+<ul>
+<li>See https://junit.org</li>
+<li>See https://archunit.org</li>
+<li>See https://testcontainers.com/</li>
+</ul>
 <p><strong>Links:</strong></p>
-<p>https://dzone.com/refcardz/getting-started-domain-driven</p>
-<p>https://docs.oracle.com/en/java/javase/21/docs/api/index.html</p>
-<p>https://jakarta.ee</p>
-<p>https://microprofile.io/
-https://microprofile.io/specifications/microprofile-config/
-https://microprofile.io/specifications/microprofile-fault-tolerance/
-https://microprofile.io/specifications/microprofile-health/
-https://microprofile.io/specifications/microprofile-jwt-auth/
-https://microprofile.io/specifications/microprofile-metrics/
-https://microprofile.io/specifications/microprofile-open-api/
-https://microprofile.io/specifications/microprofile-telemetry/</p>
-<p>https://smallrye.io
-https://github.com/smallrye/smallrye-config
-https://github.com/smallrye/smallrye-fault-tolerance
-https://github.com/smallrye/smallrye-graphql
-https://github.com/smallrye/smallrye-health
-https://github.com/smallrye/smallrye-jwt
-https://github.com/smallrye/smallrye-metrics
-https://github.com/smallrye/smallrye-open-api
-https://github.com/smallrye/smallrye-opentelemetry
-https://github.com/smallrye/smallrye-opentracing
-https://github.com/smallrye/smallrye-reactive-messaging</p>
-<p>https://spring.io
-https://spring.io/projects/spring-boot
-https://docs.spring.io/spring-boot/maven-plugin</p>
 <p>https://www.docker.com
-https://fabric8io/docker-maven-plugin</p>
-<p>https://junit.org
-https://archunit.org
-https://arquillian.org
-https://testcontainers.com/</p>
-<p>https://graphql.org
-https://smallrye.io/smallrye-graphql/maven-plugin/
-https://github.com/graphql/graphiql</p>
-<p>https://openapis.org
-https://swagger.io</p>
-<p>https://grpc.io</p>
-<p>https://apache.kafka.org
-https://docs.confluent.io/kafka-clients/java/current/overview.html
-https://cloudevents.io</p>
-<p>https://postgresql.org
-https://www.liquibase.com
-https://github.com/mtxr/vscode-sqltools</p>
-<p>https://log4j.org
-https://slf4j.org</p>
-<p>https://opentelemetry.io/</p>
-<p>https://github.com/enriquemolinari/jqueue</p>
-<p>https://github.com/gruelbox/transaction-outbox</p>
-<p>https://flagd.dev
-https://openfeature.dev</p>
-<p>https://json-schema.org/draft-07/schema#</p>
+https://fabric8io/docker-maven-plugin
+https://grpc.io
+https://json-schema.org/draft-07/schema#</p>
               
             </div>
           </div><footer>

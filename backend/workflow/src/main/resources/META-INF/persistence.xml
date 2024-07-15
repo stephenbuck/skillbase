@@ -3,8 +3,10 @@
 
     <persistence-unit name="skillbase_workflow">
         <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
-        <class>com.headspin.skillbase.workflow.domain.WorkflowModel</class>
-        <class>com.headspin.skillbase.workflow.domain.WorkflowProcess</class>
+        <class>com.headspin.skillbase.workflow.domain.WorkflowDefinition</class>
+        <class>com.headspin.skillbase.workflow.domain.WorkflowDeployment</class>
+        <class>com.headspin.skillbase.workflow.domain.WorkflowInstance</class>
+        <class>com.headspin.skillbase.workflow.domain.WorkflowTask</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://172.17.0.1:5432/skillbase"/>

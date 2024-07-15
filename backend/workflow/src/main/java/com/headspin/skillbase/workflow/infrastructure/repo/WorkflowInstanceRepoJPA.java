@@ -13,46 +13,53 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-import com.headspin.skillbase.workflow.domain.WorkflowModel;
-import com.headspin.skillbase.workflow.domain.WorkflowModelRepo;
+import com.headspin.skillbase.workflow.domain.WorkflowInstance;
+import com.headspin.skillbase.workflow.domain.WorkflowInstanceRepo;
+
+/**
+ * JPA implementation of workflow instance repository interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @RequestScoped
-public class WorkflowModelRepoJPA implements WorkflowModelRepo {
+public class WorkflowInstanceRepoJPA implements WorkflowInstanceRepo {
 
     @PersistenceContext(name = "skillbase_workflow")
     private EntityManager em;
 
-    public WorkflowModelRepoJPA() {
+    public WorkflowInstanceRepoJPA() {
     }
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowModel model) {
-        em.persist(model);
-        return model.id;
+    public UUID insert(@NotNull @Valid WorkflowInstance instance) {
+        em.persist(instance);
+        return instance.id;
     }
 
     @Override
     @Transactional
     public boolean delete(@NotNull UUID id) {
-        em.remove(em.find(WorkflowModel.class, id));
+        em.remove(em.find(WorkflowInstance.class, id));
         return true;
     }
 
     @Override
     @Transactional
-    public WorkflowModel update(@NotNull @Valid WorkflowModel model) {
-        return em.merge(model);
+    public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
+        return em.merge(instance);
     }
 
     @Override
-    public Optional<WorkflowModel> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(WorkflowModel.class, id));
+    public Optional<WorkflowInstance> findById(@NotNull UUID id) {
+        return Optional.ofNullable(em.find(WorkflowInstance.class, id));
     }
 
     @Override
-    public List<WorkflowModel> findAll(String sort, Integer offset, Integer limit) {
-        return em.createQuery("SELECT m FROM WorkflowModel m ORDER BY :sort", WorkflowModel.class)
+    public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT i FROM WorkflowInstance i ORDER BY :sort", WorkflowInstance.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
@@ -61,7 +68,7 @@ public class WorkflowModelRepoJPA implements WorkflowModelRepo {
 
     @Override
     public Long count() {
-        return em.createQuery("SELECT COUNT(*) FROM WorkflowModel m", Long.class)
+        return em.createQuery("SELECT COUNT(*) FROM WorkflowInstance i", Long.class)
                 .getSingleResult().longValue();
     }
 }

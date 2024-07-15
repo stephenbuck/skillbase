@@ -7,8 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import io.cloudevents.CloudEvent;
 import jakarta.transaction.Transactional;
+import jakarta.jms.Message;
 
 import com.headspin.skillbase.workflow.providers.WorkflowConsumerProvider;
+
+/**
+ * Kafka implementation of workflow consumer provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @Slf4j
 public class WorkflowConsumerProviderKafka implements WorkflowConsumerProvider {
@@ -20,6 +28,13 @@ public class WorkflowConsumerProviderKafka implements WorkflowConsumerProvider {
     public void test() {
         log.info("test");
     }
+
+    /*
+    @Override
+    public void onMessage(Message message) {
+        service.onMessage(message);
+    }
+    */
     
     @Override
     @Transactional

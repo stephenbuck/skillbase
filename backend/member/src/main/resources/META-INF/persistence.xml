@@ -5,6 +5,7 @@
         <jta-data-source>java:jboss/datasources/SkillbaseDS</jta-data-source>
         <class>com.headspin.skillbase.member.domain.MemberAchievement</class>
         <class>com.headspin.skillbase.member.domain.MemberGroup</class>
+        <class>com.headspin.skillbase.member.domain.MemberProcess</class>
         <class>com.headspin.skillbase.member.domain.MemberUser</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />

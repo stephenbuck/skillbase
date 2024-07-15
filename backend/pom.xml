@@ -63,6 +63,7 @@
     <slf4j.version>2.0.13</slf4j.version>
     <smallrye.config.version>3.8.3</smallrye.config.version>
     <smallrye.graphql.version>2.8.4</smallrye.graphql.version>
+    <smallrye.graphql-ui.version>1.0.7</smallrye.graphql-ui.version>
     <smallrye.health.version>4.1.0</smallrye.health.version>
     <smallrye.openapi.version>4.0.0-alpha2</smallrye.openapi.version>
     <swagger.version>2.1.6</swagger.version>
@@ -444,6 +445,12 @@
         <artifactId>smallrye-graphql-api</artifactId>
         <groupId>io.smallrye</groupId>
         <version>${smallrye.graphql.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>smallrye-graphql-ui-graphiql</artifactId>
+        <groupId>io.smallrye</groupId>
+        <version>${smallrye.graphql-ui.version}</version>
       </dependency>
 
       <dependency>

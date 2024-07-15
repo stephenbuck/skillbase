@@ -13,46 +13,53 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-import com.headspin.skillbase.workflow.domain.WorkflowProcess;
-import com.headspin.skillbase.workflow.domain.WorkflowProcessRepo;
+import com.headspin.skillbase.workflow.domain.WorkflowTask;
+import com.headspin.skillbase.workflow.domain.WorkflowTaskRepo;
+
+/**
+ * JPA implementation of workflow task repository interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @RequestScoped
-public class WorkflowProcessRepoJPA implements WorkflowProcessRepo {
+public class WorkflowTaskRepoJPA implements WorkflowTaskRepo {
 
     @PersistenceContext(name = "skillbase_workflow")
     private EntityManager em;
 
-    public WorkflowProcessRepoJPA() {
+    public WorkflowTaskRepoJPA() {
     }
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowProcess process) {
-        em.persist(process);
-        return process.id;
+    public UUID insert(@NotNull @Valid WorkflowTask task) {
+        em.persist(task);
+        return task.id;
     }
 
     @Override
     @Transactional
     public boolean delete(@NotNull UUID id) {
-        em.remove(em.find(WorkflowProcess.class, id));
+        em.remove(em.find(WorkflowTask.class, id));
         return true;
     }
 
     @Override
     @Transactional
-    public WorkflowProcess update(@NotNull @Valid WorkflowProcess process) {
-        return em.merge(process);
+    public WorkflowTask update(@NotNull @Valid WorkflowTask task) {
+        return em.merge(task);
     }
 
     @Override
-    public Optional<WorkflowProcess> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(WorkflowProcess.class, id));
+    public Optional<WorkflowTask> findById(@NotNull UUID id) {
+        return Optional.ofNullable(em.find(WorkflowTask.class, id));
     }
 
     @Override
-    public List<WorkflowProcess> findAll(String sort, Integer offset, Integer limit) {
-        return em.createQuery("SELECT p FROM WorkflowProcess p ORDER BY :sort", WorkflowProcess.class)
+    public List<WorkflowTask> findAll(String sort, Integer offset, Integer limit) {
+        return em.createQuery("SELECT t FROM WorkflowTask t ORDER BY :sort", WorkflowTask.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
@@ -61,7 +68,7 @@ public class WorkflowProcessRepoJPA implements WorkflowProcessRepo {
 
     @Override
     public Long count() {
-        return em.createQuery("SELECT COUNT(*) FROM WorkflowProcess p", Long.class)
+        return em.createQuery("SELECT COUNT(*) FROM WorkflowTask t", Long.class)
                 .getSingleResult().longValue();
     }
 }

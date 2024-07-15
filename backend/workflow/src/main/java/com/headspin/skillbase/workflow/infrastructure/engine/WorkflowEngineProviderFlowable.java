@@ -1,5 +1,9 @@
 package com.headspin.skillbase.workflow.infrastructure.engine;
 
+import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
+import com.headspin.skillbase.workflow.domain.WorkflowInstance;
+import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
+import com.headspin.skillbase.workflow.domain.WorkflowTask;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -25,28 +29,35 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
+
+/**
+ * Flowable implementation of workflow engine provider interface.
+ * 
+ * Mappings:
+ * 
+ *   WorkflowDeployment.peer_id is a Flowable deployment_id.
+ *   WorkflowDefinition.peer_id is a Flowable definition_id.
+ *   WorkflowInstance.peer_id is a Flowable instance_definition_id.
+ *   WorkflowInstance.peer_id is a Flowable instance_instance_id.
+ *   WorkflowTask.peer_id is a Flowable task_id.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @Slf4j
 @ApplicationScoped
 public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
-    private class DeploymentResp {
-    }
-
-    private class ProcessDefinitionResp {
-    }
-
-    private class ProcessInstanceResp {
-    }
-
     private Client client = ClientBuilder.newClient();
     private WebTarget targetService;
     private WebTarget targetRepository;
     private WebTarget targetDeployments;
-    private WebTarget targetModels;
-    private WebTarget targetProcessDefinitions;
+    private WebTarget targetDefinitions;
+    private WebTarget targetInstanceDefinitions;
     private WebTarget targetRuntime;
-    private WebTarget targetProcessInstances;
+    private WebTarget targetInstanceInstances;
     private WebTarget targetTasks;
 
     private String username = "rest-admin";
@@ -62,11 +73,11 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
         targetRepository = targetService.path("repository");
         targetDeployments = targetRepository.path("deployments");
-        targetModels = targetRepository.path("models");
-        targetProcessDefinitions = targetRepository.path("process-definitions");
+        targetDefinitions = targetRepository.path("definitions");
+        targetInstanceDefinitions = targetRepository.path("instance-definitions");
 
         targetRuntime = targetService.path("runtime");
-        targetProcessInstances = targetRuntime.path("process-instances");
+        targetInstanceInstances = targetRuntime.path("instance-instances");
         targetTasks = targetRuntime.path("tasks");
 
         basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
@@ -124,9 +135,9 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
     }
 
-    private JsonObject listModels(String deploymentId) {
+    private JsonObject listDefinitions(String deploymentId) {
         try {
-            Response resp = targetModels
+            Response resp = targetDefinitions
                     .queryParam("deploymentId", deploymentId)
                     .request(MediaType.TEXT_PLAIN_TYPE)
                     .accept(MediaType.APPLICATION_JSON)
@@ -144,10 +155,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
     }
 
-    private JsonObject listProcessDefinitions(String deploymentId) {
+    private JsonObject listInstanceDefinitions(String deploymentId) {
         try {
 
-            Response resp = targetProcessDefinitions
+            Response resp = targetInstanceDefinitions
                     .queryParam("deploymentId", deploymentId)
                     .request(MediaType.TEXT_PLAIN_TYPE)
                     .accept(MediaType.APPLICATION_JSON)
@@ -165,10 +176,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
     }
 
-    private JsonObject listProcessInstances(String pid) {
+    private JsonObject listInstanceInstances(String pid) {
         try {
-            Response resp = targetProcessInstances
-                    .queryParam("processDefinitionId", pid)
+            Response resp = targetInstanceInstances
+                    .queryParam("instanceDefinitionId", pid)
                     .request(MediaType.TEXT_PLAIN_TYPE)
                     .accept(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, basicAuth)
@@ -185,7 +196,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
     }
 
-    private JsonObject startProcessInstance(String pdid) {
+    private JsonObject startInstanceInstance(String pdid) {
         try {
 
             JsonObjectBuilder jvb = Json.createObjectBuilder();
@@ -198,8 +209,8 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             jab.add(jvb.build());
 
             JsonObjectBuilder job = Json.createObjectBuilder();
-            job.add("processDefinitionId", pdid);
-            // job.add("processDefinitionKey", "holidayRequest");
+            job.add("instanceDefinitionId", pdid);
+            // job.add("instanceDefinitionKey", "holidayRequest");
             job.add("returnVariables", true);
             job.add("variables", jab.build());
 
@@ -207,7 +218,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             var start = Entity.json(jvp.toString());
 
-            Response resps = targetProcessInstances
+            Response resps = targetInstanceInstances
                     .request(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, basicAuth)
@@ -230,7 +241,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private JsonObject listTasks(String piid) {
         try {
             Response resp = targetTasks
-                    // / .queryParam("processInstanceId", piid)
+                    // / .queryParam("instanceInstanceId", piid)
                     .request(MediaType.TEXT_PLAIN_TYPE)
                     .accept(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, basicAuth)
@@ -247,22 +258,6 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             log.info(String.valueOf(e));
             throw e;
         }
-    }
-
-    private void claimTask() {
-
-    }
-
-    private void completeTask() {
-
-    }
-
-    private void resolveTask() {
-
-    }
-
-    private void delegateTask() {
-
     }
 
     private void testRest(String resourceName) {
@@ -283,15 +278,15 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             log.info("================================\n");
 
-            JsonObject listModelsResp = listModels(did);
-            log.info("listModelsResp = {}", listModelsResp);
+            JsonObject listDefinitionsResp = listDefinitions(did);
+            log.info("listDefinitionsResp = {}", listDefinitionsResp);
 
             log.info("================================\n");
 
-            JsonObject listProcessDefinitionsResp = listProcessDefinitions(did);
-            log.info("listProcessDefinitionsResp = {}", listProcessDefinitionsResp);
+            JsonObject listInstanceDefinitionsResp = listInstanceDefinitions(did);
+            log.info("listInstanceDefinitionsResp = {}", listInstanceDefinitionsResp);
 
-            JsonArray pdlist = listProcessDefinitionsResp.getJsonArray("data");
+            JsonArray pdlist = listInstanceDefinitionsResp.getJsonArray("data");
             log.info("pdlist = {}", pdlist);
 
             JsonObject pdobj = pdlist.getJsonObject(0);
@@ -302,21 +297,21 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
             log.info("================================\n");
 
-            JsonObject listProcessInstancesResp = listProcessInstances(pdid);
-            log.info("listProcessInstancesResp = {}", listProcessInstancesResp);
+            JsonObject listInstanceInstancesResp = listInstanceInstances(pdid);
+            log.info("listInstanceInstancesResp = {}", listInstanceInstancesResp);
 
             log.info("================================\n");
 
-            JsonObject startProcessInstanceResp = startProcessInstance(pdid);
-            log.info("startProcessInstanceResp = {}", startProcessInstanceResp);
+            JsonObject startInstanceInstanceResp = startInstanceInstance(pdid);
+            log.info("startInstanceInstanceResp = {}", startInstanceInstanceResp);
 
-            String piid = startProcessInstanceResp.getString("id");
+            String piid = startInstanceInstanceResp.getString("id");
             log.info("piid = {}", piid);
 
             log.info("================================\n");
 
-            JsonObject listProcessInstancesRespAfter = listProcessInstances(pdid);
-            log.info("listProcessInstancesRespAfter = {}", listProcessInstancesRespAfter);
+            JsonObject listInstanceInstancesRespAfter = listInstanceInstances(pdid);
+            log.info("listInstanceInstancesRespAfter = {}", listInstanceInstancesRespAfter);
 
             log.info("================================\n");
 
@@ -343,6 +338,70 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
 
     }
+
+    @Override
+    public UUID insertDefinition(WorkflowDefinition definition) {
+        return null;
+    }
+
+    @Override
+    public boolean updateDefinition(WorkflowDefinition definition) {
+        return true;
+    }
+
+    @Override
+    public boolean deleteDefinition(UUID id) {
+        return true;
+    }
+
+
+    @Override
+    public UUID insertDeployment(WorkflowDeployment deployment) {
+        return null;
+    }
+
+    @Override
+    public boolean updateDeployment(WorkflowDeployment deployment) {
+        return true;
+    }
+
+    @Override
+    public boolean deleteDeployment(UUID id) {
+        return true;
+    }
+
+
+    @Override
+    public UUID insertInstance(WorkflowInstance instance) {
+        return null;
+    }
+
+    @Override
+    public boolean updateInstance(WorkflowInstance instance) {
+        return true;
+    }
+
+    @Override
+    public boolean deleteInstance(UUID id) {
+        return true;
+    }
+
+
+    @Override
+    public UUID insertTask(WorkflowTask task) {
+        return null;
+    }
+
+    @Override
+    public boolean updateTask(WorkflowTask task) {
+        return true;
+    }
+
+    @Override
+    public boolean deleteTask(UUID id) {
+        return true;
+    }
+
 
     @Override
     public void test() {

@@ -20,25 +20,32 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.headspin.skillbase.workflow.domain.WorkflowProcess;
-import com.headspin.skillbase.workflow.interfaces.service.WorkflowProcessService;
+import com.headspin.skillbase.workflow.domain.WorkflowInstance;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
-@Path("processes")
+/**
+ * REST resource for workflow instances.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Path("instances")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-public class WorkflowProcessesREST {
+public class WorkflowInstancesREST {
 
     @Inject
-    private WorkflowProcessService service;
+    private WorkflowInstancesService service;
 
-    public WorkflowProcessesREST() {
+    public WorkflowInstancesREST() {
     }
 
     @PUT
     @Operation(summary = "insert")
-    public Response insert(WorkflowProcess process) throws URISyntaxException {
-        UUID id = service.insert(process);
-        URI uri = new URI("/processes/" + id);
+    public Response insert(WorkflowInstance instance) throws URISyntaxException {
+        UUID id = service.insert(instance);
+        URI uri = new URI("/instances/" + id);
         return Response.ok(uri).build();
     }
 
@@ -51,8 +58,8 @@ public class WorkflowProcessesREST {
 
     @POST
     @Operation(summary = "update")
-    public Response update(WorkflowProcess process) {
-        return Response.ok(service.update(process)).build();
+    public Response update(WorkflowInstance instance) {
+        return Response.ok(service.update(instance)).build();
     }
 
     @GET
@@ -65,7 +72,7 @@ public class WorkflowProcessesREST {
     @Path("{id}")
     @Operation(summary = "findById")
     public Response findById(@PathParam("id") UUID id) {
-        Optional<WorkflowProcess> match = service.findById(id);
+        Optional<WorkflowInstance> match = service.findById(id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {

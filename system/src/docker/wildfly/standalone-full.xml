@@ -34,8 +34,15 @@
         <extension module="org.wildfly.extension.io" />
         <extension module="org.wildfly.extension.messaging-activemq" />
         <extension module="org.wildfly.extension.metrics" />
+
         <extension module="org.wildfly.extension.microprofile.config-smallrye" />
+        
+        <!--
+        <extension module="org.wildfly.extension.microprofile.context-propagation-smallrye"/>
+        <extension module="org.wildfly.extension.microprofile.graphql-smallrye"/>
+        -->
         <extension module="org.wildfly.extension.microprofile.jwt-smallrye" />
+
         <extension module="org.wildfly.extension.request-controller" />
         <extension module="org.wildfly.extension.security.manager" />
         <extension module="org.wildfly.extension.undertow" />
@@ -574,8 +581,14 @@
         </subsystem>
         <subsystem xmlns="urn:wildfly:metrics:1.0" security-enabled="false" exposed-subsystems="*"
             prefix="${wildfly.metrics.prefix:wildfly}" />
+
         <subsystem xmlns="urn:wildfly:microprofile-config-smallrye:2.0" />
+        <!--
+        <subsystem xmlns="urn:wildfly:microprofile-context-propagation-smallrye:1.0"/>
+        <subsystem xmlns="urn:wildfly:microprofile-graphql-smallrye:1.0"/>
+        -->
         <subsystem xmlns="urn:wildfly:microprofile-jwt-smallrye:1.0" />
+
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
             <remote-naming />
         </subsystem>

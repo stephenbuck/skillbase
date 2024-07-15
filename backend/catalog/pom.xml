@@ -313,6 +313,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>smallrye-graphql-ui-graphiql</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+  
+    <dependency>
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
     </dependency>

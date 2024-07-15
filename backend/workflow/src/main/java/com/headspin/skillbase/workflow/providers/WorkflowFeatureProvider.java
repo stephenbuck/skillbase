@@ -1,6 +1,13 @@
 package com.headspin.skillbase.workflow.providers;
 
-public interface WorkflowFeatureProvider {
+/**
+ * Workflow feature provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+ public interface WorkflowFeatureProvider {
 
     public void test();
 
