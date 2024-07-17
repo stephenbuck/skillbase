@@ -19,12 +19,6 @@ terraform {
       source  = "kreuzwerker/docker"
       version = "~> 3.0.2"
     }
-    /*
-    apisix = {
-      source = "webbankir/apisix"
-      version = "0.0.26"
-    }
-    */
   }
 }
 
@@ -40,11 +34,6 @@ provider "docker" {
     password = "buckstephen"
   }
 }
-
-# resource "docker_network" "skillbase" {
-#   name   = "skillbase"
-#   driver = "bridge"
-# }
 
 /*
 ################################################################################
@@ -72,6 +61,7 @@ resource "docker_container" "apisix" {
     external = 9443
   }
   depends_on = [
+    docker_container.registry,
     docker_container.etcd
   ]
 }
@@ -104,6 +94,7 @@ resource "docker_container" "debezium" {
     host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/data"
   }
   depends_on = [
+    docker_container.registry,
     docker_container.postgres,
     docker_container.kafka  
   ]
@@ -142,6 +133,9 @@ resource "docker_container" "etcd" {
     internal = 2380
     external = 2380
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 */
 
@@ -166,6 +160,9 @@ resource "docker_container" "flipt" {
       internal = 9000
       external = 9007
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 
 
@@ -186,6 +183,7 @@ resource "docker_container" "flowable" {
     external = 8081
   }
   depends_on = [
+    docker_container.registry,
     docker_container.postgres
   ]
 }
@@ -252,6 +250,9 @@ resource "docker_container" "kafka" {
     internal = 9094
     external = 9094
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 */
 
@@ -276,6 +277,7 @@ resource "docker_container" "keycloak" {
     external = 18080
   }
   depends_on = [
+    docker_container.registry,
     docker_container.postgres
   ]
   command = ["start-dev"]
@@ -325,6 +327,9 @@ resource "docker_container" "postgres" {
     internal = 5432
     external = 5432
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 
 ################################################################################
@@ -395,6 +400,7 @@ resource "docker_container" "wildfly" {
     "WILDFLY_MGMT_BIND_INTERFACE=0.0.0.0"
   ]
   depends_on = [
+    docker_container.registry,
     docker_container.postgres,
     docker_container.flipt,
 #    docker_container.kafka,

@@ -1,23 +1,11 @@
 package com.headspin.skillbase.workflow.infrastructure.messaging;
 
-import java.net.URI;
-import java.util.Base64;
-import java.util.Properties;
-
 import lombok.extern.slf4j.Slf4j;
 
-import io.cloudevents.CloudEvent;
-import io.cloudevents.core.builder.CloudEventBuilder;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 
-import com.headspin.skillbase.workflow.domain.WorkflowEvent;
+import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 /**
@@ -29,9 +17,9 @@ import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 @Slf4j
 @ApplicationScoped
-public class WorkflowProducerProviderKafka implements WorkflowProducerProvider {
+public class WorkflowEventProducer implements WorkflowProducerProvider {
 
-    public WorkflowProducerProviderKafka() {
+    public WorkflowEventProducer() {
     }
 
     @Override
@@ -94,13 +82,14 @@ catch (Exception e) {
         try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(props)) {
 
             // Build an event
-            CloudEvent cloudEvent = CloudEventBuilder.v1().withId("workflow")
-                    .withType("com.headspin.skillbase.workflow.event")
+            CloudEvent cloudEvent = CloudEventBuilder.v1()
+                    .withId(String.valueOf(UUID.randomUUID()))
+                    .withType(WorkflowEvent.WORKFLOW_EVENT_TOPIC)
                     .withSource(URI.create("http://localhost"))
                     .build();
 
             // Produce the event
-            producer.send(new ProducerRecord<>("com.headspin.skillbase.workflow.event", cloudEvent));
+            producer.send(new ProducerRecord<>(WorkflowEvent.WORKFLOW_EVENT_TOPIC, cloudEvent));
         }
     }
     */

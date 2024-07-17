@@ -1,8 +1,9 @@
 package com.headspin.skillbase.workflow.domain;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.UUID;
+
+import com.headspin.skillbase.common.domain.DomainEvent;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
@@ -22,6 +23,12 @@ import io.cloudevents.core.builder.CloudEventBuilder;
  *   WORKFLOW_INSTANCE_DELETED
  *   WORKFLOW_INSTANCE_UPDATED
  * 
+ *   WORKFLOW_PROCESS_STARTED:
+ *   WORKFLOW_PROCESS_STOPPED:
+ *   WORKFLOW_PROCESS_UPDATED
+ *   WORKFLOW_PROCESS_PASSED:
+ *   WORKFLOW_PROCESS_FAILED:
+ * 
  *   WORKFLOW_TASK_CREATED
  *   WORKFLOW_TASK_DELETED
  *   WORKFLOW_TASK_UPDATED
@@ -30,7 +37,7 @@ import io.cloudevents.core.builder.CloudEventBuilder;
  * @since 1.0
  */
 
-public class WorkflowEvent implements Serializable {
+public class WorkflowEvent extends DomainEvent {
 
     private static URI source = URI.create("http://skillbase.com");
 
@@ -45,6 +52,12 @@ public class WorkflowEvent implements Serializable {
     public static final String WORKFLOW_INSTANCE_CREATED = "com.headspin.skillbase.workflow.instance.created";
     public static final String WORKFLOW_INSTANCE_DELETED = "com.headspin.skillbase.workflow.instance.deleted";
     public static final String WORKFLOW_INSTANCE_UPDATED = "com.headspin.skillbase.workflow.instance.updated";
+
+    public static final String WORKFLOW_PROCESS_STARTED = "com.headspin.skillbase.workflow.process.started";
+    public static final String WORKFLOW_PROCESS_STOPPED = "com.headspin.skillbase.workflow.process.stopped";
+    public static final String WORKFLOW_PROCESS_UPDATED = "com.headspin.skillbase.workflow.process.updated";
+    public static final String WORKFLOW_PROCESS_PASSED = "com.headspin.skillbase.workflow.process.passed";
+    public static final String WORKFLOW_PROCESS_FAILED = "com.headspin.skillbase.workflow.process.failed";
 
     public static final String WORKFLOW_TASK_CREATED = "com.headspin.skillbase.workflow.task.created";
     public static final String WORKFLOW_TASK_DELETED = "com.headspin.skillbase.workflow.task.deleted";

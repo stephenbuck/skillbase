@@ -1,9 +1,9 @@
 package com.headspin.skillbase.workflow.domain;
 
-import java.io.Serializable;
-
 import java.util.Date;
 import java.util.UUID;
+
+import com.headspin.skillbase.common.domain.DomainEntity;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "workflow", name = "instance")
-public class WorkflowInstance implements Serializable {
+public class WorkflowInstance extends DomainEntity {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
@@ -42,6 +42,9 @@ public class WorkflowInstance implements Serializable {
 
         @JsonbProperty("user_id")
         @Column(name = "user_id") @NotNull public UUID user_id;
+
+        @JsonbProperty("is_test")
+        @Column(name = "is_test") @NotNull public boolean is_test;
 
         @JsonbProperty("state")
         @Column(name = "state") @NotNull public String state;
@@ -66,6 +69,7 @@ public class WorkflowInstance implements Serializable {
                 stringBuilder.append("    peer_id       = " + peer_id + "\n");
                 stringBuilder.append("    definition_id = " + definition_id + "\n");
                 stringBuilder.append("    user_id       = " + user_id + "\n");
+                stringBuilder.append("    is_test       = " + is_test + "\n");
                 stringBuilder.append("    state         = " + state + "\n");
                 stringBuilder.append("    title         = " + title + "\n");
                 stringBuilder.append("    note          = " + note + "\n");

@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.headspin.skillbase.workflow.domain.WorkflowEvent;
+import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.domain.WorkflowDeploymentRepo;
 import com.headspin.skillbase.workflow.infrastructure.config.WorkflowConfigProviderEtcd;
 import com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable;
 import com.headspin.skillbase.workflow.infrastructure.feature.WorkflowFeatureProviderFlipt;
-import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowProducerProviderKafka;
+import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowEventProducer;
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
@@ -46,7 +46,7 @@ public class WorkflowDeploymentsService {
 
     private WorkflowConfigProvider conf = new WorkflowConfigProviderEtcd();
     private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
-    private WorkflowProducerProvider prod = new WorkflowProducerProviderKafka();
+    private WorkflowProducerProvider prod = new WorkflowEventProducer();
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
 //    @RolesAllowed({ "Admin" })

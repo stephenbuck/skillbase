@@ -1,8 +1,8 @@
 package com.headspin.skillbase.member.app;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import com.headspin.skillbase.common.app.AppConfig;
 
-public class MemberAppConfig {
+public class MemberAppConfig extends AppConfig {
 
     public MemberAppConfig() {
     }

@@ -1,28 +1,24 @@
 package com.headspin.skillbase.member.interfaces.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.headspin.skillbase.member.domain.MemberUser;
-import com.headspin.skillbase.member.domain.MemberEvent;
+import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberGroupRepo;
 import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
 import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
 import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
-import com.headspin.skillbase.member.infrastructure.messaging.MemberProducerProviderKafka;
+import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducer;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
 import com.headspin.skillbase.member.providers.MemberFeatureProvider;
-//import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberProducerProvider;
 
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -44,7 +40,7 @@ public class MemberGroupService {
 
     private MemberConfigProvider conf = new MemberConfigProviderDefault();
     private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
-    private MemberProducerProvider prod = new MemberProducerProviderKafka();
+    private MemberProducerProvider prod = new MemberEventProducer();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
 //    @RolesAllowed({ "Admin" })

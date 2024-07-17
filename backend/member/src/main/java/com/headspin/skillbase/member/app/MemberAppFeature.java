@@ -1,8 +1,8 @@
 package com.headspin.skillbase.member.app;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import com.headspin.skillbase.common.app.AppFeature;
 
-public class MemberAppFeature {
+public class MemberAppFeature extends AppFeature {
 
     public MemberAppFeature() {
     }

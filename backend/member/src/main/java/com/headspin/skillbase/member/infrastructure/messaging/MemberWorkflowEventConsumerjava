@@ -1,0 +1,100 @@
+package com.headspin.skillbase.member.infrastructure.messaging;
+
+import com.headspin.skillbase.common.events.WorkflowEvent;
+
+import jakarta.annotation.Resource;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.MessageDriven;
+import jakarta.ejb.MessageDrivenContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@MessageDriven(
+    name = "MemberWorflowEventConsumer",
+    activationConfig = {
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = WorkflowEvent.WORKFLOW_EVENT_TOPIC),
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue="jakarta.jms.Topic")
+    }
+)
+public class MemberWorflowEventConsumer implements MessageListener {
+    
+    @Resource
+    private MessageDrivenContext context;
+
+    public void onMessage(Message message) {  
+        log.info("onMessage({})", message);
+        try {
+            onWorkflowEvent((WorkflowEvent) message.getBody(WorkflowEvent.class));
+        }
+        catch (JMSException e) {
+            log.info(String.valueOf(e));
+        }
+    }
+
+    private void onWorkflowEvent(WorkflowEvent event) {
+        switch (event.type()) {
+
+            case WorkflowEvent.WORKFLOW_INSTANCE_CREATED:
+                onInstanceCreated(event);
+                break;
+            case WorkflowEvent.WORKFLOW_INSTANCE_DELETED:
+                onInstanceDeleted(event);
+                break;
+            case WorkflowEvent.WORKFLOW_INSTANCE_UPDATED:
+                onInstanceUpdated(event);
+                break;
+
+            default:
+                break;
+        }       
+    }
+
+    private void onInstanceCreated(WorkflowEvent event) {
+    /*
+        MemberProcess process = new MemberProcess();
+        process.state = event?.state;
+        process.title = event?.title;
+        process.note = event?.note;
+        insertProcess(process);
+    */
+    }
+
+    private void onInstanceDeleted(WorkflowEvent event) {
+    /*
+        MemberProcess process = findByInstanceId(event?.instance_id);
+        deleteProcess(process.id);
+    */
+    }
+
+    private void onInstanceUpdated(WorkflowEvent event) {
+    /*
+        MemberProcess process = findByInstanceId(event?.instance_id);
+        process.state = event?.state;
+        updateProcess(process);
+    */
+    }
+
+    /*
+    private void onInstancePassed(WorkflowEvent event) {
+        
+        MemberProcess process = findByInstanceId(event?.instance_id);
+        process.state = event?.state;
+        updateProcess(process);
+
+        MemberAchievement achievement = new MemberAchievement();
+        achievement.skill_id = event?.skill_id;
+        achievement.credential_id = event?.credential_id;
+        achievement.title = event?.title;
+        achievement.note = event?.note;
+        insertAchievement(achievement);
+    }
+
+    private void onInstanceFailed(WorkflowEvent event) {
+        // TBD
+    }
+    */
+}
+

@@ -1,22 +1,11 @@
 package com.headspin.skillbase.catalog.app;
 
-import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Liveness;
-import org.eclipse.microprofile.health.Readiness;
-import org.eclipse.microprofile.health.Startup;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
-
-// Check Kafka
+import com.headspin.skillbase.common.app.AppHealth;
 
 // @Path("health")
 // @Consumes({ MediaType.APPLICATION_JSON })
 // @Produces({ MediaType.APPLICATION_JSON })
-public class CatalogAppHealth {
+public class CatalogAppHealth extends AppHealth {
 
     public CatalogAppHealth() {
     }
@@ -38,5 +27,5 @@ public class CatalogAppHealth {
     public HealthCheckResponse startup() {
         return HealthCheckResponse.up("Catalog Startup OK");
     }
-        */
+*/
 }

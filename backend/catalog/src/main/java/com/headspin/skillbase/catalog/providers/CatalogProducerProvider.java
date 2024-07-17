@@ -1,6 +1,6 @@
 package com.headspin.skillbase.catalog.providers;
 
-import com.headspin.skillbase.catalog.domain.CatalogEvent;
+import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.transaction.Transactional;
 

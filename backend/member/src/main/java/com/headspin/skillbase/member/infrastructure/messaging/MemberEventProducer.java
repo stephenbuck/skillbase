@@ -1,32 +1,16 @@
 package com.headspin.skillbase.member.infrastructure.messaging;
 
-import java.net.URI;
-import java.util.Properties;
-
 import lombok.extern.slf4j.Slf4j;
 
-import io.cloudevents.CloudEvent;
-import io.cloudevents.core.builder.CloudEventBuilder;
-import io.cloudevents.kafka.CloudEventSerializer;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.jms.ConnectionFactory;
-import jakarta.jms.JMSContext;
-import jakarta.jms.JMSProducer;
-import jakarta.jms.Topic;
 import jakarta.transaction.Transactional;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
-
-import com.headspin.skillbase.member.domain.MemberEvent;
+import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.providers.MemberProducerProvider;
 
 @Slf4j
 @ApplicationScoped
-public class MemberProducerProviderKafka implements MemberProducerProvider {
+public class MemberEventProducer implements MemberProducerProvider {
 
 //    @Resource(lookup = "java:/KafkaConnectionFactory")
 //    private static ConnectionFactory connectionFactory;
@@ -34,7 +18,7 @@ public class MemberProducerProviderKafka implements MemberProducerProvider {
 //    @Resource(lookup = "java:/jms/topic/com.headspin.skillbase.member.event")
 //    private static Topic topic;
 
-    public MemberProducerProviderKafka() {
+    public MemberEventProducer() {
     }
 
     @Override
@@ -71,13 +55,14 @@ public class MemberProducerProviderKafka implements MemberProducerProvider {
         try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(props)) {
 
             // Build an event
-            CloudEvent cloudEvent = CloudEventBuilder.v1().withId("member")
-                    .withType("com.headspin.skillbase.member.event")
+            CloudEvent cloudEvent = CloudEventBuilder.v1()
+                    .withId(String.valueOf(UUID.randomUUID()))
+                    .withType(MemberEvent.MEMBER_EVENT_TOPIC)
                     .withSource(URI.create("http://localhost"))
                     .build();
 
             // Produce the event
-            producer.send(new ProducerRecord<>("com.headspin.skillbase.member.event", cloudEvent));
+            producer.send(new ProducerRecord<>(MemberEvent.MEMBER_EVENT_TOPIC, cloudEvent));
         }
     }
     */

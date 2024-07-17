@@ -1,24 +1,18 @@
 package com.headspin.skillbase.catalog.infrastructure.messaging;
 
-import java.net.URI;
-import java.util.Properties;
-
 import lombok.extern.slf4j.Slf4j;
 
-import io.cloudevents.CloudEvent;
-import io.cloudevents.core.builder.CloudEventBuilder;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
-import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
+import com.headspin.skillbase.common.events.CatalogEvent;
 
 @Slf4j
 @ApplicationScoped
-public class CatalogProducerProviderKafka implements CatalogProducerProvider {
+public class CatalogEventProducer implements CatalogProducerProvider {
 
-    public CatalogProducerProviderKafka() {
+    public CatalogEventProducer() {
     }
 
     @Override
@@ -47,13 +41,14 @@ public class CatalogProducerProviderKafka implements CatalogProducerProvider {
         try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(props)) {
 
             // Build an event
-            CloudEvent cloudEvent = CloudEventBuilder.v1().withId("catalog")
-                    .withType("com.headspin.skillbase.catalog.event")
+            CloudEvent cloudEvent = CloudEventBuilder.v1()
+                    .withId(String.valueOf(UUID.randomUUID()))
+                    .withType(CatalogEvent.CATALOG_EVENT_TOPIC)
                     .withSource(URI.create("http://localhost"))
                     .build();
 
             // Produce the event
-            producer.send(new ProducerRecord<>("com.headspin.skillbase.catalog.event", cloudEvent));
+            producer.send(new ProducerRecord<>(CatalogEvent.CATALOG_EVENT_TOPIC, cloudEvent));
         }
     }
     */

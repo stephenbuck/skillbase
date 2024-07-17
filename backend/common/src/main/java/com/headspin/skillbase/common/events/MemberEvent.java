@@ -1,15 +1,18 @@
-package com.headspin.skillbase.member.domain;
+package com.headspin.skillbase.common.events;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.UUID;
+
+import com.headspin.skillbase.common.domain.DomainEvent;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 
-public class MemberEvent implements Serializable {
+public class MemberEvent extends DomainEvent {
 
     private static URI source = URI.create("http://skillbase.com");
+
+    public static final String MEMBER_EVENT_TOPIC = "com.headspin.skillbase.member.event";
 
     public static final String MEMBER_ACHIEVEMENT_CREATED = "com.headspin.skillbase.member.achievement.created";
     public static final String MEMBER_ACHIEVEMENT_DELETED = "com.headspin.skillbase.member.achievement.deleted";

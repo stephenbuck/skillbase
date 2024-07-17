@@ -1,7 +1,5 @@
 package com.headspin.skillbase.catalog.domain;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,6 +16,8 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import com.headspin.skillbase.common.domain.DomainEntity;
+
 /**
  * Representation of a catalog credential entity.
  * 
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "catalog", name = "credential")
-public class CatalogCredential implements Serializable {
+public class CatalogCredential extends DomainEntity {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
@@ -39,6 +39,9 @@ public class CatalogCredential implements Serializable {
 
         @JsonbProperty("skill_id")
         @Column(name = "skill_id") @NotNull public UUID skill_id;
+
+        @JsonbProperty("is_enabled")
+        @Column(name = "is_enabled") @NotNull public boolean is_enabled;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;

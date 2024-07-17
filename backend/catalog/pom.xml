@@ -177,6 +177,15 @@
 
   <dependencies>
 
+    <!-- Project -->
+     
+    <dependency>
+      <artifactId>skillbase-backend-common</artifactId>
+      <groupId>com.headspin.skillbase</groupId>
+    </dependency>
+
+    <!-- External -->
+
     <dependency>
       <artifactId>cloudevents-api</artifactId>
       <groupId>io.cloudevents</groupId>

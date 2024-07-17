@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS workflow.instance (
   id                       UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
   definition_id            UUID        NOT NULL,
+  is_test                  BOOLEAN     NOT NULL DEFAULT FALSE,
   title                    VARCHAR     NOT NULL,
   note                     VARCHAR     NOT NULL DEFAULT '',
   created_at               TIMESTAMP   NOT NULL DEFAULT now(),

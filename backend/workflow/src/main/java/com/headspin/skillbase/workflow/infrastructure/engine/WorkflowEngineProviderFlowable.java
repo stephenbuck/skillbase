@@ -83,6 +83,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
     }
 
+    /*
     private JsonObject createDeployment(String resourceName) {
         try {
 
@@ -338,6 +339,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         }
 
     }
+        */
 
     @Override
     public UUID insertDefinition(WorkflowDefinition definition) {
@@ -405,6 +407,7 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
     @Override
     public void test() {
-        testRest("/test.bpmn20.bpmn");
+        log.info("test");
+//        testRest("/test.bpmn20.bpmn");
     }
 }

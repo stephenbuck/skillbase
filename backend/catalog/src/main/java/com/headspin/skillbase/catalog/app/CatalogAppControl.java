@@ -1,8 +1,8 @@
 package com.headspin.skillbase.catalog.app;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import com.headspin.skillbase.common.app.AppControl;
 
-public class CatalogAppControl {
+public class CatalogAppControl extends AppControl {
 
     public CatalogAppControl() {
     }

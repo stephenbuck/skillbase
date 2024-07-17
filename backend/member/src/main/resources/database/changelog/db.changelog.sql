@@ -6,6 +6,7 @@ CREATE SCHEMA member;
 
 CREATE TABLE IF NOT EXISTS member.user (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   user_name            VARCHAR     NOT NULL,
   first_name           VARCHAR     NOT NULL,
   last_name            VARCHAR     NOT NULL,

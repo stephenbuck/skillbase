@@ -1,29 +1,25 @@
 package com.headspin.skillbase.member.interfaces.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-// import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
+import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberAchievementRepo;
-import com.headspin.skillbase.member.domain.MemberEvent;
 import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
 import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
 import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
-import com.headspin.skillbase.member.infrastructure.messaging.MemberProducerProviderKafka;
+import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducer;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
 import com.headspin.skillbase.member.providers.MemberFeatureProvider;
-//import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberProducerProvider;
 
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -31,6 +27,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -45,7 +42,7 @@ public class MemberAchievementService {
 
     private MemberConfigProvider conf = new MemberConfigProviderDefault();
     private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
-    private MemberProducerProvider prod = new MemberProducerProviderKafka();
+    private MemberProducerProvider prod = new MemberEventProducer();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
 //    @RolesAllowed({ "Admin" })
@@ -68,7 +65,7 @@ public class MemberAchievementService {
     @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
-        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
+        prod.produce(com.headspin.skillbase.common.events.MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return updated;
     }
 
@@ -89,6 +86,7 @@ public class MemberAchievementService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test");
         conf.test();
         feat.test();
         prod.test();

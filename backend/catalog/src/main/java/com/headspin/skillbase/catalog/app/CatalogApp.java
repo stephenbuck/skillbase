@@ -6,16 +6,16 @@ import java.util.Set;
 import com.headspin.skillbase.catalog.interfaces.rest.CatalogCategoriesREST;
 import com.headspin.skillbase.catalog.interfaces.rest.CatalogCredentialsREST;
 import com.headspin.skillbase.catalog.interfaces.rest.CatalogSkillsREST;
+import com.headspin.skillbase.common.app.AppBase;
 
 import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
 
 /*
  * CatalogApp is the main entry point.
  */
 
 @ApplicationPath("/catalog")
-public class CatalogApp extends Application {
+public class CatalogApp extends AppBase {
 
     public CatalogApp() {
     }

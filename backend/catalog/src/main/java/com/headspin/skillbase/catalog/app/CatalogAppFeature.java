@@ -1,8 +1,8 @@
 package com.headspin.skillbase.catalog.app;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import com.headspin.skillbase.common.app.AppFeature;
 
-public class CatalogAppFeature {
+public class CatalogAppFeature extends AppFeature {
 
     public CatalogAppFeature() {
     }

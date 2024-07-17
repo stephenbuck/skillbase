@@ -1,10 +1,18 @@
 **Design:**
 
-The member service implements member profiles itself, but delegates to a third-party IAM for authentication, authorization, and JWT.
+The member service is responsible for managing users, groups, and achievements.
+Users represent member profiles. Users can be members of Groups. Achievements
+are associated with a user.
+
+The member service delegates some of its functionality to a third-party IAM
+(e.g. Keycloak) for authentication, authorization, and JWT tokens.
+
 
 **Domain Entities:**
 
+* MemberAchievement
 * MemberGroup
+* MemberProcess
 * MemberUser
 
 **Domain Events:**
@@ -25,6 +33,36 @@ The member service implements member profiles itself, but delegates to a third-p
 * SKILLBASE_MEMBER_USER_DELETED
 * SKILLBASE_MEMBER_USER_UPDATED
 
+
 **Subscribed Events**
+
+SKILLBASE_WORKFLOW_INSTANCE_CREATED:
+In response to a workflow instance created event, the member service creates a corresponding
+MemberProcess entity.
+
+SKILLBASE_WORKFLOW_INSTANCE_DELETED:
+In response to a workflow instance delete event, the member service deletes its corresponding MemberProcess entity.
+
+SKILLBASE_WORKFLOW_INSTANCE_UPDATED:
+In response to a workflow instance updated event, the member service updates its corresponding
+MemberProcess entity.
+
+
+SKILLBASE_WORKFLOW_PROCESS_STARTED:
+TBD
+
+SKILLBASE_WORKFLOW_PROCESS_STOPPED:
+TBD
+
+SKILLBASE_WORKFLOW_PROCESS_UPDATED:
+TBD
+
+SKILLBASE_WORKFLOW_PROCESS_PASSED:
+In response to a process pass event, the member service creates a corresponding
+MemberAchievement entity.
+
+SKILLBASE_WORKFLOW_PROCESS_FAILED:
+TBD
+
 
 See Backend / Design for common design elements.

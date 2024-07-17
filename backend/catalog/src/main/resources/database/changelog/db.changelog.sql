@@ -7,6 +7,7 @@ CREATE SCHEMA catalog;
 CREATE TABLE IF NOT EXISTS catalog.category (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   parent_id            UUID            NULL DEFAULT NULL,
+  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS catalog.skill (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   deployment_id        UUID            NULL DEFAULT NULL,
   category_id          UUID            NULL DEFAULT NULL,
+  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,
@@ -45,6 +47,7 @@ CREATE TABLE IF NOT EXISTS catalog.credential (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   model_id             UUID            NULL DEFAULT NULL,
   skill_id             UUID        NOT NULL,
+  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,

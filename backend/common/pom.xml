@@ -64,6 +64,11 @@
       </plugin>
 
       <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+      
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
@@ -102,6 +107,8 @@
   </build>
 
   <dependencies>
+
+    <!-- External -->
 
     <dependency>
       <artifactId>cloudevents-api</artifactId>

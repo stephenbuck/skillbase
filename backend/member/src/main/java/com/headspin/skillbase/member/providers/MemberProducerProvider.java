@@ -1,6 +1,6 @@
 package com.headspin.skillbase.member.providers;
 
-import com.headspin.skillbase.member.domain.MemberEvent;
+import com.headspin.skillbase.common.events.MemberEvent;
 
 import jakarta.transaction.Transactional;
 

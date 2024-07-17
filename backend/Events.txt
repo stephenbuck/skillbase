@@ -1,0 +1,217 @@
+
+    public void onCloudEvent(CloudEvent event) {
+        /*
+        switch(event.getType()) {
+
+            case WORKFLOW_PROCESS_FAILED:
+                break;
+
+            case WORKFLOW_PROCESS_PASSED:
+                break;
+
+            case WORKFLOW_PROCESS_STARTED:
+                break;
+
+            case WORKFLOW_PROCESS_STOPPED:
+                break;
+
+            case WORKFLOW_PROCESS_UPDATED:
+                break;
+               
+            default:
+                break;
+        }
+        */
+    }
+
+
+
+    public static class CategoryCreated {
+
+        @NotNull
+        @JsonbProperty("id")
+        public UUID id;
+
+        @NotNull
+        @JsonbProperty("title")
+        public String title;
+    }
+
+    public static class CategoryDeleted {
+
+        @NotNull
+        @JsonbProperty("id")
+        public UUID id;
+
+    }
+
+    public static class CategoryUpdated {
+
+        @NotNull
+        @JsonbProperty("id")
+        public UUID id;
+
+    }
+
+
+
+
+    public static final String CATALOG_CATEGORY_CREATED_SCHEMA =
+        """
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "title": "CATALOG_CATEGORY_CREATED",
+            "description": "A catalog category created event",
+            "type": "object",
+            "properties": {
+                "categoryId": {
+                "description": "The unique identifier for the category",
+                "type": "uuid"
+                },
+                "parentId": {
+                "description": "The parent identifier for the category",
+                "type": "uuid"
+                },
+                "title": {
+                "description": "Title of the category",
+                "type": "string"
+                },
+            },
+            "required": [ "categoryId", "parentId", "title" ]
+        }            
+        """;
+
+    public static final String CATALOG_CATEGORY_DELETED_SCHEMA =
+        """
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "title": "CATALOG_CATEGORY_DELETED",
+            "description": "A catalog category deleted event",
+            "type": "object",
+            "properties": {
+                "categoryId": {
+                "description": "The unique identifier for the category",
+                "type": "uuid"
+                },
+            },
+            "required": [ "categoryId" ]
+        }            
+        """;
+
+
+    public static final String CATALOG_CREDENTIAL_CREATED_SCHEMA =
+        """
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "title": "CATALOG_CREDENTIAL_CREATED",
+            "description": "A catalog credential created event",
+            "type": "object",
+            "properties": {
+                "credentialId": {
+                "description": "The unique identifier for the credential",
+                "type": "uuid"
+                },
+                "skillId": {
+                "description": "The unique identifier for the skill",
+                "type": "uuid"
+                },
+                "title": {
+                "description": "Title of the credential",
+                "type": "string"
+                },
+            },
+            "required": [ "credentialId", "skillId", "title" ]
+        }            
+        """;
+
+    public static final String CATALOG_SKILL_CREATED_SCHEMA =
+        """
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "title": "CATALOG_SKILL_CREATED",
+            "description": "A catalog skill created event",
+            "type": "object",
+            "properties": {
+                "skillId": {
+                "description": "The unique identifier for the skill",
+                "type": "uuid"
+                },
+                "categoryId": {
+                "description": "The category identifier for the skill",
+                "type": "uuid"
+                },
+                "title": {
+                "description": "Title of the skill",
+                "type": "string"
+                },
+            },
+            "required": [ "skillId", "categoryId", "title" ]
+        }            
+        """;
+
+
+
+    public void recvCE(CloudEvent ce) {
+        switch(ce.getType()) {
+
+            case CATALOG_CATEGORY_CREATED:
+
+                log.info("###################################");
+
+                CloudEventData cd = ce.getData();
+                cd.toBytes();
+
+                ByteArrayInputStream bais = new ByteArrayInputStream(cd.toBytes());
+                Jsonb jb = new JsonBuilder.create();
+                String json = jb.toJson(cc);
+
+                CatalogEvent.CategoryCreated cc = (CatalogEvent.CategoryCreated) jb.fromJson(bais, CatalogEvent.CategoryCreated.class);
+        
+                log.info("json = {}", json);
+                log.info("###################################");
+        
+                break;
+
+            case CATALOG_CATEGORY_DELETED:
+                break;
+
+            case CATALOG_CATEGORY_UPDATED:
+                break;
+
+
+            case CATALOG_CREDENTIAL_CREATED:
+                break;
+
+            case CATALOG_CREDENTIAL_UPDATED:
+                break;
+                
+            case CATALOG_CREDENTIAL_DELETED:
+                break;
+
+
+            case CATALOG_SKILL_CREATED:
+                break;
+
+            case CATALOG_SKILL_UPDATED:
+                break;
+                
+            case CATALOG_SKILL_DELETED:
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void recvJMS(Message msg) {
+        String body = msg.getBody(String.class);
+    }
+
+    public static CatalogEvent fromJson(String json) {
+        return null;
+    }
+

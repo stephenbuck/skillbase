@@ -1,9 +1,9 @@
 package com.headspin.skillbase.member.domain;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
+
+import com.headspin.skillbase.common.domain.DomainEntity;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.persistence.Column;
@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "member", name = "process")
-public class MemberProcess implements Serializable {
+public class MemberProcess extends DomainEntity {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;

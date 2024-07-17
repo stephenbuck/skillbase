@@ -1,6 +1,8 @@
 package com.headspin.skillbase.catalog.app;
 
-public class CatalogAppConfig {
+import com.headspin.skillbase.common.app.AppConfig;
+
+public class CatalogAppConfig extends AppConfig {
 
     public CatalogAppConfig() {
     }

@@ -1,6 +1,6 @@
 package com.headspin.skillbase.workflow.providers;
 
-import com.headspin.skillbase.workflow.domain.WorkflowEvent;
+import com.headspin.skillbase.common.events.WorkflowEvent;
 
 import jakarta.transaction.Transactional;
 

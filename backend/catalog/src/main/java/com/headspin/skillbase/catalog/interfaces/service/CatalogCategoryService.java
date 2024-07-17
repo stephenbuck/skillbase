@@ -8,14 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
-import com.headspin.skillbase.catalog.domain.CatalogEvent;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
 import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogProducerProviderKafka;
+import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducer;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
 import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
+import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
@@ -24,6 +24,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.bind.Jsonb;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -43,7 +44,7 @@ public class CatalogCategoryService {
 
     CatalogConfigProvider conf = new CatalogConfigProviderDefault();
     CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
-    CatalogProducerProvider prod = new CatalogProducerProviderKafka();
+    CatalogProducerProvider prod = new CatalogEventProducer();
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
@@ -114,6 +115,7 @@ public class CatalogCategoryService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test");
         conf.test();
         feat.test();
         prod.test();

@@ -1,9 +1,9 @@
 package com.headspin.skillbase.workflow.domain;
 
-import java.io.Serializable;
-
 import java.util.Date;
 import java.util.UUID;
+
+import com.headspin.skillbase.common.domain.DomainEntity;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "workflow", name = "definition")
-public class WorkflowDefinition implements Serializable {
+public class WorkflowDefinition extends DomainEntity {
 
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
