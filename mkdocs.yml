@@ -6,6 +6,8 @@ nav:
     - 'Design': 'backend/design.md'
     - 'Build': 'backend/build.md'
     - 'Test': 'backend/test.md'
+    - 'Common':
+      - 'Build': 'backend/common/build.md'
     - 'Services':
       - 'Catalog':
         - 'Overview': 'backend/catalog/index.md'

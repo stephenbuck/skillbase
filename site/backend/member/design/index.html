@@ -53,6 +53,12 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../test/">Test</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" >Common</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../common/build/">Build</a>
+                </li>
+    </ul>
+                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" >Services</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" >Catalog</a>
@@ -149,10 +155,16 @@
             <div class="section" itemprop="articleBody">
               
                 <p><strong>Design:</strong></p>
-<p>The member service implements member profiles itself, but delegates to a third-party IAM for authentication, authorization, and JWT.</p>
+<p>The member service is responsible for managing users, groups, and achievements.
+Users represent member profiles. Users can be members of Groups. Achievements
+are associated with a user.</p>
+<p>The member service delegates some of its functionality to a third-party IAM
+(e.g. Keycloak) for authentication, authorization, and JWT tokens.</p>
 <p><strong>Domain Entities:</strong></p>
 <ul>
+<li>MemberAchievement</li>
 <li>MemberGroup</li>
+<li>MemberProcess</li>
 <li>MemberUser</li>
 </ul>
 <p><strong>Domain Events:</strong></p>
@@ -183,6 +195,25 @@
 <li>SKILLBASE_MEMBER_USER_UPDATED</li>
 </ul>
 <p><strong>Subscribed Events</strong></p>
+<p>SKILLBASE_WORKFLOW_INSTANCE_CREATED:
+In response to a workflow instance created event, the member service creates a corresponding
+MemberProcess entity.</p>
+<p>SKILLBASE_WORKFLOW_INSTANCE_DELETED:
+In response to a workflow instance delete event, the member service deletes its corresponding MemberProcess entity.</p>
+<p>SKILLBASE_WORKFLOW_INSTANCE_UPDATED:
+In response to a workflow instance updated event, the member service updates its corresponding
+MemberProcess entity.</p>
+<p>SKILLBASE_WORKFLOW_PROCESS_STARTED:
+TBD</p>
+<p>SKILLBASE_WORKFLOW_PROCESS_STOPPED:
+TBD</p>
+<p>SKILLBASE_WORKFLOW_PROCESS_UPDATED:
+TBD</p>
+<p>SKILLBASE_WORKFLOW_PROCESS_PASSED:
+In response to a process pass event, the member service creates a corresponding
+MemberAchievement entity.</p>
+<p>SKILLBASE_WORKFLOW_PROCESS_FAILED:
+TBD</p>
 <p>See Backend / Design for common design elements.</p>
               
             </div>
