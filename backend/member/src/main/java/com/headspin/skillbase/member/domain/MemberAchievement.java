@@ -27,6 +27,9 @@ public class MemberAchievement extends DomainEntity {
         @JsonbProperty("user_id")
         @Column(name = "user_id") @NotNull public UUID user_id;
 
+        @JsonbProperty("state")
+        @Column(name = "state") public String state;
+
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
 

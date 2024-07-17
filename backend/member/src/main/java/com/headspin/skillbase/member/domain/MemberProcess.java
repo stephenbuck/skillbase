@@ -30,6 +30,9 @@ public class MemberProcess extends DomainEntity {
         @JsonbProperty("process_id")
         @Column(name = "process_id") public UUID process_id;
 
+        @JsonbProperty("state")
+        @Column(name = "state") public String state;
+
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
 

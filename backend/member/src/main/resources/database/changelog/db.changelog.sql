@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS member.process (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   peer_id              VARCHAR         NULL DEFAULT NULL,
   user_id              UUID        NOT NULL,
+  state                VARCHAR         NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
@@ -53,6 +54,7 @@ CREATE INDEX process_user ON member.process(user_id);
 CREATE TABLE IF NOT EXISTS member.achievement (
   id                   UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   user_id              UUID        NOT NULL,
+  state                VARCHAR         NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,

@@ -37,8 +37,8 @@ public class WorkflowDeployment extends DomainEntity {
         @JsonbProperty("peer_id")
         @Column(name = "peer_id") public String peer_id;
 
-        @JsonbProperty("credential_id")
-        @Column(name = "credential_id") public UUID credential_id;
+        @JsonbProperty("skill_id")
+        @Column(name = "skill_id") public UUID skill_id;
         
         @JsonbProperty("state")
         @Column(name = "state") @NotNull public String state;
@@ -61,7 +61,7 @@ public class WorkflowDeployment extends DomainEntity {
                 stringBuilder.append("WorkflowDeployment {\n}");
                 stringBuilder.append("    id            = " + id + "\n");
                 stringBuilder.append("    peer_id       = " + peer_id + "\n");
-                stringBuilder.append("    credential_id = " + credential_id + "\n");
+                stringBuilder.append("    skill_id      = " + skill_id + "\n");
                 stringBuilder.append("    state         = " + state + "\n");
                 stringBuilder.append("    title         = " + title + "\n");
                 stringBuilder.append("    note          = " + note + "\n");
