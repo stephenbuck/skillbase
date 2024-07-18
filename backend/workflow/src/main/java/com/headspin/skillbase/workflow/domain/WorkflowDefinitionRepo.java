@@ -28,6 +28,8 @@ import jakarta.validation.constraints.NotNull;
 
     public Optional<WorkflowDefinition> findById(@NotNull UUID id);
 
+    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id);
+
     public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit);
 
     public Long count();

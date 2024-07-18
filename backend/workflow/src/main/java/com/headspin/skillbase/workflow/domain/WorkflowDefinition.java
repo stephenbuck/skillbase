@@ -38,7 +38,10 @@ public class WorkflowDefinition extends DomainEntity {
         @Column(name = "peer_id") public String peer_id;
 
         @JsonbProperty("deployment_id")
-        @Column(name = "deployment_id") @NotNull public UUID model_id;
+        @Column(name = "deployment_id") @NotNull public UUID deployment_id;
+
+        @JsonbProperty("credential_id")
+        @Column(name = "credential_id") @NotNull public UUID credential_id;
 
         @JsonbProperty("title")
         @Column(name = "title") @NotNull @NotBlank public String title;
@@ -56,13 +59,14 @@ public class WorkflowDefinition extends DomainEntity {
         public String toString() {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("WorkflowDefinition {\n");
-                stringBuilder.append("    id        = " + id + "\n");
-                stringBuilder.append("    peer_id   = " + peer_id + "\n");
-                stringBuilder.append("    model_id  = " + model_id + "\n");
-                stringBuilder.append("    title     = " + title + "\n");
-                stringBuilder.append("    note      = " + note + "\n");
-                stringBuilder.append("    createdAt = " + createdAt + "\n");
-                stringBuilder.append("    updatedAt = " + updatedAt + "\n");
+                stringBuilder.append("    id             = " + id + "\n");
+                stringBuilder.append("    peer_id        = " + peer_id + "\n");
+                stringBuilder.append("    deployment_id  = " + deployment_id + "\n");
+                stringBuilder.append("    credential_id  = " + credential_id + "\n");
+                stringBuilder.append("    title          = " + title + "\n");
+                stringBuilder.append("    note           = " + note + "\n");
+                stringBuilder.append("    createdAt      = " + createdAt + "\n");
+                stringBuilder.append("    updatedAt      = " + updatedAt + "\n");
                 stringBuilder.append("}\n");
                 return stringBuilder.toString();
         }

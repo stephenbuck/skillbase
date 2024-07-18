@@ -88,6 +88,18 @@ public class WorkflowDefinitionsService {
     }
 
     /**
+     * Returns a workflow definition given an id.
+     *
+     * @param id Requested definition id.
+     * @return An optional workflow definition.
+     * @since 1.0
+     */
+//    @RolesAllowed({ "Admin" })
+    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id) {
+        return repo.findByCredentialId(credential_id);
+    }
+
+    /**
      * Returns a list of all workflow definitiones.
      *
      * @param sort Sort field.

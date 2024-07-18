@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.domain.WorkflowDeploymentRepo;
 
@@ -55,6 +56,13 @@ public class WorkflowDeploymentRepoJPA implements WorkflowDeploymentRepo {
     @Override
     public Optional<WorkflowDeployment> findById(@NotNull UUID id) {
         return Optional.ofNullable(em.find(WorkflowDeployment.class, id));
+    }
+
+    @Override
+    public Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id) {
+        return Optional.ofNullable(em.createQuery("SELECT d FROM WorkflowDeployment d WHERE d.skill_id = :skill_id LIMIT 1", WorkflowDeployment.class)
+                .setParameter("skill_id", skill_id)
+                .getSingleResult());
     }
 
     @Override

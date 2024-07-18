@@ -58,6 +58,13 @@ public class WorkflowDefinitionRepoJPA implements WorkflowDefinitionRepo {
     }
 
     @Override
+    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id) {
+        return Optional.ofNullable(em.createQuery("SELECT d FROM WorkflowDefinition d WHERE d.credential_id = :credential_id LIMIT 1", WorkflowDefinition.class)
+                .setParameter("credential_id", credential_id)
+                .getSingleResult());
+    }
+
+    @Override
     public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT d FROM WorkflowDefinition d ORDER BY :sort", WorkflowDefinition.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "id"))

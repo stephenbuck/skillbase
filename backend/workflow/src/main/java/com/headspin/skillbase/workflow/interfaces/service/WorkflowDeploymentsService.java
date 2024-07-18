@@ -86,6 +86,18 @@ public class WorkflowDeploymentsService {
     }
 
     /**
+     * Returns a workflow deployment given an id.
+     *
+     * @param id Requested deployment id.
+     * @return An optional workflow process.
+     * @since 1.0
+     */
+//    @RolesAllowed({ "Admin" })
+    public Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id) {
+        return repo.findBySkillId(skill_id);
+    }
+
+    /**
      * Returns a list of all workflow deployments.
      *
      * @param sort Sort field.

@@ -28,6 +28,8 @@ public interface WorkflowDeploymentRepo {
 
     public Optional<WorkflowDeployment> findById(@NotNull UUID id);
 
+    public Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id);
+
     public List<WorkflowDeployment> findAll(String sort, Integer offset, Integer limit);
 
     public Long count();

@@ -1,11 +1,20 @@
 package com.headspin.skillbase.workflow.infrastructure.messaging;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import com.headspin.skillbase.common.events.CatalogEvent;
+import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
+import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
 import jakarta.annotation.Resource;
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
 import jakarta.ejb.MessageDrivenContext;
+import jakarta.inject.Inject;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
@@ -23,6 +32,16 @@ public class WorkflowCatalogEventConsumer implements MessageListener {
     
     @Resource
     private MessageDrivenContext context;
+
+    @Inject
+    private WorkflowDeploymentsService deps;
+
+    @Inject
+    private WorkflowDefinitionsService defs;
+
+    @Inject
+    private WorkflowInstancesService inst;
+    
 
     public void onMessage(Message message) {  
         log.info("onMessage({})", message);
@@ -62,74 +81,61 @@ public class WorkflowCatalogEventConsumer implements MessageListener {
         }       
     }
 
+    /**
+     * When a CatalogEvent.CredentialCreated event arrives, the workflow
+     * service creates a corresponding workflow definition entity.
+     * 
+     * @param event
+     */
     private void onCredentialCreated(CatalogEvent event) {
-    /*
         WorkflowDefinition definition = new WorkflowDefinition();
-        definition.credential_id = event?.credential_id;
-        definition.title = event?.title;
-        definition.note = event?.note;
-        insertDefinition(definition);
-    */
+        definition.deployment_id = UUID.randomUUID();
+        definition.credential_id = UUID.randomUUID();
+        definition.title = "";
+        definition.note = "";
+        defs.insert(definition);
     }
 
     private void onCredentialDeleted(CatalogEvent event) {
-        /*
-        WorkflowDefinition definition = findByCredentialId(event?.credential_id);
-        deleteDefinition(definition.id);
-        */
+        Optional<WorkflowDefinition> result = defs.findByCredentialId(UUID.randomUUID());
+        WorkflowDefinition definition = result.get();
+        defs.delete(definition.id);
     }
 
     private void onCredentialUpdated(CatalogEvent event) {
-    /*
-        WorkflowDefinition definition = findByCredentialId(event?.credential_id);
-        definition.title = event?.title;
-        definition.note = event?.note;
-        updateDefinition(definition);
-    */
+        Optional<WorkflowDefinition> result = defs.findByCredentialId(UUID.randomUUID());
+        WorkflowDefinition definition = result.get();
+        definition.title = "";
+        definition.note = "";
+        defs.update(definition);
     }
 
 
+    /**
+     * When a CatalogEvent.SkillCreated event arrives, the workflow
+     * service creates a corresponding workflow deployment entity.
+     * 
+     * @param event
+     */
     private void onSkillCreated(CatalogEvent event) {
-    /*
         WorkflowDeployment deployment = new WorkflowDeployment();
-        deployment.skill_id = event?.skill_id;
-        deployment.title = event?.title;
-        deployment.note = event?.note;
-        insertDeployment(deployment);
-    */
+        deployment.skill_id = UUID.randomUUID();
+        deployment.title = "";
+        deployment.note = "";
+        deps.insert(deployment);
     }
 
     private void onSkillDeleted(CatalogEvent event) {
-    /*
-        WorkflowDeployment deployment = findBySkillId(event?.skill_id);
-        deleteDeployment(deployment.id);
-    */
+        Optional<WorkflowDeployment> result = deps.findBySkillId(UUID.randomUUID());
+        WorkflowDeployment deployment = result.get();
+        deps.delete(deployment.id);
     }
 
     private void onSkillUpdated(CatalogEvent event) {
-    /*
-        WorkflowDeployment deployment = findBySkillId(event?.skill_id);
-        deployment.title = event?.title;
-        deployment.note = event?.note;
-        updateDeployment(deployment);
-    */
+        Optional<WorkflowDeployment> result = deps.findBySkillId(UUID.randomUUID());
+        WorkflowDeployment deployment = result.get();
+        deployment.title = "";
+        deployment.note = "";
+        deps.update(deployment);
     }
-
-    /*
-    Properties props = new Properties();
-
-    // Other config props
-    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, CloudEventDeserializer.class);
-
-    try (KafkaConsumer<String, CloudEvent> consumer = new KafkaConsumer<>(props)) {
-
-        ConsumerRecords<String, CloudEvent> records = consumer.poll(Duration.ofSeconds(10));
-
-        records.forEach(rec -> {
-            log.info(rec.value().toString());
-        });
-    }
-    */
-
 }

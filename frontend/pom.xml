@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>skillbase_frontend</name>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
   
   <artifactId>skillbase_frontend</artifactId>
   <groupId>com.headspin.skillbase</groupId>
@@ -17,6 +17,41 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.war.version>3.4.0</maven.war.version>
+    <wildfly.maven.version>4.2.2.Final</wildfly.maven.version>
   </properties>
+
+  <build>
+
+    <plugins>
+
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${maven.war.version}</version>
+          <configuration>
+            <webResources>
+                <resource>
+                    <directory>project/build</directory>
+                </resource>
+            </webResources>
+            <webXml>${basedir}/web.xml</webXml>
+        </configuration>
+      </plugin> 
+
+      <plugin>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <groupId>org.wildfly.plugins</groupId>
+        <version>${wildfly.maven.version}</version>
+        <configuration>
+          <hostname>172.17.0.1</hostname>
+          <port>9990</port>
+          <username>admin</username>
+          <password>admin</password>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
 
 </project>

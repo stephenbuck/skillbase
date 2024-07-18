@@ -1,11 +1,15 @@
 package com.headspin.skillbase.workflow.infrastructure.messaging;
 
 import com.headspin.skillbase.common.events.MemberEvent;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
 import jakarta.annotation.Resource;
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
 import jakarta.ejb.MessageDrivenContext;
+import jakarta.inject.Inject;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
@@ -23,7 +27,17 @@ public class WorkflowMemberEventConsumer implements MessageListener {
     
     @Resource
     private MessageDrivenContext context;
+
+    @Inject
+    private WorkflowDeploymentsService deps;
+
+    @Inject
+    private WorkflowDefinitionsService defs;
+
+    @Inject
+    private WorkflowInstancesService inst;
     
+
     public void onMessage(Message message) {  
         log.info("onMessage({})", message);
         try {
@@ -52,6 +66,12 @@ public class WorkflowMemberEventConsumer implements MessageListener {
         }       
     }
 
+    /**
+     * When a MemberEvent.UserCreated event arrives, the workflow
+     * service creates a corresponding workflow user entity.
+     * 
+     * @param event
+     */
     private void onUserCreated(MemberEvent event) {
     /*
         WorkflowDefinition definition = new WorkflowDefinition();
