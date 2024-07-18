@@ -31,10 +31,10 @@
           <configuration>
             <webResources>
                 <resource>
-                    <directory>project/build</directory>
+                    <directory>webapp/build</directory>
                 </resource>
             </webResources>
-            <webXml>${basedir}/web.xml</webXml>
+            <webXml>webapp/web.xml</webXml>
         </configuration>
       </plugin> 
 
