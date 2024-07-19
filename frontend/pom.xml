@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>skillbase_frontend</name>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
   
   <artifactId>skillbase_frontend</artifactId>
   <groupId>com.headspin.skillbase</groupId>
@@ -23,35 +23,36 @@
 
   <build>
 
-    <plugins>
-
+    <pluginManagement>
+      
+      <plugins>
+  
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${maven.war.version}</version>
+        </plugin> 
+  
         <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>${maven.war.version}</version>
+          <artifactId>wildfly-maven-plugin</artifactId>
+          <groupId>org.wildfly.plugins</groupId>
+          <version>${wildfly.maven.version}</version>
           <configuration>
-            <webResources>
-                <resource>
-                    <directory>webapp/build</directory>
-                </resource>
-            </webResources>
-            <webXml>webapp/web.xml</webXml>
-        </configuration>
-      </plugin> 
+            <hostname>172.17.0.1</hostname>
+            <port>9990</port>
+            <username>admin</username>
+            <password>admin</password>
+          </configuration>
+        </plugin>
+  
+      </plugins>
 
-      <plugin>
-        <artifactId>wildfly-maven-plugin</artifactId>
-        <groupId>org.wildfly.plugins</groupId>
-        <version>${wildfly.maven.version}</version>
-        <configuration>
-          <hostname>172.17.0.1</hostname>
-          <port>9990</port>
-          <username>admin</username>
-          <password>admin</password>
-        </configuration>
-      </plugin>
-
-    </plugins>
+    </pluginManagement>
 
   </build>
+
+  <modules>
+    <module>admin</module>
+    <module>member</module>
+  </modules>
 
 </project>

@@ -1,0 +1,49 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>skillbase_frontend_member</name>
+  <packaging>war</packaging>
+  
+  <artifactId>skillbase_frontend_member</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <version>0.1</version>
+
+  <parent>
+    <artifactId>skillbase_frontend</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>0.1</version>
+  </parent>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <webResources>
+                <resource>
+                    <directory>webapp/build</directory>
+                </resource>
+            </webResources>
+            <webXml>webapp/web.xml</webXml>
+        </configuration>
+      </plugin> 
+
+      <plugin>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <groupId>org.wildfly.plugins</groupId>
+        <configuration>
+          <hostname>172.17.0.1</hostname>
+          <port>9990</port>
+          <username>admin</username>
+          <password>admin</password>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>
