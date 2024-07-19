@@ -32,6 +32,10 @@ nav:
       - 'Design': 'frontend/design.md'
       - 'Build': 'frontend/build.md'
       - 'Test': 'frontend/test.md'
+      - 'Admin':
+        - 'Overview': 'frontend/index.md'
+      - 'Member':
+        - 'Overview': 'frontend/index.md'
   - 'System':
     - 'Overview': 'system/index.md'
     - 'Design': 'system/design.md'
