@@ -50,37 +50,35 @@ import java.util.UUID;
 @ApplicationScoped
 public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
-    private Client client = ClientBuilder.newClient();
-    private WebTarget targetService;
-    private WebTarget targetRepository;
-    private WebTarget targetDeployments;
-    private WebTarget targetDefinitions;
-    private WebTarget targetInstanceDefinitions;
-    private WebTarget targetRuntime;
-    private WebTarget targetInstanceInstances;
-    private WebTarget targetTasks;
+    private final Client client = ClientBuilder.newClient();
+    private final WebTarget targetService;
+    private final WebTarget targetRepository;
+    private final WebTarget targetDeployments;
+    private final WebTarget targetDefinitions;
+    private final WebTarget targetInstanceDefinitions;
+    private final WebTarget targetRuntime;
+    private final WebTarget targetInstanceInstances;
+    private final WebTarget targetTasks;
 
-    private String username = "rest-admin";
-    private String password = "test";
-    private String userpass = username + ":" + password;
-    private String basicAuth;
+    private final String username = "rest-admin";
+    private final String password = "test";
+    private final String userpass = username + ":" + password;
+    private final String basicAuth;
 
     public WorkflowEngineProviderFlowable() {
 
-        client = ClientBuilder.newClient();
+        this.targetService = client.target("http://flowable:8081/flowable-rest/service");
 
-        targetService = client.target("http://172.17.0.1:8081/flowable-rest/service");
+        this.targetRepository = targetService.path("repository");
+        this.targetDeployments = targetRepository.path("deployments");
+        this.targetDefinitions = targetRepository.path("definitions");
+        this.targetInstanceDefinitions = targetRepository.path("instance-definitions");
 
-        targetRepository = targetService.path("repository");
-        targetDeployments = targetRepository.path("deployments");
-        targetDefinitions = targetRepository.path("definitions");
-        targetInstanceDefinitions = targetRepository.path("instance-definitions");
+        this.targetRuntime = targetService.path("runtime");
+        this.targetInstanceInstances = targetRuntime.path("instance-instances");
+        this.targetTasks = targetRuntime.path("tasks");
 
-        targetRuntime = targetService.path("runtime");
-        targetInstanceInstances = targetRuntime.path("instance-instances");
-        targetTasks = targetRuntime.path("tasks");
-
-        basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
+        this.basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
     }
 
     /*

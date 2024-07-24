@@ -12,7 +12,7 @@ public class MemberEvent extends DomainEvent {
 
     private static URI source = URI.create("http://skillbase.com");
 
-    public static final String MEMBER_EVENT_TOPIC = "com.headspin.skillbase.member.event";
+    public static final String MEMBER_EVENT_TOPIC = "skillbase_member_event";
 
     public static final String MEMBER_ACHIEVEMENT_CREATED = "com.headspin.skillbase.member.achievement.created";
     public static final String MEMBER_ACHIEVEMENT_DELETED = "com.headspin.skillbase.member.achievement.deleted";

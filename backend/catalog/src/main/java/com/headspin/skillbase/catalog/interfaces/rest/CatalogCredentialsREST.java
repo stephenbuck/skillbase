@@ -2,7 +2,6 @@ package com.headspin.skillbase.catalog.interfaces.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,7 +35,7 @@ public class CatalogCredentialsREST {
     }
     
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert catalog skill credential")
     public Response insert(CatalogCredential credential) throws URISyntaxException {
         UUID id = service.insert(credential);
         URI uri = new URI("/credentials/" + id);
@@ -45,26 +44,26 @@ public class CatalogCredentialsREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete catalog skill credential")
     public Response delete(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update catalog skill credential")
     public Response update(CatalogCredential credential) {
         return Response.ok(service.update(credential)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all catalog skill credentials")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find catalog skill credential by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<CatalogCredential> match = service.findById(id);
         if (match.isPresent()) {

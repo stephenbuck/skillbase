@@ -38,6 +38,10 @@ public class WorkflowMemberEventConsumer implements MessageListener {
     private WorkflowInstancesService inst;
     
 
+    public WorkflowMemberEventConsumer() {
+
+    }
+    
     public void onMessage(Message message) {  
         log.info("onMessage({})", message);
         try {

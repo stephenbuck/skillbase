@@ -40,7 +40,7 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
     private RealmResource getRealm() {
 
-        Keycloak admin = KeycloakBuilder.builder().serverUrl("http://172.17.0.1:18080").realm("master")
+        Keycloak admin = KeycloakBuilder.builder().serverUrl("http://keycloak:18080").realm("master")
                 .clientId("admin-cli").grantType(OAuth2Constants.PASSWORD).username("admin").password("admin").build();
 
         RealmResource realm = admin.realm("master");

@@ -6,6 +6,5 @@ public interface CatalogConfigProvider {
 
     public void test();
     
-    public Optional<String> getValue(String key, Class type);
-
+    public Optional<?> getOptionalValue(String key, Class<?> type);
 }

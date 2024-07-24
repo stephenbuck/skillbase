@@ -12,7 +12,7 @@ import com.headspin.skillbase.member.domain.MemberAchievementRepo;
 import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
 import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
 import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
-import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducer;
+import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducerKafka;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
 import com.headspin.skillbase.member.providers.MemberFeatureProvider;
@@ -42,7 +42,7 @@ public class MemberAchievementService {
 
     private MemberConfigProvider conf = new MemberConfigProviderDefault();
     private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
-    private MemberProducerProvider prod = new MemberEventProducer();
+    private MemberProducerProvider prod = new MemberEventProducerKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
 //    @RolesAllowed({ "Admin" })
@@ -57,7 +57,7 @@ public class MemberAchievementService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
+        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_ACHIEVEMENT_DELETED));
         return result;
     }
 

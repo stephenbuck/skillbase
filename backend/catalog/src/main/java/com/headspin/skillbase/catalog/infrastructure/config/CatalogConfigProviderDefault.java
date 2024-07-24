@@ -13,26 +13,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CatalogConfigProviderDefault implements CatalogConfigProvider {
 
+    private final Config config;
+
     public CatalogConfigProviderDefault() {
+        this.config = ConfigProvider.getConfig();
     }
     
     @Override
     public void test() {
-        log.info("value = {}", getValue("dog", String.class));
+        log.info("foo = {}", getOptionalValue("com.headspin.skillbase.catalog.foo", String.class));
+        log.info("flipt url = {}", getOptionalValue("com.headspin.skillbase.catalog.flipt.url", String.class));
+        log.info("kafka url = {}", getOptionalValue("com.headspin.skillbase.catalog.kafka.url", String.class));
     }
 
     @Override
-    public Optional<String> getValue(String key, Class type) {
-
-        try {
-            Config conf = ConfigProvider.getConfig();
-            Optional<String> value = conf.getOptionalValue(key, String.class);
-            return value;
-        }
-        catch (Exception e) {
-            log.info(String.valueOf(e));
-        }
-
-        return null;
+    public Optional<?> getOptionalValue(String key, Class<?> type) {
+        return config.getOptionalValue(key, type);
     }
 }

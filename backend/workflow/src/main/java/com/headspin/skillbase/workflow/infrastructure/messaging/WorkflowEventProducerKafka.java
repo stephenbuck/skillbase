@@ -17,9 +17,9 @@ import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 @Slf4j
 @ApplicationScoped
-public class WorkflowEventProducer implements WorkflowProducerProvider {
+public class WorkflowEventProducerKafka implements WorkflowProducerProvider {
 
-    public WorkflowEventProducer() {
+    public WorkflowEventProducerKafka() {
     }
 
     @Override

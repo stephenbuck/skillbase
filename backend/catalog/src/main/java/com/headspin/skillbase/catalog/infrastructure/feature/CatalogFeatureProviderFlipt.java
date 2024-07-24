@@ -1,22 +1,35 @@
 package com.headspin.skillbase.catalog.infrastructure.feature;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
 import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+/**
+ * Flipt implementation of catalog feature provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+ @Slf4j
 public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
 
-    public CatalogFeatureProviderFlipt() {
-    }
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.catalog.flipt.url")
+    private String url;
 
-    private FliptClient getClient() {
-        return FliptClient.builder()
-                .url("http://172.17.0.1:8087")
+    private final FliptClient client;
+
+    public CatalogFeatureProviderFlipt() {
+        this.client = FliptClient.builder()
+                .url("http://flipt:8087")
                 .build();
     }
 
@@ -25,6 +38,7 @@ public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
         boolean v = evaluateBoolean("allow-reports", false);
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         log.info("v = {}", v);
+        log.info("url = {}", url);
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
@@ -32,9 +46,7 @@ public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
     public boolean evaluateBoolean(String key, boolean def) {
         try {
 
-            FliptClient fliptClient = getClient();
-
-            Evaluation ev = fliptClient.evaluation();
+            Evaluation ev = client.evaluation();
 
             EvaluationRequest er = EvaluationRequest.builder()
                     .flagKey("allow-reports")
@@ -47,7 +59,6 @@ public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
         } catch (Throwable e) {
             log.info(String.valueOf(e));
             return def;
-        } finally {
         }
     }
 }

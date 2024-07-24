@@ -1,5 +1,7 @@
 package com.headspin.skillbase.workflow.providers;
 
+import java.util.Optional;
+
 /**
  * Workflow config provider interface.
  * 
@@ -11,6 +13,6 @@ public interface WorkflowConfigProvider {
 
     public void test();
     
-    public String getValue(String key);
+    public Optional<?> getOptionalValue(String key, Class<?> type);
 
 }

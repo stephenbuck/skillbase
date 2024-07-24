@@ -10,7 +10,7 @@ import com.headspin.skillbase.member.providers.MemberProducerProvider;
 
 @Slf4j
 @ApplicationScoped
-public class MemberEventProducer implements MemberProducerProvider {
+public class MemberEventProducerKafka implements MemberProducerProvider {
 
 //    @Resource(lookup = "java:/KafkaConnectionFactory")
 //    private static ConnectionFactory connectionFactory;
@@ -18,7 +18,7 @@ public class MemberEventProducer implements MemberProducerProvider {
 //    @Resource(lookup = "java:/jms/topic/com.headspin.skillbase.member.event")
 //    private static Topic topic;
 
-    public MemberEventProducer() {
+    public MemberEventProducerKafka() {
     }
 
     @Override

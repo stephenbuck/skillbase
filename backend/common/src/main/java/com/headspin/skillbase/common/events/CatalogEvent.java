@@ -14,7 +14,7 @@ public class CatalogEvent extends DomainEvent {
 
     private static URI source = URI.create("http://skillbase.com");
 
-    public static final String CATALOG_EVENT_TOPIC = "com.headspin.skillbase.catalog.event";
+    public static final String CATALOG_EVENT_TOPIC = "skillbase_catalog_event";
 
     public static final String CATALOG_CATEGORY_CREATED = "com.headspin.skillbase.catalog.category.created";
     public static final String CATALOG_CATEGORY_DELETED = "com.headspin.skillbase.catalog.category.deleted";

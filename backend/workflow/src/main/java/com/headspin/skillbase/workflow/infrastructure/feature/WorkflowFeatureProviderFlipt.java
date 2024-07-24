@@ -1,9 +1,6 @@
 package com.headspin.skillbase.workflow.infrastructure.feature;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
 
@@ -11,6 +8,7 @@ import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
 import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,12 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
 
-    public WorkflowFeatureProviderFlipt() {
-    }
+    /*
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.workflow.flipt.url")
+    private String url;
+    */
 
-    private FliptClient getClient() {
-        return FliptClient.builder()
-                .url("http://172.17.0.1:8087")
+    private final FliptClient client;
+
+    public WorkflowFeatureProviderFlipt() {
+        this.client = FliptClient.builder()
+                .url("http://flipt:8087")
                 .build();
     }
 
@@ -44,9 +47,7 @@ public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
     public boolean evaluateBoolean(String key, boolean def) {
         try {
 
-            FliptClient fliptClient = getClient();
-
-            Evaluation ev = fliptClient.evaluation();
+            Evaluation ev = client.evaluation();
 
             EvaluationRequest er = EvaluationRequest.builder()
                     .flagKey("allow-reports")
@@ -59,7 +60,6 @@ public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
         } catch (Throwable e) {
             log.info(String.valueOf(e));
             return def;
-        } finally {
         }
     }
 }

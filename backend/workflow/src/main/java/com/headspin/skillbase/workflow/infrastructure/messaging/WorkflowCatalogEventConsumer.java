@@ -43,6 +43,10 @@ public class WorkflowCatalogEventConsumer implements MessageListener {
     private WorkflowInstancesService inst;
     
 
+    public WorkflowCatalogEventConsumer() {
+
+    }
+    
     public void onMessage(Message message) {  
         log.info("onMessage({})", message);
         try {

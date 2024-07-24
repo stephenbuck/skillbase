@@ -9,16 +9,14 @@ import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
 import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
 import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducer;
+import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducerKafka;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
 import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
 import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -42,7 +40,7 @@ public class CatalogSkillService {
 
     private CatalogConfigProvider conf = new CatalogConfigProviderDefault();
     private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
-    private CatalogProducerProvider prod = new CatalogEventProducer();
+    private CatalogProducerProvider prod = new CatalogEventProducerKafka();
 
 //    @RolesAllowed({ "Admin" })
     @Transactional

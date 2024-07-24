@@ -8,15 +8,27 @@ import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+/**
+ * Flipt implementation of member feature provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+ @Slf4j
 public class MemberFeatureProviderFlipt implements MemberFeatureProvider {
 
-    public MemberFeatureProviderFlipt() {
-    }
+    /*
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.member.flipt.url")
+    private String url;
+    */
 
-    private FliptClient getClient() {
-        return FliptClient.builder()
-                .url("http://172.17.0.1:8087")
+    private final FliptClient client;
+
+    public MemberFeatureProviderFlipt() {
+        this.client = FliptClient.builder()
+                .url("http://flipt:8080")
                 .build();
     }
 
@@ -32,9 +44,7 @@ public class MemberFeatureProviderFlipt implements MemberFeatureProvider {
     public boolean evaluateBoolean(String key, boolean def) {
         try {
 
-            FliptClient fliptClient = getClient();
-
-            Evaluation ev = fliptClient.evaluation();
+            Evaluation ev = client.evaluation();
 
             EvaluationRequest er = EvaluationRequest.builder()
                     .flagKey("allow-reports")

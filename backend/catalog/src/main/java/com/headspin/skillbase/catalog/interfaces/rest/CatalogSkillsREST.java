@@ -19,12 +19,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import lombok.extern.slf4j.Slf4j;
 
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillService;
 
-@Slf4j
 @Path("skills")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -37,7 +35,7 @@ public class CatalogSkillsREST {
     }
     
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert catalog skill")
     public Response insert(CatalogSkill skill) throws URISyntaxException {
         UUID id = service.insert(skill);
         URI uri = new URI("/skills/" + id);
@@ -46,26 +44,26 @@ public class CatalogSkillsREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete catalog skill")
     public Response delete(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update catalog skill")
     public Response update(CatalogSkill skill) {
         return Response.ok(service.update(skill)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all catalog skills")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find catalog skill by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<CatalogSkill> match = service.findById(id);
         if (match.isPresent()) {
@@ -77,21 +75,21 @@ public class CatalogSkillsREST {
 
     @GET
     @Path("{id}/credentials")
-    @Operation(summary = "findSkillCredentials")
+    @Operation(summary = "Find catalog skill credentials")
     public Response findSkillCredentials(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findSkillCredentials(id, sort, offset, limit)).build();
     }
 
     @POST
     @Path("{id}/credentials/{credential_id}")
-    @Operation(summary = "insertSkillCredential")
+    @Operation(summary = "Insert catalog skill credential")
     public Response insertSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
         return Response.ok(service.insertSkillCredential(id, credential_id)).build();
     }
 
     @DELETE
     @Path("{id}/credentials/{credential_id}")
-    @Operation(summary = "deleteSkillCredential")
+    @Operation(summary = "Delete catalog skill credential")
     public Response deleteSkillCredential(@PathParam("id") UUID id, @PathParam("credential_id") UUID credential_id) {
         return Response.ok(service.deleteSkillCredential(id, credential_id)).build();
     }

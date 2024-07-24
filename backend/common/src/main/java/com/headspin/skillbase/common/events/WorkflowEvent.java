@@ -41,7 +41,7 @@ public class WorkflowEvent extends DomainEvent {
 
     private static URI source = URI.create("http://skillbase.com");
 
-    public static final String WORKFLOW_EVENT_TOPIC = "com.headspin.skillbase.workflow.event";
+    public static final String WORKFLOW_EVENT_TOPIC = "skillbase_workflow_event";
 
     public static final String WORKFLOW_DEFINITION_CREATED = "com.headspin.skillbase.workflow.definition.created";
     public static final String WORKFLOW_DEFINITION_DELETED = "com.headspin.skillbase.workflow.definition.deleted";

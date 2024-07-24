@@ -3,7 +3,7 @@
 ################################################################################
 
 variable "skillbase_tag" {
-  type    = string
+  type = string
   default = "latest"
 }
 
@@ -16,7 +16,7 @@ variable "skillbase_tag" {
 terraform {
   required_providers {
     docker = {
-      source  = "kreuzwerker/docker"
+      source = "kreuzwerker/docker"
       version = "~> 3.0.2"
     }
   }
@@ -29,10 +29,14 @@ terraform {
 provider "docker" {
   host = "unix:///var/run/docker.sock"
   registry_auth {
-    address  = "172.17.0.1:5000"
+    address = "localhost:5000"
     username = "stephenbuck"
     password = "buckstephen"
   }
+}
+
+resource "docker_network" "private_network" {
+  name = "skillbase"
 }
 
 /*
@@ -46,9 +50,10 @@ resource "docker_image" "apisix" {
 }
 
 resource "docker_container" "apisix" {
-  name         = "apisix"
-  image        = docker_image.apisix.image_id
-  restart      = "always"
+  name = "apisix"
+  image = docker_image.apisix.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
   env = [
     "APISIX_STAND_ALONE=true"
   ]
@@ -78,9 +83,10 @@ resource "docker_image" "debezium" {
 }
 
 resource "docker_container" "debezium" {
-  name         = "debezium"
-  image        = docker_image.debezium.image_id
-  restart      = "always"
+  name = "debezium"
+  image = docker_image.debezium.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
   ports {
     internal = 8085
     external = 8085
@@ -107,14 +113,15 @@ resource "docker_container" "debezium" {
 ################################################################################
 
 resource "docker_image" "etcd" {
-  name         = "bitnami/etcd:latest"
+  name = "bitnami/etcd:latest"
   keep_locally = true
 }
 
 resource "docker_container" "etcd" {
-  name         = "etcd"
-  image        = docker_image.etcd.image_id
-  restart      = "always"
+  name = "etcd"
+  image = docker_image.etcd.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
   env = [
     "ETCD_ENABLE_V2=true",
     "ALLOW_NONE_AUTHENTICATION=yes",
@@ -144,14 +151,15 @@ resource "docker_container" "etcd" {
 ################################################################################
 
 resource "docker_image" "flipt" {
-  name         = "skillbase/flipt:latest"
+  name = "skillbase/flipt:latest"
   keep_locally = true
 }
 
 resource "docker_container" "flipt" {
-  name         = "flipt"
-  image        = docker_image.flipt.image_id
-  stdin_open   = true
+  name = "flipt"
+  image = docker_image.flipt.image_id
+  network_mode = docker_network.private_network.name
+  stdin_open = true
   ports {
       internal = 8080
       external = 8087
@@ -171,13 +179,14 @@ resource "docker_container" "flipt" {
 ################################################################################
 
 resource "docker_image" "flowable" {
-  name         = "skillbase/flowable:latest"
+  name = "skillbase/flowable:latest"
   keep_locally = true
 }
 
 resource "docker_container" "flowable" {
-  name  = "flowable"
+  name = "flowable"
   image = docker_image.flowable.image_id
+  network_mode = docker_network.private_network.name
   ports {
     internal = 8080
     external = 8081
@@ -194,13 +203,14 @@ resource "docker_container" "flowable" {
 ################################################################################
 
 resource "docker_image" "fluentd" {
-  name         = "fluent/fluentd:edge-debian"
+  name = "fluent/fluentd:edge-debian"
   keep_locally = true
 }
 
 resource "docker_container" "fluentd" {
-  name         = "fluentd"
-  image        = docker_image.fluentd.image_id
+  name = "fluentd"
+  image = docker_image.fluentd.image_id
+  network_mode = docker_network.private_network.name
   ports {
     internal = 9880
     external = 9880
@@ -208,66 +218,60 @@ resource "docker_container" "fluentd" {
 }
 */
 
-/*
+
 ################################################################################
 # Kafka
 ################################################################################
 
 resource "docker_image" "kafka" {
-  name         = "skillbase/kafka:${var.skillbase_tag}"
+  name = "skillbase/kafka:${var.skillbase_tag}"
   keep_locally = true
 }
 
 resource "docker_container" "kafka" {
-  name         = "kafka"
-  image        = docker_image.kafka.image_id
+  name = "kafka"
+  image = docker_image.kafka.image_id
+  network_mode = docker_network.private_network.name
   env = [
-
-    "KAFKA_ENABLE_KRAFT=yes",
-    "KAFKA_PROCESS_ROLES=broker,controller",
-    "KAFKA_NODE_ID=1",
-
-    "KAFKA_KRAFT_CLUSTER_ID=1",
-
-    "KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,BROKER://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093",
-    "KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,BROKER:PLAINTEXT,CONTROLLER:PLAINTEXT",
-    "KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://localhost:9092",
-
-    "KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL",
-    
+    "KAFKA_CFG_REST_BOOTSTRAP_SERVERS=PLAINTEXT://0.0.0.0:9093,BROKER://0.0.0.0:9092,CONTROLLER://0.0.0.0:9094",
+    "KAFKA_CFG_LISTENERS=CONTROLLER://:29093,PLAINTEXT_HOST://:9092,PLAINTEXT://:9094",
+    "KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=BROKER:PLAINTEXT,PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT",
+    "KAFKA_ADVERTISED_LISTENERS=PLAINTEXT_HOST://kafka:9092,PLAINTEXT://kafka:9094",
+    "KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT",
+    "KAFKA_CFG_BROKER_ID=1",
+    "KAFKA_KRAFT_CLUSTER_ID=4L6g3nShT-eMCtK--X86sw",
+    "KAFKA_CFG_NODE_ID=1",
+    "KAFKA_CFG_PROCESS_ROLES=broker,controller",
     "KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER",
-    "KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@localhost:9093",
+    "KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@localhost:29093",
+    "KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1",
+    "KAFKA_CFG_OFFSETS_TOPIC_NUM_PARTITIONS=1",
+    "KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1",
+    "KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=1",
+    "KAFKA_CFG_GROUP_INITIAL_REBALANCE_DELAY_MS=0",
   ]
   ports {
     internal = 9092
     external = 9092
   }
-  ports {
-    internal = 9093
-    external = 9093
-  }
-  ports {
-    internal = 9094
-    external = 9094
-  }
   depends_on = [
     docker_container.registry
   ]
 }
-*/
 
 ################################################################################
 # KeyCloak
 ################################################################################
 
 resource "docker_image" "keycloak" {
-  name         = "quay.io/keycloak/keycloak:latest"
+  name = "quay.io/keycloak/keycloak:latest"
   keep_locally = true
 }
 
 resource "docker_container" "keycloak" {
-  name  = "keycloak"
+  name = "keycloak"
   image = docker_image.keycloak.image_id
+  network_mode = docker_network.private_network.name
   env = [
     "KEYCLOAK_ADMIN=admin",
     "KEYCLOAK_ADMIN_PASSWORD=admin"
@@ -294,9 +298,10 @@ resource "docker_image" "nginx" {
 }
 
 resource "docker_container" "nginx" {
-  name         = "nginx"
-  image        = docker_image.nginx.image_id
-  restart      = "always"
+  name = "nginx"
+  image = docker_image.nginx.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
   env = [
     "NGINX_PORT=80"
   ]
@@ -312,13 +317,14 @@ resource "docker_container" "nginx" {
 ################################################################################
 
 resource "docker_image" "postgres" {
-  name         = "skillbase/postgres:${var.skillbase_tag}"
+  name = "skillbase/postgres:${var.skillbase_tag}"
   keep_locally = true
 }
 
 resource "docker_container" "postgres" {
-  name  = "postgres"
+  name = "postgres"
   image = docker_image.postgres.image_id
+  network_mode = docker_network.private_network.name
   env = [
     "POSTGRES_USER=postgres",
     "POSTGRES_PASSWORD=postgres"
@@ -337,13 +343,13 @@ resource "docker_container" "postgres" {
 ################################################################################
 
 resource "docker_image" "registry" {
-  name         = "registry:latest"
+  name = "registry:latest"
   keep_locally = true
 }
 
 resource "docker_container" "registry" {
-  name    = "registry"
-  image   = docker_image.registry.image_id
+  name = "registry"
+  image = docker_image.registry.image_id
   restart = "always"
   ports {
     internal = 5000
@@ -357,13 +363,14 @@ resource "docker_container" "registry" {
 ################################################################################
 
 resource "docker_image" "prometheus" {
-  name         = "prom/prometheus:latest"
+  name = "prom/prometheus:latest"
   keep_locally = true
 }
 
 resource "docker_container" "prometheus" {
-  name         = "prometheus"
-  image        = docker_image.prometheus.image_id
+  name = "prometheus"
+  image = docker_image.prometheus.image_id
+  network_mode = docker_network.private_network.name
   ports {
     internal = 9090
     external = 9090
@@ -376,13 +383,14 @@ resource "docker_container" "prometheus" {
 ################################################################################
 
 resource "docker_image" "wildfly" {
-  name         = "skillbase/wildfly:${var.skillbase_tag}"
+  name = "skillbase/wildfly:${var.skillbase_tag}"
   keep_locally = true
 }
 
 resource "docker_container" "wildfly" {
-  name  = "wildfly"
+  name = "wildfly"
   image = docker_image.wildfly.image_id
+  network_mode = docker_network.private_network.name
   ports {
     internal = 9990
     external = 9990
@@ -392,8 +400,8 @@ resource "docker_container" "wildfly" {
     external = 8080
   }
   host {
-    host = "localhost"
-    ip   = "0.0.0.0"
+    host = "wildfly"
+    ip = "0.0.0.0"
   }
   env = [
     "WILDFLY_BIND_INTERFACE=0.0.0.0",
@@ -403,7 +411,7 @@ resource "docker_container" "wildfly" {
     docker_container.registry,
     docker_container.postgres,
     docker_container.flipt,
-#    docker_container.kafka,
+    docker_container.kafka,
     docker_container.keycloak,
     docker_container.flowable
   ]
