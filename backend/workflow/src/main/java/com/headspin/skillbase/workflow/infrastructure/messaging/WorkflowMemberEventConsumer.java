@@ -1,32 +1,27 @@
 package com.headspin.skillbase.workflow.infrastructure.messaging;
 
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Properties;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+
+import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
-import jakarta.annotation.Resource;
-import jakarta.ejb.ActivationConfigProperty;
-import jakarta.ejb.MessageDriven;
-import jakarta.ejb.MessageDrivenContext;
 import jakarta.inject.Inject;
-import jakarta.jms.JMSException;
-import jakarta.jms.Message;
-import jakarta.jms.MessageListener;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@MessageDriven(
-    name = "WorkflowMemberEventConsumer",
-    activationConfig = {
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = MemberEvent.MEMBER_EVENT_TOPIC),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue="jakarta.jms.Topic")
-    }
-)
-public class WorkflowMemberEventConsumer implements MessageListener {
+public class WorkflowMemberEventConsumer {
     
-    @Resource
-    private MessageDrivenContext context;
+    private static final Duration poll_timeout = Duration.ofMillis(100);
 
     @Inject
     private WorkflowDeploymentsService deps;
@@ -39,66 +34,83 @@ public class WorkflowMemberEventConsumer implements MessageListener {
     
 
     public WorkflowMemberEventConsumer() {
-
+        ConsumerRunnable cr = new ConsumerRunnable();
+        Thread thread = new Thread(cr);
+        thread.start();
     }
-    
-    public void onMessage(Message message) {  
-        log.info("onMessage({})", message);
-        try {
-            onMemberEvent((MemberEvent) message.getBody(MemberEvent.class));
+
+    private static class ConsumerRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            Properties config = new Properties();
+            KafkaConsumer<String, String> consumer = new KafkaConsumer<>(config);
+            consumer.subscribe(Collections.singleton(CatalogEvent.CATALOG_EVENT_TOPIC));
+            try {
+                while (true) {
+                    final ConsumerRecords<String, String> consumerRecords = consumer.poll(poll_timeout);
+                    for (final ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+                        log.info("Getting consumer record key: '" + consumerRecord.key() + "', value: '" + consumerRecord.value() + "', partition: " + consumerRecord.partition() + " and offset: " + consumerRecord.offset() + " at " + new Date(consumerRecord.timestamp()));
+                        onMemberEvent((MemberEvent)null);
+                    }
+                }
+            }
+            catch (Exception e) {
+                log.info(String.valueOf(e));
+            }
+            finally {
+                consumer.close();
+            }
         }
-        catch (JMSException e) {
-            log.info(String.valueOf(e));
+
+        private void onMemberEvent(MemberEvent event) {
+            switch (event.type()) {
+
+                case MemberEvent.MEMBER_USER_CREATED:
+                    onUserCreated(event);
+                    break;
+                case MemberEvent.MEMBER_USER_DELETED:
+                    onUserDeleted(event);
+                    break;
+                case MemberEvent.MEMBER_USER_UPDATED:
+                    onUserUpdated(event);
+                    break;
+
+                default:
+                    break;
+            }       
         }
-    }
 
-    private void onMemberEvent(MemberEvent event) {
-        switch (event.type()) {
-
-            case MemberEvent.MEMBER_USER_CREATED:
-                onUserCreated(event);
-                break;
-            case MemberEvent.MEMBER_USER_DELETED:
-                onUserDeleted(event);
-                break;
-            case MemberEvent.MEMBER_USER_UPDATED:
-                onUserUpdated(event);
-                break;
-
-            default:
-                break;
-        }       
-    }
-
-    /**
-     * When a MemberEvent.UserCreated event arrives, the workflow
-     * service creates a corresponding workflow user entity.
-     * 
-     * @param event
-     */
-    private void onUserCreated(MemberEvent event) {
-    /*
-        WorkflowDefinition definition = new WorkflowDefinition();
-        definition.credential_id = event?.credential_id;
-        definition.title = event?.title;
-        definition.note = event?.note;
-        insertDefinition(definition);
-    */
-    }
-
-    private void onUserDeleted(MemberEvent event) {
+        /**
+         * When a MemberEvent.UserCreated event arrives, the workflow
+         * service creates a corresponding workflow user entity.
+         * 
+         * @param event
+         */
+        private void onUserCreated(MemberEvent event) {
         /*
-        WorkflowDefinition definition = findByUserId(event?.credential_id);
-        deleteDefinition(definition.id);
+            WorkflowDefinition definition = new WorkflowDefinition();
+            definition.credential_id = event?.credential_id;
+            definition.title = event?.title;
+            definition.note = event?.note;
+            insertDefinition(definition);
         */
-    }
+        }
 
-    private void onUserUpdated(MemberEvent event) {
-    /*
-        WorkflowDefinition definition = findByUserId(event?.credential_id);
-        definition.title = event?.title;
-        definition.note = event?.note;
-        updateDefinition(definition);
-    */
+        private void onUserDeleted(MemberEvent event) {
+            /*
+            WorkflowDefinition definition = findByUserId(event?.credential_id);
+            deleteDefinition(definition.id);
+            */
+        }
+
+        private void onUserUpdated(MemberEvent event) {
+        /*
+            WorkflowDefinition definition = findByUserId(event?.credential_id);
+            definition.title = event?.title;
+            definition.note = event?.note;
+            updateDefinition(definition);
+        */
+        }
     }
 }

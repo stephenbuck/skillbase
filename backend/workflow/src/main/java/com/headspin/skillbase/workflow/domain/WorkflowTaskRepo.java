@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,13 +16,10 @@ import jakarta.validation.constraints.NotNull;
 
 public interface WorkflowTaskRepo {
 
-    @Transactional
     public UUID insert(@NotNull @Valid WorkflowTask task);
 
-    @Transactional
     public boolean delete(@NotNull UUID id);
 
-    @Transactional
     public WorkflowTask update(@NotNull @Valid WorkflowTask task);
 
     public Optional<WorkflowTask> findById(@NotNull UUID id);
