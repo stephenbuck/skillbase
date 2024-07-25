@@ -55,7 +55,7 @@ public class WorkflowDefinitionsService {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
         UUID id = repo.insert(definition);
-        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, "TBD"));
         return id;
     }
 
@@ -63,7 +63,7 @@ public class WorkflowDefinitionsService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEFINITION_DELETED));
+        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEFINITION_DELETED, "TBD"));
         return result;
     }
 
@@ -71,7 +71,7 @@ public class WorkflowDefinitionsService {
     @Transactional
     public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
         WorkflowDefinition updated = repo.update(definition);
-        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, "TBD"));
         return updated;
     }
 
@@ -130,7 +130,6 @@ public class WorkflowDefinitionsService {
         feat.test();
         prod.test();
         work.test();
-        prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_DEFINITION_UPDATED));
         return 0;
     }
 }

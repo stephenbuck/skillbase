@@ -47,7 +47,7 @@ public class MemberGroupService {
     @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
         UUID id = repo.insert(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_CREATED));
+        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_CREATED, "TBD"));
         return id;
     }
 
@@ -55,7 +55,7 @@ public class MemberGroupService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED));
+        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED, "TBD"));
         return result;
     }
 
@@ -63,7 +63,7 @@ public class MemberGroupService {
     @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group) {
         MemberGroup updated = repo.update(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_UPDATED));
+        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_UPDATED, "TBD"));
         return updated;
     }
 
@@ -105,7 +105,6 @@ public class MemberGroupService {
         feat.test();
         prod.test();
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_GROUP_UPDATED));
         return 0;
     }
 }

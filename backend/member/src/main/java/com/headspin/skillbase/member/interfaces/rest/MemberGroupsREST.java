@@ -35,7 +35,7 @@ public class MemberGroupsREST {
     }
     
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert member group")
     public Response insert(MemberGroup group) throws URISyntaxException {
         UUID id = service.insert(group);
         URI uri = new URI("/groups/" + id);
@@ -44,26 +44,26 @@ public class MemberGroupsREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete member group")
     public Response delete(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update member group")
     public Response update(MemberGroup group) {
         return Response.ok(service.update(group)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all member groups")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find member group by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<MemberGroup> match = service.findById(id);
         if (match.isPresent()) {
@@ -75,21 +75,21 @@ public class MemberGroupsREST {
 
     @GET
     @Path("{id}/users")
-    @Operation(summary = "findGroupUsers")
+    @Operation(summary = "Find member group users")
     public Response findGroupUsers(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findGroupUsers(id, sort, offset, limit)).build();
     }
     
     @POST
     @Path("{id}/users/{user_id}")
-    @Operation(summary = "insertGroupUser")
+    @Operation(summary = "Insert member group user")
     public Response insertGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
         return Response.ok(service.insertGroupUser(id, user_id)).build();
     }
 
     @DELETE
     @Path("{id}/users/{user_id}")
-    @Operation(summary = "deleteGroupUser")
+    @Operation(summary = "Delete member group user")
     public Response deleteGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
         return Response.ok(service.deleteGroupUser(id, user_id)).build();
     }

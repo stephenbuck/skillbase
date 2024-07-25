@@ -22,9 +22,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -45,7 +43,7 @@ public class CatalogCredentialService {
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         UUID id = repo.insert(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_CREATED));
+        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_CREATED, new CatalogEvent.CredentialCreated(credential.id, credential.skill_id, credential.title)));
         return id;
     }
 
@@ -53,7 +51,7 @@ public class CatalogCredentialService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CREDENTIAL_DELETED));
+        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CREDENTIAL_DELETED, new CatalogEvent.CredentialDeleted(id)));
         return result;
     }
 
@@ -61,7 +59,7 @@ public class CatalogCredentialService {
     @Transactional
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
         CatalogCredential updated = repo.update(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_UPDATED));
+        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_UPDATED, new CatalogEvent.CredentialUpdated(credential.id, credential.title)));
         return updated;
     }
 
@@ -93,11 +91,9 @@ public class CatalogCredentialService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
-        log.info("test");
         conf.test();
         feat.test();
         prod.test();
-        prod.produce(CatalogEvent.buildEvent(UUID.randomUUID(), CatalogEvent.CATALOG_CREDENTIAL_UPDATED));
         return 0;
     }
 }

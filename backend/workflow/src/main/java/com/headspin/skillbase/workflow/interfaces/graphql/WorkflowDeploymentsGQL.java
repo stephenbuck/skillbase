@@ -33,31 +33,31 @@ public class WorkflowDeploymentsGQL {
     }
     
     @Mutation("insert")
-    @Description("insert")
+    @Description("Insert workflow deployment")
     public UUID insert(@Name("deployment") WorkflowDeployment deployment) {
         return service.insert(deployment);
     }
 
     @Mutation("delete")
-    @Description("delete")
+    @Description("Delete workflow deployment")
     public void delete(@Name("id") UUID id) {
         service.delete(id);
     }
 
     @Mutation("update")
-    @Description("update")
+    @Description("Update workflow deployment")
     public void update(@Name("deployment") WorkflowDeployment deployment) {
         service.update(deployment);
     }
 
     @Query("findById")
-    @Description("findById")
+    @Description("Find workflow deployment by ID")
     public WorkflowDeployment findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("findAll")
+    @Description("Find all workflow deployments")
     public List<WorkflowDeployment> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);

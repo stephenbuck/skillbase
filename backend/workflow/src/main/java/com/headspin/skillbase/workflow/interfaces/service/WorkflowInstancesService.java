@@ -55,7 +55,7 @@ public class WorkflowInstancesService {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowInstance instance) {
         UUID id = repo.insert(instance);
-        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, "TBD"));
         return id;
     }
 
@@ -63,7 +63,7 @@ public class WorkflowInstancesService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_INSTANCE_DELETED));
+        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_INSTANCE_DELETED, "TBD"));
         return result;
     }
 
@@ -71,7 +71,7 @@ public class WorkflowInstancesService {
     @Transactional
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
         WorkflowInstance updated = repo.update(instance);
-        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, "TBD"));
         return updated;
     }
 
@@ -138,7 +138,6 @@ public class WorkflowInstancesService {
         feat.test();
         prod.test();
         work.test();
-        prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_INSTANCE_UPDATED));
         return 0;
     }
 }

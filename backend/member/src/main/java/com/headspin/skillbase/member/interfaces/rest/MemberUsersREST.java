@@ -35,7 +35,7 @@ public class MemberUsersREST {
     }
 
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert member user")
     public Response insert(MemberUser user) throws URISyntaxException {
         UUID id = service.insert(user);
         URI uri = new URI("/users/" + id);
@@ -44,26 +44,26 @@ public class MemberUsersREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete member user")
     public Response deleteById(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update member user")
     public Response update(MemberUser user) {
         return Response.ok(service.update(user)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all member users")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find member user by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<MemberUser> match = service.findById(id);
         if (match.isPresent()) {
@@ -75,28 +75,28 @@ public class MemberUsersREST {
 
     @GET
     @Path("{id}/achievements")
-    @Operation(summary = "findUserAchievements")
+    @Operation(summary = "Find member user achievements")
     public Response findUserAchievements(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findUserAchievements(id, sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}/groups")
-    @Operation(summary = "findUserGroups")
+    @Operation(summary = "Find member user groups")
     public Response findUserGroups(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findUserGroups(id, sort, offset, limit)).build();
     }
 
     @POST
     @Path("{id}/achievements/{achievement_id}")
-    @Operation(summary = "insertUserAchievement")
+    @Operation(summary = "Insert member user achievement")
     public Response insertUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
         return Response.ok(service.insertUserAchievement(id, achievement_id)).build();
     }
 
     @DELETE
     @Path("{id}/achievements/{achievement_id}")
-    @Operation(summary = "deleteUserAchievement")
+    @Operation(summary = "Delete member user achievement")
     public Response deleteUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
         return Response.ok(service.deleteUserAchievement(id, achievement_id)).build();
     }

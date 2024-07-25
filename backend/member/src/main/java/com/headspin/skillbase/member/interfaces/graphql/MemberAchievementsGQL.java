@@ -26,31 +26,31 @@ public class MemberAchievementsGQL {
     }
     
     @Mutation("insert")
-    @Description("insert")
+    @Description("Insert member achievement")
     public UUID insert(@Name("achievement") MemberAchievement achievement) {
         return service.insert(achievement);
     }
 
     @Mutation("delete")
-    @Description("delete")
+    @Description("Delete member achievement")
     public void delete(@Name("id") UUID id) {
         service.delete(id);
     }
 
     @Mutation("update")
-    @Description("update")
+    @Description("Update member achievement")
     public void update(@Name("achievement") MemberAchievement achievement) {
         service.update(achievement);
     }
 
     @Query("findById")
-    @Description("findById")
+    @Description("Find member achievement by ID")
     public MemberAchievement findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("findAll")
+    @Description("Find all member achievements")
     public List<MemberAchievement> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);

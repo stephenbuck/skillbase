@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * Represents a workflow event.
@@ -65,12 +66,14 @@ public class WorkflowEvent extends DomainEvent {
     public static final String WORKFLOW_TASK_DELETED = "com.headspin.skillbase.workflow.task.deleted";
     public static final String WORKFLOW_TASK_UPDATED = "com.headspin.skillbase.workflow.task.updated";
 
-    private UUID id;
-    private String type;
+    private final UUID id;
+    private final String type;
+    private final Object data;
 
-    public WorkflowEvent(UUID id, String type) {
+    public WorkflowEvent(UUID id, String type, Object data) {
         this.id = id;
         this.type = type;
+        this.data = data;
     }
 
     public UUID id() {
@@ -81,8 +84,12 @@ public class WorkflowEvent extends DomainEvent {
         return this.type;
     }
 
-    public static WorkflowEvent buildEvent(UUID id, String type) {
-        return new WorkflowEvent(id, type);
+    public Object data() {
+        return this.data;
+    }
+
+    public static WorkflowEvent buildEvent(UUID id, String type, Object data) {
+        return new WorkflowEvent(id, type, data);
     }
 
     public static CloudEvent buildCloud(WorkflowEvent event) {
@@ -91,6 +98,7 @@ public class WorkflowEvent extends DomainEvent {
                 .withId(String.valueOf(event.id()))
                 .withType(event.type())
                 .withSource(source)
+                .withData(MediaType.APPLICATION_JSON, String.valueOf(event.data).getBytes())
                 .build();
     }
 

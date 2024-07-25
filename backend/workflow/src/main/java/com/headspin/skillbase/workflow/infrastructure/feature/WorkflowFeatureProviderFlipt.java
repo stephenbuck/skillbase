@@ -1,7 +1,5 @@
 package com.headspin.skillbase.workflow.infrastructure.feature;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
 
 import io.flipt.api.FliptClient;
@@ -20,12 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
-
-    /*
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.workflow.flipt.url")
-    private String url;
-    */
 
     private final FliptClient client;
 

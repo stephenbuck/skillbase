@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.domain.MemberUserRepo;
 import com.headspin.skillbase.common.events.MemberEvent;
@@ -29,7 +27,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -51,7 +48,7 @@ public class MemberUserService {
     @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
         UUID id = repo.insert(user);
-        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED, "TBD"));
         return id;
     }
 
@@ -59,7 +56,7 @@ public class MemberUserService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED));
+        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED, "TBD"));
         return result;
     }
 
@@ -67,7 +64,7 @@ public class MemberUserService {
     @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user) {
         MemberUser updated = repo.update(user);
-        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED));
+        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED, "TBD"));
         return updated;
     }
 
@@ -111,12 +108,10 @@ public class MemberUserService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
-        log.info("test");
         conf.test();
         feat.test();
         prod.test();
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_USER_UPDATED));
         return 0;
     }
 }

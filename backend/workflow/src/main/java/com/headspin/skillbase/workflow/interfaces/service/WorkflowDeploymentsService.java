@@ -53,7 +53,7 @@ public class WorkflowDeploymentsService {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment) {
         UUID id = repo.insert(deployment);
-        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED));
+        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED, "TBD"));
         return id;
     }
 
@@ -61,7 +61,7 @@ public class WorkflowDeploymentsService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED));
+        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED, "TBD"));
         return result;
     }
 
@@ -69,7 +69,7 @@ public class WorkflowDeploymentsService {
     @Transactional
     public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment) {
         WorkflowDeployment updated = repo.update(deployment);
-        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED));
+        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED, "TBD"));
         return updated;
     }
 
@@ -128,7 +128,6 @@ public class WorkflowDeploymentsService {
         feat.test();
         prod.test();
         work.test();
-        prod.produce(WorkflowEvent.buildEvent(UUID.randomUUID(), WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED));
         return 0;
     }
 }

@@ -26,31 +26,31 @@ public class MemberUsersGQL {
     }
     
     @Mutation("insert")
-    @Description("insert")
+    @Description("Insert member user")
     public UUID insert(@Name("user") MemberUser user) {
         return service.insert(user);
     }
 
     @Mutation("delete")
-    @Description("delete")
+    @Description("Delete member user")
     public void delete(@Name("id") UUID id) {
         service.delete(id);
     }
 
     @Mutation("update")
-    @Description("update")
+    @Description("Update member user")
     public void update(@Name("user") MemberUser user) {
         service.update(user);
     }
 
     @Query("findById")
-    @Description("findById")
+    @Description("Find member user by ID")
     public MemberUser findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("findAll")
+    @Description("Find all member users")
     public List<MemberUser> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);

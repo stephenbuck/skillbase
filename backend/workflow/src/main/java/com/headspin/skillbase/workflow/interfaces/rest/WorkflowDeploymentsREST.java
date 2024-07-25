@@ -42,7 +42,7 @@ public class WorkflowDeploymentsREST {
     }
     
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert workflow deployment")
     public Response insert(WorkflowDeployment deployment) throws URISyntaxException {
         UUID id = service.insert(deployment);
         URI uri = new URI("/deployments/" + id);
@@ -51,26 +51,26 @@ public class WorkflowDeploymentsREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete workflow deployment")
     public Response delete(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update workflow deployment")
     public Response update(WorkflowDeployment deployment) {
         return Response.ok(service.update(deployment)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all workflow deployments")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find workflow deployment by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<WorkflowDeployment> match = service.findById(id);
         if (match.isPresent()) {

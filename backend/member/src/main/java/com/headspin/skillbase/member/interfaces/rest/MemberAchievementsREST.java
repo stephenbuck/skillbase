@@ -35,7 +35,7 @@ public class MemberAchievementsREST {
     }
 
     @PUT
-    @Operation(summary = "insert")
+    @Operation(summary = "Insert member achievement")
     public Response insert(MemberAchievement achievement) throws URISyntaxException {
         UUID id = service.insert(achievement);
         URI uri = new URI("/achievements/" + id);
@@ -44,26 +44,26 @@ public class MemberAchievementsREST {
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "delete")
+    @Operation(summary = "Delete member achievement")
     public Response deleteById(@PathParam("id") UUID id) {
         return Response.ok(service.delete(id)).build();
     }
 
     @POST
-    @Operation(summary = "update")
+    @Operation(summary = "Update member achievment")
     public Response update(MemberAchievement achievement) {
         return Response.ok(service.update(achievement)).build();
     }
 
     @GET
-    @Operation(summary = "findAll")
+    @Operation(summary = "Find all member achievments")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{id}")
-    @Operation(summary = "findById")
+    @Operation(summary = "Find member achievment by ID")
     public Response findById(@PathParam("id") UUID id) {
         Optional<MemberAchievement> match = service.findById(id);
         if (match.isPresent()) {

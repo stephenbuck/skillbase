@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberAchievementRepo;
@@ -27,7 +25,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -49,7 +46,7 @@ public class MemberAchievementService {
     @Transactional
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
         UUID id = repo.insert(achievement);
-        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
+        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED, "TBD"));
         return id;
     }
 
@@ -57,7 +54,7 @@ public class MemberAchievementService {
     @Transactional
     public boolean delete(@NotNull UUID id) {
         boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_ACHIEVEMENT_DELETED));
+        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_ACHIEVEMENT_DELETED, "TBD"));
         return result;
     }
 
@@ -65,7 +62,7 @@ public class MemberAchievementService {
     @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
-        prod.produce(com.headspin.skillbase.common.events.MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
+        prod.produce(com.headspin.skillbase.common.events.MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED, "TBD"));
         return updated;
     }
 
@@ -86,12 +83,10 @@ public class MemberAchievementService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
-        log.info("test");
         conf.test();
         feat.test();
         prod.test();
         auth.test();
-        prod.produce(MemberEvent.buildEvent(UUID.randomUUID(), MemberEvent.MEMBER_ACHIEVEMENT_UPDATED));
         return 0;
     }
 }

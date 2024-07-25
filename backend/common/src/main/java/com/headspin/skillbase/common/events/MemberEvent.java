@@ -7,6 +7,7 @@ import com.headspin.skillbase.common.domain.DomainEvent;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
+import jakarta.ws.rs.core.MediaType;
 
 public class MemberEvent extends DomainEvent {
 
@@ -30,12 +31,14 @@ public class MemberEvent extends DomainEvent {
     public static final String MEMBER_USER_DELETED = "com.headspin.skillbase.member.user.deleted";
     public static final String MEMBER_USER_UPDATED = "com.headspin.skillbase.member.user.updated";
 
-    private UUID id;
-    private String type;
+    private final UUID id;
+    private final String type;
+    private final Object data;
 
-    public MemberEvent(UUID id, String type) {
+    public MemberEvent(UUID id, String type, Object data) {
         this.id = id;
         this.type = type;
+        this.data = data;
     }
 
     public UUID id() {
@@ -46,8 +49,12 @@ public class MemberEvent extends DomainEvent {
         return this.type;
     }
 
-    public static MemberEvent buildEvent(UUID id, String type) {
-        return new MemberEvent(id, type);
+    public Object data() {
+        return this.data;
+    }
+
+    public static MemberEvent buildEvent(UUID id, String type, Object data) {
+        return new MemberEvent(id, type, data);
     }
 
     public static CloudEvent buildCloud(MemberEvent event) {
@@ -56,6 +63,7 @@ public class MemberEvent extends DomainEvent {
                 .withId(String.valueOf(event.id()))
                 .withType(event.type())
                 .withSource(source)
+                .withData(MediaType.APPLICATION_JSON, String.valueOf(event.data).getBytes())
                 .build();
     }
 

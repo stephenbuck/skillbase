@@ -33,31 +33,31 @@ public class WorkflowDefinitionsGQL {
     }
     
     @Mutation("insert")
-    @Description("insert")
+    @Description("Insert workflow definition")
     public UUID insert(@Name("definition") WorkflowDefinition definition) {
         return service.insert(definition);
     }
 
     @Mutation("delete")
-    @Description("delete")
+    @Description("Delete workflow definition")
     public void delete(@Name("id") UUID id) {
         service.delete(id);
     }
 
     @Mutation("update")
-    @Description("update")
+    @Description("Update workflow definition")
     public void update(@Name("definition") WorkflowDefinition definition) {
         service.update(definition);
     }
 
     @Query("findById")
-    @Description("findById")
+    @Description("Find workflow definition by ID")
     public WorkflowDefinition findById(@Name("id") UUID id) {
         return service.findById(id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("findAll")
+    @Description("Find all workflow definitions")
     public List<WorkflowDefinition> findAll(@Name("sort") String sort, @Name("offset") Integer offset,
             @Name("limit") Integer limit) {
         return service.findAll(sort, offset, limit);
