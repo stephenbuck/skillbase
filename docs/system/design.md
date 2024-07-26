@@ -29,7 +29,7 @@ in the future.
 
 **Identity (skillbase/keycloak):**
 
-Identity functionaliy (Keycloak) runs in a custom container derived from the
+Identity functionality (Keycloak) runs in a custom container derived from the
 'quay.io/keycloak/keycloak:latest' image. The Skillbase image adds custom configuration.
 
 Keycloak provides standard IAM features like authentication, OAuth suport, JWT token

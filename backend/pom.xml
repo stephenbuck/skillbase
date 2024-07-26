@@ -69,6 +69,9 @@
     <smallrye.graphql-ui.version>1.0.7</smallrye.graphql-ui.version>
     <smallrye.health.version>4.1.0</smallrye.health.version>
     <smallrye.openapi.version>4.0.0-alpha2</smallrye.openapi.version>
+    <spring.boot.version>3.3.2</spring.boot.version>
+    <spring.boot.plugin.version>3.3.2</spring.boot.plugin.version>
+    <spring.web.version>6.1.11</spring.web.version>
     <swagger.version>2.1.6</swagger.version>
     <testcontainers.version>1.19.8</testcontainers.version>
     <wildfly.maven.version>4.2.2.Final</wildfly.maven.version>
@@ -253,7 +256,20 @@
           </executions>
         </plugin>
         -->
-  
+
+        <plugin>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <version>${spring.boot.plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
         <plugin>  
           <artifactId>versions-maven-plugin</artifactId>  
           <groupId>org.codehaus.mojo</groupId>  
@@ -485,6 +501,36 @@
         <version>${smallrye.health.version}</version>
       </dependency>
    
+      <dependency>
+        <artifactId>spring-boot</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+    
+      <dependency>
+        <artifactId>spring-boot-actuator</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      
+      <dependency>
+        <artifactId>spring-boot-autoconfigure</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+    
+      <dependency>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>spring-web</artifactId>
+        <groupId>org.springframework</groupId>
+        <version>${spring.web.version}</version>
+      </dependency>
+    
       <!-- Test -->
 
       <dependency>

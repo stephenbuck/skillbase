@@ -155,6 +155,18 @@
       </plugin>
       -->
 
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>  
         <artifactId>versions-maven-plugin</artifactId>  
         <groupId>org.codehaus.mojo</groupId>  
@@ -307,6 +319,21 @@
       <groupId>io.smallrye</groupId>
     </dependency>
  
+    <dependency>
+      <artifactId>spring-boot</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-boot-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    
+    <dependency>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
     <!-- Test -->
 
     <dependency>

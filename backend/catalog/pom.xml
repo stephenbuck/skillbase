@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>skillbase-backend-catalog</name>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <artifactId>skillbase-backend-catalog</artifactId>
   <groupId>com.headspin.skillbase</groupId>
@@ -154,6 +154,18 @@
         <groupId>io.smallrye</groupId>
       </plugin>
       -->
+
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <plugin>  
         <artifactId>versions-maven-plugin</artifactId>  
@@ -336,6 +348,31 @@
       <groupId>io.smallrye</groupId>
     </dependency>
  
+    <dependency>
+      <artifactId>spring-boot</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-boot-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    
+    <dependency>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-web</artifactId>
+      <groupId>org.springframework</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
     <!-- Test -->
 
     <dependency>
@@ -374,59 +411,6 @@
       <scope>test</scope>
     </dependency>   
 
-
- 
-
-    <!--
-
-    <dependency>
-      <groupId>io.smallrye.reactive</groupId>
-      <artifactId>smallrye-reactive-messaging-provider</artifactId>
-      <version>3.10.1</version>
-    </dependency>
-    
-    <dependency>
-     <groupId>io.smallrye.reactive</groupId>
-     <artifactId>mutiny-reactive-streams-operators</artifactId>
-     <version>0.18.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.jboss.weld.se</groupId>
-      <artifactId>weld-se-core</artifactId>
-      <version>3.1.8.Final</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>io.smallrye.config</groupId>
-      <artifactId>smallrye-config</artifactId>
-      <version>2.5.1</version>
-    </dependency>
-        
-    <dependency>
-      <groupId>io.smallrye.reactive</groupId>
-      <artifactId>smallrye-reactive-messaging-kafka</artifactId>
-      <version>3.10.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>io.smallrye.common</groupId>
-      <artifactId>smallrye-common-annotation</artifactId>
-      <version>2.5.0</version>
-  </dependency>
-  <dependency>
-    <groupId>org.wildfly.security</groupId>
-    <artifactId>wildfly-elytron-sasl-oauth2</artifactId>
-    <version>2.5.0.Final</version>
-</dependency>
-<dependency>
-  <groupId>org.wildfly.security</groupId>
-  <artifactId>wildfly-elytron-sasl</artifactId>
-  <version>2.5.0.Final</version>
-</dependency>
--->
-
-    
   </dependencies>
 
 </project>
