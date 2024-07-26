@@ -26,5 +26,6 @@ A primary goal of this application is to illustrate the use of the most popular 
 * Monitoring (Microprofile, Prometheus)
 * Frontend (React, MaterialUI, SPA, Javascript)
 * Documentation (Markdown, MkDocs, OpenAPI)
+* Versioning (Git, Turtle)
 
 Full documentation can be found in the 'site' directory.
