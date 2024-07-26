@@ -21,6 +21,7 @@ A primary goal of this application is to illustrate the use of the most popular 
 * Workflow (BPMN, Flowable)
 * Caching (Redis)
 * Interfaces (REST, GraphQL)
+* Logging (Log4j, Slf4j, fluentd)
 * Testing (JUnit, ArchUnit, Testcontainers)
 * Build (Maven)
 * Monitoring (Microprofile, Prometheus)
