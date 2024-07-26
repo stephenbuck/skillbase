@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>skillbase-backend-catalog</name>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <artifactId>skillbase-backend-catalog</artifactId>
   <groupId>com.headspin.skillbase</groupId>
@@ -155,6 +155,7 @@
       </plugin>
       -->
 
+      <!--
       <plugin>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <groupId>org.springframework.boot</groupId>
@@ -166,6 +167,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
 
       <plugin>  
         <artifactId>versions-maven-plugin</artifactId>  
