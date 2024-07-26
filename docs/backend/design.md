@@ -25,6 +25,7 @@ Past iterations have been implemented using a handful of services combined into 
 
 * See https://microprofile.io/
 * See https://smallrye.io
+* See https://spring.io/projects/spring-boot
 
 
 **Language (Java 21):**
@@ -34,12 +35,14 @@ I’ve used Java for every backend implementation of this project so far and wil
 * See https://docs.oracle.com/en/java/javase/21/docs/api/index.html
 
 
-**Framework (Jakarta EE):**
+**Framework (Jakarta EE and Spring Boot):**
 
-Jakarta EE is the latest incarnation of the J2EE framework. I have extensive experience with J2EE so it will be interesting to see how the framework has advanced. I expect to use Jakarta EE, especially the MicroProfile and its extensions, for the core framework.
+Jakarta EE is the latest incarnation of the J2EE framework. I have extensive experience with J2EE so it will be interesting to see how the framework has advanced. I expect to use Jakarta EE, especially the MicroProfile and its extensions, for the core framework. I'll be using Spring Boot for the runtime
+container for the microservices.
 
 * See https://jakarta.ee
-* See https://microprofile.io/
+* See https://microprofile.io
+* See https://spring.io/projects/spring-boot
 
 
 **Authentication / Authorization (Jakarta EE JWT):**
