@@ -26,7 +26,7 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Testing (JUnit, ArchUnit, Testcontainers)
 - Build (Maven and NPM)
 - Monitoring (Microprofile, Prometheus)
-- Frontend (Javascript, SPA, React, MaterialUI)
+- Frontend (Javascript, React, MaterialUI)
 - Documentation (Markdown, OpenAPI, MkDocs)
 - Versioning (Git)
 
@@ -68,7 +68,7 @@ Infrastructure is built using Terraform code and managed using Kubernetes.
 
 **Configuration**
 
-Runtime application configuration is built on the Microprofile Config API running with Etcd as the provider.
+Runtime application configuration is built on the Microprofile Config API with Etcd as the provider.
 
 **Workflow**
 
@@ -76,7 +76,7 @@ Workflow process management is handled using BPMN process diagrams and the Flowa
 
 **Caching**
 
-Distributed caching is handled using Redis, and it's Java API. Cache contents will be updated by domain events received from Kafka.
+Distributed caching is handled using Redis, and it's Java API. Cache contents are be updated by domain events received from Kafka.
 
 **Interfaces**
 

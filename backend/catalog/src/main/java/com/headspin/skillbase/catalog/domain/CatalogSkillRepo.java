@@ -11,7 +11,7 @@ public interface CatalogSkillRepo {
 
     public UUID insert(@NotNull @Valid CatalogSkill skill);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
 

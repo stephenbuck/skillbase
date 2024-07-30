@@ -43,7 +43,7 @@ Runs as a set of Docker containers, one-per-service, combined with Wildfly and S
 
 **Event-Driven**
 
-Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the JMS specification using Kafka as the message broker.
+Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the Jakarta JMS specification using Kafka as the message broker.
 
 **Feature Flags**
 

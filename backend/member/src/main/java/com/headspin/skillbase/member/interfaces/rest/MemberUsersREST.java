@@ -46,7 +46,8 @@ public class MemberUsersREST {
     @Path("{id}")
     @Operation(summary = "Delete member user")
     public Response deleteById(@PathParam("id") UUID id) {
-        return Response.ok(service.delete(id)).build();
+        service.delete(id);
+        return Response.ok().build();
     }
 
     @POST
@@ -98,7 +99,8 @@ public class MemberUsersREST {
     @Path("{id}/achievements/{achievement_id}")
     @Operation(summary = "Delete member user achievement")
     public Response deleteUserAchievement(@PathParam("id") UUID id, @PathParam("achievement_id") UUID achievement_id) {
-        return Response.ok(service.deleteUserAchievement(id, achievement_id)).build();
+        service.deleteUserAchievement(id, achievement_id);
+        return Response.ok().build();
     }
 
     @GET

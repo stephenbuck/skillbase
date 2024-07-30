@@ -11,7 +11,7 @@ public interface MemberProcessRepo {
 
     public UUID insert(@NotNull @Valid MemberProcess process);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public MemberProcess update(@NotNull @Valid MemberProcess process);
 

@@ -11,7 +11,7 @@ public interface CatalogCredentialRepo {
 
     public UUID insert(@NotNull @Valid CatalogCredential credential);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential);
 

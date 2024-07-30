@@ -18,7 +18,7 @@ public interface WorkflowDeploymentRepo {
 
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment);
 

@@ -21,6 +21,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -42,27 +43,52 @@ public class MemberAchievementService {
     private MemberProducerProvider prod = new MemberEventProducerKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
+    private void produceAchievementCreatedEvent(MemberAchievement achievement) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_ACHIEVEMENT_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(achievement.id))
+                .add("title", achievement.title)
+                .build()));
+    }
+
+    private void produceAchievementDeletedEvent(UUID id) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_ACHIEVEMENT_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceAchievementUpdatedEvent(MemberAchievement achievement) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_ACHIEVEMENT_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(achievement.id))
+                .add("title", achievement.title)
+                .build()));
+    }
+
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
         UUID id = repo.insert(achievement);
-        prod.produce(MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED, "TBD"));
+        produceAchievementCreatedEvent(achievement);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_ACHIEVEMENT_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceAchievementDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
-        prod.produce(com.headspin.skillbase.common.events.MemberEvent.buildEvent(achievement.id, MemberEvent.MEMBER_ACHIEVEMENT_UPDATED, "TBD"));
+        produceAchievementUpdatedEvent(updated);
         return updated;
     }
 

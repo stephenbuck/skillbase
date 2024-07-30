@@ -17,7 +17,7 @@ import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
 
 /**
- * Kafka implementation of workflow producer provider interface.
+ * Kafka implementation of the workflow producer provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0

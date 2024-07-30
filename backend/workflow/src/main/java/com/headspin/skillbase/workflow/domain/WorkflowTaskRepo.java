@@ -18,7 +18,7 @@ public interface WorkflowTaskRepo {
 
     public UUID insert(@NotNull @Valid WorkflowTask task);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public WorkflowTask update(@NotNull @Valid WorkflowTask task);
 

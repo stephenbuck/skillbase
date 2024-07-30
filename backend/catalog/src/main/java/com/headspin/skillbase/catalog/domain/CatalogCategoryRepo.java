@@ -11,7 +11,7 @@ public interface CatalogCategoryRepo {
 
     public UUID insert(@NotNull @Valid CatalogCategory category);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public CatalogCategory update(@NotNull @Valid CatalogCategory category);
 

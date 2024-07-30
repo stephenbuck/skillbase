@@ -19,6 +19,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -39,27 +40,52 @@ public class CatalogCredentialService {
     private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     private CatalogProducerProvider prod = new CatalogEventProducerKafka();
 
+    private void produceCredentialCreatedEvent(CatalogCredential credential) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CREDENTIAL_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(credential.id))
+                .add("title", credential.title)
+                .build()));
+    }
+
+    private void produceCredentialDeletedEvent(UUID id) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CREDENTIAL_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceCredentialUpdatedEvent(CatalogCredential credential) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CREDENTIAL_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(credential.id))
+                .add("title", credential.title)
+                .build()));
+    }
+
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         UUID id = repo.insert(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_CREATED, new CatalogEvent.CredentialCreated(credential.id, credential.skill_id, credential.title)));
+        produceCredentialCreatedEvent(credential);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CREDENTIAL_DELETED, new CatalogEvent.CredentialDeleted(id)));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceCredentialDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
         CatalogCredential updated = repo.update(credential);
-        prod.produce(CatalogEvent.buildEvent(credential.id, CatalogEvent.CATALOG_CREDENTIAL_UPDATED, new CatalogEvent.CredentialUpdated(credential.id, credential.title)));
+        produceCredentialUpdatedEvent(credential);
         return updated;
     }
 

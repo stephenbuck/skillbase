@@ -15,10 +15,19 @@ import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsSer
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Kafka implementation of the workflow member event consumer.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Slf4j
+@ApplicationScoped
 public class WorkflowMemberEventConsumer {
     
     private static final Duration poll_timeout = Duration.ofMillis(100);

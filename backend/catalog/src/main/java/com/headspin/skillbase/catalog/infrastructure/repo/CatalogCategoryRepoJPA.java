@@ -34,9 +34,8 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
-    public boolean delete(@NotNull UUID id) {
+    public void delete(@NotNull UUID id) {
         em.remove(em.find(CatalogCategory.class, id));
-        return true;
     }
 
     @Override

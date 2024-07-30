@@ -36,9 +36,8 @@ public class MemberUserRepoJPA implements MemberUserRepo {
 
     @Override
     @Transactional
-    public boolean delete(@NotNull UUID id) {
+    public void delete(@NotNull UUID id) {
         em.remove(em.find(MemberUser.class, id));
-        return true;
     }
 
     @Override
@@ -80,13 +79,12 @@ public class MemberUserRepoJPA implements MemberUserRepo {
     }
 
     @Transactional
-    public boolean insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        return true;
+    public UUID insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        return null;
     }
 
     @Transactional
-    public boolean deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        return true;
+    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
     }
 
     @Override

@@ -21,6 +21,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,34 +45,57 @@ public class WorkflowDefinitionsService {
     @Inject
     private WorkflowDefinitionRepo repo;
 
-
     private WorkflowConfigProvider conf = new WorkflowConfigProviderDefault();
     private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
     private WorkflowProducerProvider prod = new WorkflowEventProducerKafka();
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
+    private void produceDefinitionCreatedEvent(WorkflowDefinition definition) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEFINITION_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(definition.id))
+                .add("title", definition.title)
+                .build()));
+    }
+
+    private void produceDefinitionDeletedEvent(UUID id) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEFINITION_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceDefinitionUpdatedEvent(WorkflowDefinition definition) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(definition.id))
+                .add("title", definition.title)
+                .build()));
+    }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
         UUID id = repo.insert(definition);
-        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, "TBD"));
+        produceDefinitionCreatedEvent(definition);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEFINITION_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceDefinitionDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
         WorkflowDefinition updated = repo.update(definition);
-        prod.produce(WorkflowEvent.buildEvent(definition.id, WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, "TBD"));
+        produceDefinitionUpdatedEvent(updated);
         return updated;
     }
 

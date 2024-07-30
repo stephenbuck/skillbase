@@ -23,6 +23,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,27 +45,50 @@ public class MemberUserService {
     private MemberProducerProvider prod = new MemberEventProducerKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
+    private void produceUserCreatedEvent(MemberUser user) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_USER_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(user.id))
+                .build()));
+    }
+
+    private void produceUserDeletedEvent(UUID id) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_USER_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceUserUpdatedEvent(MemberUser user) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_USER_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(user.id))
+                .build()));
+    }
+
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
         UUID id = repo.insert(user);
-        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED, "TBD"));
+        produceUserCreatedEvent(user);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_USER_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceUserDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user) {
         MemberUser updated = repo.update(user);
-        prod.produce(MemberEvent.buildEvent(user.id, MemberEvent.MEMBER_USER_UPDATED, "TBD"));
+        produceUserUpdatedEvent(updated);
         return updated;
     }
 
@@ -91,14 +115,14 @@ public class MemberUserService {
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public boolean insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+    public UUID insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
         return repo.insertUserAchievement(id, achievement_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public boolean deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        return repo.deleteUserAchievement(id, achievement_id);
+    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+        repo.deleteUserAchievement(id, achievement_id);
     }
 
 //    @RolesAllowed({ "Admin" })

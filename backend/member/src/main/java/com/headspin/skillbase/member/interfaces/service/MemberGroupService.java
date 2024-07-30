@@ -22,6 +22,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -43,27 +44,50 @@ public class MemberGroupService {
     private MemberProducerProvider prod = new MemberEventProducerKafka();
     private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
 
+    private void produceGroupCreatedEvent(MemberGroup group) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_GROUP_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(group.id))
+                .build()));
+    }
+
+    private void produceGroupDeletedEvent(UUID id) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_GROUP_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceGroupUpdatedEvent(MemberGroup group) {
+        prod.produce(new MemberEvent(
+            MemberEvent.MEMBER_GROUP_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(group.id))
+                .build()));
+    }
+
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
         UUID id = repo.insert(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_CREATED, "TBD"));
+        produceGroupCreatedEvent(group);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(MemberEvent.buildEvent(id, MemberEvent.MEMBER_GROUP_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceGroupDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group) {
         MemberGroup updated = repo.update(group);
-        prod.produce(MemberEvent.buildEvent(group.id, MemberEvent.MEMBER_GROUP_UPDATED, "TBD"));
+        produceGroupUpdatedEvent(updated);
         return updated;
     }
 
@@ -84,14 +108,14 @@ public class MemberGroupService {
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public boolean insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+    public UUID insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
         return repo.insertGroupUser(id, user_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public boolean deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        return repo.deleteGroupUser(id, user_id);
+    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
+        repo.deleteGroupUser(id, user_id);
     }
 
 //    @RolesAllowed({ "Admin" })

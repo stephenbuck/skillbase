@@ -21,6 +21,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,34 +45,57 @@ public class WorkflowInstancesService {
     @Inject
     private WorkflowInstanceRepo repo;
 
-
     private WorkflowConfigProvider conf = new WorkflowConfigProviderDefault();
     private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
     private WorkflowProducerProvider prod = new WorkflowEventProducerKafka();
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
+    private void produceInstanceCreatedEvent(WorkflowInstance instance) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_INSTANCE_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(instance.id))
+                .add("title", instance.title)
+                .build()));
+    }
+
+    private void produceInstanceDeletedEvent(UUID id) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_INSTANCE_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceInstanceUpdatedEvent(WorkflowInstance instance) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(instance.id))
+                .add("title", instance.title)
+                .build()));
+    }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowInstance instance) {
         UUID id = repo.insert(instance);
-        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, "TBD"));
+        produceInstanceCreatedEvent(instance);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_INSTANCE_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceInstanceDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
         WorkflowInstance updated = repo.update(instance);
-        prod.produce(WorkflowEvent.buildEvent(instance.id, WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, "TBD"));
+        produceInstanceUpdatedEvent(updated);
         return updated;
     }
 

@@ -21,6 +21,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -49,27 +50,52 @@ public class WorkflowDeploymentsService {
     private WorkflowProducerProvider prod = new WorkflowEventProducerKafka();
     private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
 
+    private void produceDeploymentCreatedEvent(WorkflowDeployment deployment) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(deployment.id))
+                .add("title", deployment.title)
+                .build()));
+    }
+
+    private void produceDeploymentDeletedEvent(UUID id) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceDeploymentUpdatedEvent(WorkflowDeployment deployment) {
+        prod.produce(new WorkflowEvent(
+            WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(deployment.id))
+                .add("title", deployment.title)
+                .build()));
+    }
+
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment) {
         UUID id = repo.insert(deployment);
-        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED, "TBD"));
+        produceDeploymentCreatedEvent(deployment);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(WorkflowEvent.buildEvent(id, WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED, "TBD"));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceDeploymentDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment) {
         WorkflowDeployment updated = repo.update(deployment);
-        prod.produce(WorkflowEvent.buildEvent(deployment.id, WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED, "TBD"));
+        produceDeploymentUpdatedEvent(updated);
         return updated;
     }
 

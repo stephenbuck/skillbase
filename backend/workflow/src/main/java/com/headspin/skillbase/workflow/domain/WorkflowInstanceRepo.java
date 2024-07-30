@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 
     public UUID insert(@NotNull @Valid WorkflowInstance instance);
 
-    public boolean delete(@NotNull UUID id);
+    public void delete(@NotNull UUID id);
 
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance);
 

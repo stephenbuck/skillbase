@@ -1,13 +1,8 @@
 package com.headspin.skillbase.common.events;
 
-import com.headspin.skillbase.common.domain.DomainEvent;
-
-import java.net.URI;
 import java.util.UUID;
 
-import io.cloudevents.CloudEvent;
-import io.cloudevents.core.builder.CloudEventBuilder;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.json.JsonObject;
 
 /**
  * Represents a workflow event.
@@ -38,9 +33,7 @@ import jakarta.ws.rs.core.MediaType;
  * @since 1.0
  */
 
-public class WorkflowEvent extends DomainEvent {
-
-    private static URI source = URI.create("http://skillbase.com");
+public class WorkflowEvent extends SkillbaseEvent {
 
     public static final String WORKFLOW_EVENT_TOPIC = "skillbase_workflow_event";
 
@@ -66,48 +59,21 @@ public class WorkflowEvent extends DomainEvent {
     public static final String WORKFLOW_TASK_DELETED = "com.headspin.skillbase.workflow.task.deleted";
     public static final String WORKFLOW_TASK_UPDATED = "com.headspin.skillbase.workflow.task.updated";
 
-    private final UUID id;
-    private final String type;
-    private final Object data;
-
-    public WorkflowEvent(UUID id, String type, Object data) {
-        this.id = id;
-        this.type = type;
-        this.data = data;
+    public WorkflowEvent(String type, JsonObject data) {
+        this(UUID.randomUUID(), type, data);
     }
 
-    public UUID id() {
-        return this.id;
-    }
-
-    public String type() {
-        return this.type;
-    }
-
-    public Object data() {
-        return this.data;
-    }
-
-    public static WorkflowEvent buildEvent(UUID id, String type, Object data) {
-        return new WorkflowEvent(id, type, data);
-    }
-
-    public static CloudEvent buildCloud(WorkflowEvent event) {
-        return CloudEventBuilder
-                .v1()
-                .withId(String.valueOf(event.id()))
-                .withType(event.type())
-                .withSource(source)
-                .withData(MediaType.APPLICATION_JSON, String.valueOf(event.data).getBytes())
-                .build();
+    public WorkflowEvent(UUID id, String type, JsonObject data) {
+        super(id, type, data);
     }
 
     @Override
     public String toString() {
         return
             "WorkflowEvent {\n" +
-                "id   = " + id + "\n" +
-                "type = " + type + "\n" +
+                "id   = " + id() + "\n" +
+                "type = " + type() + "\n" +
+                "data = " + data() + "\n" +
             "}\n";
     }
 }

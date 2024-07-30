@@ -46,7 +46,8 @@ public class MemberGroupsREST {
     @Path("{id}")
     @Operation(summary = "Delete member group")
     public Response delete(@PathParam("id") UUID id) {
-        return Response.ok(service.delete(id)).build();
+        service.delete(id);
+        return Response.ok().build();
     }
 
     @POST
@@ -91,7 +92,8 @@ public class MemberGroupsREST {
     @Path("{id}/users/{user_id}")
     @Operation(summary = "Delete member group user")
     public Response deleteGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
-        return Response.ok(service.deleteGroupUser(id, user_id)).build();
+        service.deleteGroupUser(id, user_id);
+        return Response.ok().build();
     }
 
     @GET

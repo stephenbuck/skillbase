@@ -46,7 +46,8 @@ public class CatalogCredentialsREST {
     @Path("{id}")
     @Operation(summary = "Delete catalog skill credential")
     public Response delete(@PathParam("id") UUID id) {
-        return Response.ok(service.delete(id)).build();
+        service.delete(id);
+        return Response.ok().build();
     }
 
     @POST

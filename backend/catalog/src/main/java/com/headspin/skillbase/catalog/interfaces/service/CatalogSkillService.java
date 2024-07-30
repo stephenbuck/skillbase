@@ -20,6 +20,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -40,27 +41,52 @@ public class CatalogSkillService {
     private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     private CatalogProducerProvider prod = new CatalogEventProducerKafka();
 
+    private void produceSkillCreatedEvent(CatalogSkill skill) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_SKILL_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(skill.id))
+                .add("title", skill.title)
+                .build()));
+    }
+
+    private void produceSkillDeletedEvent(UUID id) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_SKILL_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceSkillUpdatedEvent(CatalogSkill skill) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_SKILL_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(skill.id))
+                .add("title", skill.title)
+                .build()));
+    }
+   
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         UUID id = repo.insert(skill);
-        prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_CREATED, new CatalogEvent.SkillCreated(skill.id, skill.title)));
+        produceSkillCreatedEvent(skill);
         return id;
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_SKILL_DELETED, new CatalogEvent.SkillDeleted(id)));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceSkillDeletedEvent(id);
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         CatalogSkill updated = repo.update(skill);
-        prod.produce(CatalogEvent.buildEvent(skill.id, CatalogEvent.CATALOG_SKILL_UPDATED, new CatalogEvent.SkillUpdated(skill.id, skill.title)));
+        produceSkillUpdatedEvent(skill);
         return updated;
     }
 

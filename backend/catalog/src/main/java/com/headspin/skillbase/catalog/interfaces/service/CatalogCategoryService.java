@@ -20,6 +20,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -40,30 +41,52 @@ public class CatalogCategoryService {
     CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
     CatalogProducerProvider prod = new CatalogEventProducerKafka();
 
+    private void produceCategoryCreatedEvent(CatalogCategory category) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CATEGORY_CREATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(category.id))
+                .add("title", category.title)
+                .build()));
+    }
+
+    private void produceCategoryDeletedEvent(UUID id) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CATEGORY_DELETED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build()));
+    }
+
+    private void produceCategoryUpdatedEvent(CatalogCategory category) {
+        prod.produce(new CatalogEvent(
+            CatalogEvent.CATALOG_CATEGORY_UPDATED, 
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(category.id))
+                .add("title", category.title)
+                .build()));
+    }
+
     // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         UUID id = repo.insert(category);
-        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED,
-                new CatalogEvent.CategoryCreated(category.id, category.title)));
+        produceCategoryCreatedEvent(category);
         return id;
     }
 
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean delete(@NotNull UUID id) {
-        boolean result = repo.delete(id);
-        prod.produce(CatalogEvent.buildEvent(id, CatalogEvent.CATALOG_CATEGORY_DELETED,
-                new CatalogEvent.CategoryDeleted(id)));
-        return result;
+    public void delete(@NotNull UUID id) {
+        repo.delete(id);
+        produceCategoryDeletedEvent(id);
     }
 
     // @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         CatalogCategory updated = repo.update(category);
-        prod.produce(CatalogEvent.buildEvent(category.id, CatalogEvent.CATALOG_CATEGORY_UPDATED,
-                new CatalogEvent.CategoryUpdated(category.id, category.title)));
+        produceCategoryUpdatedEvent(category);
         return updated;
     }
 

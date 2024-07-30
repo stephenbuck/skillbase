@@ -46,7 +46,8 @@ public class MemberAchievementsREST {
     @Path("{id}")
     @Operation(summary = "Delete member achievement")
     public Response deleteById(@PathParam("id") UUID id) {
-        return Response.ok(service.delete(id)).build();
+        service.delete(id);
+        return Response.ok().build();
     }
 
     @POST
