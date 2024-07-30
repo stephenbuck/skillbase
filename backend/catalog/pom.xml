@@ -102,7 +102,7 @@
         <groupId>org.liquibase</groupId>
         <configuration>
           <changeLogFile>
-            /home/stephenbuck/Desktop/skillbase/backend/catalog/src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
+            ./src/main/resources/database/changelog/db.changelog.sql</changeLogFile>
           <driver>org.postgresql.Driver</driver>
           <url>jdbc:postgresql://172.17.0.1:5432/skillbase</url>
           <username>postgres</username>
@@ -349,7 +349,8 @@
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
     </dependency>
- 
+
+    <!--
     <dependency>
       <artifactId>spring-boot</artifactId>
       <groupId>org.springframework.boot</groupId>
@@ -374,7 +375,8 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
-  
+    -->
+
     <!-- Test -->
 
     <dependency>
