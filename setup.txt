@@ -1,37 +1,22 @@
-sudo snap install docker
-
-sudo apt install maven
-
-sudo apt install openjdk-21-jdk
-
-sudo apt install mkdocs
-
-sudo docker run -d -p 5000:5000 --name registry registry:latest
-
-./build.sh
-
-sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
-
 wget -O- https://apt.releases.hashicorp.com/gpg | \
-gpg --dearmor | \
-sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-
-gpg --no-default-keyring \
---keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
---fingerprint
-
+gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
 https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
 sudo tee /etc/apt/sources.list.d/hashicorp.list
 
 sudo apt update
+sudo apt install -y terraform
+sudo apt install -y openjdk-21-jdk
+sudo apt install -y maven
+sudo apt install -y mkdocs
+sudo apt install -y gnupg software-properties-common
+sudo snap install node --classic
+sudo snap install dockera
 
-sudo apt-get install terraform
+sudo docker run -d -p 5000:5000 --name registry registry:latest
+
+# ./build.sh
 
 sudo mvn tf:apply
-
-
-
-sudo snap install node --classic
-
 
