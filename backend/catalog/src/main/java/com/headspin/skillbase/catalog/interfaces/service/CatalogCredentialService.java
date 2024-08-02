@@ -120,6 +120,7 @@ public class CatalogCredentialService {
         conf.test();
         feat.test();
         prod.test();
+        produceCredentialDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

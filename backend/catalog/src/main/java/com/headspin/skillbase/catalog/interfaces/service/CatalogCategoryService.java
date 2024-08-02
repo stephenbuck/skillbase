@@ -43,28 +43,28 @@ public class CatalogCategoryService {
 
     private void produceCategoryCreatedEvent(CatalogCategory category) {
         prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CATEGORY_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(category.id))
-                .add("title", category.title)
-                .build()));
+                CatalogEvent.CATALOG_CATEGORY_CREATED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(category.id))
+                        .add("title", category.title)
+                        .build()));
     }
 
     private void produceCategoryDeletedEvent(UUID id) {
         prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CATEGORY_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
+                CatalogEvent.CATALOG_CATEGORY_DELETED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(id))
+                        .build()));
     }
 
     private void produceCategoryUpdatedEvent(CatalogCategory category) {
         prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CATEGORY_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(category.id))
-                .add("title", category.title)
-                .build()));
+                CatalogEvent.CATALOG_CATEGORY_UPDATED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(category.id))
+                        .add("title", category.title)
+                        .build()));
     }
 
     // @RolesAllowed({ "Admin" })
@@ -138,6 +138,7 @@ public class CatalogCategoryService {
         conf.test();
         feat.test();
         prod.test();
+        produceCategoryDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

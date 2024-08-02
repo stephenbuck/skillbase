@@ -136,6 +136,7 @@ public class MemberUserService {
         feat.test();
         prod.test();
         auth.test();
+        produceUserDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

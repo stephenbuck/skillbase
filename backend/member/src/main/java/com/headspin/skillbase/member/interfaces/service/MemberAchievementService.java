@@ -113,6 +113,7 @@ public class MemberAchievementService {
         feat.test();
         prod.test();
         auth.test();
+        produceAchievementDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

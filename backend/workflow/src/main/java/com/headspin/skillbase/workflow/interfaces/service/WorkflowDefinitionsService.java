@@ -154,6 +154,7 @@ public class WorkflowDefinitionsService {
         feat.test();
         prod.test();
         work.test();
+        produceDefinitionDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

@@ -19,7 +19,15 @@ terraform {
       source = "kreuzwerker/docker"
       version = "~> 3.0.2"
     }
+    kafka = {
+      source = "Mongey/kafka"
+      version = "0.7.1"
+    }
   }
+}
+
+provider "kafka" {
+  bootstrap_servers = ["kafka:9092"]
 }
 
 ################################################################################
@@ -249,6 +257,7 @@ resource "docker_container" "kafka" {
     "KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1",
     "KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=1",
     "KAFKA_CFG_GROUP_INITIAL_REBALANCE_DELAY_MS=0",
+    "KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true"
   ]
   ports {
     internal = 9092
@@ -258,6 +267,41 @@ resource "docker_container" "kafka" {
     docker_container.registry
   ]
 }
+
+/*
+resource "kafka_topic" "skillbase_catalog_event" {
+  name               = "skillbase_catalog_event"
+  replication_factor = 1
+  partitions         = 1
+  config = {
+    "segment.ms"     = "20000"
+    "cleanup.policy" = "compact"
+  }
+  depends_on = [ docker_container.kafka ]
+}
+
+resource "kafka_topic" "skillbase_member_event" {
+  name               = "skillbase_member_event"
+  replication_factor = 1
+  partitions         = 1
+  config = {
+    "segment.ms"     = "20000"
+    "cleanup.policy" = "compact"
+  }
+  depends_on = [ docker_container.kafka ]
+}
+
+resource "kafka_topic" "skillbase_workflow_event" {
+  name               = "skillbase_workflow_event"
+  replication_factor = 1
+  partitions         = 1
+  config = {
+    "segment.ms"     = "20000"
+    "cleanup.policy" = "compact"
+  }
+  depends_on = [ docker_container.kafka ]
+}
+*/
 
 ################################################################################
 # KeyCloak
@@ -414,6 +458,9 @@ resource "docker_container" "wildfly" {
     docker_container.kafka,
     docker_container.keycloak,
     docker_container.flowable
+//    kafka_topic.skillbase_catalog_event,
+//    kafka_topic.skillbase_member_event,
+//    kafka_topic.skillbase_workflow_event
   ]
 }
 

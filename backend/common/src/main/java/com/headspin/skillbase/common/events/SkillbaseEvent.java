@@ -1,6 +1,5 @@
 package com.headspin.skillbase.common.events;
 
-import java.net.URI;
 import java.util.UUID;
 
 import com.headspin.skillbase.common.domain.DomainEvent;
@@ -8,6 +7,8 @@ import com.headspin.skillbase.common.domain.DomainEvent;
 import jakarta.json.JsonObject;
 
 public abstract class SkillbaseEvent extends DomainEvent {
+
+    public static final String SKILLBASE_EVENT_SOURCE = "http://skillbase.com";
 
     private final UUID id;
     private final String type;

@@ -56,16 +56,13 @@ workflow deployment entity.
 
 
 SKILLBASE_CATALOG_CREDENTIAL_CREATED:
-In response to a credential created event, the workflow service creates a corresponding
-workflow definition entity.
+In response to a credential created event, the workflow service creates a corresponding workflow definition entity.
 
 SKILLBASE_CATALOG_CREDENTIAL_DELETED:
-In response to a credential deleted event, the workflow service deletes its corresponding
-workflow definition entity.
+In response to a credential deleted event, the workflow service deletes its corresponding workflow definition entity.
 
 SKILLBASE_CATALOG_CREDENTIAL_UPDATED:
-In response to a credential updated event, the workflow service updates its corresponding
-workflow definition entity.
+In response to a credential updated event, the workflow service updates its corresponding workflow definition entity.
 
 
 

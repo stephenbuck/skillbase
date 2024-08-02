@@ -129,6 +129,7 @@ public class MemberGroupService {
         feat.test();
         prod.test();
         auth.test();
+        produceGroupDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

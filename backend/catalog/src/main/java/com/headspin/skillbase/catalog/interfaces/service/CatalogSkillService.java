@@ -134,6 +134,7 @@ public class CatalogSkillService {
         conf.test();
         feat.test();
         prod.test();
+        produceSkillDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

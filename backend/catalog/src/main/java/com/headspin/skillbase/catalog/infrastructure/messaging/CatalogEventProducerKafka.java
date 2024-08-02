@@ -9,11 +9,19 @@ import jakarta.ws.rs.core.MediaType;
 import java.net.InetAddress;
 import java.net.URI;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.Properties;
+import java.util.Set;
 
+import org.apache.kafka.clients.admin.Admin;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.CreateTopicsResult;
+import org.apache.kafka.clients.admin.ListTopicsResult;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.KafkaFuture;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,13 +42,29 @@ public class CatalogEventProducerKafka implements CatalogProducerProvider {
     private final String acks_config = "all";
     private final String bootstrap_servers = "kafka:9092";
     private final String key_serializer = "org.apache.kafka.common.serialization.StringSerializer";
-    private final String val_serializer = "org.apache.kafka.common.serialization.StringSerializer";
+    private final String val_serializer = "io.cloudevents.kafka.CloudEventSerializer";
     
     private String client_id;
 
     public CatalogEventProducerKafka() {
         try {
             this.client_id = InetAddress.getLocalHost().getHostName();
+
+            Properties props = new Properties();
+            props.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_servers);
+            try (Admin admin = Admin.create(props)) {
+
+                ListTopicsResult listres = admin.listTopics();
+                log.info("Topics: {}", listres);
+                
+                if (!listres.names().get().contains(CatalogEvent.CATALOG_EVENT_TOPIC)) {
+                    NewTopic topic = new NewTopic(CatalogEvent.CATALOG_EVENT_TOPIC, 1, (short)1);
+                    Set<NewTopic> topics = Collections.singleton(topic);
+                    CreateTopicsResult result = admin.createTopics(topics);
+                    KafkaFuture<Void> future = result.values().get(CatalogEvent.CATALOG_EVENT_TOPIC);
+                    future.get();
+                }
+            }
         }
         catch(Exception e) {
             log.info(String.valueOf(e));
@@ -50,8 +74,6 @@ public class CatalogEventProducerKafka implements CatalogProducerProvider {
     @Override
     public void test() {
         log.info("test");
-        log.info("client_id = {}", client_id);
-        log.info("bootstrap_servers = {}", bootstrap_servers);
     }
 
     @Override
@@ -83,7 +105,7 @@ public class CatalogEventProducerKafka implements CatalogProducerProvider {
         CloudEvent event = CloudEventBuilder.v1()
             .withId(String.valueOf(e.id()))
             .withType(e.type())
-            .withSource(URI.create("http://headspinlabs.wordpress.com"))
+            .withSource(URI.create(CatalogEvent.SKILLBASE_EVENT_SOURCE))
             .withData(MediaType.APPLICATION_JSON, data)
             .withTime(ZonedDateTime.now().toOffsetDateTime())
             .build();
@@ -93,6 +115,5 @@ public class CatalogEventProducerKafka implements CatalogProducerProvider {
 
         producer.flush();
         producer.close();
-
     }
 }

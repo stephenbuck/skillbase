@@ -6,7 +6,7 @@ import jakarta.json.JsonObject;
 
 public class CatalogEvent extends SkillbaseEvent {
 
-    public static final String CATALOG_EVENT_TOPIC = "skillbase_catalog_event";
+    public static final String CATALOG_EVENT_TOPIC  = "skillbase_catalog_event";
 
     public static final String CATALOG_CATEGORY_CREATED = "com.headspin.skillbase.catalog.category.created";
     public static final String CATALOG_CATEGORY_DELETED = "com.headspin.skillbase.catalog.category.deleted";

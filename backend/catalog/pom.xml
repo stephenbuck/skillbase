@@ -354,11 +354,7 @@
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
     </dependency>
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> e65756f (Numerous tweaks for events, Kafka, etc.)
     <!--
     <dependency>
       <artifactId>spring-boot</artifactId>

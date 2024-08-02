@@ -211,6 +211,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>cloudevents-json-jackson</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>cloudevents-kafka</artifactId>
       <groupId>io.cloudevents</groupId>
     </dependency>

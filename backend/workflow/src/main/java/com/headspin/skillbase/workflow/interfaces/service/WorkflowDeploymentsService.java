@@ -154,6 +154,7 @@ public class WorkflowDeploymentsService {
         feat.test();
         prod.test();
         work.test();
+        produceDeploymentDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

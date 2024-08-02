@@ -162,6 +162,7 @@ public class WorkflowInstancesService {
         feat.test();
         prod.test();
         work.test();
+        produceInstanceDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }
