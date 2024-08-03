@@ -61,7 +61,12 @@ public class CatalogSkillsService {
             CatalogEvent.CATALOG_SKILL_CREATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(skill.id))
+                .add("category_id", String.valueOf(skill.category_id))
+                .add("is_enabled", skill.is_enabled)
                 .add("title", skill.title)
+                .add("note", skill.note)
+                .add("created_at", String.valueOf(skill.createdAt))
+                .add("updated_at", String.valueOf(skill.updatedAt))
                 .build());
         return id;
     }
@@ -87,7 +92,12 @@ public class CatalogSkillsService {
             CatalogEvent.CATALOG_SKILL_UPDATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
+                .add("category_id", String.valueOf(updated.category_id))
+                .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

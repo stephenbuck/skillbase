@@ -60,7 +60,12 @@ public class CatalogCredentialsService {
             CatalogEvent.CATALOG_CREDENTIAL_CREATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(credential.id))
+                .add("skill_id", String.valueOf(credential.skill_id))
+                .add("is_enabled", credential.is_enabled)
                 .add("title", credential.title)
+                .add("note", credential.note)
+                .add("created_at", String.valueOf(credential.createdAt))
+                .add("updated_at", String.valueOf(credential.updatedAt))
                 .build());
         return id;
     }
@@ -86,7 +91,12 @@ public class CatalogCredentialsService {
             CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
+                .add("skill_id", String.valueOf(updated.skill_id))
+                .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

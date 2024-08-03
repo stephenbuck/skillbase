@@ -61,7 +61,12 @@ public class CatalogCategoriesService {
             CatalogEvent.CATALOG_CATEGORY_CREATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(category.id))
+                .add("parent_id", String.valueOf(category.parent_id))
+                .add("is_enabled", category.is_enabled)
                 .add("title", category.title)
+                .add("note", category.note)
+                .add("created_at", String.valueOf(category.createdAt))
+                .add("updated_at", String.valueOf(category.updatedAt))
                 .build());
         return id;
     }
@@ -86,9 +91,14 @@ public class CatalogCategoriesService {
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
-                .add("title", updated.title)
-                .build());
+            .add("id", String.valueOf(updated.id))
+            .add("parent_id", String.valueOf(updated.parent_id))
+            .add("is_enabled", updated.is_enabled)
+            .add("title", updated.title)
+            .add("note", updated.note)
+            .add("created_at", String.valueOf(updated.createdAt))
+            .add("updated_at", String.valueOf(updated.updatedAt))
+            .build());
         return updated;
     }
 
