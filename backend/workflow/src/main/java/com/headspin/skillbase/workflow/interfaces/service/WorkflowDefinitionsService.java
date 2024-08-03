@@ -7,14 +7,10 @@ import java.util.UUID;
 import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinitionRepo;
-import com.headspin.skillbase.workflow.infrastructure.config.WorkflowConfigProviderDefault;
-import com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable;
-import com.headspin.skillbase.workflow.infrastructure.feature.WorkflowFeatureProviderFlipt;
-import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowEventProducerKafka;
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -25,14 +21,16 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service interface for workflow definitions.
+ * Workflow definitions service.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -45,42 +43,29 @@ public class WorkflowDefinitionsService {
     @Inject
     private WorkflowDefinitionRepo repo;
 
-    private WorkflowConfigProvider conf = new WorkflowConfigProviderDefault();
-    private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
-    private WorkflowProducerProvider prod = new WorkflowEventProducerKafka();
-    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
+    @Inject
+    private WorkflowConfigProvider conf;
 
-    private void produceDefinitionCreatedEvent(WorkflowDefinition definition) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_DEFINITION_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(definition.id))
-                .add("title", definition.title)
-                .build()));
-    }
+    @Inject
+    private WorkflowFeaturesProvider feat;
 
-    private void produceDefinitionDeletedEvent(UUID id) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_DEFINITION_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
+    @Inject
+    private WorkflowEventsProvider evnt;
 
-    private void produceDefinitionUpdatedEvent(WorkflowDefinition definition) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_DEFINITION_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(definition.id))
-                .add("title", definition.title)
-                .build()));
-    }
+    @Inject
+    private WorkflowEngineProvider work;
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
         UUID id = repo.insert(definition);
-        produceDefinitionCreatedEvent(definition);
+        evnt.produce(
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(definition.id))
+                .add("title", definition.title)
+                .build());
         return id;
     }
 
@@ -88,14 +73,25 @@ public class WorkflowDefinitionsService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceDefinitionDeletedEvent(id);
+        evnt.produce(
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
         WorkflowDefinition updated = repo.update(definition);
-        produceDefinitionUpdatedEvent(updated);
+        evnt.produce(
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .add("title", updated.title)
+                .build());
         return updated;
     }
 
@@ -150,11 +146,11 @@ public class WorkflowDefinitionsService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
+        evnt.test();
         work.test();
-        produceDefinitionDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

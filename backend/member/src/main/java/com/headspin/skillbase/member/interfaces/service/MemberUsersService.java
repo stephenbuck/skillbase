@@ -9,14 +9,10 @@ import com.headspin.skillbase.member.domain.MemberUserRepo;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberGroup;
-import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
-import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
-import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
-import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducerKafka;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
-import com.headspin.skillbase.member.providers.MemberFeatureProvider;
-import com.headspin.skillbase.member.providers.MemberProducerProvider;
+import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
+import com.headspin.skillbase.member.providers.MemberEventsProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -27,12 +23,21 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Member users service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class MemberUserService {
+public class MemberUsersService {
 
     @Resource
     private SessionContext ctx;
@@ -40,40 +45,28 @@ public class MemberUserService {
     @Inject
     private MemberUserRepo repo;
 
-    private MemberConfigProvider conf = new MemberConfigProviderDefault();
-    private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
-    private MemberProducerProvider prod = new MemberEventProducerKafka();
-    private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
+    @Inject
+    private MemberConfigProvider conf;
 
-    private void produceUserCreatedEvent(MemberUser user) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_USER_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(user.id))
-                .build()));
-    }
+    @Inject
+    private MemberFeaturesProvider feat;
 
-    private void produceUserDeletedEvent(UUID id) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_USER_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
+    @Inject
+    private MemberEventsProvider evnt;
 
-    private void produceUserUpdatedEvent(MemberUser user) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_USER_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(user.id))
-                .build()));
-    }
+    @Inject
+    private MemberAuthProvider auth;
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
         UUID id = repo.insert(user);
-        produceUserCreatedEvent(user);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_USER_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(user.id))
+                .build());
         return id;
     }
 
@@ -81,14 +74,24 @@ public class MemberUserService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceUserDeletedEvent(id);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_USER_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user) {
         MemberUser updated = repo.update(user);
-        produceUserUpdatedEvent(updated);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_USER_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .build());
         return updated;
     }
 
@@ -132,11 +135,11 @@ public class MemberUserService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
+        evnt.test();
         auth.test();
-        produceUserDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

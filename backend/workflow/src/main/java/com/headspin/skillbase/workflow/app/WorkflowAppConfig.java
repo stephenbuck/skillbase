@@ -1,13 +1,15 @@
 package com.headspin.skillbase.workflow.app;
 
+import com.headspin.skillbase.common.app.AppConfig;
+
 /**
-* Application configuration for the workflow service.
+* Application config for the workflow service.
 * 
 * @author Stephen Buck
 * @since 1.0
 */
 
-public class WorkflowAppConfig {
+public class WorkflowAppConfig extends AppConfig {
 
     public WorkflowAppConfig() {
     }

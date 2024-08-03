@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialService;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import org.eclipse.microprofile.graphql.Query;
 public class CatalogCredentialsGQL {
 
     @Inject
-    private CatalogCredentialService service;
+    private CatalogCredentialsService service;
 
     public CatalogCredentialsGQL() {
     }

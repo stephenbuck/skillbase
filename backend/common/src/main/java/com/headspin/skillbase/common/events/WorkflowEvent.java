@@ -37,17 +37,105 @@ public class WorkflowEvent extends SkillbaseEvent {
 
     public static final String WORKFLOW_EVENT_TOPIC = "skillbase_workflow_event";
 
+
+    /**
+     * The WORKFLOW_DEFINITION_CREATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_DEFINITION_CREATED = "com.headspin.skillbase.workflow.definition.created";
+
+    /**
+     * The WORKFLOW_DEFINITION_DELETED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>"
+     *     }
+     */
     public static final String WORKFLOW_DEFINITION_DELETED = "com.headspin.skillbase.workflow.definition.deleted";
+
+    /**
+     * The WORKFLOW_DEFINITION_UPDATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_DEFINITION_UPDATED = "com.headspin.skillbase.workflow.definition.updated";
 
+
+    /**
+     * The WORKFLOW_DEPLOYMENT_CREATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_DEPLOYMENT_CREATED = "com.headspin.skillbase.workflow.deployment.created";
+
+    /**
+     * The WORKFLOW_DEPLOYMENT_DELETED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>"
+     *     }
+     */
     public static final String WORKFLOW_DEPLOYMENT_DELETED = "com.headspin.skillbase.workflow.deployment.deleted";
+
+    /**
+     * The WORKFLOW_DEPLOYMENT_UPDATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_DEPLOYMENT_UPDATED = "com.headspin.skillbase.workflow.deployment.updated";
 
+
+    /**
+     * The WORKFLOW_INSTANCE_CREATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_INSTANCE_CREATED = "com.headspin.skillbase.workflow.instance.created";
+
+    /**
+     * The WORKFLOW_INSTANCE_DELETED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>"
+     *     }
+     */
     public static final String WORKFLOW_INSTANCE_DELETED = "com.headspin.skillbase.workflow.instance.deleted";
+
+    /**
+     * The WORKFLOW_INSTANCE_UPDATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_INSTANCE_UPDATED = "com.headspin.skillbase.workflow.instance.updated";
+
 
     public static final String WORKFLOW_PROCESS_STARTED = "com.headspin.skillbase.workflow.process.started";
     public static final String WORKFLOW_PROCESS_STOPPED = "com.headspin.skillbase.workflow.process.stopped";
@@ -55,9 +143,39 @@ public class WorkflowEvent extends SkillbaseEvent {
     public static final String WORKFLOW_PROCESS_PASSED = "com.headspin.skillbase.workflow.process.passed";
     public static final String WORKFLOW_PROCESS_FAILED = "com.headspin.skillbase.workflow.process.failed";
 
+
+    /**
+     * The WORKFLOW_TASK_CREATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_TASK_CREATED = "com.headspin.skillbase.workflow.task.created";
+
+    /**
+     * The WORKFLOW_TASK_DELETED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>"
+     *     }
+     */
     public static final String WORKFLOW_TASK_DELETED = "com.headspin.skillbase.workflow.task.deleted";
+
+    /**
+     * The WORKFLOW_TASK_UPDATED event contains JSON data with the
+     * following format:
+     * 
+     *     {
+     *         "id": "<id>",
+     *         "title": "<title>"
+     *     }
+     */
     public static final String WORKFLOW_TASK_UPDATED = "com.headspin.skillbase.workflow.task.updated";
+
 
     public WorkflowEvent(String type, JsonObject data) {
         this(UUID.randomUUID(), type, data);

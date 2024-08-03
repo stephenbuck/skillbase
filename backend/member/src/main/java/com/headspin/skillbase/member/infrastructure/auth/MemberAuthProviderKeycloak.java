@@ -9,11 +9,16 @@ import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 
-/*
+/**
+ * Keycloak implementation of the member auth provider interface.
+ * 
  * MemberAuthProviderKeycloak implements the MemberAuthProvider
  * interface using the Keycloak IAM. The domain entities User,
  * Group and Role have peer objects on the Keycloak side and
  * this provider translates between the two.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
  */
 
 @Slf4j
@@ -23,12 +28,6 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
     public MemberAuthProviderKeycloak() {
     }
 
-
-    @Override
-    public void test() {
-        log.info("test");
-    }
-    
     @Override
     public void insertUser(UUID id, MemberUser user) {
     }
@@ -51,5 +50,10 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
     @Override
     public void updateGroup(MemberGroup group) {
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
     }
 }

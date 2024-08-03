@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoriesService;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import org.eclipse.microprofile.graphql.Query;
 public class CatalogCategoriesGQL {
 
     @Inject
-    private CatalogCategoryService service;
+    private CatalogCategoriesService service;
 
     public CatalogCategoriesGQL() {
     }

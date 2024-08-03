@@ -5,9 +5,14 @@ import java.util.UUID;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberUser;
 
-public interface MemberAuthProvider {
+/**
+ * Member auth provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
-    public void test();
+ public interface MemberAuthProvider {
 
     public void insertUser(UUID id, MemberUser user);
 
@@ -20,5 +25,7 @@ public interface MemberAuthProvider {
     public void deleteGroup(UUID id);
 
     public void updateGroup(MemberGroup group);
+
+    public void test();
 
 }

@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import jakarta.inject.Inject;
@@ -33,8 +35,12 @@ import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesServi
 @Path("instances")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class WorkflowInstancesREST {
 
+    @Inject
+    private JsonWebToken jwt;
+    
     @Inject
     private WorkflowInstancesService service;
 

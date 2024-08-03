@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.member.domain.MemberGroup;
-import com.headspin.skillbase.member.interfaces.service.MemberGroupService;
+import com.headspin.skillbase.member.interfaces.service.MemberGroupsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import org.eclipse.microprofile.graphql.Query;
 public class MemberGroupsGQL {
 
     @Inject
-    private MemberGroupService service;
+    private MemberGroupsService service;
 
     public MemberGroupsGQL() {
     }

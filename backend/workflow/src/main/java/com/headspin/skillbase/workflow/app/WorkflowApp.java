@@ -3,10 +3,14 @@ package com.headspin.skillbase.workflow.app;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowDefinitionsREST;
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowDeploymentsREST;
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowInstancesREST;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
@@ -18,16 +22,23 @@ import jakarta.ws.rs.core.Application;
  */
 
 @ApplicationPath("/workflow")
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class WorkflowApp extends Application {
 
+    @Inject
+    private JsonWebToken jwt;
+
+    @Inject
+    private WorkflowAppEvents evnt = new WorkflowAppEvents();
+
     public WorkflowApp() {
+        
     }
 
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classSet = new HashSet<>();
         classSet.add(WorkflowApp.class);
-        classSet.add(WorkflowAppHealth.class);
         classSet.add(WorkflowDeploymentsREST.class);
         classSet.add(WorkflowDefinitionsREST.class);
         classSet.add(WorkflowInstancesREST.class);

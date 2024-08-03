@@ -8,14 +8,10 @@ import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberGroupRepo;
-import com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak;
-import com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault;
-import com.headspin.skillbase.member.infrastructure.feature.MemberFeatureProviderFlipt;
-import com.headspin.skillbase.member.infrastructure.messaging.MemberEventProducerKafka;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
-import com.headspin.skillbase.member.providers.MemberFeatureProvider;
-import com.headspin.skillbase.member.providers.MemberProducerProvider;
+import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
+import com.headspin.skillbase.member.providers.MemberEventsProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -26,12 +22,21 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Member groups service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class MemberGroupService {
+public class MemberGroupsService {
 
     @Resource
     private SessionContext ctx;
@@ -39,40 +44,29 @@ public class MemberGroupService {
     @Inject
     private MemberGroupRepo repo;
 
-    private MemberConfigProvider conf = new MemberConfigProviderDefault();
-    private MemberFeatureProvider feat = new MemberFeatureProviderFlipt();
-    private MemberProducerProvider prod = new MemberEventProducerKafka();
-    private MemberAuthProvider auth = new MemberAuthProviderKeycloak();
+    @Inject
+    private MemberConfigProvider conf;
 
-    private void produceGroupCreatedEvent(MemberGroup group) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_GROUP_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(group.id))
-                .build()));
-    }
+    @Inject
+    private MemberFeaturesProvider feat;
 
-    private void produceGroupDeletedEvent(UUID id) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_GROUP_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
+    @Inject
+    private MemberEventsProvider evnt;
 
-    private void produceGroupUpdatedEvent(MemberGroup group) {
-        prod.produce(new MemberEvent(
-            MemberEvent.MEMBER_GROUP_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(group.id))
-                .build()));
-    }
+    @Inject
+    private MemberAuthProvider auth;
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
         UUID id = repo.insert(group);
-        produceGroupCreatedEvent(group);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_GROUP_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(group.id))
+                .add("title", group.title)
+                .build());
         return id;
     }
 
@@ -80,14 +74,25 @@ public class MemberGroupService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceGroupDeletedEvent(id);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_GROUP_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group) {
         MemberGroup updated = repo.update(group);
-        produceGroupUpdatedEvent(updated);
+        evnt.produce(
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_GROUP_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .add("title", updated.title)
+                .build());
         return updated;
     }
 
@@ -125,11 +130,11 @@ public class MemberGroupService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
+        evnt.test();
         auth.test();
-        produceGroupDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

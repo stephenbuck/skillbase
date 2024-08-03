@@ -7,12 +7,9 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
-import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducerKafka;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
-import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -24,12 +21,21 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Catalog categories service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class CatalogCategoryService {
+public class CatalogCategoriesService {
 
     @Resource
     private SessionContext ctx;
@@ -37,41 +43,26 @@ public class CatalogCategoryService {
     @Inject
     private CatalogCategoryRepo repo;
 
-    CatalogConfigProvider conf = new CatalogConfigProviderDefault();
-    CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
-    CatalogProducerProvider prod = new CatalogEventProducerKafka();
+    @Inject
+    private CatalogConfigProvider conf;
 
-    private void produceCategoryCreatedEvent(CatalogCategory category) {
-        prod.produce(new CatalogEvent(
-                CatalogEvent.CATALOG_CATEGORY_CREATED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(category.id))
-                        .add("title", category.title)
-                        .build()));
-    }
+    @Inject
+    private CatalogFeaturesProvider feat;
 
-    private void produceCategoryDeletedEvent(UUID id) {
-        prod.produce(new CatalogEvent(
-                CatalogEvent.CATALOG_CATEGORY_DELETED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(id))
-                        .build()));
-    }
-
-    private void produceCategoryUpdatedEvent(CatalogCategory category) {
-        prod.produce(new CatalogEvent(
-                CatalogEvent.CATALOG_CATEGORY_UPDATED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(category.id))
-                        .add("title", category.title)
-                        .build()));
-    }
+    @Inject
+    private CatalogEventsProvider evnt;
 
     // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         UUID id = repo.insert(category);
-        produceCategoryCreatedEvent(category);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CATEGORY_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(category.id))
+                .add("title", category.title)
+                .build());
         return id;
     }
 
@@ -79,14 +70,25 @@ public class CatalogCategoryService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceCategoryDeletedEvent(id);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CATEGORY_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
     // @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
         CatalogCategory updated = repo.update(category);
-        produceCategoryUpdatedEvent(category);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CATEGORY_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .add("title", updated.title)
+                .build());
         return updated;
     }
 
@@ -135,10 +137,10 @@ public class CatalogCategoryService {
 
     // @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
-        produceCategoryDeletedEvent(UUID.randomUUID());
+        evnt.test();
         return 0;
     }
 }

@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import jakarta.inject.Inject;
@@ -21,15 +23,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialService;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialsService;
 
 @Path("credentials")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCredentialsREST {
 
     @Inject
-    private CatalogCredentialService service;
+    private JsonWebToken jwt;
+
+    @Inject
+    private CatalogCredentialsService service;
 
     public CatalogCredentialsREST() {
     }

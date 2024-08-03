@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import com.headspin.skillbase.member.domain.MemberAchievement;
-import com.headspin.skillbase.member.interfaces.service.MemberAchievementService;
+import com.headspin.skillbase.member.interfaces.service.MemberAchievementsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import org.eclipse.microprofile.graphql.Query;
 public class MemberAchievementsGQL {
 
     @Inject
-    private MemberAchievementService service;
+    private MemberAchievementsService service;
 
     public MemberAchievementsGQL() {
     }

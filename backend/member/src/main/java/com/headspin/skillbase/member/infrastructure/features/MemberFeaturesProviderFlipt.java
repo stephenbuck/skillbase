@@ -1,45 +1,37 @@
-package com.headspin.skillbase.catalog.infrastructure.feature;
+package com.headspin.skillbase.member.infrastructure.features;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
+import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
 import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Flipt implementation of catalog feature provider interface.
+ * Flipt implementation of member features provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
- @Slf4j
-public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
+@Slf4j
+@ApplicationScoped
+public class MemberFeaturesProviderFlipt implements MemberFeaturesProvider {
 
+    /*
     @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.catalog.flipt.url")
+    @ConfigProperty(name = "com.headspin.skillbase.member.flipt.url")
     private String url;
+    */
 
     private final FliptClient client;
 
-    public CatalogFeatureProviderFlipt() {
+    public MemberFeaturesProviderFlipt() {
         this.client = FliptClient.builder()
-                .url("http://flipt:8087")
+                .url("http://flipt:8080")
                 .build();
-    }
-
-    @Override
-    public void test() {
-        boolean v = evaluateBoolean("allow-reports", false);
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        log.info("v = {}", v);
-        log.info("url = {}", url);
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     @Override
@@ -59,6 +51,13 @@ public class CatalogFeatureProviderFlipt implements CatalogFeatureProvider {
         } catch (Throwable e) {
             log.info(String.valueOf(e));
             return def;
+        } finally {
         }
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
+        log.info("allow-reports = {}", evaluateBoolean("allow-reports", false));
     }
 }

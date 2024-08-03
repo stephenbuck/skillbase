@@ -7,14 +7,10 @@ import java.util.UUID;
 import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowInstance;
 import com.headspin.skillbase.workflow.domain.WorkflowInstanceRepo;
-import com.headspin.skillbase.workflow.infrastructure.config.WorkflowConfigProviderDefault;
-import com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable;
-import com.headspin.skillbase.workflow.infrastructure.feature.WorkflowFeatureProviderFlipt;
-import com.headspin.skillbase.workflow.infrastructure.messaging.WorkflowEventProducerKafka;
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowProducerProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -25,14 +21,16 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service interface for workflow instances.
+ * Workflow instances service.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
@@ -41,61 +39,59 @@ public class WorkflowInstancesService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private WorkflowInstanceRepo repo;
 
-    private WorkflowConfigProvider conf = new WorkflowConfigProviderDefault();
-    private WorkflowFeatureProvider feat = new WorkflowFeatureProviderFlipt();
-    private WorkflowProducerProvider prod = new WorkflowEventProducerKafka();
-    private WorkflowEngineProvider work = new WorkflowEngineProviderFlowable();
+    @Inject
+    private WorkflowConfigProvider conf;
 
-    private void produceInstanceCreatedEvent(WorkflowInstance instance) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_INSTANCE_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(instance.id))
-                .add("title", instance.title)
-                .build()));
-    }
+    @Inject
+    private WorkflowFeaturesProvider feat;
 
-    private void produceInstanceDeletedEvent(UUID id) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_INSTANCE_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
+    @Inject
+    private WorkflowEventsProvider evnt;
 
-    private void produceInstanceUpdatedEvent(WorkflowInstance instance) {
-        prod.produce(new WorkflowEvent(
-            WorkflowEvent.WORKFLOW_INSTANCE_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(instance.id))
-                .add("title", instance.title)
-                .build()));
-    }
+    @Inject
+    private WorkflowEngineProvider work;
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowInstance instance) {
         UUID id = repo.insert(instance);
-        produceInstanceCreatedEvent(instance);
+        evnt.produce(
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(instance.id))
+                        .add("title", instance.title)
+                        .build());
         return id;
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceInstanceDeletedEvent(id);
+        evnt.produce(
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_INSTANCE_DELETED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(id))
+                        .build());
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
         WorkflowInstance updated = repo.update(instance);
-        produceInstanceUpdatedEvent(updated);
+        evnt.produce(
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
+                Json.createObjectBuilder()
+                        .add("id", String.valueOf(updated.id))
+                        .add("title", updated.title)
+                        .build());
         return updated;
     }
 
@@ -106,7 +102,7 @@ public class WorkflowInstancesService {
      * @return An optional workflow instance.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<WorkflowInstance> findById(@NotNull UUID id) {
         return repo.findById(id);
     }
@@ -114,13 +110,13 @@ public class WorkflowInstancesService {
     /**
      * Returns a list of all workflow instances.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of workflow instances.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
@@ -131,7 +127,7 @@ public class WorkflowInstancesService {
      * @return The id of the workflow instance.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID start(UUID definition_id, UUID user_id) {
         WorkflowInstance instance = new WorkflowInstance();
@@ -151,18 +147,17 @@ public class WorkflowInstancesService {
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         conf.test();
         feat.test();
-        prod.test();
+        evnt.test();
         work.test();
-        produceInstanceDeletedEvent(UUID.randomUUID());
         return 0;
     }
 }

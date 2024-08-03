@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
@@ -25,15 +27,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoryService;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoriesService;
 
 @Path("categories")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCategoriesREST {
 
     @Inject
-    private CatalogCategoryService service;
+    private JsonWebToken jwt;
+
+    @Inject
+    private CatalogCategoriesService service;
 
     public CatalogCategoriesREST() {
     }

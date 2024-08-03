@@ -1,38 +1,31 @@
-package com.headspin.skillbase.workflow.infrastructure.feature;
+package com.headspin.skillbase.workflow.infrastructure.features;
 
-import com.headspin.skillbase.workflow.providers.WorkflowFeatureProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
 import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Flipt implementation of workflow feature provider interface.
+ * Flipt implementation of workflow features provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
-public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
+@ApplicationScoped
+public class WorkflowFeaturesProviderFlipt implements WorkflowFeaturesProvider {
 
     private final FliptClient client;
 
-    public WorkflowFeatureProviderFlipt() {
+    public WorkflowFeaturesProviderFlipt() {
         this.client = FliptClient.builder()
                 .url("http://flipt:8087")
                 .build();
-    }
-
-    @Override
-    public void test() {
-        boolean v = evaluateBoolean("allow-reports", false);
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        log.info("v = {}", v);
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     @Override
@@ -53,5 +46,11 @@ public class WorkflowFeatureProviderFlipt implements WorkflowFeatureProvider {
             log.info(String.valueOf(e));
             return def;
         }
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
+        log.info("allow-reports = {}", evaluateBoolean("allow-reports", false));
     }
 }

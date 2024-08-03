@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
-import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducerKafka;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
-import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -23,12 +20,21 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Catalog credentials service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class CatalogCredentialService {
+public class CatalogCredentialsService {
 
     @Resource
     private SessionContext ctx;
@@ -36,41 +42,26 @@ public class CatalogCredentialService {
     @Inject
     private CatalogCredentialRepo repo;
 
-    private CatalogConfigProvider conf = new CatalogConfigProviderDefault();
-    private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
-    private CatalogProducerProvider prod = new CatalogEventProducerKafka();
+    @Inject
+    private CatalogConfigProvider conf;
 
-    private void produceCredentialCreatedEvent(CatalogCredential credential) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CREDENTIAL_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(credential.id))
-                .add("title", credential.title)
-                .build()));
-    }
+    @Inject
+    private CatalogFeaturesProvider feat;
 
-    private void produceCredentialDeletedEvent(UUID id) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CREDENTIAL_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
-
-    private void produceCredentialUpdatedEvent(CatalogCredential credential) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_CREDENTIAL_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(credential.id))
-                .add("title", credential.title)
-                .build()));
-    }
+    @Inject
+    private CatalogEventsProvider evnt;
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         UUID id = repo.insert(credential);
-        produceCredentialCreatedEvent(credential);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CREDENTIAL_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(credential.id))
+                .add("title", credential.title)
+                .build());
         return id;
     }
 
@@ -78,14 +69,25 @@ public class CatalogCredentialService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceCredentialDeletedEvent(id);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CREDENTIAL_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
         CatalogCredential updated = repo.update(credential);
-        produceCredentialUpdatedEvent(credential);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .add("title", updated.title)
+                .build());
         return updated;
     }
 
@@ -117,10 +119,10 @@ public class CatalogCredentialService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
-        produceCredentialDeletedEvent(UUID.randomUUID());
+        evnt.test();
         return 0;
     }
 }

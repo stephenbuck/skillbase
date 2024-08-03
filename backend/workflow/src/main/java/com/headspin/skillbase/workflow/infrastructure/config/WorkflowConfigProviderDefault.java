@@ -7,6 +7,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@ApplicationScoped
 public class WorkflowConfigProviderDefault implements WorkflowConfigProvider {
 
     private final Config config;
@@ -26,14 +28,14 @@ public class WorkflowConfigProviderDefault implements WorkflowConfigProvider {
     }
     
     @Override
-    public void test() {
-        log.info("foo = {}", getOptionalValue("com.headspin.skillbase.workflow.foo", String.class));
-        log.info("flipt url = {}", getOptionalValue("com.headspin.skillbase.workflow.flipt.url", String.class));
-        log.info("kafka url = {}", getOptionalValue("com.headspin.skillbase.workflow.kafka.url", String.class));
+    public Optional<?> getOptionalValue(String key, Class<?> type) {
+        return config.getOptionalValue(key, type);
     }
 
     @Override
-    public Optional<?> getOptionalValue(String key, Class<?> type) {
-        return config.getOptionalValue(key, type);
+    public void test() {
+        log.info("test:");
+        log.info("flipt url = {}", getOptionalValue("com.headspin.skillbase.workflow.flipt.url", String.class));
+        log.info("kafka url = {}", getOptionalValue("com.headspin.skillbase.workflow.kafka.url", String.class));
     }
 }

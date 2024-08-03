@@ -7,12 +7,9 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
-import com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault;
-import com.headspin.skillbase.catalog.infrastructure.feature.CatalogFeatureProviderFlipt;
-import com.headspin.skillbase.catalog.infrastructure.messaging.CatalogEventProducerKafka;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeatureProvider;
-import com.headspin.skillbase.catalog.providers.CatalogProducerProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -24,12 +21,21 @@ import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Catalog skills service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
 @Stateless
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
-public class CatalogSkillService {
+public class CatalogSkillsService {
 
     @Resource
     private SessionContext ctx;
@@ -37,41 +43,26 @@ public class CatalogSkillService {
     @Inject
     private CatalogSkillRepo repo;
 
-    private CatalogConfigProvider conf = new CatalogConfigProviderDefault();
-    private CatalogFeatureProvider feat = new CatalogFeatureProviderFlipt();
-    private CatalogProducerProvider prod = new CatalogEventProducerKafka();
+    @Inject
+    private CatalogConfigProvider conf;
 
-    private void produceSkillCreatedEvent(CatalogSkill skill) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_SKILL_CREATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(skill.id))
-                .add("title", skill.title)
-                .build()));
-    }
+    @Inject
+    private CatalogFeaturesProvider feat;
 
-    private void produceSkillDeletedEvent(UUID id) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_SKILL_DELETED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
-                .build()));
-    }
+    @Inject
+    private CatalogEventsProvider evnt;
 
-    private void produceSkillUpdatedEvent(CatalogSkill skill) {
-        prod.produce(new CatalogEvent(
-            CatalogEvent.CATALOG_SKILL_UPDATED, 
-            Json.createObjectBuilder()
-                .add("id", String.valueOf(skill.id))
-                .add("title", skill.title)
-                .build()));
-    }
-   
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         UUID id = repo.insert(skill);
-        produceSkillCreatedEvent(skill);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_SKILL_CREATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(skill.id))
+                .add("title", skill.title)
+                .build());
         return id;
     }
 
@@ -79,14 +70,25 @@ public class CatalogSkillService {
     @Transactional
     public void delete(@NotNull UUID id) {
         repo.delete(id);
-        produceSkillDeletedEvent(id);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_SKILL_DELETED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(id))
+                .build());
     }
 
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
         CatalogSkill updated = repo.update(skill);
-        produceSkillUpdatedEvent(skill);
+        evnt.produce(
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            CatalogEvent.CATALOG_SKILL_UPDATED,
+            Json.createObjectBuilder()
+                .add("id", String.valueOf(updated.id))
+                .add("title", updated.title)
+                .build());
         return updated;
     }
 
@@ -131,10 +133,10 @@ public class CatalogSkillService {
 
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
+        log.info("test:");
         conf.test();
         feat.test();
-        prod.test();
-        produceSkillDeletedEvent(UUID.randomUUID());
+        evnt.test();
         return 0;
     }
 }

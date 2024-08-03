@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public interface WorkflowConfigProvider {
 
-    public void test();
-    
     public Optional<?> getOptionalValue(String key, Class<?> type);
+
+    public void test();
 
 }
