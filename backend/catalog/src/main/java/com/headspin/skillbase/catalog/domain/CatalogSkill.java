@@ -34,7 +34,8 @@ public class CatalogSkill extends DomainEntity {
         @JsonbProperty("id")
         @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
 
-        @JsonbProperty("deployment_id") public UUID deployment_id;
+        @JsonbProperty("deployment_id")
+        @Column(name = "deployment_id") public UUID deployment_id;
 
         @JsonbProperty("category_id")
         @Column(name = "category_id") public UUID category_id;

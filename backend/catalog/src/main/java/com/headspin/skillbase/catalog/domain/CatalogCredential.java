@@ -53,7 +53,7 @@ public class CatalogCredential extends DomainEntity {
         @Column(name = "image") public byte[] image;
 
         @JsonbProperty("bpmn")
-        @Column(name = "bpmn") public byte[] pbmn;
+        @Column(name = "bpmn") public byte[] bpmn;
         
         @JsonbProperty("created_at")
         @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date createdAt;

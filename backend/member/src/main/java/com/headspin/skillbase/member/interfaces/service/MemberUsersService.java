@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.domain.MemberUserRepo;
 import com.headspin.skillbase.common.events.MemberEvent;
@@ -37,11 +40,15 @@ import lombok.extern.slf4j.Slf4j;
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class MemberUsersService {
 
     @Resource
     private SessionContext ctx;
     
+    @Inject
+    private JsonWebToken jwt;
+
     @Inject
     private MemberUserRepo repo;
 
@@ -66,6 +73,14 @@ public class MemberUsersService {
             MemberEvent.MEMBER_USER_CREATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(user.id))
+                .add("is_enabled", user.is_enabled)
+                .add("user_name", user.user_name)
+                .add("first_name", user.first_name)
+                .add("last_name", user.last_name)
+                .add("email", user.email)
+                .add("phone", user.phone)
+                .add("note", user.note)
+                .add("created_at", String.valueOf(user.createdAt))
                 .build());
         return id;
     }
@@ -91,6 +106,15 @@ public class MemberUsersService {
             MemberEvent.MEMBER_USER_UPDATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
+                .add("is_enabled", updated.is_enabled)
+                .add("user_name", updated.user_name)
+                .add("first_name", updated.first_name)
+                .add("last_name", updated.last_name)
+                .add("email", updated.email)
+                .add("phone", updated.phone)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

@@ -64,7 +64,11 @@ public class WorkflowDefinitionsService {
             WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(definition.id))
+                .add("deployment_id", String.valueOf(definition.deployment_id))
+                .add("credential_id", String.valueOf(definition.credential_id))
                 .add("title", definition.title)
+                .add("note", definition.note)
+                .add("created_at", String.valueOf(definition.createdAt))
                 .build());
         return id;
     }
@@ -90,7 +94,12 @@ public class WorkflowDefinitionsService {
             WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
+                .add("deployment_id", String.valueOf(updated.deployment_id))
+                .add("credential_id", String.valueOf(updated.credential_id))
                 .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberGroup;
@@ -36,11 +39,15 @@ import lombok.extern.slf4j.Slf4j;
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class MemberGroupsService {
 
     @Resource
     private SessionContext ctx;
     
+    @Inject
+    private JsonWebToken jwt;
+
     @Inject
     private MemberGroupRepo repo;
 
@@ -66,6 +73,9 @@ public class MemberGroupsService {
             Json.createObjectBuilder()
                 .add("id", String.valueOf(group.id))
                 .add("title", group.title)
+                .add("note", group.note)
+                .add("created_at", String.valueOf(group.createdAt))
+                .add("updated_at", String.valueOf(group.updatedAt))
                 .build());
         return id;
     }
@@ -92,6 +102,9 @@ public class MemberGroupsService {
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
                 .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

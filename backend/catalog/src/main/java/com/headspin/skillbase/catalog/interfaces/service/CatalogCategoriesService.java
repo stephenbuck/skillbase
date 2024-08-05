@@ -66,7 +66,6 @@ public class CatalogCategoriesService {
                 .add("title", category.title)
                 .add("note", category.note)
                 .add("created_at", String.valueOf(category.createdAt))
-                .add("updated_at", String.valueOf(category.updatedAt))
                 .build());
         return id;
     }

@@ -21,18 +21,18 @@ import jakarta.json.stream.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-* Application events for the member service.
-* 
-* @author Stephen Buck
-* @since 1.0
-*/
+ * Application events for the member service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @Slf4j
 @ApplicationScoped
 public class MemberAppEvents extends AppEvents {
 
     @Inject
-    private MemberEventsProvider evnt; //  = new MemberConsumerProviderKafka();
+    private MemberEventsProvider evnt;
 
     private List<String> topics = Arrays.asList(
         CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -42,9 +42,6 @@ public class MemberAppEvents extends AppEvents {
     public MemberAppEvents() {
         try {
             this.evnt = new MemberEventsProviderKafka();
-            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-            log.info("evnt = {}", evnt);
-            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++");
             evnt.consume(topics, this);
         }
         catch (Exception e) {

@@ -16,6 +16,9 @@ import jakarta.ws.rs.ApplicationPath;
 
 /*
  * CatalogApp is the main entry point.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
  */
 
 @ApplicationPath("/catalog")

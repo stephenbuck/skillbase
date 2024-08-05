@@ -21,18 +21,18 @@ import jakarta.json.stream.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-* Application events for the workflow service.
-* 
-* @author Stephen Buck
-* @since 1.0
-*/
+ * Application events for the workflow service.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @Slf4j
 @ApplicationScoped
 public class WorkflowAppEvents extends AppEvents {
 
     @Inject
-    private WorkflowEventsProvider evnt; //  = new WorkflowConsumerProviderKafka();
+    private WorkflowEventsProvider evnt;
 
     private List<String> topics = Arrays.asList(
         CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -42,9 +42,6 @@ public class WorkflowAppEvents extends AppEvents {
     public WorkflowAppEvents() {
         try {
             this.evnt = new WorkflowEventsProviderKafka();
-            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-            log.info("evnt = {}", evnt);
-            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++");
             evnt.consume(topics, this);
         }
         catch (Exception e) {

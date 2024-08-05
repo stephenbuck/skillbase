@@ -1,7 +1,6 @@
 package com.headspin.skillbase.member.interfaces.rest;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +24,13 @@ import jakarta.ws.rs.core.Response;
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.interfaces.service.MemberUsersService;
 
+/**
+ * Member users REST endpoint.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Path("users")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -42,10 +48,9 @@ public class MemberUsersREST {
 
     @PUT
     @Operation(summary = "Insert member user")
-    public Response insert(MemberUser user) throws URISyntaxException {
+    public Response insert(MemberUser user) {
         UUID id = service.insert(user);
-        URI uri = new URI("/users/" + id);
-        return Response.ok(uri).build();
+        return Response.ok(URI.create("/users/" + id)).build();
     }
 
     @DELETE

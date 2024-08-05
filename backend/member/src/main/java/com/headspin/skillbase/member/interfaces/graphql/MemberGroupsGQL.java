@@ -9,15 +9,28 @@ import com.headspin.skillbase.member.interfaces.service.MemberGroupsService;
 import java.util.List;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+/**
+ * Member groups REST endpoint.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
 
 @GraphQLApi
 @ApplicationScoped
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class MemberGroupsGQL {
+
+    @Inject
+    private JsonWebToken jwt;
 
     @Inject
     private MemberGroupsService service;

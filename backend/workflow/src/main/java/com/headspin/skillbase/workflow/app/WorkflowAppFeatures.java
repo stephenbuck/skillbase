@@ -1,6 +1,6 @@
 package com.headspin.skillbase.workflow.app;
 
-import com.headspin.skillbase.common.app.AppFeature;
+import com.headspin.skillbase.common.app.AppFeatures;
 
 /**
 * Application features for the workflow service.
@@ -9,8 +9,8 @@ import com.headspin.skillbase.common.app.AppFeature;
 * @since 1.0
 */
 
-public class WorkflowAppFeature extends AppFeature {
+public class WorkflowAppFeatures extends AppFeatures {
 
-    public WorkflowAppFeature() {
+    public WorkflowAppFeatures() {
     }
 }

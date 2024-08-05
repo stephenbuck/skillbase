@@ -63,9 +63,16 @@ public class WorkflowInstancesService {
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
                 WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
                 Json.createObjectBuilder()
-                        .add("id", String.valueOf(instance.id))
-                        .add("title", instance.title)
-                        .build());
+                    .add("id", String.valueOf(instance.id))
+                    .add("definition_id", String.valueOf(instance.definition_id))
+                    .add("user_id", String.valueOf(instance.user_id))
+                    .add("is_test", instance.is_test)
+                    .add("state", instance.state)
+                    .add("title", instance.title)
+                    .add("note", instance.note)
+                    .add("created_at", String.valueOf(instance.createdAt))
+                    .add("updated_at", String.valueOf(instance.updatedAt))
+                    .build());
         return id;
     }
 
@@ -89,10 +96,17 @@ public class WorkflowInstancesService {
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
                 WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
                 Json.createObjectBuilder()
-                        .add("id", String.valueOf(updated.id))
-                        .add("title", updated.title)
-                        .build());
-        return updated;
+                    .add("id", String.valueOf(updated.id))
+                    .add("definition_id", String.valueOf(updated.definition_id))
+                    .add("user_id", String.valueOf(updated.user_id))
+                    .add("is_test", updated.is_test)
+                    .add("state", updated.state)
+                    .add("title", updated.title)
+                    .add("note", updated.note)
+                    .add("created_at", String.valueOf(updated.createdAt))
+                    .add("updated_at", String.valueOf(updated.updatedAt))
+                    .build());
+    return updated;
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.headspin.skillbase.member.interfaces.rest;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +24,13 @@ import jakarta.ws.rs.core.Response;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.interfaces.service.MemberAchievementsService;
 
+/**
+ * Member achievements REST endpoint.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Path("achievements")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -42,10 +48,9 @@ public class MemberAchievementsREST {
 
     @PUT
     @Operation(summary = "Insert member achievement")
-    public Response insert(MemberAchievement achievement) throws URISyntaxException {
+    public Response insert(MemberAchievement achievement) {
         UUID id = service.insert(achievement);
-        URI uri = new URI("/achievements/" + id);
-        return Response.ok(uri).build();
+        return Response.ok(URI.create("/achievements/" + id)).build();
     }
 
     @DELETE

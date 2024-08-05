@@ -9,14 +9,16 @@ import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsSer
 import java.util.List;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Name;
 import org.eclipse.microprofile.graphql.Query;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
- * GraphQL interface for workflow definitions.
+ * Workflow definitions GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -24,8 +26,12 @@ import org.eclipse.microprofile.graphql.Query;
 
 @GraphQLApi
 @ApplicationScoped
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class WorkflowDefinitionsGQL {
 
+    @Inject
+    private JsonWebToken jwt;
+    
     @Inject
     private WorkflowDefinitionsService service;
 

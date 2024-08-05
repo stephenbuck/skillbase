@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.auth.LoginConfig;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberAchievementRepo;
@@ -35,10 +38,14 @@ import lombok.extern.slf4j.Slf4j;
 @PermitAll
 // @DeclareRoles({ "Admin", "Publisher", "Creator", "Member" })
 // @DeclareRoles(SecurityRole.list())
+@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class MemberAchievementsService {
 
     @Resource
     private SessionContext ctx;
+
+    @Inject
+    private JsonWebToken jwt;
 
     @Inject
     private MemberAchievementRepo repo;
@@ -64,7 +71,11 @@ public class MemberAchievementsService {
                 MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
                 Json.createObjectBuilder()
                         .add("id", String.valueOf(achievement.id))
+                        .add("user_id", String.valueOf(achievement.user_id))
+                        .add("state", achievement.state)
                         .add("title", achievement.title)
+                        .add("note", achievement.note)
+                        .add("created_at", String.valueOf(achievement.createdAt))
                         .build());
         return id;
     }
@@ -90,7 +101,12 @@ public class MemberAchievementsService {
                 MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
                 Json.createObjectBuilder()
                         .add("id", String.valueOf(updated.id))
+                        .add("user_id", String.valueOf(updated.user_id))
+                        .add("state", updated.state)
                         .add("title", updated.title)
+                        .add("note", updated.note)
+                        .add("created_at", String.valueOf(updated.createdAt))
+                        .add("updated_at", String.valueOf(updated.updatedAt))
                         .build());
         return updated;
     }

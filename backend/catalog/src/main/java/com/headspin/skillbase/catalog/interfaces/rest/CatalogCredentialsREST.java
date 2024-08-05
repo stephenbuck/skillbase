@@ -1,7 +1,6 @@
 package com.headspin.skillbase.catalog.interfaces.rest;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +24,13 @@ import jakarta.ws.rs.core.Response;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCredentialsService;
 
+/**
+ * Catalog categories REST endpoint.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Path("credentials")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -42,10 +48,9 @@ public class CatalogCredentialsREST {
     
     @PUT
     @Operation(summary = "Insert catalog skill credential")
-    public Response insert(CatalogCredential credential) throws URISyntaxException {
+    public Response insert(CatalogCredential credential) {
         UUID id = service.insert(credential);
-        URI uri = new URI("/credentials/" + id);
-        return Response.ok(uri).build();
+        return Response.ok(URI.create("/credentials/" + id)).build();
     }
 
     @DELETE

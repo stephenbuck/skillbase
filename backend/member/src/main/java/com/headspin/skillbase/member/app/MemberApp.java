@@ -14,8 +14,11 @@ import com.headspin.skillbase.member.interfaces.rest.MemberGroupsREST;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.ApplicationPath;
 
-/*
+/**
  * MemberApp is the main entry point.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
  */
 
 @ApplicationPath("/member")

@@ -65,6 +65,11 @@ public class WorkflowDeploymentsService {
             Json.createObjectBuilder()
                 .add("id", String.valueOf(deployment.id))
                 .add("title", deployment.title)
+                .add("skill_id", String.valueOf(deployment.skill_id))
+                .add("state", deployment.state)
+                .add("title", deployment.title)
+                .add("note", deployment.note)
+                .add("created_at", String.valueOf(deployment.createdAt))
                 .build());
         return id;
     }
@@ -91,6 +96,12 @@ public class WorkflowDeploymentsService {
             Json.createObjectBuilder()
                 .add("id", String.valueOf(updated.id))
                 .add("title", updated.title)
+                .add("skill_id", String.valueOf(updated.skill_id))
+                .add("state", updated.state)
+                .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.createdAt))
+                .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());
         return updated;
     }

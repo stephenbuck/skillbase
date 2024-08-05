@@ -64,6 +64,7 @@ public class CatalogCredentialsService {
                 .add("is_enabled", credential.is_enabled)
                 .add("title", credential.title)
                 .add("note", credential.note)
+                .add("bpmn", String.valueOf(credential.bpmn))
                 .add("created_at", String.valueOf(credential.createdAt))
                 .add("updated_at", String.valueOf(credential.updatedAt))
                 .build());
@@ -95,6 +96,7 @@ public class CatalogCredentialsService {
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
+                .add("bpmn", String.valueOf(updated.bpmn))
                 .add("created_at", String.valueOf(updated.createdAt))
                 .add("updated_at", String.valueOf(updated.updatedAt))
                 .build());

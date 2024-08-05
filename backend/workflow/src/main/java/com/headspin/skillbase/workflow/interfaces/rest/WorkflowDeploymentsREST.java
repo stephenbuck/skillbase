@@ -1,7 +1,6 @@
 package com.headspin.skillbase.workflow.interfaces.rest;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 
 /**
- * REST resource for workflow deployments.
+ * Workflow deployments REST endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -49,10 +48,9 @@ public class WorkflowDeploymentsREST {
     
     @PUT
     @Operation(summary = "Insert workflow deployment")
-    public Response insert(WorkflowDeployment deployment) throws URISyntaxException {
+    public Response insert(WorkflowDeployment deployment) {
         UUID id = service.insert(deployment);
-        URI uri = new URI("/deployments/" + id);
-        return Response.ok(uri).build();
+        return Response.ok(URI.create("/deployments/" + id)).build();
     }
 
     @DELETE

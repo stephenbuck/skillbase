@@ -29,6 +29,13 @@ import jakarta.ws.rs.core.Response;
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoriesService;
 
+/**
+ * Catalog categories REST endpoint.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
 @Path("categories")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
