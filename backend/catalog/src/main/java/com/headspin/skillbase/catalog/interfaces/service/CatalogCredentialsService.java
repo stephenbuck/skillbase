@@ -7,8 +7,8 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -60,8 +60,8 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogCredential credential) {
-        UUID credential_id = repo.insert(credential);
+    public UUID insert(@NotNull @Valid final CatalogCredential credential) {
+        final UUID credential_id = repo.insert(credential);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_CREATED,
@@ -86,7 +86,7 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID credential_id) {
+    public void delete(@NotNull final UUID credential_id) {
         repo.delete(credential_id);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -105,8 +105,8 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
-        CatalogCredential updated = repo.update(credential);
+    public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) {
+        final CatalogCredential updated = repo.update(credential);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
@@ -131,7 +131,7 @@ public class CatalogCredentialsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<CatalogCredential> findById(@NotNull UUID credential_id) {
+    public Optional<CatalogCredential> findById(@NotNull final UUID credential_id) {
         return repo.findById(credential_id);
     }
 
@@ -145,7 +145,7 @@ public class CatalogCredentialsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit) {
+    public List<CatalogCredential> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
@@ -160,13 +160,13 @@ public class CatalogCredentialsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogCredential> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+            final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })
-    public boolean start(@NotNull UUID credential_id) {
+    public boolean start(@NotNull final UUID credential_id) {
         return true;
     }
 

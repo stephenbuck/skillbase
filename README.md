@@ -25,7 +25,7 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Testing (JUnit, ArchUnit, Testcontainers)
 - Build (Maven and NPM)
 - Monitoring (Microprofile, Prometheus)
-- Frontend (Javascript, SPA, React, MaterialUI)
+- Frontend (Typescript, SPA, React, MaterialUI)
 - Documentation (Markdown, OpenAPI, MkDocs)
 - Versioning (Git)
 
@@ -99,7 +99,8 @@ Monitoring is handled by a combination of Microprofile APIs and the open-source 
 
 **Frontend**
 
-The frontend application is built as a single-page application (SPA) using the React framework and the MaterialUI library.
+The frontend application is built as a single-page application (SPA) written using
+Typescript and the React and several other frameworks.
 
 **Documentation**
 

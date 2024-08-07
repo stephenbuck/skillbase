@@ -5,16 +5,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.enterprise.context.RequestScoped;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
+import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import com.headspin.skillbase.catalog.domain.CatalogCredential;
-import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 
 @RequestScoped
 public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
@@ -27,30 +26,30 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogCredential credential) {
+    public UUID insert(@NotNull @Valid final CatalogCredential credential) {
         em.persist(credential);
         return credential.credential_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID credential_id) {
+    public void delete(@NotNull final UUID credential_id) {
         em.remove(em.find(CatalogCredential.class, credential_id));
     }
 
     @Override
     @Transactional
-    public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
+    public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) {
         return em.merge(credential);
     }
 
     @Override
-    public Optional<CatalogCredential> findById(@NotNull UUID credential_id) {
+    public Optional<CatalogCredential> findById(@NotNull final UUID credential_id) {
         return Optional.ofNullable(em.find(CatalogCredential.class, credential_id));
     }
 
     @Override
-    public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit) {
+    public List<CatalogCredential> findAll(final String sort, final Integer offset, final Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c ORDER BY :sort", CatalogCredential.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
@@ -59,8 +58,8 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
     }
 
     @Override
-    public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogCredential> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+            final Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c WHERE c.title LIKE ':pattern' ORDER BY :sort", CatalogCredential.class)
                 .setParameter("pattern", Objects.requireNonNullElse(sort, "%"))
                 .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))

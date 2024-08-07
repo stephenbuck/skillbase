@@ -8,8 +8,8 @@ import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -61,8 +61,8 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogSkill skill) {
-        UUID skill_id = repo.insert(skill);
+    public UUID insert(@NotNull @Valid final CatalogSkill skill) {
+        final UUID skill_id = repo.insert(skill);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_CREATED,
@@ -87,7 +87,7 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID skill_id) {
+    public void delete(@NotNull final UUID skill_id) {
         repo.delete(skill_id);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -106,8 +106,8 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
-        CatalogSkill updated = repo.update(skill);
+    public CatalogSkill update(@NotNull @Valid final CatalogSkill skill) {
+        final CatalogSkill updated = repo.update(skill);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_UPDATED,
@@ -132,7 +132,7 @@ public class CatalogSkillsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Member" })
-    public Optional<CatalogSkill> findById(@NotNull UUID skill_id) {
+    public Optional<CatalogSkill> findById(@NotNull final UUID skill_id) {
         return repo.findById(skill_id);
     }
 
@@ -146,7 +146,7 @@ public class CatalogSkillsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Member" })
-    public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
+    public List<CatalogSkill> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
@@ -161,8 +161,8 @@ public class CatalogSkillsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Member" })
-    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogSkill> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+            final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
@@ -177,8 +177,8 @@ public class CatalogSkillsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Member" })
-    public List<CatalogCredential> findSkillCredentials(@NotNull UUID skill_id, String sort, Integer offset,
-    Integer limit) {
+    public List<CatalogCredential> findSkillCredentials(@NotNull final UUID skill_id, final String sort, final Integer offset,
+    final Integer limit) {
         return repo.findSkillCredentials(skill_id, sort, offset, limit);
     }
 
@@ -191,7 +191,7 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void insertSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+    public void insertSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
         repo.insertSkillCredential(skill_id, credential_id);
     }
 
@@ -204,7 +204,7 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void deleteSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+    public void deleteSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
         repo.deleteSkillCredential(skill_id, credential_id);
     }
 

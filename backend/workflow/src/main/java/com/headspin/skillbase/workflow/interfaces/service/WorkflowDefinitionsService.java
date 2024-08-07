@@ -9,8 +9,8 @@ import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinitionRepo;
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -64,8 +64,8 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
-        UUID definition_id = repo.insert(definition);
+    public UUID insert(@NotNull @Valid final WorkflowDefinition definition) {
+        final UUID definition_id = repo.insert(definition);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
@@ -89,7 +89,7 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID definition_id) {
+    public void delete(@NotNull final UUID definition_id) {
         repo.delete(definition_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
@@ -108,8 +108,8 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
-        WorkflowDefinition updated = repo.update(definition);
+    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition) {
+        final WorkflowDefinition updated = repo.update(definition);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
@@ -133,7 +133,7 @@ public class WorkflowDefinitionsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id) {
+    public Optional<WorkflowDefinition> findById(@NotNull final UUID definition_id) {
         return repo.findById(definition_id);
     }
 
@@ -145,7 +145,7 @@ public class WorkflowDefinitionsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id) {
+    public Optional<WorkflowDefinition> findByCredentialId(@NotNull final UUID credential_id) {
         return repo.findByCredentialId(credential_id);
     }
 
@@ -159,7 +159,7 @@ public class WorkflowDefinitionsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit) {
+    public List<WorkflowDefinition> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 

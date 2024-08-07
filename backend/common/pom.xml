@@ -152,6 +152,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>json-schema-validator</artifactId>
+      <groupId>com.networknt</groupId>
+    </dependency>
+
+  <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
     </dependency>

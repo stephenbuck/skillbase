@@ -8,6 +8,9 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import com.headspin.skillbase.member.domain.MemberUser;
+import com.headspin.skillbase.member.interfaces.service.MemberUsersService;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,9 +23,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import com.headspin.skillbase.member.domain.MemberUser;
-import com.headspin.skillbase.member.interfaces.service.MemberUsersService;
 
 /**
  * Member users REST endpoint.
@@ -48,36 +48,36 @@ public class MemberUsersREST {
 
     @PUT
     @Operation(summary = "Insert new member user")
-    public Response insert(MemberUser user) {
-        UUID user_id = service.insert(user);
+    public Response insert(final MemberUser user) {
+        final UUID user_id = service.insert(user);
         return Response.ok(URI.create("/users/" + user_id)).build();
     }
 
     @DELETE
     @Path("{user_id}")
     @Operation(summary = "Delete member user by id")
-    public Response deleteById(@PathParam("user_id") UUID user_id) {
+    public Response deleteById(@PathParam("user_id") final UUID user_id) {
         service.delete(user_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing member user")
-    public Response update(MemberUser user) {
+    public Response update(final MemberUser user) {
         return Response.ok(service.update(user)).build();
     }
 
     @GET
     @Operation(summary = "Find all member users")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{user_id}")
     @Operation(summary = "Find member user by id")
-    public Response findById(@PathParam("user_id") UUID user_id) {
-        Optional<MemberUser> match = service.findById(user_id);
+    public Response findById(@PathParam("user_id") final UUID user_id) {
+        final Optional<MemberUser> match = service.findById(user_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {
@@ -88,21 +88,21 @@ public class MemberUsersREST {
     @GET
     @Path("{user_id}/achievements")
     @Operation(summary = "Find member user achievements")
-    public Response findUserAchievements(@PathParam("user_id") UUID user_id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findUserAchievements(@PathParam("user_id") final UUID user_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findUserAchievements(user_id, sort, offset, limit)).build();
     }
 
     @GET
     @Path("{user_id}/groups")
     @Operation(summary = "Find member user groups")
-    public Response findUserGroups(@PathParam("user_id") UUID user_id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findUserGroups(@PathParam("user_id") final UUID user_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findUserGroups(user_id, sort, offset, limit)).build();
     }
 
     @POST
     @Path("{user_id}/achievements/{achievement_id}")
     @Operation(summary = "Insert member user achievement")
-    public Response insertUserAchievement(@PathParam("user_id") UUID user_id, @PathParam("achievement_id") UUID achievement_id) {
+    public Response insertUserAchievement(@PathParam("user_id") final UUID user_id, @PathParam("achievement_id") final UUID achievement_id) {
         service.insertUserAchievement(user_id, achievement_id);
         return Response.ok().build();
     }
@@ -110,7 +110,7 @@ public class MemberUsersREST {
     @DELETE
     @Path("{user_ids}/achievements/{achievement_id}")
     @Operation(summary = "Delete member user achievement")
-    public Response deleteUserAchievement(@PathParam("user_id") UUID user_id, @PathParam("achievement_id") UUID achievement_id) {
+    public Response deleteUserAchievement(@PathParam("user_id") final UUID user_id, @PathParam("achievement_id") final UUID achievement_id) {
         service.deleteUserAchievement(user_id, achievement_id);
         return Response.ok().build();
     }

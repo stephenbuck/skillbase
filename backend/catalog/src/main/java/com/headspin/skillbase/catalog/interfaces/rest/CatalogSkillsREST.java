@@ -8,6 +8,9 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import com.headspin.skillbase.catalog.domain.CatalogSkill;
+import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillsService;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,9 +23,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.interfaces.service.CatalogSkillsService;
 
 /**
  * Catalog skills REST endpoint.
@@ -48,36 +48,36 @@ public class CatalogSkillsREST {
     
     @PUT
     @Operation(summary = "Insert new catalog skill")
-    public Response insert(CatalogSkill skill) {
-        UUID skill_id = service.insert(skill);
+    public Response insert(final CatalogSkill skill) {
+        final UUID skill_id = service.insert(skill);
         return Response.ok(URI.create("/skills/" + skill_id)).build();
     }
 
     @DELETE
     @Path("{skill_id}")
     @Operation(summary = "Delete catalog skill by id")
-    public Response delete(@PathParam("skill_id") UUID skill_id) {
+    public Response delete(@PathParam("skill_id") final UUID skill_id) {
         service.delete(skill_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing catalog skill")
-    public Response update(CatalogSkill skill) {
+    public Response update(final CatalogSkill skill) {
         return Response.ok(service.update(skill)).build();
     }
 
     @GET
     @Operation(summary = "Find all catalog skills")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{skill_id}")
     @Operation(summary = "Find catalog skill by id")
-    public Response findById(@PathParam("skill_id") UUID skill_id) {
-        Optional<CatalogSkill> match = service.findById(skill_id);
+    public Response findById(@PathParam("skill_id") final UUID skill_id) {
+        final Optional<CatalogSkill> match = service.findById(skill_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {
@@ -88,14 +88,14 @@ public class CatalogSkillsREST {
     @GET
     @Path("{skill_id}/credentials")
     @Operation(summary = "Find catalog skill credentials")
-    public Response findSkillCredentials(@PathParam("skill_id") UUID skill_id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findSkillCredentials(@PathParam("skill_id") final UUID skill_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findSkillCredentials(skill_id, sort, offset, limit)).build();
     }
 
     @POST
     @Path("{skill_id}/credentials/{credential_id}")
     @Operation(summary = "Insert catalog skill credential")
-    public Response insertSkillCredential(@PathParam("skill_id") UUID skill_id, @PathParam("credential_id") UUID credential_id) {
+    public Response insertSkillCredential(@PathParam("skill_id") final UUID skill_id, @PathParam("credential_id") final UUID credential_id) {
         service.insertSkillCredential(skill_id, credential_id);
         return Response.ok().build();
     }
@@ -103,7 +103,7 @@ public class CatalogSkillsREST {
     @DELETE
     @Path("{skill_id}/credentials/{credential_id}")
     @Operation(summary = "Delete catalog skill credential")
-    public Response deleteSkillCredential(@PathParam("skill_id") UUID skill_id, @PathParam("credential_id") UUID credential_id) {
+    public Response deleteSkillCredential(@PathParam("skill_id") final UUID skill_id, @PathParam("credential_id") final UUID credential_id) {
         service.deleteSkillCredential(skill_id, credential_id);
         return Response.ok().build();
     }

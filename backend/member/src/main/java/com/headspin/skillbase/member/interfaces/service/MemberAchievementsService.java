@@ -5,15 +5,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.eclipse.microprofile.auth.LoginConfig;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberAchievementRepo;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
-import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
 import com.headspin.skillbase.member.providers.MemberEventsProvider;
+import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -68,8 +67,8 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid MemberAchievement achievement) {
-        UUID achievement_id = repo.insert(achievement);
+    public UUID insert(@NotNull @Valid final MemberAchievement achievement) {
+        final UUID achievement_id = repo.insert(achievement);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
@@ -93,7 +92,7 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID achievement_id) {
+    public void delete(@NotNull final UUID achievement_id) {
         repo.delete(achievement_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
@@ -112,8 +111,8 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
-        MemberAchievement updated = repo.update(achievement);
+    public MemberAchievement update(@NotNull @Valid final MemberAchievement achievement) {
+        final MemberAchievement updated = repo.update(achievement);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
@@ -137,7 +136,7 @@ public class MemberAchievementsService {
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public Optional<MemberAchievement> findById(@NotNull UUID achievement_id) {
+    public Optional<MemberAchievement> findById(@NotNull final UUID achievement_id) {
         return repo.findById(achievement_id);
     }
 
@@ -151,7 +150,7 @@ public class MemberAchievementsService {
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit) {
+    public List<MemberAchievement> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 

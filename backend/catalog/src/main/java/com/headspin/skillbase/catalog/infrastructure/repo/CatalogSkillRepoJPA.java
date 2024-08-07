@@ -5,17 +5,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.enterprise.context.RequestScoped;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
+import com.headspin.skillbase.catalog.domain.CatalogSkill;
+import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import com.headspin.skillbase.catalog.domain.CatalogCredential;
-import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
 
 @RequestScoped
 public class CatalogSkillRepoJPA implements CatalogSkillRepo {
@@ -28,30 +27,30 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogSkill skill) {
+    public UUID insert(@NotNull @Valid final CatalogSkill skill) {
         em.persist(skill);
         return skill.skill_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID skill_id) {
+    public void delete(@NotNull final UUID skill_id) {
         em.remove(em.find(CatalogSkill.class, skill_id));
     }
 
     @Override
     @Transactional
-    public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
+    public CatalogSkill update(@NotNull @Valid final CatalogSkill skill) {
         return em.merge(skill);
     }
 
     @Override
-    public Optional<CatalogSkill> findById(@NotNull UUID skill_id) {
+    public Optional<CatalogSkill> findById(@NotNull final UUID skill_id) {
         return Optional.ofNullable(em.find(CatalogSkill.class, skill_id));
     }
 
     @Override
-    public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
+    public List<CatalogSkill> findAll(final String sort, final Integer offset, final Integer limit) {
         return em.createQuery("SELECT s FROM CatalogSkill s ORDER BY :sort", CatalogSkill.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
@@ -60,8 +59,8 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     }
 
     @Override
-    public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogSkill> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+            final Integer limit) {
         return em.createQuery("SELECT s FROM CatalogSkill s WHERE s.title LIKE ':pattern' ORDER BY :sort", CatalogSkill.class)
                 .setParameter("pattern", Objects.requireNonNullElse(sort, "%"))
                 .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
@@ -71,8 +70,8 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     }
 
     @Override
-    public List<CatalogCredential> findSkillCredentials(@NotNull UUID skill_id, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogCredential> findSkillCredentials(@NotNull final UUID skill_id, final String sort, final Integer offset,
+            final Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c WHERE c.skill_id = :skill_id ORDER BY :sort", CatalogCredential.class)
                 .setParameter("skill_id", skill_id)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
@@ -83,12 +82,12 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public void insertSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+    public void insertSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
     }
 
     @Override
     @Transactional
-    public void deleteSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+    public void deleteSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
     }
 
     @Override

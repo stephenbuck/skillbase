@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skillbase.com/schema/MemberUser.schema.json",
+  "title": "Member User",
+  "description": "A user in the member service",
+  "type": "object",
+  "properties": {
+    "skill_id": {
+      "description": "The unique identifier of the user",
+      "type": "string",
+      "format": "uuid"
+    },
+    "user_name": {
+      "description": "The username of the user",
+      "type": "string"
+    },
+    "first_name": {
+      "description": "The first name of the user",
+      "type": "string"
+    },
+    "last_name": {
+      "description": "The last name of the user",
+      "type": "string"
+    },
+    "email": {
+      "description": "The email address of the user",
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "description": "The phone number of the user",
+      "type": "string",
+      "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+    },
+    "created_at": {
+      "description": "The create timestamp",
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "description": "The update timestamp",
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "skill_id",
+    "title",
+    "note",
+    "created_at",
+    "updated_at"
+  ]
+}

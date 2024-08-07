@@ -8,6 +8,9 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import com.headspin.skillbase.workflow.domain.WorkflowInstance;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,9 +23,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import com.headspin.skillbase.workflow.domain.WorkflowInstance;
-import com.headspin.skillbase.workflow.interfaces.service.WorkflowInstancesService;
 
 /**
  * Workflow instances REST endpoint.
@@ -48,36 +48,36 @@ public class WorkflowInstancesREST {
 
     @PUT
     @Operation(summary = "Insert new workflow instance")
-    public Response insert(WorkflowInstance instance) {
-        UUID instance_id = service.insert(instance);
+    public Response insert(final WorkflowInstance instance) {
+        final UUID instance_id = service.insert(instance);
         return Response.ok(URI.create("/instances/" + instance_id)).build();
     }
 
     @DELETE
     @Path("{instance_id}")
     @Operation(summary = "Delete workflow instance by id")
-    public Response deleteById(@PathParam("instance_id") UUID instance_id) {
+    public Response deleteById(@PathParam("instance_id") final UUID instance_id) {
         service.delete(instance_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing workflow instance")
-    public Response update(WorkflowInstance instance) {
+    public Response update(final WorkflowInstance instance) {
         return Response.ok(service.update(instance)).build();
     }
 
     @GET
     @Operation(summary = "Find all workflow instances")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{instance_id}")
     @Operation(summary = "Find workflow instance by id")
-    public Response findById(@PathParam("instance_id") UUID instance_id) {
-        Optional<WorkflowInstance> match = service.findById(instance_id);
+    public Response findById(@PathParam("instance_id") final UUID instance_id) {
+        final Optional<WorkflowInstance> match = service.findById(instance_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {
