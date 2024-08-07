@@ -52,38 +52,58 @@ public class CatalogSkillsService {
     @Inject
     private CatalogEventsProvider evnt;
 
+    /**
+     * Inserts a new catalog skill.
+     *
+     * @param skill The new skill.
+     * @return The id of the new skill.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
-        UUID id = repo.insert(skill);
+        UUID skill_id = repo.insert(skill);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(skill.id))
+                .add("skill_id", String.valueOf(skill.skill_id))
                 .add("deployment_id", String.valueOf(skill.deployment_id))
                 .add("category_id", String.valueOf(skill.category_id))
                 .add("is_enabled", skill.is_enabled)
                 .add("title", skill.title)
                 .add("note", skill.note)
-                .add("created_at", String.valueOf(skill.createdAt))
-                .add("updated_at", String.valueOf(skill.updatedAt))
+                .add("created_at", String.valueOf(skill.created_at))
+                .add("updated_at", String.valueOf(skill.updated_at))
                 .build());
-        return id;
+        return skill_id;
     }
 
+    /**
+     * Deletes a catalog skill given an id.
+     *
+     * @param skill_id The requested skill id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID skill_id) {
+        repo.delete(skill_id);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("skill_id", String.valueOf(skill_id))
                 .build());
     }
 
+    /**
+     * Updates an existing catalog skill.
+     *
+     * @param skill The updated skill.
+     * @return The updated skill.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill) {
@@ -92,52 +112,108 @@ public class CatalogSkillsService {
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
+                .add("skill_id", String.valueOf(updated.skill_id))
                 .add("deployment_id", String.valueOf(updated.deployment_id))
                 .add("category_id", String.valueOf(updated.category_id))
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
 
+    /**
+     * Returns a catalog skill given an id.
+     *
+     * @param skill_id The requested skill id.
+     * @return An optional catalog skill.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Member" })
-    public Optional<CatalogSkill> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<CatalogSkill> findById(@NotNull UUID skill_id) {
+        return repo.findById(skill_id);
     }
 
+    /**
+     * Returns a list of all catalog skills.
+     *
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of catalog skills.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
+    /**
+     * Returns a list of all catalog skills with matching title.
+     *
+     * @param pattern The requested title pattern.
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of catalog skills.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
+    /**
+     * Returns a list of all catalog credentials given a skill id.
+     *
+     * @param skill_id The requested skill id.
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of catalog credentials.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Member" })
-    public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
+    public List<CatalogCredential> findSkillCredentials(@NotNull UUID skill_id, String sort, Integer offset,
     Integer limit) {
-        return repo.findSkillCredentials(id, sort, offset, limit);
+        return repo.findSkillCredentials(skill_id, sort, offset, limit);
     }
 
+    /**
+     * Inserts a new credential given a skill id.
+     *
+     * @param skill_id The requested skill id.
+     * @param credential_id The requested credential id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        return repo.insertSkillCredential(id, credential_id);
+    public void insertSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+        repo.insertSkillCredential(skill_id, credential_id);
     }
 
+    /**
+     * Deletes an existing credential given a skill id.
+     *
+     * @param skill_id The requested skill id.
+     * @param credential_id The requested credential id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        return repo.deleteSkillCredential(id, credential_id);
+    public void deleteSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
+        repo.deleteSkillCredential(skill_id, credential_id);
     }
 
+    /**
+     * Returns a count of catalog skills.
+     *
+     * @return The count.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();

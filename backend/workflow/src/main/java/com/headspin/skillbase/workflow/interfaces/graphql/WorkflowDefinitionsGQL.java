@@ -39,27 +39,27 @@ public class WorkflowDefinitionsGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert workflow definition")
+    @Description("Insert new workflow definition")
     public UUID insert(@Name("definition") WorkflowDefinition definition) {
         return service.insert(definition);
     }
 
     @Mutation("delete")
-    @Description("Delete workflow definition")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete workflow definition by id")
+    public void delete(@Name("definition_id") UUID definition_id) {
+        service.delete(definition_id);
     }
 
     @Mutation("update")
-    @Description("Update workflow definition")
+    @Description("Update existing workflow definition")
     public void update(@Name("definition") WorkflowDefinition definition) {
         service.update(definition);
     }
 
     @Query("findById")
-    @Description("Find workflow definition by ID")
-    public WorkflowDefinition findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find workflow definition by id")
+    public WorkflowDefinition findById(@Name("definition_id") UUID definition_id) {
+        return service.findById(definition_id).orElse(null);
     }
 
     @Query("findAll")

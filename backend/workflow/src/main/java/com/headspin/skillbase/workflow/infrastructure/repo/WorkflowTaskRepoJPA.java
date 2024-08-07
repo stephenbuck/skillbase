@@ -36,13 +36,13 @@ public class WorkflowTaskRepoJPA implements WorkflowTaskRepo {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowTask task) {
         em.persist(task);
-        return task.id;
+        return task.task_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(WorkflowTask.class, id));
+    public void delete(@NotNull UUID task_id) {
+        em.remove(em.find(WorkflowTask.class, task_id));
     }
 
     @Override
@@ -52,14 +52,14 @@ public class WorkflowTaskRepoJPA implements WorkflowTaskRepo {
     }
 
     @Override
-    public Optional<WorkflowTask> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(WorkflowTask.class, id));
+    public Optional<WorkflowTask> findById(@NotNull UUID task_id) {
+        return Optional.ofNullable(em.find(WorkflowTask.class, task_id));
     }
 
     @Override
     public List<WorkflowTask> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT t FROM WorkflowTask t ORDER BY :sort", WorkflowTask.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "task_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();

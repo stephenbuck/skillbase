@@ -3,12 +3,17 @@ package com.headspin.skillbase.workflow.app;
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.headspin.skillbase.common.app.AppEvents;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.MemberEvent;
+import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
+import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.infrastructure.events.WorkflowEventsProviderKafka;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
+import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
 
 import io.cloudevents.CloudEvent;
@@ -33,6 +38,12 @@ public class WorkflowAppEvents extends AppEvents {
 
     @Inject
     private WorkflowEventsProvider evnt;
+
+    @Inject
+    private WorkflowDeploymentsService deps;
+
+    @Inject
+    private WorkflowDefinitionsService defs;
 
     private List<String> topics = Arrays.asList(
         CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -77,10 +88,10 @@ public class WorkflowAppEvents extends AppEvents {
 
             switch (topic) {
                 case CatalogEvent.CATALOG_EVENT_TOPIC:
-                    onCatalogEvent(new CatalogEvent(eventId, eventType, eventJson));
+                    onCatalogEvent(new CatalogEvent(eventId, eventType, eventJson), eventJson);
                     break;
                 case MemberEvent.MEMBER_EVENT_TOPIC:
-                    onMemberEvent(new MemberEvent(eventId, eventType, eventJson));
+                    onMemberEvent(new MemberEvent(eventId, eventType, eventJson), eventJson);
                     break;
                 default:
                     break;
@@ -93,33 +104,31 @@ public class WorkflowAppEvents extends AppEvents {
      * to the correct handler based on the event type.
      * 
      * @param event
+     * @param json
      */
-    private void onCatalogEvent(CatalogEvent event) {
+    private void onCatalogEvent(CatalogEvent event, JsonObject json) {
 
         log.info("catalog event = {}", event);
 
         switch (event.type()) {
-
             case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
-                onCredentialCreated(event);
+                onCredentialCreated(event, json);
                 break;
             case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
-                onCredentialDeleted(event);
+                onCredentialDeleted(event, json);
                 break;
             case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
-                onCredentialUpdated(event);
+                onCredentialUpdated(event, json);
                 break;
-
             case CatalogEvent.CATALOG_SKILL_CREATED:
-                onSkillCreated(event);
+                onSkillCreated(event, json);
                 break;
             case CatalogEvent.CATALOG_SKILL_DELETED:
-                onSkillDeleted(event);
+                onSkillDeleted(event, json);
                 break;
             case CatalogEvent.CATALOG_SKILL_UPDATED:
-                onSkillUpdated(event);
+                onSkillUpdated(event, json);
                 break;
-
             default:
                 break;
         }
@@ -130,21 +139,20 @@ public class WorkflowAppEvents extends AppEvents {
      * service creates a corresponding workflow definition entity.
      * 
      * @param event
+     * @param json
      */
-    private void onCredentialCreated(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID credential_id = UUID.fromString(job.getString("credential_id"));
-         * 
-         * WorkflowDefinition definition = new WorkflowDefinition();
-         * definition.credential_id = credential_id;
-         * definition.deployment_id = UUID.fromString(job.getString("deployment_id"));
-         * definition.title = job.getString("title");
-         * definition.note = job.getString("note");
-         * log.info("definition = {}", definition);
-         * 
-         * defs.insert(definition);
-         */
+    private void onCredentialCreated(CatalogEvent event, JsonObject json) {
+
+        log.info("onCredentialCreated()");
+
+        WorkflowDefinition definition = new WorkflowDefinition();
+        definition.peer_id = null;
+        definition.credential_id = UUID.fromString(json.getString("credential_id"));
+//        definition.deployment_id = json.getString("deployment_id");
+        definition.title = json.getString("title");
+        definition.note = json.getString("note");
+        
+        UUID id = defs.insert(definition);
     }
 
     /**
@@ -152,17 +160,21 @@ public class WorkflowAppEvents extends AppEvents {
      * service deletes the corresponding workflow definition entity.
      * 
      * @param event
+     * @param json
      */
-    private void onCredentialDeleted(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID credential_id = UUID.fromString(job.getString("credential_id"));
-         * 
-         * Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
-         * WorkflowDefinition definition = result.get();
-         * 
-         * defs.delete(definition.id);
-         */
+    private void onCredentialDeleted(CatalogEvent event, JsonObject json) {
+
+        log.info("onCredentialDeleted()");
+
+        UUID credential_id = UUID.fromString(json.getString("credential_id"));
+        
+        log.info("credential_id = {}", credential_id);
+
+        Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
+
+        WorkflowDefinition definition = result.get();
+        
+        defs.delete(definition.definition_id);        
     }
 
     /**
@@ -170,21 +182,23 @@ public class WorkflowAppEvents extends AppEvents {
      * service updates the corresponding workflow definition entity.
      * 
      * @param event
+     * @param json
      */
-    private void onCredentialUpdated(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID credential_id = UUID.fromString(job.getString("credential_id"));
-         * 
-         * Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
-         * WorkflowDefinition definition = result.get();
-         * definition.credential_id = credential_id;
-         * definition.deployment_id = UUID.fromString(job.getString("deployment_id"));
-         * definition.title = job.getString("title");
-         * definition.note = job.getString("note");
-         * 
-         * defs.update(definition);
-         */
+    private void onCredentialUpdated(CatalogEvent event, JsonObject json) {
+
+        log.info("onCredentialUpdated()");
+
+        UUID credential_id = UUID.fromString(json.getString("credential_id"));
+        
+        Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
+
+        WorkflowDefinition definition = result.get();
+        definition.credential_id = credential_id;
+        definition.deployment_id = UUID.fromString(json.getString("deployment_id"));
+        definition.title = json.getString("title");
+        definition.note = json.getString("note");
+        
+        defs.update(definition);
     }
 
     /**
@@ -192,20 +206,20 @@ public class WorkflowAppEvents extends AppEvents {
      * service creates a corresponding workflow deployment entity.
      * 
      * @param event
+     * @param json
      */
-    private void onSkillCreated(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID skill_id = UUID.fromString(job.getString("id"));
-         * 
-         * WorkflowDeployment deployment = new WorkflowDeployment();
-         * deployment.skill_id = skill_id;
-         * deployment.state = job.getString("state");
-         * deployment.title = job.getString("title");
-         * deployment.note = job.getString("note");
-         * 
-         * deps.insert(deployment);
-         */
+    private void onSkillCreated(CatalogEvent event, JsonObject json) {
+
+        log.info("onSkillCreated()");
+
+        WorkflowDeployment deployment = new WorkflowDeployment();
+        deployment.peer_id = null;
+        deployment.skill_id = UUID.fromString(json.getString("skill_id"));
+        deployment.state = json.getString("state");
+        deployment.title = json.getString("title");
+        deployment.note = json.getString("note");
+        
+        UUID id = deps.insert(deployment);
     }
 
     /**
@@ -213,17 +227,21 @@ public class WorkflowAppEvents extends AppEvents {
      * service deletes the corresponding workflow deployment entity.
      * 
      * @param event
+     * @param json
      */
-    private void onSkillDeleted(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID skill_id = UUID.fromString(job.getString("id"));
-         * 
-         * Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
-         * WorkflowDeployment deployment = result.get();
-         * 
-         * deps.delete(deployment.id);
-         */
+    private void onSkillDeleted(CatalogEvent event, JsonObject json) {
+
+        log.info("onSkillDelete():");
+
+        UUID skill_id = UUID.fromString(json.getString("skill_id"));
+     
+        log.info("skill_id = {}", skill_id);
+
+        Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
+
+        WorkflowDeployment deployment = result.get();
+        
+        deps.delete(deployment.deployment_id);
     }
 
     /**
@@ -231,20 +249,24 @@ public class WorkflowAppEvents extends AppEvents {
      * service updates the corresponding workflow deployment entity.
      * 
      * @param event
+     * @param json
      */
-    private void onSkillUpdated(CatalogEvent event) {
-        /*
-         * JsonObject job = event.data();
-         * UUID skill_id = UUID.fromString(job.getString("id"));
-         * 
-         * Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
-         * WorkflowDeployment deployment = result.get();
-         * deployment.state = job.getString("state");
-         * deployment.title = job.getString("title");
-         * deployment.note = job.getString("note");
-         * 
-         * deps.update(deployment);
-         */
+    private void onSkillUpdated(CatalogEvent event, JsonObject json) {
+
+        log.info("onSkillUpdate():");
+
+        UUID skill_id = UUID.fromString(json.getString("skill_id"));
+     
+        log.info("skill_id = {}", skill_id);
+
+        Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
+
+        WorkflowDeployment deployment = result.get();
+        deployment.state = json.getString("state");
+        deployment.title = json.getString("title");
+        deployment.note = json.getString("note");
+        
+        deps.update(deployment);
     }
 
     /**
@@ -252,37 +274,35 @@ public class WorkflowAppEvents extends AppEvents {
      * to the correct handler based on the event type.
      * 
      * @param event
+     * @param json
      */
-    private void onMemberEvent(MemberEvent event) {
+    private void onMemberEvent(MemberEvent event, JsonObject json) {
 
         log.info("member event = {}", event);
 
+        /*
         switch (event.type()) {
-
-            /*
             case MemberEvent.MEMBER_ACHIEVEMENT_CREATED:
-                onAchievementCreated(event);
-                break;Achievement
+                onAchievementCreated(event, json);
+                break;
             case MemberEvent.MEMBER_ACHIEVEMENT_DELETED:
-                onAchievementDeleted(event);
+                onAchievementDeleted(event, json);
                 break;
             case MemberEvent.MEMBER_ACHIEVEMENT_UPDATED:
-                onAchievementUpdated(event);
+                onAchievementUpdated(event, json);
                 break;
-
             case MemberEvent.MEMBER_USER_CREATED:
-                onUserCreated(event);
+                onUserCreated(event, json);
                 break;
             case MemberEvent.MEMBER_USER_DELETED:
-                onUserDeleted(event);
+                onUserDeleted(event, json);
                 break;
             case MemberEvent.MEMBER_USER_UPDATED:
-                onUserUpdated(event);
+                onUserUpdated(event, json);
                 break;
-
             default:
                 break;
-            */
         }
+        */
     }
 }

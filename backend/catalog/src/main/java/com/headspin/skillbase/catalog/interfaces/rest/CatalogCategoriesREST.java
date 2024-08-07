@@ -61,11 +61,11 @@ public class CatalogCategoriesREST {
      * @ApiResponse(responseCode = "500", description = "Internal server error")})
      */
     @PUT
-    @Operation(summary = "Insert catalog category")
+    @Operation(summary = "Insert new catalog category")
     public Response insert(CatalogCategory category) {
         try {
-            UUID id = service.insert(category);
-            return Response.ok(id).build();
+            UUID category_id = service.insert(category);
+            return Response.ok(category_id).build();
         } catch (EntityExistsException e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -106,15 +106,15 @@ public class CatalogCategoriesREST {
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete catalog category")
-    public Response deleteById(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{category_id}")
+    @Operation(summary = "Delete catalog category by id")
+    public Response deleteById(@PathParam("category_id") UUID category_id) {
+        service.delete(category_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update catalog category")
+    @Operation(summary = "Update existing catalog category")
     public Response update(CatalogCategory category) {
         return Response.ok(service.update(category)).build();
     }
@@ -136,11 +136,11 @@ public class CatalogCategoriesREST {
      * @ApiResponse(responseCode = "500", description = "Internal server error")})
      */
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find catalog category by ID")
-    public Response findById(@PathParam("id") UUID id) {
+    @Path("{category_id}")
+    @Operation(summary = "Find catalog category by id")
+    public Response findById(@PathParam("category_id") UUID category_id) {
         try {
-            Optional<CatalogCategory> match = service.findById(id);
+            Optional<CatalogCategory> match = service.findById(category_id);
             return Response
                     .status(Response.Status.OK)
                     .type(MediaType.APPLICATION_JSON)
@@ -155,7 +155,7 @@ public class CatalogCategoriesREST {
                                     .withType(URI.create("https://example.org/not-found"))
                                     .withTitle("Invalid ID supplied")
                                     .withStatus(Status.NOT_FOUND)
-                                    .withDetail("id = " + id)
+                                    .withDetail("category_id = " + category_id)
                                     .build())
                     .build();
         } catch (NoSuchElementException e) {
@@ -167,61 +167,63 @@ public class CatalogCategoriesREST {
                                     .withType(URI.create("https://example.org/not-found"))
                                     .withTitle("Category not found")
                                     .withStatus(Status.NOT_FOUND)
-                                    .withDetail("id = " + id)
+                                    .withDetail("category_id = " + category_id)
                                     .build())
                     .build();
         }
     }
 
     @GET
-    @Path("{id}/categories")
+    @Path("{category_id}/categories")
     @Operation(summary = "Find all catalog category subcategories")
-    public Response findCategoryCategories(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+    public Response findCategoryCategories(@PathParam("category_id") UUID category_id, @QueryParam("sort") String sort,
             @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Response.ok(service.findCategoryCategories(id, sort, offset, limit)).build();
+        return Response.ok(service.findCategoryCategories(category_id, sort, offset, limit)).build();
     }
 
     @POST
-    @Path("{id}/categories/{category_id}")
+    @Path("{category_id}/categories/{subcategory_id}")
     @Operation(summary = "Insert catalog category subcategory")
-    public Response insertCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
-        return Response.ok(service.insertCategoryCategory(id, category_id)).build();
+    public Response insertCategoryCategory(@PathParam("category_id") UUID category_id, @PathParam("subcategory_id") UUID subcategory_id) {
+        service.insertCategoryCategory(category_id, subcategory_id);
+        return Response.ok().build();
     }
 
     @DELETE
-    @Path("{id}/categories/{category_id}")
+    @Path("{category_id}/categories/{subcategory_id}")
     @Operation(summary = "Delete catalog category subcategory")
-    public Response deleteCategoryCategory(@PathParam("id") UUID id, @PathParam("category_id") UUID category_id) {
-        return Response.ok(service.deleteCategoryCategory(id, category_id)).build();
+    public Response deleteCategoryCategory(@PathParam("category_id") UUID category_id, @PathParam("subcategory_id") UUID subcategory_id) {
+        service.deleteCategoryCategory(category_id, category_id);
+        return Response.ok().build();
     }
 
     @GET
-    @Path("{id}/skills")
+    @Path("{category_id}/skills")
     @Operation(summary = "Find all catalog category skills")
-    public Response findCategorySkills(@PathParam("id") UUID id, @QueryParam("sort") String sort,
+    public Response findCategorySkills(@PathParam("category_id") UUID category_id, @QueryParam("sort") String sort,
             @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Response.ok(service.findCategorySkills(id, sort, offset, limit)).build();
+        return Response.ok(service.findCategorySkills(category_id, sort, offset, limit)).build();
     }
 
     /*
      * @POST
      * 
-     * @Path("{id}/skills/{skill_id}")
+     * @Path("{category_id}/skills/{skill_id}")
      * 
      * @Operation(summary = "insertCategorySkill")
-     * public Response insertCategorySkill(@PathParam("id") UUID
-     * id, @PathParam("skill_id") UUID skill_id) {
-     * return Response.ok(service.insertCategorySkill(id, skill_id)).build();
+     * public Response insertCategorySkill(@PathParam("category_id") UUID
+     * category_id, @PathParam("skill_id") UUID skill_id) {
+     * return Response.ok(service.insertCategorySkill(category_id, skill_id)).build();
      * }
      * 
      * @DELETE
      * 
-     * @Path("{id}/skills/{skill_id}")
+     * @Path("{category_id}/skills/{skill_id}")
      * 
      * @Operation(summary = "deleteCategorySkill")
-     * public Response deleteCategorySkill(@PathParam("id") UUID
-     * id, @PathParam("skill_id") UUID skill_id) {
-     * return Response.ok(service.deleteCategorySkill(id, skill_id)).build();
+     * public Response deleteCategorySkill(@PathParam("category_id") UUID
+     * category_id, @PathParam("skill_id") UUID skill_id) {
+     * return Response.ok(service.deleteCategorySkill(category_id, skill_id)).build();
      * }
      */
 

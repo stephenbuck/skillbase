@@ -39,27 +39,27 @@ public class WorkflowInstancesGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert workflow instance")
+    @Description("Insert new workflow instance")
     public UUID insert(@Name("instance") WorkflowInstance instance) {
         return service.insert(instance);
     }
 
     @Mutation("delete")
-    @Description("Delete workflow instance")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete workflow instance by id")
+    public void delete(@Name("instance_id") UUID instance_id) {
+        service.delete(instance_id);
     }
 
     @Mutation("update")
-    @Description("Update workflow instance")
+    @Description("Update existing workflow instance")
     public void update(@Name("instance") WorkflowInstance instance) {
         service.update(instance);
     }
 
     @Query("findById")
-    @Description("Find workflow instance by ID")
-    public WorkflowInstance findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find workflow instance by id")
+    public WorkflowInstance findById(@Name("instance_id") UUID instance_id) {
+        return service.findById(instance_id).orElse(null);
     }
 
     @Query("findAll")

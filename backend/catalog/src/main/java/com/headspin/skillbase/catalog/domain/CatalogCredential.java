@@ -31,8 +31,8 @@ import com.headspin.skillbase.common.domain.DomainEntity;
 @Table(schema = "catalog", name = "credential")
 public class CatalogCredential extends DomainEntity {
 
-        @JsonbProperty("id")
-        @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
+        @JsonbProperty("credential_id")
+        @Column(name = "credential_id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID credential_id;
 
         @JsonbProperty("model_id")
         @Column(name = "model_id") public UUID model_id;
@@ -56,22 +56,22 @@ public class CatalogCredential extends DomainEntity {
         @Column(name = "bpmn") public byte[] bpmn;
         
         @JsonbProperty("created_at")
-        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date createdAt;
+        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
 
         @JsonbProperty("updated_at")
-        @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+        @Column(name = "updated_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date updated_at;
 
         @Override
         public String toString() {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("CatalogCredential {\n");
-                stringBuilder.append("    id        = " + id + "\n");
-                stringBuilder.append("    model_id  = " + model_id + "\n");
-                stringBuilder.append("    skill_id  = " + skill_id + "\n");
-                stringBuilder.append("    title     = " + title + "\n");
-                stringBuilder.append("    note      = " + note + "\n");
-                stringBuilder.append("    createdAt = " + createdAt + "\n");
-                stringBuilder.append("    updatedAt = " + updatedAt + "\n");
+                stringBuilder.append("    credential_id = " + credential_id + "\n");
+                stringBuilder.append("    model_id      = " + model_id + "\n");
+                stringBuilder.append("    skill_id      = " + skill_id + "\n");
+                stringBuilder.append("    title         = " + title + "\n");
+                stringBuilder.append("    note          = " + note + "\n");
+                stringBuilder.append("    created_at    = " + created_at + "\n");
+                stringBuilder.append("    updated_at    = " + updated_at + "\n");
                 stringBuilder.append("}\n");
                 return stringBuilder.toString();
         }

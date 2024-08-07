@@ -77,10 +77,10 @@ public class MemberAppEvents extends AppEvents {
 
             switch (topic) {
                 case CatalogEvent.CATALOG_EVENT_TOPIC:
-                    onCatalogEvent(new CatalogEvent(eventId, eventType, eventJson));
+                    onCatalogEvent(new CatalogEvent(eventId, eventType, eventJson), eventJson);
                     break;
                 case WorkflowEvent.WORKFLOW_EVENT_TOPIC:
-                    onWorkflowEvent(new WorkflowEvent(eventId, eventType, eventJson));
+                    onWorkflowEvent(new WorkflowEvent(eventId, eventType, eventJson), eventJson);
                     break;
                 default:
                     break;
@@ -94,26 +94,23 @@ public class MemberAppEvents extends AppEvents {
      * 
      * @param event
      */
-    private void onCatalogEvent(CatalogEvent event) {
+    private void onCatalogEvent(CatalogEvent event, JsonObject json) {
 
         log.info("catalog event = {}", event);
 
         switch (event.type()) {
-
             case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
                 break;
             case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
                 break;
             case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
                 break;
-
             case CatalogEvent.CATALOG_SKILL_CREATED:
                 break;
             case CatalogEvent.CATALOG_SKILL_DELETED:
                 break;
             case CatalogEvent.CATALOG_SKILL_UPDATED:
                 break;
-
             default:
                 break;
         }
@@ -125,34 +122,31 @@ public class MemberAppEvents extends AppEvents {
      * 
      * @param event
      */
-    private void onWorkflowEvent(WorkflowEvent event) {
+    private void onWorkflowEvent(WorkflowEvent event, JsonObject json) {
 
         log.info("workflow event = {}", event);
 
         switch (event.type()) {
-
             case WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED:
                 break;
             case WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED:
                 break;
             case WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED:
                 break;
-
             case WorkflowEvent.WORKFLOW_DEFINITION_CREATED:
                 break;
             case WorkflowEvent.WORKFLOW_DEFINITION_DELETED:
                 break;
             case WorkflowEvent.WORKFLOW_DEFINITION_UPDATED:
                 break;
-
             case WorkflowEvent.WORKFLOW_INSTANCE_CREATED:
-                onInstanceCreated(event);
+                onInstanceCreated(event, json);
                 break;
             case WorkflowEvent.WORKFLOW_INSTANCE_DELETED:
-                onInstanceDeleted(event);
+                onInstanceDeleted(event, json);
                 break;
             case WorkflowEvent.WORKFLOW_INSTANCE_UPDATED:
-                onInstanceUpdated(event);
+                onInstanceUpdated(event, json);
                 break;
 
             default:
@@ -160,7 +154,7 @@ public class MemberAppEvents extends AppEvents {
         }       
     }
 
-    private void onInstanceCreated(WorkflowEvent event) {
+    private void onInstanceCreated(WorkflowEvent event, JsonObject json) {
     /*
         MemberProcess process = new MemberProcess();
         process.state = event?.state;
@@ -170,14 +164,14 @@ public class MemberAppEvents extends AppEvents {
     */
     }
 
-    private void onInstanceDeleted(WorkflowEvent event) {
+    private void onInstanceDeleted(WorkflowEvent event, JsonObject json) {
     /*
         MemberProcess process = findByInstanceId(event?.instance_id);
-        deleteProcess(process.id);
+        deleteProcess(process.process_id);
     */
     }
 
-    private void onInstanceUpdated(WorkflowEvent event) {
+    private void onInstanceUpdated(WorkflowEvent event, JsonObject json) {
     /*
         MemberProcess process = findByInstanceId(event?.instance_id);
         process.state = event?.state;
@@ -186,7 +180,7 @@ public class MemberAppEvents extends AppEvents {
     }
 
     /*
-    private void onInstancePassed(WorkflowEvent event) {
+    private void onInstancePassed(WorkflowEvent event, JsonObject json) {
         
         MemberProcess process = findByInstanceId(event?.instance_id);
         process.state = event?.state;
@@ -202,7 +196,7 @@ public class MemberAppEvents extends AppEvents {
     */
 
     /*
-    private void onInstanceFailed(WorkflowEvent event) {
+    private void onInstanceFailed(WorkflowEvent event, JsonObject json) {
         // TBD
     }
     */    

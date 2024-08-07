@@ -49,8 +49,8 @@ import io.cloudevents.kafka.CloudEventSerializer;
 public class WorkflowEventsProviderKafka implements WorkflowEventsProvider {
 
     private static final Duration poll_timeout = Duration.ofMillis(500);
-    private static final String consumer_group = "skillbase";
     private static final String acks_config = "all";
+    private static final String consumer_group = "skillbase";
     private static final String bootstrap_servers = "kafka:9092";
     private static final String key_serializer = "org.apache.kafka.common.serialization.StringSerializer";
     private static final String val_serializer = "io.cloudevents.kafka.CloudEventSerializer";
@@ -173,9 +173,9 @@ public class WorkflowEventsProviderKafka implements WorkflowEventsProvider {
         log.info("test:");
         produce(
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-                WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
+                WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
                 Json.createObjectBuilder()
-                        .add("id", String.valueOf(UUID.randomUUID()))
+                        .add("deployment_id", String.valueOf(UUID.randomUUID()))
                         .build());
     }
 

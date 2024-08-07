@@ -29,8 +29,8 @@ import com.headspin.skillbase.common.domain.DomainEntity;
 @Table(schema = "catalog", name = "category")
 public class CatalogCategory extends DomainEntity {
 
-        @JsonbProperty("id")
-        @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
+        @JsonbProperty("category_id")
+        @Column(name = "category_id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID category_id;
 
         @JsonbProperty("parent_id")
         @Column(name = "parent_id") public UUID parent_id;
@@ -48,21 +48,21 @@ public class CatalogCategory extends DomainEntity {
         @Column(name = "image") public byte[] image;
 
         @JsonbProperty("created_at")
-        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date createdAt;
+        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
 
         @JsonbProperty("updated_at")
-        @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+        @Column(name = "updated_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date updated_at;
 
         @Override
         public String toString() {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("CatalogCategory {\n");
-                stringBuilder.append("    id        = " + id + "\n");
-                stringBuilder.append("    parent_id = " + parent_id + "\n");
-                stringBuilder.append("    title     = " + title + "\n");
-                stringBuilder.append("    note      = " + note + "\n");
-                stringBuilder.append("    createdAt = " + createdAt + "\n");
-                stringBuilder.append("    updatedAt = " + updatedAt + "\n");
+                stringBuilder.append("    category_id = " + category_id + "\n");
+                stringBuilder.append("    parent_id   = " + parent_id + "\n");
+                stringBuilder.append("    title       = " + title + "\n");
+                stringBuilder.append("    note        = " + note + "\n");
+                stringBuilder.append("    created_at  = " + created_at + "\n");
+                stringBuilder.append("    updated_at  = " + updated_at + "\n");
                 stringBuilder.append("}\n");
                 return stringBuilder.toString();
         }

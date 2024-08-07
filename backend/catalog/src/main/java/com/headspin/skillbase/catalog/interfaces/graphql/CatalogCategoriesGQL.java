@@ -39,27 +39,27 @@ public class CatalogCategoriesGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert catalog category")
+    @Description("Insert new catalog category")
     public UUID insert(@Name("category") CatalogCategory category) {
         return service.insert(category);
     }
 
     @Mutation("delete")
-    @Description("Delete catalog category")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete catalog category by id")
+    public void delete(@Name("category_id") UUID category_id) {
+        service.delete(category_id);
     }
 
     @Mutation("update")
-    @Description("Update catalog category")
+    @Description("Update existing catalog category")
     public void update(@Name("category") CatalogCategory category) {
         service.update(category);
     }
 
     @Query("findById")
-    @Description("Find catalog category by ID")
-    public CatalogCategory findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find catalog category by id")
+    public CatalogCategory findById(@Name("category_id") UUID category_id) {
+        return service.findById(category_id).orElse(null);
     }
 
     @Query("findAll")

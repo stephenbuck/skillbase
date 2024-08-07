@@ -39,27 +39,27 @@ public class CatalogCredentialsGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert catalog skill credential")
+    @Description("Insert new catalog skill credential")
     public UUID insert(@Name("credential") CatalogCredential credential) {
         return service.insert(credential);
     }
 
     @Mutation("delete")
-    @Description("Delete catalog skill credential")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete catalog skill credential by id")
+    public void delete(@Name("credential_id") UUID credential_id) {
+        service.delete(credential_id);
     }
 
     @Mutation("update")
-    @Description("Update catalog skill credential")
+    @Description("Update existing catalog skill credential")
     public void update(@Name("credential") CatalogCredential credential) {
         service.update(credential);
     }
 
     @Query("findById")
-    @Description("Find catalog skill credential by ID")
-    public CatalogCredential findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find catalog skill credential by id")
+    public CatalogCredential findById(@Name("credential_id") UUID credential_id) {
+        return service.findById(credential_id).orElse(null);
     }
 
     @Query("findAll")

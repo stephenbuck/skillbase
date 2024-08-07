@@ -47,22 +47,22 @@ public class MemberGroupsREST {
     }
     
     @PUT
-    @Operation(summary = "Insert member group")
+    @Operation(summary = "Insert new member group")
     public Response insert(MemberGroup group) {
-        UUID id = service.insert(group);
-        return Response.ok(URI.create("/groups/" + id)).build();
+        UUID group_id = service.insert(group);
+        return Response.ok(URI.create("/groups/" + group_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete member group")
-    public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{group_id}")
+    @Operation(summary = "Delete member group by id")
+    public Response delete(@PathParam("group_id") UUID group_id) {
+        service.delete(group_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update member group")
+    @Operation(summary = "Update existing member group")
     public Response update(MemberGroup group) {
         return Response.ok(service.update(group)).build();
     }
@@ -74,10 +74,10 @@ public class MemberGroupsREST {
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find member group by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<MemberGroup> match = service.findById(id);
+    @Path("{group_id}")
+    @Operation(summary = "Find member group by id")
+    public Response findById(@PathParam("group_id") UUID group_id) {
+        Optional<MemberGroup> match = service.findById(group_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {
@@ -86,24 +86,25 @@ public class MemberGroupsREST {
     }
 
     @GET
-    @Path("{id}/users")
+    @Path("{group_id}/users")
     @Operation(summary = "Find member group users")
-    public Response findGroupUsers(@PathParam("id") UUID id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
-        return Response.ok(service.findGroupUsers(id, sort, offset, limit)).build();
+    public Response findGroupUsers(@PathParam("group_id") UUID group_id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+        return Response.ok(service.findGroupUsers(group_id, sort, offset, limit)).build();
     }
     
     @POST
-    @Path("{id}/users/{user_id}")
+    @Path("{group_id}/users/{user_id}")
     @Operation(summary = "Insert member group user")
-    public Response insertGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
-        return Response.ok(service.insertGroupUser(id, user_id)).build();
+    public Response insertGroupUser(@PathParam("group_id") UUID group_id, @PathParam("user_id") UUID user_id) {
+        service.insertGroupUser(group_id, user_id);
+        return Response.ok().build();
     }
 
     @DELETE
-    @Path("{id}/users/{user_id}")
+    @Path("{group_id}/users/{user_id}")
     @Operation(summary = "Delete member group user")
-    public Response deleteGroupUser(@PathParam("id") UUID id, @PathParam("user_id") UUID user_id) {
-        service.deleteGroupUser(id, user_id);
+    public Response deleteGroupUser(@PathParam("group_id") UUID group_id, @PathParam("user_id") UUID user_id) {
+        service.deleteGroupUser(group_id, user_id);
         return Response.ok().build();
     }
 

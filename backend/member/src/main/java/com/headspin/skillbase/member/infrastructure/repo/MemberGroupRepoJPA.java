@@ -30,13 +30,13 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
     @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
         em.persist(group);
-        return group.id;
+        return group.group_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(MemberGroup.class, id));
+    public void delete(@NotNull UUID group_id) {
+        em.remove(em.find(MemberGroup.class, group_id));
     }
 
     @Override
@@ -46,14 +46,14 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
     }
 
     @Override
-    public Optional<MemberGroup> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(MemberGroup.class, id));
+    public Optional<MemberGroup> findById(@NotNull UUID group_id) {
+        return Optional.ofNullable(em.find(MemberGroup.class, group_id));
     }
 
     @Override
     public List<MemberGroup> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT g FROM MemberGroup g ORDER BY :sort", MemberGroup.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "group_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -62,7 +62,7 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
     @Override
     public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT u FROM MemberUser u ORDER BY :sort", MemberUser.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "group_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -70,8 +70,7 @@ public class MemberGroupRepoJPA implements MemberGroupRepo {
 
     @Override
     @Transactional
-    public UUID insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        return null;
+    public void insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
     }
 
     @Override

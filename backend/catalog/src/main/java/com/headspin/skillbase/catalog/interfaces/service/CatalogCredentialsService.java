@@ -51,38 +51,58 @@ public class CatalogCredentialsService {
     @Inject
     private CatalogEventsProvider evnt;
 
+    /**
+     * Inserts a new catalog credential.
+     *
+     * @param credential The new credential.
+     * @return The id of the new credential.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
-        UUID id = repo.insert(credential);
+        UUID credential_id = repo.insert(credential);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(credential.id))
+                .add("credential_id", String.valueOf(credential.credential_id))
                 .add("skill_id", String.valueOf(credential.skill_id))
                 .add("is_enabled", credential.is_enabled)
                 .add("title", credential.title)
                 .add("note", credential.note)
                 .add("bpmn", String.valueOf(credential.bpmn))
-                .add("created_at", String.valueOf(credential.createdAt))
-                .add("updated_at", String.valueOf(credential.updatedAt))
+                .add("created_at", String.valueOf(credential.created_at))
+                .add("updated_at", String.valueOf(credential.updated_at))
                 .build());
-        return id;
+        return credential_id;
     }
 
+    /**
+     * Deletes a catalog credential given an id.
+     *
+     * @param credential_id The requested credential id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID credential_id) {
+        repo.delete(credential_id);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("credential_id", String.valueOf(credential_id))
                 .build());
     }
 
+    /**
+     * Updates an existing catalog credential.
+     *
+     * @param credential The updated credential.
+     * @return The updated credential.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential) {
@@ -91,28 +111,54 @@ public class CatalogCredentialsService {
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
+                .add("credential_id", String.valueOf(updated.credential_id))
                 .add("skill_id", String.valueOf(updated.skill_id))
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
                 .add("bpmn", String.valueOf(updated.bpmn))
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
 
+    /**
+     * Returns a catalog credential given an id.
+     *
+     * @param id The requested credential id.
+     * @return An optional credential definition.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
-    public Optional<CatalogCredential> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<CatalogCredential> findById(@NotNull UUID credential_id) {
+        return repo.findById(credential_id);
     }
 
+    /**
+     * Returns a list of all catalog credentials.
+     *
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of catalog credentials.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
+    /**
+     * Returns a list of all catalog credentials with matching title.
+     *
+     * @param pattern The title pattern.
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of catalog credentials.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit) {
@@ -120,10 +166,16 @@ public class CatalogCredentialsService {
     }
 
 //    @RolesAllowed({ "Admin" })
-    public boolean start(@NotNull UUID id) {
+    public boolean start(@NotNull UUID credential_id) {
         return true;
     }
 
+    /**
+     * Returns a count of catalog credentials.
+     *
+     * @return The count.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();

@@ -14,8 +14,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "category_id": "<category_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String CATALOG_CATEGORY_CREATED = "com.headspin.skillbase.catalog.category.created";
@@ -25,7 +28,7 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "category_id": "<category_id>"
      *     }
      */
     public static final String CATALOG_CATEGORY_DELETED = "com.headspin.skillbase.catalog.category.deleted";
@@ -35,8 +38,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "category_id": "<category_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */    
     public static final String CATALOG_CATEGORY_UPDATED = "com.headspin.skillbase.catalog.category.updated";
@@ -47,8 +53,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "credential_id": "<credential_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String CATALOG_CREDENTIAL_CREATED = "com.headspin.skillbase.catalog.credential.created";
@@ -58,7 +67,7 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "credential_id": "<credential_id>"
      *     }
      */
     public static final String CATALOG_CREDENTIAL_DELETED = "com.headspin.skillbase.catalog.credential.deleted";
@@ -68,8 +77,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "credential_id": "<credential_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String CATALOG_CREDENTIAL_UPDATED = "com.headspin.skillbase.catalog.credential.updated";
@@ -80,8 +92,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "skill_id": "<skill_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String CATALOG_SKILL_CREATED = "com.headspin.skillbase.catalog.skill.created";
@@ -91,7 +106,7 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "skill_id": "<skill_id>"
      *     }
      */
     public static final String CATALOG_SKILL_DELETED = "com.headspin.skillbase.catalog.skill.deleted";
@@ -101,8 +116,11 @@ public class CatalogEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "skill_id": "<skill_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String CATALOG_SKILL_UPDATED = "com.headspin.skillbase.catalog.skill.updated";

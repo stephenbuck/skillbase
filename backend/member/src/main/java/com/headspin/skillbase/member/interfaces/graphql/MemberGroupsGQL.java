@@ -39,27 +39,27 @@ public class MemberGroupsGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert member group")
+    @Description("Insert new member group")
     public UUID insert(@Name("group") MemberGroup group) {
         return service.insert(group);
     }
 
     @Mutation("delete")
-    @Description("Delete member group")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete member group by id")
+    public void delete(@Name("group_id") UUID group_id) {
+        service.delete(group_id);
     }
 
     @Mutation("update")
-    @Description("Update member group")
+    @Description("Update existing member group")
     public void update(@Name("group") MemberGroup group) {
         service.update(group);
     }
 
     @Query("findById")
-    @Description("Find member group by ID")
-    public MemberGroup findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find member group by id")
+    public MemberGroup findById(@Name("group_id") UUID group_id) {
+        return service.findById(group_id).orElse(null);
     }
 
     @Query("findAll")

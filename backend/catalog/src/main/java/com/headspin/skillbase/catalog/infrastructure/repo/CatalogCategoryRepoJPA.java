@@ -29,13 +29,13 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCategory category) {
         em.persist(category);
-        return category.id;
+        return category.category_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(CatalogCategory.class, id));
+    public void delete(@NotNull UUID category_id) {
+        em.remove(em.find(CatalogCategory.class, category_id));
     }
 
     @Override
@@ -45,14 +45,14 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
     }
 
     @Override
-    public Optional<CatalogCategory> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(CatalogCategory.class, id));
+    public Optional<CatalogCategory> findById(@NotNull UUID category_id) {
+        return Optional.ofNullable(em.find(CatalogCategory.class, category_id));
     }
 
     @Override
     public List<CatalogCategory> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCategory c ORDER BY :sort", CatalogCategory.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "category_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -63,29 +63,29 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
             Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCategory c WHERE c.title LIKE ':pattern' ORDER BY :sort", CatalogCategory.class)
                 .setParameter("pattern", Objects.requireNonNullElse(sort, "%"))
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "category_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Override
-    public List<CatalogCategory> findCategoryCategories(@NotNull UUID id, String sort, Integer offset,
+    public List<CatalogCategory> findCategoryCategories(@NotNull UUID category_id, String sort, Integer offset,
             Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCategory c WHERE c.parent_id = :category_id ORDER BY :sort", CatalogCategory.class)
-                .setParameter("category_id", id)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("category_id", category_id)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "category_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Override
-    public List<CatalogSkill> findCategorySkills(@NotNull UUID id, String sort, Integer offset,
+    public List<CatalogSkill> findCategorySkills(@NotNull UUID category_id, String sort, Integer offset,
             Integer limit) {
         return em.createQuery("SELECT s FROM CatalogSkill s WHERE s.category_id = :category_id ORDER BY :sort", CatalogSkill.class)
-                .setParameter("category_id", id)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("category_id", category_id)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "category_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -93,26 +93,22 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
-    public boolean insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-        return true;
+    public void insertCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id) {
     }
 
     @Override
     @Transactional
-    public boolean deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id) {
-        return true;
+    public void deleteCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id) {
     }
 
     @Override
     @Transactional
-    public boolean insertCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
-        return true;
+    public void insertCategorySkill(@NotNull UUID category_id, @NotNull UUID skill_id) {
     }
 
     @Override
     @Transactional
-    public boolean deleteCategorySkill(@NotNull UUID id, @NotNull UUID skill_id) {
-        return true;
+    public void deleteCategorySkill(@NotNull UUID category_id, @NotNull UUID skill_id) {
     }
     
     @Override

@@ -45,9 +45,6 @@ public class MemberAchievementsService {
     private SessionContext ctx;
 
     @Inject
-    private JsonWebToken jwt;
-
-    @Inject
     private MemberAchievementRepo repo;
 
     @Inject
@@ -62,65 +59,108 @@ public class MemberAchievementsService {
     @Inject
     private MemberAuthProvider auth;
 
+    /**
+     * Inserts a new member achievement.
+     *
+     * @param achievement The new achievement.
+     * @return The id of the new achievement.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
-        UUID id = repo.insert(achievement);
+        UUID achievement_id = repo.insert(achievement);
         evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(achievement.id))
-                        .add("user_id", String.valueOf(achievement.user_id))
-                        .add("state", achievement.state)
-                        .add("title", achievement.title)
-                        .add("note", achievement.note)
-                        .add("created_at", String.valueOf(achievement.createdAt))
-                        .build());
-        return id;
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
+            Json.createObjectBuilder()
+                .add("achievement_id", String.valueOf(achievement.achievement_id))
+                .add("user_id", String.valueOf(achievement.user_id))
+                .add("state", achievement.state)
+                .add("title", achievement.title)
+                .add("note", achievement.note)
+                .add("created_at", String.valueOf(achievement.created_at))
+                .add("updated_at", String.valueOf(achievement.updated_at))
+                .build());
+        return achievement_id;
     }
 
+    /**
+     * Deletes a member achievement given an id.
+     *
+     * @param achievement_id The requested achievement id.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID achievement_id) {
+        repo.delete(achievement_id);
         evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_ACHIEVEMENT_DELETED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(id))
-                        .build());
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_ACHIEVEMENT_DELETED,
+            Json.createObjectBuilder()
+                .add("achievement_id", String.valueOf(achievement_id))
+                .build());
     }
 
+    /**
+     * Updates an existing member achievement.
+     *
+     * @param achievement The updated achievement.
+     * @return The updated achievement.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement) {
         MemberAchievement updated = repo.update(achievement);
         evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(updated.id))
-                        .add("user_id", String.valueOf(updated.user_id))
-                        .add("state", updated.state)
-                        .add("title", updated.title)
-                        .add("note", updated.note)
-                        .add("created_at", String.valueOf(updated.createdAt))
-                        .add("updated_at", String.valueOf(updated.updatedAt))
-                        .build());
+            MemberEvent.MEMBER_EVENT_TOPIC,
+            MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
+            Json.createObjectBuilder()
+                .add("achievement_id", String.valueOf(updated.achievement_id))
+                .add("user_id", String.valueOf(updated.user_id))
+                .add("state", updated.state)
+                .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
+                .build());
         return updated;
     }
 
+    /**
+     * Returns a member achievement given an id.
+     *
+     * @param achievement_id The requested achievement id.
+     * @return An optional member achievement.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
-    public Optional<MemberAchievement> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<MemberAchievement> findById(@NotNull UUID achievement_id) {
+        return repo.findById(achievement_id);
     }
 
+    /**
+     * Returns a list of all member achievements.
+     *
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of member achievements.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
+    /**
+     * Returns a count of member achievements.
+     *
+     * @return The count.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();

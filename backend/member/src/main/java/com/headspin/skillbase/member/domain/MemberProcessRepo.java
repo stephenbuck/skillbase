@@ -11,11 +11,11 @@ public interface MemberProcessRepo {
 
     public UUID insert(@NotNull @Valid MemberProcess process);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID process_id);
 
     public MemberProcess update(@NotNull @Valid MemberProcess process);
 
-    public Optional<MemberProcess> findById(@NotNull UUID id);
+    public Optional<MemberProcess> findById(@NotNull UUID process_id);
 
     public List<MemberProcess> findAll(String sort, Integer offset, Integer limit);
 

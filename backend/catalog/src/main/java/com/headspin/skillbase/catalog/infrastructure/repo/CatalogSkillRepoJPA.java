@@ -30,13 +30,13 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     @Transactional
     public UUID insert(@NotNull @Valid CatalogSkill skill) {
         em.persist(skill);
-        return skill.id;
+        return skill.skill_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(CatalogSkill.class, id));
+    public void delete(@NotNull UUID skill_id) {
+        em.remove(em.find(CatalogSkill.class, skill_id));
     }
 
     @Override
@@ -46,14 +46,14 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
     }
 
     @Override
-    public Optional<CatalogSkill> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(CatalogSkill.class, id));
+    public Optional<CatalogSkill> findById(@NotNull UUID skill_id) {
+        return Optional.ofNullable(em.find(CatalogSkill.class, skill_id));
     }
 
     @Override
     public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT s FROM CatalogSkill s ORDER BY :sort", CatalogSkill.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -64,18 +64,18 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
             Integer limit) {
         return em.createQuery("SELECT s FROM CatalogSkill s WHERE s.title LIKE ':pattern' ORDER BY :sort", CatalogSkill.class)
                 .setParameter("pattern", Objects.requireNonNullElse(sort, "%"))
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Override
-    public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
+    public List<CatalogCredential> findSkillCredentials(@NotNull UUID skill_id, String sort, Integer offset,
             Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c WHERE c.skill_id = :skill_id ORDER BY :sort", CatalogCredential.class)
-                .setParameter("skill_id", id)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("skill_id", skill_id)
+                .setParameter("sort", Objects.requireNonNullElse(sort, "skill_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -83,14 +83,12 @@ public class CatalogSkillRepoJPA implements CatalogSkillRepo {
 
     @Override
     @Transactional
-    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        return true;
+    public void insertSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
     }
 
     @Override
     @Transactional
-    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id) {
-        return true;        
+    public void deleteSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id) {
     }
 
     @Override

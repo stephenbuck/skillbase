@@ -39,27 +39,27 @@ public class MemberAchievementsGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert member achievement")
+    @Description("Insert new member achievement")
     public UUID insert(@Name("achievement") MemberAchievement achievement) {
         return service.insert(achievement);
     }
 
     @Mutation("delete")
-    @Description("Delete member achievement")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete member achievement by id")
+    public void delete(@Name("achievement_id") UUID achievement_id) {
+        service.delete(achievement_id);
     }
 
     @Mutation("update")
-    @Description("Update member achievement")
+    @Description("Update existing member achievement")
     public void update(@Name("achievement") MemberAchievement achievement) {
         service.update(achievement);
     }
 
     @Query("findById")
-    @Description("Find member achievement by ID")
-    public MemberAchievement findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find member achievement by id")
+    public MemberAchievement findById(@Name("achievement_id") UUID achievement_id) {
+        return service.findById(achievement_id).orElse(null);
     }
 
     @Query("findAll")

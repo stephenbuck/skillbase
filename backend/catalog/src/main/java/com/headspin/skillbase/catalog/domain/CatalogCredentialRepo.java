@@ -11,11 +11,11 @@ public interface CatalogCredentialRepo {
 
     public UUID insert(@NotNull @Valid CatalogCredential credential);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID credential_id);
 
     public CatalogCredential update(@NotNull @Valid CatalogCredential credential);
 
-    public Optional<CatalogCredential> findById(@NotNull UUID id);
+    public Optional<CatalogCredential> findById(@NotNull UUID credential_id);
 
     public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit);
 

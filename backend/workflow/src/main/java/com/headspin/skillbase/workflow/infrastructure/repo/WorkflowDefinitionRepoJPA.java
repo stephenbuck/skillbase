@@ -36,13 +36,13 @@ public class WorkflowDefinitionRepoJPA implements WorkflowDefinitionRepo {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
         em.persist(definition);
-        return definition.id;
+        return definition.definition_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(WorkflowDefinition.class, id));
+    public void delete(@NotNull UUID definition_id) {
+        em.remove(em.find(WorkflowDefinition.class, definition_id));
     }
 
     @Override
@@ -52,8 +52,8 @@ public class WorkflowDefinitionRepoJPA implements WorkflowDefinitionRepo {
     }
 
     @Override
-    public Optional<WorkflowDefinition> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(WorkflowDefinition.class, id));
+    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id) {
+        return Optional.ofNullable(em.find(WorkflowDefinition.class, definition_id));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WorkflowDefinitionRepoJPA implements WorkflowDefinitionRepo {
     @Override
     public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT d FROM WorkflowDefinition d ORDER BY :sort", WorkflowDefinition.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();

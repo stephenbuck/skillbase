@@ -21,14 +21,11 @@ import jakarta.validation.constraints.NotNull;
 @Table(schema = "member", name = "process")
 public class MemberProcess extends DomainEntity {
 
-        @JsonbProperty("id")
-        @Column(name = "id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID id;
+        @JsonbProperty("process_id")
+        @Column(name = "process_id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID process_id;
 
         @JsonbProperty("user_id")
         @Column(name = "user_id") @NotNull public UUID user_id;
-
-        @JsonbProperty("process_id")
-        @Column(name = "process_id") public UUID process_id;
 
         @JsonbProperty("state")
         @Column(name = "state") public String state;
@@ -43,22 +40,21 @@ public class MemberProcess extends DomainEntity {
         @Column(name = "image") public byte[] image;
 
         @JsonbProperty("created_at")
-        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date createdAt;
+        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
 
         @JsonbProperty("updated_at")
-        @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) public Date updatedAt;
+        @Column(name = "updated_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date updated_at;
 
         @Override
         public String toString() {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("MemberProcess {\n");
-                stringBuilder.append("    id         = " + id + "\n");
-                stringBuilder.append("    user_id    = " + user_id + "\n");
                 stringBuilder.append("    process_id = " + process_id + "\n");
+                stringBuilder.append("    user_id    = " + user_id + "\n");
                 stringBuilder.append("    title      = " + title + "\n");
                 stringBuilder.append("    note       = " + note + "\n");
-                stringBuilder.append("    createdAt  = " + createdAt + "\n");
-                stringBuilder.append("    updatedAt  = " + updatedAt + "\n");
+                stringBuilder.append("    created_at = " + created_at + "\n");
+                stringBuilder.append("    updated_at = " + updated_at + "\n");
                 stringBuilder.append("}\n");
                 return stringBuilder.toString();
         }

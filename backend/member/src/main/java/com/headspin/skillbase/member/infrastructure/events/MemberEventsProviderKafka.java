@@ -175,7 +175,7 @@ public class MemberEventsProviderKafka implements MemberEventsProvider {
                 MemberEvent.MEMBER_EVENT_TOPIC,
                 MemberEvent.MEMBER_USER_DELETED,
                 Json.createObjectBuilder()
-                        .add("id", String.valueOf(UUID.randomUUID()))
+                        .add("user_id", String.valueOf(UUID.randomUUID()))
                         .build());
     }
 

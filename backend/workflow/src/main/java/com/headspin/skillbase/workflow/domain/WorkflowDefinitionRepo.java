@@ -18,11 +18,11 @@ import jakarta.validation.constraints.NotNull;
 
     public UUID insert(@NotNull @Valid WorkflowDefinition definition);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID definition_id);
 
     public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition);
 
-    public Optional<WorkflowDefinition> findById(@NotNull UUID id);
+    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id);
 
     public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id);
 

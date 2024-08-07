@@ -47,22 +47,22 @@ public class WorkflowDefinitionsREST {
     }
     
     @PUT
-    @Operation(summary = "Insert workflow definition")
+    @Operation(summary = "Insert new workflow definition")
     public Response insert(WorkflowDefinition definition) {
-        UUID id = service.insert(definition);
-        return Response.ok(URI.create("/definitions/" + id)).build();
+        UUID definition_id = service.insert(definition);
+        return Response.ok(URI.create("/definitions/" + definition_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete workflow definition")
-    public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{definition_id}")
+    @Operation(summary = "Delete workflow definition by id")
+    public Response delete(@PathParam("definition_id") UUID definition_id) {
+        service.delete(definition_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update workflow definition")
+    @Operation(summary = "Update existing workflow definition")
     public Response update(WorkflowDefinition definition) {
         return Response.ok(service.update(definition)).build();
     }
@@ -74,10 +74,10 @@ public class WorkflowDefinitionsREST {
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find workflow definition by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<WorkflowDefinition> match = service.findById(id);
+    @Path("{definition_id}")
+    @Operation(summary = "Find workflow definition by id")
+    public Response findById(@PathParam("definition_id") UUID definition_id) {
+        Optional<WorkflowDefinition> match = service.findById(definition_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {

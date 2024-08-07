@@ -64,15 +64,22 @@ public class MemberUsersService {
     @Inject
     private MemberAuthProvider auth;
 
+    /**
+     * Inserts a new member user.
+     *
+     * @param user The new user.
+     * @return The id of the new user.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
-        UUID id = repo.insert(user);
+        UUID user_id = repo.insert(user);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_USER_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(user.id))
+                .add("user_id", String.valueOf(user.user_id))
                 .add("is_enabled", user.is_enabled)
                 .add("user_name", user.user_name)
                 .add("first_name", user.first_name)
@@ -80,23 +87,37 @@ public class MemberUsersService {
                 .add("email", user.email)
                 .add("phone", user.phone)
                 .add("note", user.note)
-                .add("created_at", String.valueOf(user.createdAt))
+                .add("created_at", String.valueOf(user.created_at))
+                .add("updated_at", String.valueOf(user.updated_at))
                 .build());
-        return id;
+        return user_id;
     }
 
+    /**
+     * Deletes a member user given an id.
+     *
+     * @param user_id The requested user id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID user_id) {
+        repo.delete(user_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_USER_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("user_id", String.valueOf(user_id))
                 .build());
     }
 
+    /**
+     * Updates an existing member user.
+     *
+     * @param user The updated user.
+     * @return The updated user.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberUser update(@NotNull @Valid MemberUser user) {
@@ -105,7 +126,7 @@ public class MemberUsersService {
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_USER_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
+                .add("user_id", String.valueOf(updated.user_id))
                 .add("is_enabled", updated.is_enabled)
                 .add("user_name", updated.user_name)
                 .add("first_name", updated.first_name)
@@ -113,45 +134,102 @@ public class MemberUsersService {
                 .add("email", updated.email)
                 .add("phone", updated.phone)
                 .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
 
-//    @RolesAllowed({ "Admin" })
-    public Optional<MemberUser> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    /**
+     * Returns a member user given an id.
+     *
+     * @param user_id The requested user id.
+     * @return An optional member user.
+     * @since 1.0
+     */
+    //    @RolesAllowed({ "Admin" })
+    public Optional<MemberUser> findById(@NotNull UUID user_id) {
+        return repo.findById(user_id);
     }
 
+    /**
+     * Returns a list of all member users.
+     *
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of member users.
+     * @since 1.0
+     */
     //    @RolesAllowed({ "Admin" })
     public List<MemberUser> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
-
+    /**
+     * Returns a list of all achievements for a member user.
+     *
+     * @param user_id The requested user id.
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of member achievements.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
-    public List<MemberAchievement> findUserAchievements(@NotNull UUID id, String sort, Integer offset, Integer limit) {
-        return repo.findUserAchievements(id, sort, offset, limit);
+    public List<MemberAchievement> findUserAchievements(@NotNull UUID user_id, String sort, Integer offset, Integer limit) {
+        return repo.findUserAchievements(user_id, sort, offset, limit);
     }
 
+    /**
+     * Returns a list of all groups for a member user.
+     *
+     * @param user_id The requested user id.
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of member groups.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
-    public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit) {
-        return repo.findUserGroups(id, sort, offset, limit);
+    public List<MemberGroup> findUserGroups(@NotNull UUID user_id, String sort, Integer offset, Integer limit) {
+        return repo.findUserGroups(user_id, sort, offset, limit);
     }
 
+    /**
+     * Inserts an achievement given a member user id.
+     *
+     * @param user_id The requested user id.
+     * @param achievement_id The requested achievement id.
+     * @return TBD
+     * @since 1.0
+     */
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public UUID insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        return repo.insertUserAchievement(id, achievement_id);
+    public void insertUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id) {
+        repo.insertUserAchievement(user_id, achievement_id);
     }
 
+    /**
+     * Deletes an achievement given a member user id.
+     *
+     * @param user_id The requested user id.
+     * @param achievement_id The requested achievement id.
+     * @return TBD
+     * @since 1.0
+     */
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        repo.deleteUserAchievement(id, achievement_id);
+    public void deleteUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id) {
+        repo.deleteUserAchievement(user_id, achievement_id);
     }
 
+    /**
+     * Returns a count of member users.
+     *
+     * @return The count.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();

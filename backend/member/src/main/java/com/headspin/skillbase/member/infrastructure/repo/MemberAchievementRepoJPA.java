@@ -29,13 +29,13 @@ public class MemberAchievementRepoJPA implements MemberAchievementRepo {
     @Transactional
     public UUID insert(@NotNull @Valid MemberAchievement achievement) {
         em.persist(achievement);
-        return achievement.id;
+        return achievement.achievement_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(MemberAchievement.class, id));
+    public void delete(@NotNull UUID achievement_id) {
+        em.remove(em.find(MemberAchievement.class, achievement_id));
     }
 
     @Override
@@ -45,14 +45,14 @@ public class MemberAchievementRepoJPA implements MemberAchievementRepo {
     }
 
     @Override
-    public Optional<MemberAchievement> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(MemberAchievement.class, id));
+    public Optional<MemberAchievement> findById(@NotNull UUID achievement_id) {
+        return Optional.ofNullable(em.find(MemberAchievement.class, achievement_id));
     }
 
     @Override
     public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT a FROM MemberAchievement a ORDER BY :sort", MemberAchievement.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "achievement_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();

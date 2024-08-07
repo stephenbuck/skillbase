@@ -55,37 +55,57 @@ public class WorkflowDeploymentsService {
     @Inject
     private WorkflowEngineProvider work;
 
+    /**
+     * Inserts a new workflow deployment.
+     *
+     * @param deployment The new deployment.
+     * @return The id of the new deployment.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment) {
-        UUID id = repo.insert(deployment);
+        UUID deployment_id = repo.insert(deployment);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(deployment.id))
-                .add("title", deployment.title)
+                .add("deployment_id", String.valueOf(deployment.deployment_id))
                 .add("skill_id", String.valueOf(deployment.skill_id))
                 .add("state", deployment.state)
                 .add("title", deployment.title)
                 .add("note", deployment.note)
-                .add("created_at", String.valueOf(deployment.createdAt))
+                .add("created_at", String.valueOf(deployment.created_at))
+                .add("updated_at", String.valueOf(deployment.updated_at))
                 .build());
-        return id;
+        return deployment_id;
     }
 
+    /**
+     * Deletes a workflow deployment given an id.
+     *
+     * @param deployment_id The requested deployment id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID deployment_id) {
+        repo.delete(deployment_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("deployment_id", String.valueOf(deployment_id))
                 .build());
     }
 
+    /**
+     * Updates an existing workflow deployment.
+     *
+     * @param deployment The updated deployment.
+     * @return The updated deployment.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment) {
@@ -94,14 +114,13 @@ public class WorkflowDeploymentsService {
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
-                .add("title", updated.title)
+                .add("deployment_id", String.valueOf(updated.deployment_id))
                 .add("skill_id", String.valueOf(updated.skill_id))
                 .add("state", updated.state)
                 .add("title", updated.title)
                 .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
@@ -109,20 +128,20 @@ public class WorkflowDeploymentsService {
     /**
      * Returns a workflow deployment given an id.
      *
-     * @param id Requested deployment id.
-     * @return An optional workflow process.
+     * @param deployment_id Requested deployment id.
+     * @return An optional workflow deployment.
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<WorkflowDeployment> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<WorkflowDeployment> findById(@NotNull UUID deployment_id) {
+        return repo.findById(deployment_id);
     }
 
     /**
-     * Returns a workflow deployment given an id.
+     * Returns a workflow deployment given a skill id.
      *
-     * @param id Requested deployment id.
-     * @return An optional workflow process.
+     * @param skill_id The requested skill id.
+     * @return An optional workflow deployment.
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
@@ -136,7 +155,7 @@ public class WorkflowDeploymentsService {
      * @param sort Sort field.
      * @param offset Offset of first result.
      * @param limit Limit of results returned.
-     * @return A list of workflow processes.
+     * @return A list of workflow deployments.
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })

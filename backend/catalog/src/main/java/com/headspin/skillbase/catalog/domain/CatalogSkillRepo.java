@@ -11,23 +11,23 @@ public interface CatalogSkillRepo {
 
     public UUID insert(@NotNull @Valid CatalogSkill skill);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID skill_id);
 
     public CatalogSkill update(@NotNull @Valid CatalogSkill skill);
 
-    public Optional<CatalogSkill> findById(@NotNull UUID id);
+    public Optional<CatalogSkill> findById(@NotNull UUID skill_id);
 
     public List<CatalogSkill> findAll(String sort, Integer offset, Integer limit);
 
     public List<CatalogSkill> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
-    public List<CatalogCredential> findSkillCredentials(@NotNull UUID id, String sort, Integer offset,
+    public List<CatalogCredential> findSkillCredentials(@NotNull UUID skill_id, String sort, Integer offset,
             Integer limit);
 
-    public boolean insertSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+    public void insertSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id);
 
-    public boolean deleteSkillCredential(@NotNull UUID id, @NotNull UUID credential_id);
+    public void deleteSkillCredential(@NotNull UUID skill_id, @NotNull UUID credential_id);
 
     public Long count();
 }

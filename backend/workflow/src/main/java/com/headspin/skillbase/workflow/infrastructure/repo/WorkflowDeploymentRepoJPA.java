@@ -36,13 +36,13 @@ public class WorkflowDeploymentRepoJPA implements WorkflowDeploymentRepo {
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment) {
         em.persist(deployment);
-        return deployment.id;
+        return deployment.deployment_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(WorkflowDeployment.class, id));
+    public void delete(@NotNull UUID deployment_id) {
+        em.remove(em.find(WorkflowDeployment.class, deployment_id));
     }
 
     @Override
@@ -52,8 +52,8 @@ public class WorkflowDeploymentRepoJPA implements WorkflowDeploymentRepo {
     }
 
     @Override
-    public Optional<WorkflowDeployment> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(WorkflowDeployment.class, id));
+    public Optional<WorkflowDeployment> findById(@NotNull UUID deployment_id) {
+        return Optional.ofNullable(em.find(WorkflowDeployment.class, deployment_id));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WorkflowDeploymentRepoJPA implements WorkflowDeploymentRepo {
     @Override
     public List<WorkflowDeployment> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT d FROM WorkflowDeployment d ORDER BY :sort", WorkflowDeployment.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "deployment_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();

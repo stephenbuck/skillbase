@@ -47,37 +47,37 @@ public class MemberAchievementsREST {
     }
 
     @PUT
-    @Operation(summary = "Insert member achievement")
+    @Operation(summary = "Insert new member achievement")
     public Response insert(MemberAchievement achievement) {
-        UUID id = service.insert(achievement);
-        return Response.ok(URI.create("/achievements/" + id)).build();
+        UUID achievement_id = service.insert(achievement);
+        return Response.ok(URI.create("/achievements/" + achievement_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete member achievement")
-    public Response deleteById(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{achievement_id}")
+    @Operation(summary = "Delete member achievement by id")
+    public Response deleteById(@PathParam("achievement_id") UUID achievement_id) {
+        service.delete(achievement_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update member achievment")
+    @Operation(summary = "Update existing member achievement")
     public Response update(MemberAchievement achievement) {
         return Response.ok(service.update(achievement)).build();
     }
 
     @GET
-    @Operation(summary = "Find all member achievments")
+    @Operation(summary = "Find all member achievements")
     public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find member achievment by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<MemberAchievement> match = service.findById(id);
+    @Path("{achievement_id}")
+    @Operation(summary = "Find member achievement by id")
+    public Response findById(@PathParam("achievement_id") UUID achievement_id) {
+        Optional<MemberAchievement> match = service.findById(achievement_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {

@@ -55,70 +55,90 @@ public class WorkflowInstancesService {
     @Inject
     private WorkflowEngineProvider work;
 
+    /**
+     * Inserts a new workflow instance.
+     *
+     * @param instance The new instance.
+     * @return The id of the new instance.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowInstance instance) {
-        UUID id = repo.insert(instance);
+        UUID instance_id = repo.insert(instance);
         evnt.produce(
-                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-                WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
-                Json.createObjectBuilder()
-                    .add("id", String.valueOf(instance.id))
-                    .add("definition_id", String.valueOf(instance.definition_id))
-                    .add("user_id", String.valueOf(instance.user_id))
-                    .add("is_test", instance.is_test)
-                    .add("state", instance.state)
-                    .add("title", instance.title)
-                    .add("note", instance.note)
-                    .add("created_at", String.valueOf(instance.createdAt))
-                    .add("updated_at", String.valueOf(instance.updatedAt))
-                    .build());
-        return id;
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
+            Json.createObjectBuilder()
+                .add("instance_id", String.valueOf(instance.instance_id))
+                .add("definition_id", String.valueOf(instance.definition_id))
+                .add("user_id", String.valueOf(instance.user_id))
+                .add("is_test", instance.is_test)
+                .add("state", instance.state)
+                .add("title", instance.title)
+                .add("note", instance.note)
+                .add("created_at", String.valueOf(instance.created_at))
+                .add("updated_at", String.valueOf(instance.updated_at))
+                .build());
+        return instance_id;
     }
 
+    /**
+     * Deletes a workflow instance given an id.
+     *
+     * @param instance_id The requested instance id.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID instance_id) {
+        repo.delete(instance_id);
         evnt.produce(
-                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-                WorkflowEvent.WORKFLOW_INSTANCE_DELETED,
-                Json.createObjectBuilder()
-                        .add("id", String.valueOf(id))
-                        .build());
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_INSTANCE_DELETED,
+            Json.createObjectBuilder()
+                .add("instance_id", String.valueOf(instance_id))
+                .build());
     }
 
+    /**
+     * Updates an existing workflow instance.
+     *
+     * @param instance The updated instance.
+     * @return The updated instance.
+     * @since 1.0
+     */
     // @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
         WorkflowInstance updated = repo.update(instance);
         evnt.produce(
-                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-                WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
-                Json.createObjectBuilder()
-                    .add("id", String.valueOf(updated.id))
-                    .add("definition_id", String.valueOf(updated.definition_id))
-                    .add("user_id", String.valueOf(updated.user_id))
-                    .add("is_test", updated.is_test)
-                    .add("state", updated.state)
-                    .add("title", updated.title)
-                    .add("note", updated.note)
-                    .add("created_at", String.valueOf(updated.createdAt))
-                    .add("updated_at", String.valueOf(updated.updatedAt))
-                    .build());
-    return updated;
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
+            Json.createObjectBuilder()
+                .add("instance_id", String.valueOf(updated.instance_id))
+                .add("definition_id", String.valueOf(updated.definition_id))
+                .add("user_id", String.valueOf(updated.user_id))
+                .add("is_test", updated.is_test)
+                .add("state", updated.state)
+                .add("title", updated.title)
+                .add("note", updated.note)
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
+                .build());
+        return updated;
     }
 
     /**
      * Returns a workflow instance given an id.
      *
-     * @param id Requested instance id.
+     * @param instance_id The requested instance id.
      * @return An optional workflow instance.
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public Optional<WorkflowInstance> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<WorkflowInstance> findById(@NotNull UUID instance_id) {
+        return repo.findById(instance_id);
     }
 
     /**
@@ -138,6 +158,8 @@ public class WorkflowInstancesService {
     /**
      * Starts a workflow instance for a specified instance and user.
      *
+     * @param definition_id The requested definition id.
+     * @param user_id The requested user id.
      * @return The id of the workflow instance.
      * @since 1.0
      */

@@ -47,22 +47,22 @@ public class WorkflowInstancesREST {
     }
 
     @PUT
-    @Operation(summary = "Insert workflow instance")
+    @Operation(summary = "Insert new workflow instance")
     public Response insert(WorkflowInstance instance) {
-        UUID id = service.insert(instance);
-        return Response.ok(URI.create("/instances/" + id)).build();
+        UUID instance_id = service.insert(instance);
+        return Response.ok(URI.create("/instances/" + instance_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete workflow instance")
-    public Response deleteById(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{instance_id}")
+    @Operation(summary = "Delete workflow instance by id")
+    public Response deleteById(@PathParam("instance_id") UUID instance_id) {
+        service.delete(instance_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update workflow instance")
+    @Operation(summary = "Update existing workflow instance")
     public Response update(WorkflowInstance instance) {
         return Response.ok(service.update(instance)).build();
     }
@@ -74,10 +74,10 @@ public class WorkflowInstancesREST {
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find workflow instance by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<WorkflowInstance> match = service.findById(id);
+    @Path("{instance_id}")
+    @Operation(summary = "Find workflow instance by id")
+    public Response findById(@PathParam("instance_id") UUID instance_id) {
+        Optional<WorkflowInstance> match = service.findById(instance_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
         } else {

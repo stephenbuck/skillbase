@@ -29,13 +29,13 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
     @Transactional
     public UUID insert(@NotNull @Valid CatalogCredential credential) {
         em.persist(credential);
-        return credential.id;
+        return credential.credential_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(CatalogCredential.class, id));
+    public void delete(@NotNull UUID credential_id) {
+        em.remove(em.find(CatalogCredential.class, credential_id));
     }
 
     @Override
@@ -45,14 +45,14 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
     }
 
     @Override
-    public Optional<CatalogCredential> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(CatalogCredential.class, id));
+    public Optional<CatalogCredential> findById(@NotNull UUID credential_id) {
+        return Optional.ofNullable(em.find(CatalogCredential.class, credential_id));
     }
 
     @Override
     public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c ORDER BY :sort", CatalogCredential.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
@@ -63,7 +63,7 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
             Integer limit) {
         return em.createQuery("SELECT c FROM CatalogCredential c WHERE c.title LIKE ':pattern' ORDER BY :sort", CatalogCredential.class)
                 .setParameter("pattern", Objects.requireNonNullElse(sort, "%"))
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();

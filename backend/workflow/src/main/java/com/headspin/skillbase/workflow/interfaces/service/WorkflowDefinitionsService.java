@@ -55,36 +55,57 @@ public class WorkflowDefinitionsService {
     @Inject
     private WorkflowEngineProvider work;
 
+    /**
+     * Inserts a new workflow definition.
+     *
+     * @param definition The new definition.
+     * @return The id of the new definition.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
-        UUID id = repo.insert(definition);
+        UUID definition_id = repo.insert(definition);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(definition.id))
+                .add("definition_id", String.valueOf(definition.definition_id))
                 .add("deployment_id", String.valueOf(definition.deployment_id))
                 .add("credential_id", String.valueOf(definition.credential_id))
                 .add("title", definition.title)
                 .add("note", definition.note)
-                .add("created_at", String.valueOf(definition.createdAt))
+                .add("created_at", String.valueOf(definition.created_at))
+                .add("updated_at", String.valueOf(definition.updated_at))
                 .build());
-        return id;
+        return definition_id;
     }
 
+    /**
+     * Deletes a workflow definition given an id.
+     *
+     * @param definition_id The requested definition id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID definition_id) {
+        repo.delete(definition_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("definition_id", String.valueOf(definition_id))
                 .build());
     }
 
+    /**
+     * Updates an existing workflow definition.
+     *
+     * @param instance The updated definition.
+     * @return The updated definition.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
@@ -93,13 +114,13 @@ public class WorkflowDefinitionsService {
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
+                .add("definition_id", String.valueOf(updated.definition_id))
                 .add("deployment_id", String.valueOf(updated.deployment_id))
                 .add("credential_id", String.valueOf(updated.credential_id))
                 .add("title", updated.title)
                 .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
@@ -107,19 +128,19 @@ public class WorkflowDefinitionsService {
     /**
      * Returns a workflow definition given an id.
      *
-     * @param id Requested definition id.
+     * @param definition_id The requested definition id.
      * @return An optional workflow definition.
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<WorkflowDefinition> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id) {
+        return repo.findById(definition_id);
     }
 
     /**
-     * Returns a workflow definition given an id.
+     * Returns a workflow definition given a credential id.
      *
-     * @param id Requested definition id.
+     * @param credential_id The requested credential id.
      * @return An optional workflow definition.
      * @since 1.0
      */

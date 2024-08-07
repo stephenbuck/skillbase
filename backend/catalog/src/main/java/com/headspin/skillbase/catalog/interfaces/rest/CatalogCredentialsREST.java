@@ -47,22 +47,22 @@ public class CatalogCredentialsREST {
     }
     
     @PUT
-    @Operation(summary = "Insert catalog skill credential")
+    @Operation(summary = "Insert new catalog skill credential")
     public Response insert(CatalogCredential credential) {
-        UUID id = service.insert(credential);
-        return Response.ok(URI.create("/credentials/" + id)).build();
+        UUID credential_id = service.insert(credential);
+        return Response.ok(URI.create("/credentials/" + credential_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete catalog skill credential")
-    public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{credential_id}")
+    @Operation(summary = "Delete catalog skill credential by id")
+    public Response delete(@PathParam("credential_id") UUID credential_id) {
+        service.delete(credential_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update catalog skill credential")
+    @Operation(summary = "Update existing catalog skill credential")
     public Response update(CatalogCredential credential) {
         return Response.ok(service.update(credential)).build();
     }
@@ -74,10 +74,10 @@ public class CatalogCredentialsREST {
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find catalog skill credential by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<CatalogCredential> match = service.findById(id);
+    @Path("{credential_id}")
+    @Operation(summary = "Find catalog skill credential by id")
+    public Response findById(@PathParam("credential_id") UUID credential_id) {
+        Optional<CatalogCredential> match = service.findById(credential_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {
@@ -86,10 +86,10 @@ public class CatalogCredentialsREST {
     }
 
     @POST
-    @Path("{id}/start")
+    @Path("{credential_id}/start")
     @Operation(summary = "start")
-    public Response start(@PathParam("id") UUID id) {
-        return Response.ok(service.start(id)).build();
+    public Response start(@PathParam("credential_id") UUID credential_id) {
+        return Response.ok(service.start(credential_id)).build();
     }
 
     @GET

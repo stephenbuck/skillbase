@@ -18,11 +18,11 @@ import jakarta.validation.constraints.NotNull;
 
     public UUID insert(@NotNull @Valid WorkflowInstance instance);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID instance_id);
 
     public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance);
 
-    public Optional<WorkflowInstance> findById(@NotNull UUID id);
+    public Optional<WorkflowInstance> findById(@NotNull UUID instance_id);
 
     public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit);
 

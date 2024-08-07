@@ -11,11 +11,11 @@ public interface MemberAchievementRepo {
 
     public UUID insert(@NotNull @Valid MemberAchievement achievement);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID achievement_id);
 
     public MemberAchievement update(@NotNull @Valid MemberAchievement achievement);
 
-    public Optional<MemberAchievement> findById(@NotNull UUID id);
+    public Optional<MemberAchievement> findById(@NotNull UUID achievement_id);
 
     public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit);
 

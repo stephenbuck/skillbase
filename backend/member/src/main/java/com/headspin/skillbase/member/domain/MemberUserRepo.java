@@ -11,21 +11,21 @@ public interface MemberUserRepo {
 
     public UUID insert(@NotNull @Valid MemberUser user);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID user_id);
 
     public MemberUser update(@NotNull @Valid MemberUser user);
 
-    public Optional<MemberUser> findById(@NotNull UUID id);
+    public Optional<MemberUser> findById(@NotNull UUID user_id);
 
     public List<MemberUser> findAll(String sort, Integer offset, Integer limit);
 
-    public List<MemberAchievement> findUserAchievements(@NotNull UUID id, String sort, Integer offset, Integer limit);
+    public List<MemberAchievement> findUserAchievements(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
 
-    public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit);
+    public List<MemberGroup> findUserGroups(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
 
-    public UUID insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
+    public void insertUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
 
-    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id);
+    public void deleteUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
 
     public Long count();
 }

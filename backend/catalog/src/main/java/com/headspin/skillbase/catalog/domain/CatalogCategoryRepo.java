@@ -11,28 +11,28 @@ public interface CatalogCategoryRepo {
 
     public UUID insert(@NotNull @Valid CatalogCategory category);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID category_id);
 
     public CatalogCategory update(@NotNull @Valid CatalogCategory category);
 
-    public Optional<CatalogCategory> findById(@NotNull UUID id);
+    public Optional<CatalogCategory> findById(@NotNull UUID category_id);
 
     public List<CatalogCategory> findAll(String sort, Integer offset, Integer limit);
 
     public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
-    public List<CatalogCategory> findCategoryCategories(@NotNull UUID id, String sort, Integer offset, Integer limit);
+    public List<CatalogCategory> findCategoryCategories(@NotNull UUID category_id, String sort, Integer offset, Integer limit);
 
-    public List<CatalogSkill> findCategorySkills(@NotNull UUID id, String sort, Integer offset, Integer limit);
+    public List<CatalogSkill> findCategorySkills(@NotNull UUID category_id, String sort, Integer offset, Integer limit);
 
-    public boolean insertCategoryCategory(@NotNull UUID id, @NotNull UUID category_id);
+    public void insertCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id);
 
-    public boolean deleteCategoryCategory(@NotNull UUID id, @NotNull UUID category_id);
+    public void deleteCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id);
 
-    public boolean insertCategorySkill(@NotNull UUID id, @NotNull UUID skill_id);
+    public void insertCategorySkill(@NotNull UUID category_id, @NotNull UUID skill_id);
 
-    public boolean deleteCategorySkill(@NotNull UUID id, @NotNull UUID skill_id);
+    public void deleteCategorySkill(@NotNull UUID category_id, @NotNull UUID skill_id);
 
     public Long count();
 }

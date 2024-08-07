@@ -31,13 +31,13 @@ public class MemberUserRepoJPA implements MemberUserRepo {
     @Transactional
     public UUID insert(@NotNull @Valid MemberUser user) {
         em.persist(user);
-        return user.id;
+        return user.user_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID id) {
-        em.remove(em.find(MemberUser.class, id));
+    public void delete(@NotNull UUID user_id) {
+        em.remove(em.find(MemberUser.class, user_id));
     }
 
     @Override
@@ -47,44 +47,43 @@ public class MemberUserRepoJPA implements MemberUserRepo {
     }
 
     @Override
-    public Optional<MemberUser> findById(@NotNull UUID id) {
-        return Optional.ofNullable(em.find(MemberUser.class, id));
+    public Optional<MemberUser> findById(@NotNull UUID user_id) {
+        return Optional.ofNullable(em.find(MemberUser.class, user_id));
     }
 
     @Override
     public List<MemberUser> findAll(String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT u FROM MemberUser u ORDER BY :sort", MemberUser.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "user_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Override
-    public List<MemberAchievement> findUserAchievements(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+    public List<MemberAchievement> findUserAchievements(@NotNull UUID user_id, String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT a FROM MemberAchievement a ORDER BY :sort", MemberAchievement.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "user_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Override
-    public List<MemberGroup> findUserGroups(@NotNull UUID id, String sort, Integer offset, Integer limit) {
+    public List<MemberGroup> findUserGroups(@NotNull UUID user_id, String sort, Integer offset, Integer limit) {
         return em.createQuery("SELECT g FROM MemberGroup g ORDER BY :sort", MemberGroup.class)
-                .setParameter("sort", Objects.requireNonNullElse(sort, "id"))
+                .setParameter("sort", Objects.requireNonNullElse(sort, "user_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))
                 .setMaxResults(Objects.requireNonNullElse(limit, 10))
                 .getResultList();
     }
 
     @Transactional
-    public UUID insertUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
-        return null;
+    public void insertUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id) {
     }
 
     @Transactional
-    public void deleteUserAchievement(@NotNull UUID id, @NotNull UUID achievement_id) {
+    public void deleteUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id) {
     }
 
     @Override

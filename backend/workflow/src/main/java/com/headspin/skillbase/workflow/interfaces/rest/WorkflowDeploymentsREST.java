@@ -47,22 +47,22 @@ public class WorkflowDeploymentsREST {
     }
     
     @PUT
-    @Operation(summary = "Insert workflow deployment")
+    @Operation(summary = "Insert new workflow deployment")
     public Response insert(WorkflowDeployment deployment) {
-        UUID id = service.insert(deployment);
-        return Response.ok(URI.create("/deployments/" + id)).build();
+        UUID deployment_id = service.insert(deployment);
+        return Response.ok(URI.create("/deployments/" + deployment_id)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    @Operation(summary = "Delete workflow deployment")
-    public Response delete(@PathParam("id") UUID id) {
-        service.delete(id);
+    @Path("{deployment_id}")
+    @Operation(summary = "Delete workflow deployment by id")
+    public Response delete(@PathParam("deployment_id") UUID deployment_id) {
+        service.delete(deployment_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update workflow deployment")
+    @Operation(summary = "Update existing workflow deployment")
     public Response update(WorkflowDeployment deployment) {
         return Response.ok(service.update(deployment)).build();
     }
@@ -74,10 +74,10 @@ public class WorkflowDeploymentsREST {
     }
 
     @GET
-    @Path("{id}")
-    @Operation(summary = "Find workflow deployment by ID")
-    public Response findById(@PathParam("id") UUID id) {
-        Optional<WorkflowDeployment> match = service.findById(id);
+    @Path("{deployment_id}")
+    @Operation(summary = "Find workflow deployment by id")
+    public Response findById(@PathParam("deployment_id") UUID deployment_id) {
+        Optional<WorkflowDeployment> match = service.findById(deployment_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {

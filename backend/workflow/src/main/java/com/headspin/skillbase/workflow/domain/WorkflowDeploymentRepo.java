@@ -18,11 +18,11 @@ public interface WorkflowDeploymentRepo {
 
     public UUID insert(@NotNull @Valid WorkflowDeployment deployment);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID deployment_id);
 
     public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment);
 
-    public Optional<WorkflowDeployment> findById(@NotNull UUID id);
+    public Optional<WorkflowDeployment> findById(@NotNull UUID deployment_id);
 
     public Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id);
 

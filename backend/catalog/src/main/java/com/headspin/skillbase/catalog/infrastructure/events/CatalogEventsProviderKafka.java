@@ -159,6 +159,7 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
                             listener.onCloudEvent(record.topic(), record.value());
                         }
                     }
+
                 } catch (Exception e) {
                     log.info(String.valueOf(e));
                 }
@@ -173,9 +174,9 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
         log.info("test:");
         produce(
                 CatalogEvent.CATALOG_EVENT_TOPIC,
-                CatalogEvent.CATALOG_CATEGORY_DELETED,
+                CatalogEvent.CATALOG_SKILL_DELETED,
                 Json.createObjectBuilder()
-                        .add("id", String.valueOf(UUID.randomUUID()))
+                        .add("skill_id", String.valueOf(UUID.randomUUID()))
                         .build());
     }
 

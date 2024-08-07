@@ -43,8 +43,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "definition_id": "<definition_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_DEFINITION_CREATED = "com.headspin.skillbase.workflow.definition.created";
@@ -54,7 +57,7 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "definition_id": "<definition_id>"
      *     }
      */
     public static final String WORKFLOW_DEFINITION_DELETED = "com.headspin.skillbase.workflow.definition.deleted";
@@ -64,8 +67,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "definition_id": "<definition_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_DEFINITION_UPDATED = "com.headspin.skillbase.workflow.definition.updated";
@@ -76,8 +82,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "deployment_id": "<deployment_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_DEPLOYMENT_CREATED = "com.headspin.skillbase.workflow.deployment.created";
@@ -87,7 +96,7 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "deployment_id": "<deployment_id>"
      *     }
      */
     public static final String WORKFLOW_DEPLOYMENT_DELETED = "com.headspin.skillbase.workflow.deployment.deleted";
@@ -97,8 +106,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "deployment_id": "<deployment_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_DEPLOYMENT_UPDATED = "com.headspin.skillbase.workflow.deployment.updated";
@@ -109,8 +121,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "instance_id": "<instance_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_INSTANCE_CREATED = "com.headspin.skillbase.workflow.instance.created";
@@ -120,7 +135,7 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "instance_id": "<instance_id>"
      *     }
      */
     public static final String WORKFLOW_INSTANCE_DELETED = "com.headspin.skillbase.workflow.instance.deleted";
@@ -130,8 +145,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "instance_id": "<instance_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_INSTANCE_UPDATED = "com.headspin.skillbase.workflow.instance.updated";
@@ -149,8 +167,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "task_id": "<task_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_TASK_CREATED = "com.headspin.skillbase.workflow.task.created";
@@ -160,7 +181,7 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>"
+     *         "task_id": "<task_id>"
      *     }
      */
     public static final String WORKFLOW_TASK_DELETED = "com.headspin.skillbase.workflow.task.deleted";
@@ -170,8 +191,11 @@ public class WorkflowEvent extends SkillbaseEvent {
      * following format:
      * 
      *     {
-     *         "id": "<id>",
-     *         "title": "<title>"
+     *         "task_id": "<task_id>",
+     *         "title": "<title>",
+     *         "note": "<note>",
+     *         "created_at": "<created_at>",
+     *         "updated_at": "<updated_at>"
      *     }
      */
     public static final String WORKFLOW_TASK_UPDATED = "com.headspin.skillbase.workflow.task.updated";

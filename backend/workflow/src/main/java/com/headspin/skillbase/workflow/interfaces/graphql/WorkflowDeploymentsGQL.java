@@ -39,27 +39,27 @@ public class WorkflowDeploymentsGQL {
     }
     
     @Mutation("insert")
-    @Description("Insert workflow deployment")
+    @Description("Insert new workflow deployment")
     public UUID insert(@Name("deployment") WorkflowDeployment deployment) {
         return service.insert(deployment);
     }
 
     @Mutation("delete")
-    @Description("Delete workflow deployment")
-    public void delete(@Name("id") UUID id) {
-        service.delete(id);
+    @Description("Delete workflow deployment by id")
+    public void delete(@Name("deployment_id") UUID deployment_id) {
+        service.delete(deployment_id);
     }
 
     @Mutation("update")
-    @Description("Update workflow deployment")
+    @Description("Update existing workflow deployment")
     public void update(@Name("deployment") WorkflowDeployment deployment) {
         service.update(deployment);
     }
 
     @Query("findById")
-    @Description("Find workflow deployment by ID")
-    public WorkflowDeployment findById(@Name("id") UUID id) {
-        return service.findById(id).orElse(null);
+    @Description("Find workflow deployment by id")
+    public WorkflowDeployment findById(@Name("deployment_id") UUID deployment_id) {
+        return service.findById(deployment_id).orElse(null);
     }
 
     @Query("findAll")

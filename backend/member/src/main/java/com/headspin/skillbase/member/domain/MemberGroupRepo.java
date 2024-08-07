@@ -11,19 +11,19 @@ public interface MemberGroupRepo {
 
     public UUID insert(@NotNull @Valid MemberGroup group);
 
-    public void delete(@NotNull UUID id);
+    public void delete(@NotNull UUID group_id);
 
     public MemberGroup update(@NotNull @Valid MemberGroup group);
 
-    public Optional<MemberGroup> findById(@NotNull UUID id);
+    public Optional<MemberGroup> findById(@NotNull UUID group_id);
 
     public List<MemberGroup> findAll(String sort, Integer offset, Integer limit);
 
-    public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit);
+    public List<MemberUser> findGroupUsers(@NotNull UUID group_id, String sort, Integer offset, Integer limit);
 
-    public UUID insertGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+    public void insertGroupUser(@NotNull UUID group_id, @NotNull UUID user_id);
 
-    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id);
+    public void deleteGroupUser(@NotNull UUID group_id, @NotNull UUID user_id);
 
     public Long count();
 }

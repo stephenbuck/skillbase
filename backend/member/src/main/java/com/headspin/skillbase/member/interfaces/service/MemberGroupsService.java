@@ -63,35 +63,55 @@ public class MemberGroupsService {
     @Inject
     private MemberAuthProvider auth;
 
+    /**
+     * Inserts a new member group.
+     *
+     * @param group The new group.
+     * @return The id of the new group.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid MemberGroup group) {
-        UUID id = repo.insert(group);
+        UUID group_id = repo.insert(group);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_CREATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(group.id))
+                .add("group_id", String.valueOf(group.group_id))
                 .add("title", group.title)
                 .add("note", group.note)
-                .add("created_at", String.valueOf(group.createdAt))
-                .add("updated_at", String.valueOf(group.updatedAt))
+                .add("created_at", String.valueOf(group.created_at))
+                .add("updated_at", String.valueOf(group.updated_at))
                 .build());
-        return id;
+        return group_id;
     }
 
+    /**
+     * Deletes a member group given an id.
+     *
+     * @param group_id The requested group id.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID id) {
-        repo.delete(id);
+    public void delete(@NotNull UUID group_id) {
+        repo.delete(group_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_DELETED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(id))
+                .add("group_id", String.valueOf(group_id))
                 .build());
     }
 
+    /**
+     * Updates an existing member group.
+     *
+     * @param group The updated group.
+     * @return The updated group.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     @Transactional
     public MemberGroup update(@NotNull @Valid MemberGroup group) {
@@ -100,42 +120,64 @@ public class MemberGroupsService {
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_UPDATED,
             Json.createObjectBuilder()
-                .add("id", String.valueOf(updated.id))
+                .add("group_id", String.valueOf(updated.group_id))
                 .add("title", updated.title)
                 .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.createdAt))
-                .add("updated_at", String.valueOf(updated.updatedAt))
+                .add("created_at", String.valueOf(updated.created_at))
+                .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
         return updated;
     }
 
+    /**
+     * Returns a member group given an id.
+     *
+     * @param group_id The requested group id.
+     * @return An optional member group.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
-    public Optional<MemberGroup> findById(@NotNull UUID id) {
-        return repo.findById(id);
+    public Optional<MemberGroup> findById(@NotNull UUID group_id) {
+        return repo.findById(group_id);
     }
 
+    /**
+     * Returns a list of all member groups.
+     *
+     * @param sort Sort field.
+     * @param offset Offset of first result.
+     * @param limit Limit of results returned.
+     * @return A list of member groups.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public List<MemberGroup> findAll(String sort, Integer offset, Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })
-    public List<MemberUser> findGroupUsers(@NotNull UUID id, String sort, Integer offset, Integer limit) {
-        return repo.findGroupUsers(id, sort, offset, limit);
+    public List<MemberUser> findGroupUsers(@NotNull UUID group_id, String sort, Integer offset, Integer limit) {
+        return repo.findGroupUsers(group_id, sort, offset, limit);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public UUID insertGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        return repo.insertGroupUser(id, user_id);
+    public void insertGroupUser(@NotNull UUID group_id, @NotNull UUID user_id) {
+        repo.insertGroupUser(group_id, user_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void deleteGroupUser(@NotNull UUID id, @NotNull UUID user_id) {
-        repo.deleteGroupUser(id, user_id);
+    public void deleteGroupUser(@NotNull UUID group_id, @NotNull UUID user_id) {
+        repo.deleteGroupUser(group_id, user_id);
     }
 
+    /**
+     * Returns a count of member groups.
+     *
+     * @return The count.
+     * @since 1.0
+     */
 //    @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
