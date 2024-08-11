@@ -8,8 +8,8 @@ import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
+import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -47,10 +47,10 @@ public class CatalogCategoriesService {
     private CatalogConfigProvider conf;
 
     @Inject
-    private CatalogFeaturesProvider feat;
+    private CatalogEventsProvider evnt;
 
     @Inject
-    private CatalogEventsProvider evnt;
+    private CatalogFeaturesProvider feat;
 
     /**
      * Inserts a new catalog category.
@@ -61,8 +61,8 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid CatalogCategory category) {
-        UUID category_id = repo.insert(category);
+    public UUID insert(@NotNull @Valid final CatalogCategory category) {
+        final UUID category_id = repo.insert(category);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_CREATED,
@@ -86,7 +86,7 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID category_id) {
+    public void delete(@NotNull final UUID category_id) {
         repo.delete(category_id);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
@@ -105,8 +105,8 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogCategory update(@NotNull @Valid CatalogCategory category) {
-        CatalogCategory updated = repo.update(category);
+    public CatalogCategory update(@NotNull @Valid final CatalogCategory category) {
+        final CatalogCategory updated = repo.update(category);
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_UPDATED,
@@ -130,7 +130,7 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public Optional<CatalogCategory> findById(@NotNull UUID category_id) {
+    public Optional<CatalogCategory> findById(@NotNull final UUID category_id) {
         return repo.findById(category_id);
     }
 
@@ -144,7 +144,7 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogCategory> findAll(String sort, Integer offset, Integer limit) {
+    public List<CatalogCategory> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
@@ -159,8 +159,8 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogCategory> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
-            Integer limit) {
+    public List<CatalogCategory> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+            final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
@@ -175,7 +175,7 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogCategory> findCategoryCategories(@NotNull UUID category_id, String sort, Integer offset, Integer limit) {
+    public List<CatalogCategory> findCategoryCategories(@NotNull final UUID category_id, final String sort, final Integer offset, final Integer limit) {
         return repo.findCategoryCategories(category_id, sort, offset, limit);
     }
 
@@ -190,7 +190,7 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogSkill> findCategorySkills(@NotNull UUID category_id, String sort, Integer offset, Integer limit) {
+    public List<CatalogSkill> findCategorySkills(@NotNull final UUID category_id, final String sort, final Integer offset, final Integer limit) {
         return repo.findCategorySkills(category_id, sort, offset, limit);
     }
 
@@ -204,7 +204,7 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void insertCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id) {
+    public void insertCategoryCategory(@NotNull final UUID category_id, @NotNull final UUID subcategory_id) {
         repo.insertCategoryCategory(category_id, subcategory_id);
     }
 
@@ -218,7 +218,7 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void deleteCategoryCategory(@NotNull UUID category_id, @NotNull UUID subcategory_id) {
+    public void deleteCategoryCategory(@NotNull final UUID category_id, @NotNull final UUID subcategory_id) {
         repo.deleteCategoryCategory(category_id, subcategory_id);
     }
 

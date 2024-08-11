@@ -19,13 +19,14 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Infrastructure (Terraform, Kubernetes)
 - Configuration (Microprofile, etcd)
 - Workflow (BPMN, Flowable)
+- Search (Elasticsearch)
 - Caching (Redis)
 - Interfaces (REST, GraphQL)
 - Logging (Log4j, Slf4j, fluentd)
 - Testing (JUnit, ArchUnit, Testcontainers)
 - Build (Maven and NPM)
 - Monitoring (Microprofile, Prometheus)
-- Frontend (Javascript, SPA, React, MaterialUI)
+- Frontend (Typescript, SPA, React, MaterialUI)
 - Documentation (Markdown, OpenAPI, MkDocs)
 - Versioning (Git)
 
@@ -73,6 +74,10 @@ Runtime application configuration is built on the Microprofile Config API runnin
 
 Workflow process management is handled using BPMN process diagrams and the Flowable engine and API. Future versions may embed the engine with the application to simplify transaction management.
 
+**Search**
+
+Keyword search for skills, etc. is handled by the Elasticsearch engine.
+
 **Caching**
 
 Distributed caching is handled using Redis, and it's Java API. Cache contents will be updated by domain events received from Kafka.
@@ -99,7 +104,7 @@ Monitoring is handled by a combination of Microprofile APIs and the open-source 
 
 **Frontend**
 
-The frontend application is built as a single-page application (SPA) using the React framework and the MaterialUI library.
+The primary frontend framework is React, with the code written in Typescript. I'll be using other frameworks ReactRouter, ReactQuery, ReactAdmin, NextJS, and MaterialUI.
 
 **Documentation**
 

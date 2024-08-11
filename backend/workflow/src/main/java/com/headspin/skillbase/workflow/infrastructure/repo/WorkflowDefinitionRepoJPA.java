@@ -5,16 +5,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.enterprise.context.RequestScoped;
+import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
+import com.headspin.skillbase.workflow.domain.WorkflowDefinitionRepo;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
-import com.headspin.skillbase.workflow.domain.WorkflowDefinitionRepo;
 
 /**
  * JPA implementation of workflow definition repository interface.
@@ -34,37 +33,37 @@ public class WorkflowDefinitionRepoJPA implements WorkflowDefinitionRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowDefinition definition) {
+    public UUID insert(@NotNull @Valid final WorkflowDefinition definition) {
         em.persist(definition);
         return definition.definition_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID definition_id) {
+    public void delete(@NotNull final UUID definition_id) {
         em.remove(em.find(WorkflowDefinition.class, definition_id));
     }
 
     @Override
     @Transactional
-    public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition) {
+    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition) {
         return em.merge(definition);
     }
 
     @Override
-    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id) {
+    public Optional<WorkflowDefinition> findById(@NotNull final UUID definition_id) {
         return Optional.ofNullable(em.find(WorkflowDefinition.class, definition_id));
     }
 
     @Override
-    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id) {
+    public Optional<WorkflowDefinition> findByCredentialId(@NotNull final UUID credential_id) {
         return Optional.ofNullable(em.createQuery("SELECT d FROM WorkflowDefinition d WHERE d.credential_id = :credential_id LIMIT 1", WorkflowDefinition.class)
                 .setParameter("credential_id", credential_id)
                 .getSingleResult());
     }
 
     @Override
-    public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit) {
+    public List<WorkflowDefinition> findAll(final String sort, final Integer offset, final Integer limit) {
         return em.createQuery("SELECT d FROM WorkflowDefinition d ORDER BY :sort", WorkflowDefinition.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "credential_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))

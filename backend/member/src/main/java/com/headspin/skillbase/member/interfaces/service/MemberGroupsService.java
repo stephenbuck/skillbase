@@ -7,14 +7,14 @@ import java.util.UUID;
 import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberGroupRepo;
+import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
-import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
 import com.headspin.skillbase.member.providers.MemberEventsProvider;
+import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -72,8 +72,8 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid MemberGroup group) {
-        UUID group_id = repo.insert(group);
+    public UUID insert(@NotNull @Valid final MemberGroup group) {
+        final UUID group_id = repo.insert(group);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_CREATED,
@@ -95,7 +95,7 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID group_id) {
+    public void delete(@NotNull final UUID group_id) {
         repo.delete(group_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
@@ -114,8 +114,8 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public MemberGroup update(@NotNull @Valid MemberGroup group) {
-        MemberGroup updated = repo.update(group);
+    public MemberGroup update(@NotNull @Valid final MemberGroup group) {
+        final MemberGroup updated = repo.update(group);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_UPDATED,
@@ -137,7 +137,7 @@ public class MemberGroupsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<MemberGroup> findById(@NotNull UUID group_id) {
+    public Optional<MemberGroup> findById(@NotNull final UUID group_id) {
         return repo.findById(group_id);
     }
 
@@ -151,24 +151,24 @@ public class MemberGroupsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public List<MemberGroup> findAll(String sort, Integer offset, Integer limit) {
+    public List<MemberGroup> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
 //    @RolesAllowed({ "Admin" })
-    public List<MemberUser> findGroupUsers(@NotNull UUID group_id, String sort, Integer offset, Integer limit) {
+    public List<MemberUser> findGroupUsers(@NotNull final UUID group_id, final String sort, final Integer offset, final Integer limit) {
         return repo.findGroupUsers(group_id, sort, offset, limit);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void insertGroupUser(@NotNull UUID group_id, @NotNull UUID user_id) {
+    public void insertGroupUser(@NotNull final UUID group_id, @NotNull final UUID user_id) {
         repo.insertGroupUser(group_id, user_id);
     }
 
 //    @RolesAllow({ "Admin" })
     @Transactional
-    public void deleteGroupUser(@NotNull UUID group_id, @NotNull UUID user_id) {
+    public void deleteGroupUser(@NotNull final UUID group_id, @NotNull final UUID user_id) {
         repo.deleteGroupUser(group_id, user_id);
     }
 

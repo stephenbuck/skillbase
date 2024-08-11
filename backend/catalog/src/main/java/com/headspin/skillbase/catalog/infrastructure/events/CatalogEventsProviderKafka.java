@@ -1,13 +1,5 @@
 package com.headspin.skillbase.catalog.infrastructure.events;
 
-import lombok.extern.slf4j.Slf4j;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.MediaType;
-
 import java.net.InetAddress;
 import java.net.URI;
 import java.time.Duration;
@@ -25,8 +17,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.EventListener;
 
@@ -36,6 +28,12 @@ import io.cloudevents.core.message.Encoding;
 import io.cloudevents.jackson.JsonCloudEventData;
 import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Kafka implementation of the catalog events provider interface.
@@ -59,12 +57,12 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
     private static final String auto_offset_reset = "latest";
     private static final String enable_auto_commit = "true";
 
-    private String client_id;
-    private String group_id;
+    private final String client_id;
+    private final String group_id;
 
-    private Properties admnConfig;
-    private Properties prodConfig;
-    private Properties consConfig;
+    private final Properties admnConfig;
+    private final Properties prodConfig;
+    private final Properties consConfig;
 
     private Thread thread;
 
@@ -111,14 +109,14 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
 
     @Override
     @Transactional
-    public void produce(String topic, String type, JsonObject json) {
+    public void produce(final String topic, final String type, final JsonObject json) {
 
         // Wrap the json data as CloudEvent data
-        JsonCloudEventData data = JsonCloudEventData
+        final JsonCloudEventData data = JsonCloudEventData
                 .wrap(new ObjectMapper().valueToTree(json));
 
         // Create a CloudEvent object
-        CloudEvent event = CloudEventBuilder.v1()
+        final CloudEvent event = CloudEventBuilder.v1()
                 .withSource(URI.create(CatalogEvent.SKILLBASE_EVENT_SOURCE))
                 .withType(type)
                 .withId(String.valueOf(UUID.randomUUID()))
@@ -141,7 +139,7 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
      */
 
     @Override
-    public void consume(Collection<String> topics, EventListener listener) {
+    public void consume(final Collection<String> topics, final EventListener listener) {
         this.thread = new Thread(new Runnable() {
 
             public void run() {
@@ -154,13 +152,13 @@ public class CatalogEventsProviderKafka implements CatalogEventsProvider {
 
                     // Consume events and send them to the listener
                     while (true) {
-                        ConsumerRecords<String, CloudEvent> records = consumer.poll(poll_timeout);
-                        for (ConsumerRecord<String, CloudEvent> record : records) {
+                        final ConsumerRecords<String, CloudEvent> records = consumer.poll(poll_timeout);
+                        for (final ConsumerRecord<String, CloudEvent> record : records) {
                             listener.onCloudEvent(record.topic(), record.value());
                         }
                     }
 
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.info(String.valueOf(e));
                 }
             }

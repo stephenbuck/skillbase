@@ -1,3 +1,7 @@
+pushd src/docker/elastic
+sudo docker build -t skillbase/elastic:latest . < Dockerfile
+popd
+
 pushd src/docker/flipt
 sudo docker build -t skillbase/flipt:latest . < Dockerfile
 popd

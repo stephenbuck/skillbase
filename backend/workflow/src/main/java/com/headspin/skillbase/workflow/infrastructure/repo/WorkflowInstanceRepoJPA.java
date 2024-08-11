@@ -5,16 +5,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.enterprise.context.RequestScoped;
+import com.headspin.skillbase.workflow.domain.WorkflowInstance;
+import com.headspin.skillbase.workflow.domain.WorkflowInstanceRepo;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import com.headspin.skillbase.workflow.domain.WorkflowInstance;
-import com.headspin.skillbase.workflow.domain.WorkflowInstanceRepo;
 
 /**
  * JPA implementation of workflow instance repository interface.
@@ -34,30 +33,30 @@ public class WorkflowInstanceRepoJPA implements WorkflowInstanceRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowInstance instance) {
+    public UUID insert(@NotNull @Valid final WorkflowInstance instance) {
         em.persist(instance);
         return instance.instance_id;
     }
 
     @Override
     @Transactional
-    public void delete(@NotNull UUID instance_id) {
+    public void delete(@NotNull final UUID instance_id) {
         em.remove(em.find(WorkflowInstance.class, instance_id));
     }
 
     @Override
     @Transactional
-    public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
+    public WorkflowInstance update(@NotNull @Valid final WorkflowInstance instance) {
         return em.merge(instance);
     }
 
     @Override
-    public Optional<WorkflowInstance> findById(@NotNull UUID instance_id) {
+    public Optional<WorkflowInstance> findById(@NotNull final UUID instance_id) {
         return Optional.ofNullable(em.find(WorkflowInstance.class, instance_id));
     }
 
     @Override
-    public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit) {
+    public List<WorkflowInstance> findAll(final String sort, final Integer offset, final Integer limit) {
         return em.createQuery("SELECT i FROM WorkflowInstance i ORDER BY :sort", WorkflowInstance.class)
                 .setParameter("sort", Objects.requireNonNullElse(sort, "instance_id"))
                 .setFirstResult(Objects.requireNonNullElse(offset, 0))

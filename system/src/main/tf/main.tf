@@ -74,8 +74,7 @@ resource "docker_container" "apisix" {
     external = 9443
   }
   depends_on = [
-    docker_container.registry,
-    docker_container.etcd
+    docker_container.registry
   ]
 }
 */
@@ -108,12 +107,43 @@ resource "docker_container" "debezium" {
     host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/data"
   }
   depends_on = [
-    docker_container.registry,
+    docker_container.kafka,
     docker_container.postgres,
-    docker_container.kafka  
+    docker_container.registry
   ]
 }
 */
+
+################################################################################
+# Elasticsearch
+################################################################################
+
+resource "docker_image" "elastic" {
+  name = "skillbase/elastic:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "elastic" {
+  name = "elastic"
+  image = docker_image.elastic.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "http.cors.enabled=true",
+    "http.cors.allow-origin=http://localhost:8080"
+    #    "http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization"
+  ]
+  ports {
+    internal = 9200
+    external = 9200
+  }
+  ports {
+    internal = 9300
+    external = 9300
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
 
 /*
 ################################################################################
@@ -154,6 +184,7 @@ resource "docker_container" "etcd" {
 }
 */
 
+/*
 ################################################################################
 # Flipt
 ################################################################################
@@ -180,8 +211,9 @@ resource "docker_container" "flipt" {
     docker_container.registry
   ]
 }
+*/
 
-
+/*
 ################################################################################
 # Flowable
 ################################################################################
@@ -200,10 +232,11 @@ resource "docker_container" "flowable" {
     external = 8081
   }
   depends_on = [
-    docker_container.registry,
-    docker_container.postgres
+    docker_container.postgres,
+    docker_container.registry
   ]
 }
+*/
 
 /*
 ################################################################################
@@ -223,9 +256,11 @@ resource "docker_container" "fluentd" {
     internal = 9880
     external = 9880
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 */
-
 
 ################################################################################
 # Kafka
@@ -270,39 +305,46 @@ resource "docker_container" "kafka" {
 
 /*
 resource "kafka_topic" "skillbase_catalog_event" {
-  name               = "skillbase_catalog_event"
+  name = "skillbase_catalog_event"
   replication_factor = 1
-  partitions         = 1
+  partitions = 1
   config = {
-    "segment.ms"     = "20000"
+    "segment.ms" = "20000"
     "cleanup.policy" = "compact"
   }
-  depends_on = [ docker_container.kafka ]
+  depends_on = [
+    docker_container.kafka
+  ]
 }
 
 resource "kafka_topic" "skillbase_member_event" {
-  name               = "skillbase_member_event"
+  name = "skillbase_member_event"
   replication_factor = 1
-  partitions         = 1
+  partitions = 1
   config = {
-    "segment.ms"     = "20000"
+    "segment.ms" = "20000"
     "cleanup.policy" = "compact"
   }
-  depends_on = [ docker_container.kafka ]
+  depends_on = [
+    docker_container.kafka
+  ]
 }
 
 resource "kafka_topic" "skillbase_workflow_event" {
-  name               = "skillbase_workflow_event"
+  name = "skillbase_workflow_event"
   replication_factor = 1
-  partitions         = 1
+  partitions = 1
   config = {
-    "segment.ms"     = "20000"
+    "segment.ms" = "20000"
     "cleanup.policy" = "compact"
   }
-  depends_on = [ docker_container.kafka ]
+  depends_on = [
+    docker_container.kafka
+  ]
 }
 */
 
+/*
 ################################################################################
 # KeyCloak
 ################################################################################
@@ -325,11 +367,12 @@ resource "docker_container" "keycloak" {
     external = 18080
   }
   depends_on = [
-    docker_container.registry,
-    docker_container.postgres
+    docker_container.postgres,
+    docker_container.registry
   ]
   command = ["start-dev"]
 }
+*/
 
 /*
 ################################################################################
@@ -353,6 +396,9 @@ resource "docker_container" "nginx" {
     internal = 80
     external = 80
   }
+  depends = [
+    docker_container.registry
+  ]
 }
 */
 
@@ -419,6 +465,9 @@ resource "docker_container" "prometheus" {
     internal = 9090
     external = 9090
   }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 */
 
@@ -452,15 +501,17 @@ resource "docker_container" "wildfly" {
     "WILDFLY_MGMT_BIND_INTERFACE=0.0.0.0"
   ]
   depends_on = [
-    docker_container.registry,
-    docker_container.postgres,
-    docker_container.flipt,
+    docker_container.elastic,
+    //    docker_container.flipt,
+    //    docker_container.flowable,
     docker_container.kafka,
-    docker_container.keycloak,
-    docker_container.flowable
-//    kafka_topic.skillbase_catalog_event,
-//    kafka_topic.skillbase_member_event,
-//    kafka_topic.skillbase_workflow_event
+    //    docker_container.keycloak,
+    docker_container.postgres,
+    docker_container.registry
+
+    //    kafka_topic.skillbase_catalog_event,
+    //    kafka_topic.skillbase_member_event,
+    //    kafka_topic.skillbase_workflow_event
   ]
 }
 
@@ -470,7 +521,7 @@ resource "docker_container" "wildfly" {
 ################################################################################
 
 resource "docker_image" "catalog" {
-  name         = "skillbase/catalog:${var.skillbase_tag}"
+  name = "skillbase/catalog:${var.skillbase_tag}"
   keep_locally = true
 }
 
@@ -479,29 +530,9 @@ resource "docker_container" "catalog" {
   image = docker_image.catalog.image_id
   depends_on = [
     docker_container.etcd,
-    docker_container.postgres,
-    docker_container.kafka
-  ]
-}
-*/
-
-/*
-################################################################################
-# Skillbase Workflow
-################################################################################
-
-resource "docker_image" "workflow" {
-  name         = "skillbase/workflow:${var.skillbase_tag}"
-  keep_locally = true
-}
-resource "docker_container" "workflow" {
-  name  = "workflow"
-  image = docker_image.workflow.image_id
-  depends_on = [
-    docker_container.etcd,
-    docker_container.postgres,
     docker_container.kafka,
-    docker_container.flowable
+    docker_container.postgres,
+    docker_container.registry
   ]
 }
 */
@@ -512,18 +543,41 @@ resource "docker_container" "workflow" {
 ################################################################################
 
 resource "docker_image" "member" {
-  name         = "skillbase/member:${var.skillbase_tag}"
+  name = "skillbase/member:${var.skillbase_tag}"
   keep_locally = true
 }
 
 resource "docker_container" "member" {
-  name  = "member"
+  name = "member"
   image = docker_image.member.image_id
   depends_on = [
     docker_container.etcd,
-    docker_container.postgres,
     docker_container.kafka,
-    docker_container.keycloak
+    docker_container.keycloak,
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
+# Skillbase Workflow
+################################################################################
+
+resource "docker_image" "workflow" {
+  name = "skillbase/workflow:${var.skillbase_tag}"
+  keep_locally = true
+}
+resource "docker_container" "workflow" {
+  name  = "workflow"
+  image = docker_image.workflow.image_id
+  depends_on = [
+    docker_container.etcd,
+    docker_container.flowable,
+    docker_container.kafka,
+    docker_container.postgres,
+    docker_container.registry
   ]
 }
 */

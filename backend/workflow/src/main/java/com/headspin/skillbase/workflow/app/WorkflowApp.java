@@ -28,11 +28,22 @@ public class WorkflowApp extends Application {
     @Inject
     private JsonWebToken jwt;
 
-    @Inject
-    private WorkflowAppEvents evnt = new WorkflowAppEvents();
+    private final WorkflowAppConfig config;
+    private final WorkflowAppControl control;
+    private final WorkflowAppEvents events; 
+    private final WorkflowAppFeatures features; 
+    private final WorkflowAppHealth health; 
+    private final WorkflowAppMetrics metrics;
+    private final WorkflowAppTelemetry telemetry; 
 
     public WorkflowApp() {
-        
+        this.config = new WorkflowAppConfig();
+        this.control = new WorkflowAppControl();
+        this.events = new WorkflowAppEvents();
+        this.features = new WorkflowAppFeatures();
+        this.health = new WorkflowAppHealth();
+        this.metrics = new WorkflowAppMetrics();
+        this.telemetry = new WorkflowAppTelemetry();
     }
 
     @Override

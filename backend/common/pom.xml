@@ -83,7 +83,25 @@
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
 
-      <!--
+      <plugin>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <groupId>org.openrewrite.maven</groupId>
+        <version>${maven.rewrite.version}</version>
+        <configuration>
+          <activeRecipes>
+          </activeRecipes>
+          <activeStyles>
+          </activeStyles>
+          <configLocation>./rewrite.yml</configLocation>
+          <failOnDryRunResults>false</failOnDryRunResults>
+          <exclusions>
+          </exclusions>
+          <plainTextMasks>
+          </plainTextMasks>
+        </configuration>
+      </plugin>
+
+    <!--
       <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
         <groupId>io.smallrye</groupId>
@@ -152,6 +170,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>json-schema-validator</artifactId>
+      <groupId>com.networknt</groupId>
+    </dependency>
+
+  <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
     </dependency>

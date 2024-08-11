@@ -9,8 +9,8 @@ import com.headspin.skillbase.workflow.domain.WorkflowInstance;
 import com.headspin.skillbase.workflow.domain.WorkflowInstanceRepo;
 import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
+import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -64,8 +64,8 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid WorkflowInstance instance) {
-        UUID instance_id = repo.insert(instance);
+    public UUID insert(@NotNull @Valid final WorkflowInstance instance) {
+        final UUID instance_id = repo.insert(instance);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
@@ -91,7 +91,7 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull UUID instance_id) {
+    public void delete(@NotNull final UUID instance_id) {
         repo.delete(instance_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
@@ -110,8 +110,8 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance) {
-        WorkflowInstance updated = repo.update(instance);
+    public WorkflowInstance update(@NotNull @Valid final WorkflowInstance instance) {
+        final WorkflowInstance updated = repo.update(instance);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
@@ -137,7 +137,7 @@ public class WorkflowInstancesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public Optional<WorkflowInstance> findById(@NotNull UUID instance_id) {
+    public Optional<WorkflowInstance> findById(@NotNull final UUID instance_id) {
         return repo.findById(instance_id);
     }
 
@@ -151,7 +151,7 @@ public class WorkflowInstancesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit) {
+    public List<WorkflowInstance> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
@@ -165,14 +165,14 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID start(UUID definition_id, UUID user_id) {
-        WorkflowInstance instance = new WorkflowInstance();
+    public UUID start(final UUID definition_id, final UUID user_id) {
+        final WorkflowInstance instance = new WorkflowInstance();
         instance.peer_id = null;
         instance.definition_id = definition_id;
         instance.user_id = user_id;
         instance.title = "TBD";
         instance.note = "TBD";
-        UUID instance_id = repo.insert(instance);
+        final UUID instance_id = repo.insert(instance);
         // UUID peer_id = work.start(instance_id, user_id);
         return instance_id;
     }

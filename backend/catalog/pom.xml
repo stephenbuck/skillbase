@@ -71,6 +71,36 @@
         -->
       </plugin>
 
+      <!--
+      <plugin>
+        <artifactId>elasticsearch-maven-plugin</artifactId>
+        <groupId>com.github.alexcojocaru</groupId>
+        <version>${elastic.plugin.version}</version>
+        <configuration>
+            <version>${elastic.search.version}</version>
+            <clusterName>skillbase</clusterName>
+            <transportPort>9300</transportPort>
+            <httpPort>9200</httpPort>
+        </configuration>
+        <executions>
+            <execution>
+                <id>start-elasticsearch</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                    <goal>runforked</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>stop-elasticsearch</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                    <goal>stop</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+      -->
+      
       <plugin>
         <artifactId>exec-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
@@ -139,6 +169,24 @@
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <groupId>org.openrewrite.maven</groupId>
+        <version>${maven.rewrite.version}</version>
+        <configuration>
+          <activeRecipes>
+          </activeRecipes>
+          <activeStyles>
+          </activeStyles>
+          <configLocation>./rewrite.yml</configLocation>
+          <failOnDryRunResults>false</failOnDryRunResults>
+          <exclusions>
+          </exclusions>
+          <plainTextMasks>
+          </plainTextMasks>
+        </configuration>
       </plugin>
 
       <!--
@@ -228,6 +276,18 @@
     -->
 
     <dependency>
+      <artifactId>elasticsearch-java</artifactId>
+      <groupId>co.elastic.clients</groupId>
+    </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>elasticsearch</artifactId>
+      <groupId>org.elasticsearch</groupId>
+    </dependency>
+    -->
+          
+    <dependency>
       <artifactId>flipt-java</artifactId>
       <groupId>io.flipt</groupId>
     </dependency>
@@ -235,6 +295,11 @@
     <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jackson-databind</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
     </dependency>
 
     <dependency>

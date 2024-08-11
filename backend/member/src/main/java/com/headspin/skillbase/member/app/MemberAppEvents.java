@@ -34,7 +34,7 @@ public class MemberAppEvents extends AppEvents {
     @Inject
     private MemberEventsProvider evnt;
 
-    private List<String> topics = Arrays.asList(
+    private final List<String> topics = Arrays.asList(
         CatalogEvent.CATALOG_EVENT_TOPIC,
         WorkflowEvent.WORKFLOW_EVENT_TOPIC
     );
@@ -44,7 +44,7 @@ public class MemberAppEvents extends AppEvents {
             this.evnt = new MemberEventsProviderKafka();
             evnt.consume(topics, this);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -57,23 +57,23 @@ public class MemberAppEvents extends AppEvents {
      * @param topic
      * @param event
      */
-    public void onCloudEvent(String topic, CloudEvent event) {
+    public void onCloudEvent(final String topic, final CloudEvent event) {
 
         log.info("cloud event = {}", event);
 
-        CloudEventData data = event.getData();
+        final CloudEventData data = event.getData();
 
-        ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
+        final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
 
-        JsonParser parser = Json.createParser(stream);
+        final JsonParser parser = Json.createParser(stream);
 
         if (parser.hasNext()) {
 
             parser.next();
 
-            UUID eventId = UUID.fromString(event.getId());
-            String eventType = event.getType();
-            JsonObject eventJson = parser.getObject();
+            final UUID eventId = UUID.fromString(event.getId());
+            final String eventType = event.getType();
+            final JsonObject eventJson = parser.getObject();
 
             switch (topic) {
                 case CatalogEvent.CATALOG_EVENT_TOPIC:
@@ -94,7 +94,7 @@ public class MemberAppEvents extends AppEvents {
      * 
      * @param event
      */
-    private void onCatalogEvent(CatalogEvent event, JsonObject json) {
+    private void onCatalogEvent(final CatalogEvent event, final JsonObject json) {
 
         log.info("catalog event = {}", event);
 
@@ -122,7 +122,7 @@ public class MemberAppEvents extends AppEvents {
      * 
      * @param event
      */
-    private void onWorkflowEvent(WorkflowEvent event, JsonObject json) {
+    private void onWorkflowEvent(final WorkflowEvent event, final JsonObject json) {
 
         log.info("workflow event = {}", event);
 
@@ -154,7 +154,7 @@ public class MemberAppEvents extends AppEvents {
         }       
     }
 
-    private void onInstanceCreated(WorkflowEvent event, JsonObject json) {
+    private void onInstanceCreated(final WorkflowEvent event, final JsonObject json) {
     /*
         MemberProcess process = new MemberProcess();
         process.state = event?.state;
@@ -164,14 +164,14 @@ public class MemberAppEvents extends AppEvents {
     */
     }
 
-    private void onInstanceDeleted(WorkflowEvent event, JsonObject json) {
+    private void onInstanceDeleted(final WorkflowEvent event, final JsonObject json) {
     /*
         MemberProcess process = findByInstanceId(event?.instance_id);
         deleteProcess(process.process_id);
     */
     }
 
-    private void onInstanceUpdated(WorkflowEvent event, JsonObject json) {
+    private void onInstanceUpdated(final WorkflowEvent event, final JsonObject json) {
     /*
         MemberProcess process = findByInstanceId(event?.instance_id);
         process.state = event?.state;

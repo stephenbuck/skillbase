@@ -1,11 +1,10 @@
-
 **_ Work in Progress _**
 
 **Overview:**
 
-SkillBase is a showcase distributed application that allows an organization to develop, workflow, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted certification. Users can search for other users that have specific skills. There is lots of room for integration with third-party applications for member management, content management, social media, etc.
+SkillBase is a showcase distributed application that allows an organization to develop, certify, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted certification. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
 
-A primary goal of this application is to illustrate the use of the most popular tools in use today. Some of the tools used:
+![image](https://github.com/stephenbuck/skillbase/assets/1750488/857efe62-18e9-4426-b38f-1d339c8b4a8c)
 
 A primary goal of this application is to illustrate the use of the most popular tools in use today. Some of the tools used:
 
@@ -20,13 +19,14 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Infrastructure (Terraform, Kubernetes)
 - Configuration (Microprofile, etcd)
 - Workflow (BPMN, Flowable)
+- Search (Elasticsearch)
 - Caching (Redis)
 - Interfaces (REST, GraphQL)
 - Logging (Log4j, Slf4j, fluentd)
 - Testing (JUnit, ArchUnit, Testcontainers)
 - Build (Maven and NPM)
 - Monitoring (Microprofile, Prometheus)
-- Frontend (Javascript, React, MaterialUI)
+- Frontend (Typescript, SPA, React, MaterialUI)
 - Documentation (Markdown, OpenAPI, MkDocs)
 - Versioning (Git)
 
@@ -44,7 +44,7 @@ Runs as a set of Docker containers, one-per-service, combined with Wildfly and S
 
 **Event-Driven**
 
-Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the JMS specification using Kafka as the message broker.
+Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the Jakarta JMS specification using Kafka as the message broker.
 
 **Feature Flags**
 
@@ -68,15 +68,19 @@ Infrastructure is built using Terraform code and managed using Kubernetes.
 
 **Configuration**
 
-Runtime application configuration is built on the Microprofile Config API with Etcd as the provider.
+Runtime application configuration is built on the Microprofile Config API running with Etcd as the provider.
 
 **Workflow**
 
 Workflow process management is handled using BPMN process diagrams and the Flowable engine and API. Future versions may embed the engine with the application to simplify transaction management.
 
+**Search**
+
+Keyword search for skills, etc. is handled by the Elasticsearch engine.
+
 **Caching**
 
-Distributed caching is handled using Redis, and it's Java API. Cache contents are be updated by domain events received from Kafka.
+Distributed caching is handled using Redis, and it's Java API. Cache contents will be updated by domain events received from Kafka.
 
 **Interfaces**
 
@@ -100,7 +104,7 @@ Monitoring is handled by a combination of Microprofile APIs and the open-source 
 
 **Frontend**
 
-The frontend application is built as a single-page application (SPA) using the React framework and the MaterialUI library.
+The primary frontend framework is React, with the code written in Typescript. I'll be using other frameworks ReactRouter, ReactQuery, ReactAdmin, NextJS, and MaterialUI.
 
 **Documentation**
 
@@ -109,5 +113,6 @@ Documentation of the application is built using Markdown documents, automatic AP
 **Versioning**
 
 Source code versioning and control is done with Git.
+
 
 Full documentation can be found in the 'site' directory.

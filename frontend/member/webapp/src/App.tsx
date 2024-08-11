@@ -8,7 +8,7 @@ import { UserList } from './users';
 import { Dashboard } from './Dashboard';
 import { authProvider } from './authProvider';
 
-const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
+const dataProvider = jsonServerProvider('http://172.17.0.1:8080/skillbase-backend-catalog-0.1/catalog/categories');
 
 const App = () => (
     <Admin

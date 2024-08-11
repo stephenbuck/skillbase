@@ -45,7 +45,7 @@ public class WorkflowAppEvents extends AppEvents {
     @Inject
     private WorkflowDefinitionsService defs;
 
-    private List<String> topics = Arrays.asList(
+    private final List<String> topics = Arrays.asList(
         CatalogEvent.CATALOG_EVENT_TOPIC,
         MemberEvent.MEMBER_EVENT_TOPIC
     );
@@ -55,7 +55,7 @@ public class WorkflowAppEvents extends AppEvents {
             this.evnt = new WorkflowEventsProviderKafka();
             evnt.consume(topics, this);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -68,23 +68,23 @@ public class WorkflowAppEvents extends AppEvents {
      * @param topic
      * @param event
      */
-    public void onCloudEvent(String topic, CloudEvent event) {
+    public void onCloudEvent(final String topic, final CloudEvent event) {
 
         log.info("cloud event = {}", event);
 
-        CloudEventData data = event.getData();
+        final CloudEventData data = event.getData();
 
-        ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
+        final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
 
-        JsonParser parser = Json.createParser(stream);
+        final JsonParser parser = Json.createParser(stream);
 
         if (parser.hasNext()) {
 
             parser.next();
 
-            UUID eventId = UUID.fromString(event.getId());
-            String eventType = event.getType();
-            JsonObject eventJson = parser.getObject();
+            final UUID eventId = UUID.fromString(event.getId());
+            final String eventType = event.getType();
+            final JsonObject eventJson = parser.getObject();
 
             switch (topic) {
                 case CatalogEvent.CATALOG_EVENT_TOPIC:
@@ -106,7 +106,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCatalogEvent(CatalogEvent event, JsonObject json) {
+    private void onCatalogEvent(final CatalogEvent event, final JsonObject json) {
 
         log.info("catalog event = {}", event);
 
@@ -141,18 +141,18 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialCreated(CatalogEvent event, JsonObject json) {
+    private void onCredentialCreated(final CatalogEvent event, final JsonObject json) {
 
         log.info("onCredentialCreated()");
 
-        WorkflowDefinition definition = new WorkflowDefinition();
+        final WorkflowDefinition definition = new WorkflowDefinition();
         definition.peer_id = null;
         definition.credential_id = UUID.fromString(json.getString("credential_id"));
 //        definition.deployment_id = json.getString("deployment_id");
         definition.title = json.getString("title");
         definition.note = json.getString("note");
         
-        UUID id = defs.insert(definition);
+        final UUID id = defs.insert(definition);
     }
 
     /**
@@ -162,17 +162,17 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialDeleted(CatalogEvent event, JsonObject json) {
+    private void onCredentialDeleted(final CatalogEvent event, final JsonObject json) {
 
         log.info("onCredentialDeleted()");
 
-        UUID credential_id = UUID.fromString(json.getString("credential_id"));
+        final UUID credential_id = UUID.fromString(json.getString("credential_id"));
         
         log.info("credential_id = {}", credential_id);
 
-        Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
+        final Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
 
-        WorkflowDefinition definition = result.get();
+        final WorkflowDefinition definition = result.get();
         
         defs.delete(definition.definition_id);        
     }
@@ -184,15 +184,15 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialUpdated(CatalogEvent event, JsonObject json) {
+    private void onCredentialUpdated(final CatalogEvent event, final JsonObject json) {
 
         log.info("onCredentialUpdated()");
 
-        UUID credential_id = UUID.fromString(json.getString("credential_id"));
+        final UUID credential_id = UUID.fromString(json.getString("credential_id"));
         
-        Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
+        final Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
 
-        WorkflowDefinition definition = result.get();
+        final WorkflowDefinition definition = result.get();
         definition.credential_id = credential_id;
         definition.deployment_id = UUID.fromString(json.getString("deployment_id"));
         definition.title = json.getString("title");
@@ -208,18 +208,18 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillCreated(CatalogEvent event, JsonObject json) {
+    private void onSkillCreated(final CatalogEvent event, final JsonObject json) {
 
         log.info("onSkillCreated()");
 
-        WorkflowDeployment deployment = new WorkflowDeployment();
+        final WorkflowDeployment deployment = new WorkflowDeployment();
         deployment.peer_id = null;
         deployment.skill_id = UUID.fromString(json.getString("skill_id"));
         deployment.state = json.getString("state");
         deployment.title = json.getString("title");
         deployment.note = json.getString("note");
         
-        UUID id = deps.insert(deployment);
+        final UUID id = deps.insert(deployment);
     }
 
     /**
@@ -229,17 +229,17 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillDeleted(CatalogEvent event, JsonObject json) {
+    private void onSkillDeleted(final CatalogEvent event, final JsonObject json) {
 
         log.info("onSkillDelete():");
 
-        UUID skill_id = UUID.fromString(json.getString("skill_id"));
+        final UUID skill_id = UUID.fromString(json.getString("skill_id"));
      
         log.info("skill_id = {}", skill_id);
 
-        Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
+        final Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
 
-        WorkflowDeployment deployment = result.get();
+        final WorkflowDeployment deployment = result.get();
         
         deps.delete(deployment.deployment_id);
     }
@@ -251,17 +251,17 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillUpdated(CatalogEvent event, JsonObject json) {
+    private void onSkillUpdated(final CatalogEvent event, final JsonObject json) {
 
         log.info("onSkillUpdate():");
 
-        UUID skill_id = UUID.fromString(json.getString("skill_id"));
+        final UUID skill_id = UUID.fromString(json.getString("skill_id"));
      
         log.info("skill_id = {}", skill_id);
 
-        Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
+        final Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
 
-        WorkflowDeployment deployment = result.get();
+        final WorkflowDeployment deployment = result.get();
         deployment.state = json.getString("state");
         deployment.title = json.getString("title");
         deployment.note = json.getString("note");
@@ -276,7 +276,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onMemberEvent(MemberEvent event, JsonObject json) {
+    private void onMemberEvent(final MemberEvent event, final JsonObject json) {
 
         log.info("member event = {}", event);
 

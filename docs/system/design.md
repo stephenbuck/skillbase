@@ -82,6 +82,16 @@ propagated to the individual services using a REST API.
 
 * See https://flipt.io
 
+**Search (skillbase/elastic):**
+
+Search functionality (Elasticsearch) runs in a custom container derived from the
+'bitnami/elasticsearch:latest' image. The Skillbase image adds custom
+configuration.
+
+The Elasticsearch index is updated using the catalog service domain events.
+
+* See https://elasticsearch.co
+
 **Caching (skillbase/redis):**
 
 Caching functionality (Redis) runs in a custom container derived from the 'redis:latest'

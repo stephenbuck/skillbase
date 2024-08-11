@@ -21,6 +21,8 @@ The Docker container names are:
 * Type 'sudo mvn liquibase:help' for Liquibase tool
 * Type 'sudo mvn docker:help' for Docker tool
 * Type 'sudo mvn wildfly:help' for Wildfly tool
+* Type 'sudo mvn elasticsearch:help' for Elasticsearch tool
+* Type 'sudo mvn openrewrite:help' for OpenRewrite
 
 
 **Links:**

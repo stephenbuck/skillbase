@@ -5,7 +5,7 @@ I’ve done heaps of frontend development work in the past, but I’m more focus
 
 **Framework (React)**
 
-I’ve worked with a lot of JavaScript frameworks like Angular, JQuery and Backbone, but React seems to be the framework du jour, so I’ll go with it. The React Router package seems like it will be useful for a Single-Page Architecture, which is my current bias, due to the high likelihood for customization and integration.
+The primary frontend framework is React, with the code written in Typescript. I'll be using other frameworks ReactRouter, ReactRelay, ReactAdmin, MaterialUI and NextJS.
 
 **Interfaces (GraphQL, REST)**
 
@@ -13,6 +13,11 @@ The backend will support GraphQL and REST so the client will have to follow alon
 
 **Links:**
 
+https://www.typescriptlang.org
 https://react.dev
 https://reactrouter.com
 https://relay.dev
+https://tanstack.com/query/v3
+https://marmelab.com/react-admin
+https://nextjs.org
+

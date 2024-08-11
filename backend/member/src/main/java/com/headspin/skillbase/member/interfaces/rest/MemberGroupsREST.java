@@ -8,6 +8,9 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import com.headspin.skillbase.member.domain.MemberGroup;
+import com.headspin.skillbase.member.interfaces.service.MemberGroupsService;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,9 +23,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import com.headspin.skillbase.member.domain.MemberGroup;
-import com.headspin.skillbase.member.interfaces.service.MemberGroupsService;
 
 /**
  * Member groups REST endpoint.
@@ -48,36 +48,36 @@ public class MemberGroupsREST {
     
     @PUT
     @Operation(summary = "Insert new member group")
-    public Response insert(MemberGroup group) {
-        UUID group_id = service.insert(group);
+    public Response insert(final MemberGroup group) {
+        final UUID group_id = service.insert(group);
         return Response.ok(URI.create("/groups/" + group_id)).build();
     }
 
     @DELETE
     @Path("{group_id}")
     @Operation(summary = "Delete member group by id")
-    public Response delete(@PathParam("group_id") UUID group_id) {
+    public Response delete(@PathParam("group_id") final UUID group_id) {
         service.delete(group_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing member group")
-    public Response update(MemberGroup group) {
+    public Response update(final MemberGroup group) {
         return Response.ok(service.update(group)).build();
     }
 
     @GET
     @Operation(summary = "Find all member groups")
-    public Response findAll(@QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{group_id}")
     @Operation(summary = "Find member group by id")
-    public Response findById(@PathParam("group_id") UUID group_id) {
-        Optional<MemberGroup> match = service.findById(group_id);
+    public Response findById(@PathParam("group_id") final UUID group_id) {
+        final Optional<MemberGroup> match = service.findById(group_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();
         } else {
@@ -88,14 +88,14 @@ public class MemberGroupsREST {
     @GET
     @Path("{group_id}/users")
     @Operation(summary = "Find member group users")
-    public Response findGroupUsers(@PathParam("group_id") UUID group_id, @QueryParam("sort") String sort, @QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+    public Response findGroupUsers(@PathParam("group_id") final UUID group_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findGroupUsers(group_id, sort, offset, limit)).build();
     }
     
     @POST
     @Path("{group_id}/users/{user_id}")
     @Operation(summary = "Insert member group user")
-    public Response insertGroupUser(@PathParam("group_id") UUID group_id, @PathParam("user_id") UUID user_id) {
+    public Response insertGroupUser(@PathParam("group_id") final UUID group_id, @PathParam("user_id") final UUID user_id) {
         service.insertGroupUser(group_id, user_id);
         return Response.ok().build();
     }
@@ -103,7 +103,7 @@ public class MemberGroupsREST {
     @DELETE
     @Path("{group_id}/users/{user_id}")
     @Operation(summary = "Delete member group user")
-    public Response deleteGroupUser(@PathParam("group_id") UUID group_id, @PathParam("user_id") UUID user_id) {
+    public Response deleteGroupUser(@PathParam("group_id") final UUID group_id, @PathParam("user_id") final UUID user_id) {
         service.deleteGroupUser(group_id, user_id);
         return Response.ok().build();
     }
