@@ -121,8 +121,7 @@ public class CatalogSkillsREST {
     public Response search(@QueryParam("keyword") final String keyword,
         @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
         @QueryParam("limit") final Integer limit) {
-        final List<String> list = service.search(keyword, sort, offset, limit);
-        return Response.ok(String.valueOf(list)).build();
+        return Response.ok(service.search(keyword, sort, offset, limit)).build();
     }
 
     @GET
