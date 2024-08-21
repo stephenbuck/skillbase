@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS catalog.category (
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (parent_id) REFERENCES catalog.category(category_id)
 );
 CREATE INDEX category_parent ON catalog.category(parent_id);
 CREATE INDEX category_title ON catalog.category(title);
@@ -32,7 +33,8 @@ CREATE TABLE IF NOT EXISTS catalog.skill (
   note                 VARCHAR     NOT NULL DEFAULT '',
   image                TEXT            NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (category_id) REFERENCES catalog.category(category_id)
 );
 CREATE INDEX skill_category ON catalog.skill(category_id);
 CREATE INDEX skill_title ON catalog.skill(title);
@@ -45,7 +47,6 @@ insert into catalog.skill (title, category_id, note) values('Skill-5', (select c
 
 CREATE TABLE IF NOT EXISTS catalog.credential (
   credential_id        UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
-  model_id             UUID            NULL DEFAULT NULL,
   skill_id             UUID        NOT NULL,
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS catalog.credential (
   image                TEXT            NULL DEFAULT NULL,
   bpmn                 TEXT            NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (skill_id) REFERENCES catalog.skill(skill_id)
 );
 CREATE INDEX credential_skill ON catalog.credential(skill_id);
 CREATE INDEX credential_title ON catalog.credential(title);

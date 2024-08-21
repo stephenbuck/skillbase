@@ -15,18 +15,24 @@ nav:
         - 'Build': 'backend/catalog/build.md'
         - 'Test': 'backend/catalog/test.md'
         - 'Endpoints': 'backend/catalog/endpoints.md'
-      - 'Workflow':
-        - 'Overview': 'backend/workflow/index.md'
-        - 'Design': 'backend/workflow/design.md'
-        - 'Build': 'backend/workflow/build.md'
-        - 'Test': 'backend/workflow/test.md'
-        - 'Endpoints': 'backend/workflow/endpoints.md'
       - 'Member':
         - 'Overview': 'backend/member/index.md'
         - 'Design': 'backend/member/design.md'
         - 'Build': 'backend/member/build.md'
         - 'Test': 'backend/member/test.md'
         - 'Endpoints': 'backend/member/endpoints.md'
+      - 'Storage':
+        - 'Overview': 'backend/storage/index.md'
+        - 'Design': 'backend/storage/design.md'
+        - 'Build': 'backend/storage/build.md'
+        - 'Test': 'backend/storage/test.md'
+        - 'Endpoints': 'backend/storage/endpoints.md'
+      - 'Workflow':
+        - 'Overview': 'backend/workflow/index.md'
+        - 'Design': 'backend/workflow/design.md'
+        - 'Build': 'backend/workflow/build.md'
+        - 'Test': 'backend/workflow/test.md'
+        - 'Endpoints': 'backend/workflow/endpoints.md'
   - 'Frontend':
       - 'Overview': 'frontend/index.md'
       - 'Design': 'frontend/design.md'

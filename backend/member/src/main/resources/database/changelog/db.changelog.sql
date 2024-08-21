@@ -25,6 +25,20 @@ INSERT INTO member.user(user_name, first_name, last_name, email, phone, note) va
 INSERT INTO member.user(user_name, first_name, last_name, email, phone, note) values('User-4', 'First-1', 'Last-1', 'Email-1', 'Phone-1', 'Note-4');
 INSERT INTO member.user(user_name, first_name, last_name, email, phone, note) values('User-5', 'First-1', 'Last-1', 'Email-1', 'Phone-1', 'Note-5');
 
+
+CREATE TABLE IF NOT EXISTS member.follow (
+  follow_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  source_id            UUID        NOT NULL,
+  target_id            UUID        NOT NULL,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (source_id) REFERENCES member.user(user_id),
+  FOREIGN KEY (target_id) REFERENCES member.user(user_id)
+);
+CREATE INDEX follow_source ON member.follow(source_id);
+CREATE INDEX follow_target ON member.follow(target_id);
+
+
 CREATE TABLE IF NOT EXISTS member.group (
   group_id             UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   title                VARCHAR     NOT NULL,
@@ -47,7 +61,8 @@ CREATE TABLE IF NOT EXISTS member.process (
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (user_id) REFERENCES member.user(user_id)
 );
 CREATE INDEX process_user ON member.process(user_id);
 
@@ -60,7 +75,8 @@ CREATE TABLE IF NOT EXISTS member.achievement (
   image                TEXT            NULL DEFAULT NULL,
   valid_for            INT             NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (user_id) REFERENCES member.user(user_id)
 );
 CREATE INDEX achievement_user ON member.achievement(user_id);
 CREATE INDEX achievement_title ON member.achievement(title);

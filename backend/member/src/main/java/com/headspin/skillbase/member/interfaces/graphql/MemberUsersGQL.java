@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
- * Member users REST endpoint.
+ * Member users GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0

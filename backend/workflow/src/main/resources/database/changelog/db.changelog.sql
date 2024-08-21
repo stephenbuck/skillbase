@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS workflow.definition (
   title                    VARCHAR     NOT NULL,
   note                     VARCHAR     NOT NULL DEFAULT '',
   created_at               TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at               TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at               TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (deployment_id) REFERENCES workflow.deployment(deployment_id)
 );
 CREATE INDEX definition_title ON workflow.definition(title);
 CREATE INDEX definition_deployment ON workflow.definition(deployment_id);
@@ -48,7 +49,8 @@ CREATE TABLE IF NOT EXISTS workflow.instance (
   title                    VARCHAR     NOT NULL,
   note                     VARCHAR     NOT NULL DEFAULT '',
   created_at               TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at               TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at               TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (definition_id) REFERENCES workflow.definition(definition_id)
 );
 CREATE INDEX instance_title ON workflow.instance(title);
 
@@ -65,7 +67,8 @@ CREATE TABLE IF NOT EXISTS workflow.task (
   title                    VARCHAR     NOT NULL,
   note                     VARCHAR     NOT NULL DEFAULT '',
   created_at               TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at               TIMESTAMP   NOT NULL DEFAULT now()
+  updated_at               TIMESTAMP   NOT NULL DEFAULT now(),
+  FOREIGN KEY (instance_id) REFERENCES workflow.instance(instance_id)
 );
 CREATE INDEX task_title ON workflow.task(title);
 CREATE INDEX task_instance ON workflow.task(instance_id);

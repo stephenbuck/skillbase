@@ -52,6 +52,7 @@
     <jakarta.persistence.version>3.2.0</jakarta.persistence.version>
     <jakarta.version>10.0.0</jakarta.version>
     <java.problem.version>0.27.1</java.problem.version>
+    <java.s3.spi.version>2.0.4</java.s3.spi.version>
     <json.validator.version>1.4.0</json.validator.version>
     <junit.version>5.9.2</junit.version>
     <kafka.clients.version>3.7.1</kafka.clients.version>
@@ -363,6 +364,12 @@
       <!-- External -->
 
       <dependency>
+        <artifactId>aws-java-nio-spi-for-s3</artifactId>
+        <groupId>software.amazon.nio.s3</groupId>
+        <version>${java.s3.spi.version}</version>
+      </dependency>
+    
+      <dependency>
         <artifactId>cloudevents-api</artifactId>
         <groupId>io.cloudevents</groupId>
         <version>${cloudevents.version}</version>
@@ -669,6 +676,7 @@
     <module>common</module>
     <module>catalog</module>
     <module>member</module>
+    <module>storage</module>
     <module>workflow</module>
 </modules>
 

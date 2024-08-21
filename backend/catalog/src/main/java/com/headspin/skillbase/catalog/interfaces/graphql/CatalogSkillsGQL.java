@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
- * Catalog skills REST endpoint.
+ * Catalog skills GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0

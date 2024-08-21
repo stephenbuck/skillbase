@@ -330,6 +330,19 @@ resource "kafka_topic" "skillbase_member_event" {
   ]
 }
 
+resource "kafka_topic" "skillbase_storage_event" {
+  name = "skillbase_storage_event"
+  replication_factor = 1
+  partitions = 1
+  config = {
+    "segment.ms" = "20000"
+    "cleanup.policy" = "compact"
+  }
+  depends_on = [
+    docker_container.kafka
+  ]
+}
+
 resource "kafka_topic" "skillbase_workflow_event" {
   name = "skillbase_workflow_event"
   replication_factor = 1
@@ -511,6 +524,7 @@ resource "docker_container" "wildfly" {
 
     //    kafka_topic.skillbase_catalog_event,
     //    kafka_topic.skillbase_member_event,
+    //    kafka_topic.skillbase_storage_event,
     //    kafka_topic.skillbase_workflow_event
   ]
 }
@@ -554,6 +568,28 @@ resource "docker_container" "member" {
     docker_container.etcd,
     docker_container.kafka,
     docker_container.keycloak,
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
+# Skillbase Storage
+################################################################################
+
+resource "docker_image" "storage" {
+  name = "skillbase/storage:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "storage" {
+  name  = "storage"
+  image = docker_image.storage.image_id
+  depends_on = [
+    docker_container.etcd,
+    docker_container.kafka,
     docker_container.postgres,
     docker_container.registry
   ]

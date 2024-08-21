@@ -75,20 +75,6 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Workflow</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../workflow/">Overview</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../workflow/design/">Design</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../workflow/build/">Build</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../workflow/test/">Test</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../workflow/endpoints/">Endpoints</a>
-                </li>
-    </ul>
-                </li>
                 <li class="toctree-l2"><a class="reference internal" >Member</a>
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="../../member/">Overview</a>
@@ -100,6 +86,34 @@
                 <li class="toctree-l3"><a class="reference internal" href="../../member/test/">Test</a>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../../member/endpoints/">Endpoints</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Storage</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../storage/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../storage/design/">Design</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../storage/build/">Build</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../storage/test/">Test</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../storage/endpoints/">Endpoints</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Workflow</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../workflow/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../workflow/design/">Design</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../workflow/build/">Build</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../workflow/test/">Test</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../workflow/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -165,7 +179,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>mvn install:install-file -Dfile=target/skillbase-backend-common-0.1.jar -DgroupId=com.headspin.skillbase -DartifcatId=skillbase-backend-common -Dversion=0.1 -Dpackaging=jar -DgeneratePom=true</p>
+                <p>mvn clean verify install:install-file -Dfile=target/skillbase-backend-common-0.1.jar -DgroupId=com.headspin.skillbase -DartifcatId=skillbase-backend-common -Dversion=0.1 -Dpackaging=jar -DgeneratePom=true</p>
               
             </div>
           </div><footer>

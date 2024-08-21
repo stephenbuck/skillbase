@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
- * Member achievements REST endpoint.
+ * Member achievements GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0

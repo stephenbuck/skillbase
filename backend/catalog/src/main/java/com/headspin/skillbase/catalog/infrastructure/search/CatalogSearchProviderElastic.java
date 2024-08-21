@@ -38,9 +38,7 @@ public class CatalogSearchProviderElastic implements CatalogSearchProvider {
     public void test() {
         log.info("test:");
         List<String> results = search("cpr", null, null, null);
-        for (String result : results) {
-            log.info("result = {}", result);
-        }
+        results.forEach(System.out::println);
     }
 
     @Override

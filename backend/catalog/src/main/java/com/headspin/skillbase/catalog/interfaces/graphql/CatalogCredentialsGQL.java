@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
- * Catalog credentials REST endpoint.
+ * Catalog credentials GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0
