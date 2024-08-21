@@ -33,14 +33,20 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class StorageFilesProviderDefault implements StorageFilesProvider {
 
-    private final URI mount;
+    // Config: com.headspin.skillbase.storage.files.url
+    private static final String configUrl = "sqlite3://myjfs.db";
+
+    // Config: com.headspin.skillbase.storage.files.root
+    private static final String configRoot = "/";
+
+    private final URI url;
     private final FileSystem fsys;
     private final String root;
 
     public StorageFilesProviderDefault() {
-        this.mount = URI.create("");
-        this.fsys = FileSystems.getFileSystem(mount);
-        this.root = "/";
+        this.url = URI.create(configUrl);
+        this.fsys = FileSystems.getFileSystem(url);
+        this.root = configRoot;
     }
     
     @Override
