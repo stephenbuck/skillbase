@@ -86,31 +86,29 @@ Sklllbase uses the Jakarta EE Health framework to runtime health information.
 
 **Messaging (Jakarta EE JMS):**
 
-The Skillbase backend uses the Jakarta EE JMS framework to produce and consume events.
-
-
-**Metrics (Jakarta EE Metrics):**
-
-The Skillbase backend uses the Jakarta EE Metrics framework to provide runtime metrics.
-
-* See https://github.com/smallrye/smallrye-metrics
-* See https://microprofile.io/specifications/microprofile-metrics/
+The Skillbase backend uses the Jakarta EE JMS framework to produce and consume events via a
+message broker (e.g. Kafka).
 
 
 **Search (Elasticsearch)**
 
-The Skillbase backend uses the Elasticsearch engine for keyword search.
+The Skillbase backend uses the Elasticsearch engine for keyword search. The search engine is
+updated via Change Data Capture (CDC) events (e.g. Debezium).
 
 * See https://elasticsearch.co
 
 
-**Persistence (Jakarta EE Persistence):**
+**Persistence (Jakarta EE Persistence, MinIO Object Store):**
 
-The Skillbase backend uses the Jakara EE Persistence framework for object storage.
+The Skillbase backend uses the Jakara EE Persistence framework for relational (e.g. PostgreSQL)
+data storage and a distributed object store (e.g. MinIO) for content storage. Distributed objects
+are accessed through a POSIX file system layer (e.g. JuiceFS).
 
 * See https://postgresql.org
 * See https://liquibase.com
 * See https://github.com/mtxr/vscode-sqltools
+* See https://minio.com
+* See https://juicefs.com
 
 
 **GraphQL (Jakarta Microprofile GraphQL):**

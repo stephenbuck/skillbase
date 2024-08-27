@@ -27,6 +27,14 @@ in the future.
 
 * See https://postgresql.org
 
+**Storage (skillbase/minio):**
+
+Object storage functionality (Postgres) runs in a custom container derived from the 'minio/minio:latest' image. The Skillbase image adds configuration files to create the main 'skillbase' database. Objects are accessed through a
+POSIX file system layer (JuiceFS).
+
+* See https://min.io
+* See https://juicefs.com
+
 **Identity (skillbase/keycloak):**
 
 Identity functionality (Keycloak) runs in a custom container derived from the

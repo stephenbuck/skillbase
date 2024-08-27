@@ -3,9 +3,7 @@
 **REST Endpoints:**
 
 * '/storage'
-* '/storage/categories'
-* '/storage/credentials'
-* '/storage/skills'
+* '/storage/files'
 
 **GraphQL Endpoints:**
 

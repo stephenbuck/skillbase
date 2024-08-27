@@ -7,6 +7,17 @@ process is defined by BPMN and can be an arbitrarily complex combination of
 user tasks, manual tasks, email message, etc. It results in a pass or fail
 result. A pass result causes a user achievement to be created.
 
+File storage, for images and other artifacts, is based on a POSIX filesystem
+provided by the JuiceFS filesystem. The workflow service will use the following
+directory layout. File names will be based on UUIDs and MIME types will be
+handled by file extensions.
+
+```
+skillbase
+    workflow
+        <file-uuid>.<file-extension>
+        ...
+```
 
 **Domain Entities:**
 

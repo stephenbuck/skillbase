@@ -1,5 +1,6 @@
 package com.headspin.skillbase.member.interfaces.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,6 +66,30 @@ public class MemberUsersREST {
     @Operation(summary = "Update existing member user")
     public Response update(final MemberUser user) {
         return Response.ok(service.update(user)).build();
+    }
+
+    @POST
+    @Path("{user_id}/image")
+    @Operation(summary = "Upload member image")
+    public Response uploadImage(@PathParam("user_id") final UUID user_id) throws IOException {
+        service.uploadImage(user_id, null, null);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("{user_id}/image")
+    @Operation(summary = "Download member image")
+    public Response downloadImage(@PathParam("user_id") final UUID user_id) throws IOException {
+        String type = service.downloadImage(user_id, null);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{user_id}/image")
+    @Operation(summary = "Delete member image")
+    public Response deleteImage(@PathParam("user_id") final UUID user_id) throws IOException {
+        service.deleteImage(user_id);
+        return Response.ok().build();
     }
 
     @GET

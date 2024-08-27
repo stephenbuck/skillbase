@@ -33,7 +33,6 @@ public class MemberApp extends AppBase {
     private final MemberAppEvents events;
     private final MemberAppFeatures features;
     private final MemberAppHealth health;
-    private final MemberAppMetrics metrics;
     private final MemberAppTelemetry telemetry;
 
     public MemberApp() {
@@ -42,7 +41,6 @@ public class MemberApp extends AppBase {
         this.events = new MemberAppEvents();
         this.features = new MemberAppFeatures();
         this.health = new MemberAppHealth();
-        this.metrics = new MemberAppMetrics();
         this.telemetry = new MemberAppTelemetry();
     }
 

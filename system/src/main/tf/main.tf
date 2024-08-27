@@ -49,6 +49,33 @@ resource "docker_network" "private_network" {
 
 /*
 ################################################################################
+# ApiCurio
+################################################################################
+
+resource "docker_image" "apicurio" {
+  name = "skillbase/apicurio:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "apicurio" {
+  name = "apicurio"
+  image = docker_image.apicurio.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
+  ports {
+    internal = 8080
+    external = 8085
+  }
+  depends_on = [
+    docker_container.kafka,
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
 # ApiSix
 ################################################################################
 
@@ -95,8 +122,8 @@ resource "docker_container" "debezium" {
   network_mode = docker_network.private_network.name
   restart = "always"
   ports {
-    internal = 8085
-    external = 8085
+    internal = 8080
+    external = 8088
   }
   volumes {
     container_path = "/debezum/conf"
@@ -114,6 +141,7 @@ resource "docker_container" "debezium" {
 }
 */
 
+/*
 ################################################################################
 # Elasticsearch
 ################################################################################
@@ -144,6 +172,7 @@ resource "docker_container" "elastic" {
     docker_container.registry
   ]
 }
+*/
 
 /*
 ################################################################################
@@ -387,6 +416,41 @@ resource "docker_container" "keycloak" {
 }
 */
 
+################################################################################
+# Minio
+################################################################################
+
+resource "docker_image" "minio" {
+  name = "quay.io/minio/minio:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "minio" {
+  name = "minio1"
+  image = docker_image.minio.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "MINIO_ROOT_USER=skillbase",
+    "MINIO_ROOT_PASSWORD=skillbase"
+  ]
+  ports {
+    internal = 9000
+    external = 9000
+  }
+  ports {
+    internal = 9001
+    external = 9001
+  }
+  volumes {
+    container_path = "/data"
+    host_path = "/home/stephenbuck/Desktop/skillbase/system/runtime/minio/data"
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+  command = ["server", "/data", "--console-address", ":9001"]
+}
+
 /*
 ################################################################################
 # Nginx
@@ -514,11 +578,13 @@ resource "docker_container" "wildfly" {
     "WILDFLY_MGMT_BIND_INTERFACE=0.0.0.0"
   ]
   depends_on = [
-    docker_container.elastic,
+    //    docker_container_debezium,
+    //    docker_container.elastic,
     //    docker_container.flipt,
     //    docker_container.flowable,
     docker_container.kafka,
     //    docker_container.keycloak,
+    docker_container.minio,
     docker_container.postgres,
     docker_container.registry
 

@@ -1,4 +1,4 @@
-package com.headspin.skillbase.storage.providers;
+package com.headspin.skillbase.member.providers;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,13 @@ import java.util.UUID;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Storage files provider interface.
+ * Member files provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
-public interface StorageFilesProvider {
+public interface MemberFilesProvider {
 
     public Path resolvePath(@NotNull final UUID homeUuid, @NotNull final UUID srcUuid);
 
@@ -39,19 +39,6 @@ public interface StorageFilesProvider {
 
     public List<String> list(@NotNull final UUID homeUuid, @NotNull final UUID dirUuid) throws IOException;
 
-
-
-
-    public void uploadObject(String id, InputStream input, Long size) throws Exception;
-
-    public InputStream downloadObject(String id) throws Exception;
-
-    public void deleteObject(String id) throws Exception;
-
-    public List<String> listObjects() throws Exception;
-
-
-    
     public void test();
     
 }

@@ -33,7 +33,6 @@ public class WorkflowApp extends Application {
     private final WorkflowAppEvents events; 
     private final WorkflowAppFeatures features; 
     private final WorkflowAppHealth health; 
-    private final WorkflowAppMetrics metrics;
     private final WorkflowAppTelemetry telemetry; 
 
     public WorkflowApp() {
@@ -42,7 +41,6 @@ public class WorkflowApp extends Application {
         this.events = new WorkflowAppEvents();
         this.features = new WorkflowAppFeatures();
         this.health = new WorkflowAppHealth();
-        this.metrics = new WorkflowAppMetrics();
         this.telemetry = new WorkflowAppTelemetry();
     }
 

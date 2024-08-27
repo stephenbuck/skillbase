@@ -7,6 +7,19 @@ are associated with a user.
 The member service delegates some of its functionality to a third-party IAM
 (e.g. Keycloak) for authentication, authorization, and JWT tokens.
 
+File storage, for images and BPMN models, is based on a POSIX filesystem
+provided by the JuiceFS filesystem. The member service will use the following
+directory layout. File names will be based on UUIDs and MIME types will be
+handled by file extensions.
+
+```
+skillbase
+    member
+        <user-uuid>
+            <file-uuid.<file-extension>>
+            ...
+        ...
+```
 
 **Domain Entities:**
 

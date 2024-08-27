@@ -16,21 +16,23 @@ import com.headspin.skillbase.workflow.domain.WorkflowTask;
 
 public interface WorkflowEngineProvider {
 
-    public UUID insertDefinition(WorkflowDefinition definition);
-    public boolean updateDefinition(WorkflowDefinition definition);
-    public boolean deleteDefinition(UUID id);
+    public String insertDefinition(WorkflowDefinition definition);
+    public void updateDefinition(WorkflowDefinition definition);
+    public void deleteDefinition(UUID id);
 
-    public UUID insertDeployment(WorkflowDeployment deployment);
-    public boolean updateDeployment(WorkflowDeployment deployment);
-    public boolean deleteDeployment(UUID id);
+    public String insertDeployment(WorkflowDeployment deployment);
+    public void updateDeployment(WorkflowDeployment deployment);
+    public void deleteDeployment(UUID id);
 
-    public UUID insertInstance(WorkflowInstance instance);
-    public boolean updateInstance(WorkflowInstance instance);
-    public boolean deleteInstance(UUID id);
+    public String insertInstance(WorkflowInstance instance);
+    public void updateInstance(WorkflowInstance instance);
+    public void deleteInstance(UUID id);
 
-    public UUID insertTask(WorkflowTask task);
-    public boolean updateTask(WorkflowTask task);
-    public boolean deleteTask(UUID id);
+    public String insertTask(WorkflowTask task);
+    public void updateTask(WorkflowTask task);
+    public void deleteTask(UUID id);
+
+    public String startProcess(UUID id);
 
     public void test();
 

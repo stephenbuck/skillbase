@@ -31,7 +31,6 @@ public class StorageApp extends AppBase {
     private StorageAppEvents events;
     private StorageAppFeatures features;
     private StorageAppHealth health;
-    private StorageAppMetrics metrics;
     private StorageAppTelemetry telemetry;
 
     public StorageApp() {
@@ -40,7 +39,6 @@ public class StorageApp extends AppBase {
         this.events = new StorageAppEvents();
         this.features = new StorageAppFeatures();
         this.health = new StorageAppHealth();
-        this.metrics = new StorageAppMetrics();
         this.telemetry = new StorageAppTelemetry();
     }
 

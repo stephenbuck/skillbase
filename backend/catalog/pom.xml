@@ -24,6 +24,44 @@
     <plugins>
 
       <plugin>
+        <artifactId>apicurio-registry-maven-plugin</artifactId>
+        <groupId>io.apicurio</groupId>
+        <!--
+        <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                  <goal>register</goal>  
+              </goals>
+              <configuration>
+                  <registryUrl>MY-REGISTRY-URL/apis/registry/v2</registryUrl> 
+                  <authServerUrl>MY-AUTH-SERVER</authServerUrl>
+                  <clientId>MY-CLIENT-ID</clientId>
+                  <clientSecret>MY-CLIENT-SECRET</clientSecret> 
+                  <clientScope>MY-CLIENT-SCOPE</clientScope>
+                  <artifacts>
+                      <artifact>
+                          <groupId>TestGroup</groupId> 
+                          <artifactId>FullNameRecord</artifactId>
+                          <file>${project.basedir}/src/main/resources/schemas/record.avsc</file>
+                          <ifExists>FAIL</ifExists>
+                      </artifact>
+                      <artifact>
+                          <groupId>TestGroup</groupId>
+                          <artifactId>ExampleAPI</artifactId> 
+                          <type>GRAPHQL</type>
+                          <file>${project.basedir}/src/main/resources/apis/example.graphql</file>
+                          <ifExists>RETURN_OR_UPDATE</ifExists>
+                          <canonicalize>true</canonicalize>
+                      </artifact>
+                  </artifacts>
+              </configuration>
+          </execution>
+        </executions>
+        -->
+      </plugin>
+       
+      <plugin>
         <artifactId>build-helper-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
       </plugin>
@@ -369,8 +407,8 @@
     </dependency>
 
     <dependency>
-      <artifactId>microprofile-metrics-api</artifactId>
-      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-telemetry-api</artifactId>
+      <groupId>org.eclipse.microprofile.telemetry</groupId>
     </dependency>
 
     <dependency>

@@ -6,41 +6,45 @@ import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowTask;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.EntityPart;
-import jakarta.ws.rs.core.GenericEntity;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonReader;
-import jakarta.ws.rs.client.Client;
-
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Base64;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.ProcessEngine;
+import org.flowable.engine.ProcessEngineConfiguration;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.DeploymentQuery;
+import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.engine.runtime.ProcessInstanceBuilder;
+import org.flowable.task.api.Task;
 
 /**
  * Flowable implementation of workflow engine provider interface.
  * 
  * Mappings:
  * 
- *   WorkflowDeployment.peer_id is a Flowable deployment_id.
- *   WorkflowDefinition.peer_id is a Flowable definition_id.
- *   WorkflowInstance.peer_id is a Flowable instance_definition_id.
- *   WorkflowInstance.peer_id is a Flowable instance_instance_id.
- *   WorkflowTask.peer_id is a Flowable task_id.
+ * WorkflowDeployment.peer_id is a Flowable deployment_id.
+ * WorkflowDefinition.peer_id is a Flowable definition_id.
+ * WorkflowInstance.peer_id is a Flowable instance_definition_id.
+ * WorkflowInstance.peer_id is a Flowable instance_instance_id.
+ * WorkflowTask.peer_id is a Flowable task_id.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -50,362 +54,194 @@ import java.util.UUID;
 @ApplicationScoped
 public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
-    private final Client client = ClientBuilder.newClient();
-    private final WebTarget targetService;
-    private final WebTarget targetRepository;
-    private final WebTarget targetDeployments;
-    private final WebTarget targetDefinitions;
-    private final WebTarget targetInstanceDefinitions;
-    private final WebTarget targetRuntime;
-    private final WebTarget targetInstanceInstances;
-    private final WebTarget targetTasks;
-
-    private final String username = "rest-admin";
-    private final String password = "test";
-    private final String userpass = username + ":" + password;
-    private final String basicAuth;
+    private final ProcessEngineConfiguration config;
+    private final ProcessEngine engine;
+//    private final IdentityService identity;
+    private final RepositoryService repository;
+    private final RuntimeService runtime;
+    private final TaskService task;
 
     public WorkflowEngineProviderFlowable() {
 
-        this.targetService = client.target("http://flowable:8081/flowable-rest/service");
-
-        this.targetRepository = targetService.path("repository");
-        this.targetDeployments = targetRepository.path("deployments");
-        this.targetDefinitions = targetRepository.path("definitions");
-        this.targetInstanceDefinitions = targetRepository.path("instance-definitions");
-
-        this.targetRuntime = targetService.path("runtime");
-        this.targetInstanceInstances = targetRuntime.path("instance-instances");
-        this.targetTasks = targetRuntime.path("tasks");
-
-        this.basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
+        this.config = new StandaloneProcessEngineConfiguration()
+            .setJdbcUrl("jdbc:postgresql://postgres:5432/skillbase")
+            .setJdbcUsername("postgres")
+            .setJdbcPassword("postgres")
+            .setJdbcDriver("org.postgresql.Driver")
+            .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+        this.engine = config.buildProcessEngine();
+//        this.identity = engine.getIdentityService();
+        this.repository = engine.getRepositoryService();
+        this.runtime = engine.getRuntimeService();
+        this.task = engine.getTaskService();
     }
 
-    /*
-    private JsonObject createDeployment(String resourceName) {
+    @Override
+    @Transactional
+    public String insertDefinition(WorkflowDefinition definition) {
+
+        String deploymentId = "";
+
+        ProcessDefinition peerDefinition = repository.createProcessDefinitionQuery()
+                .deploymentId(null) // BOZO
+                .singleResult();
+        log.info("peerDefinition = {}", peerDefinition.getName());
+
+        return peerDefinition.getId();
+    }
+
+    @Override
+    public void updateDefinition(WorkflowDefinition definition) {
+    }
+
+    @Override
+    public void deleteDefinition(UUID id) {
+    }
+
+    /**
+     * Creates a Flowable deployment based on a Skillbase deployment.
+     * 
+     * This method is transactional so that it can be combined with the
+     * insertion of the Skillbase deployment into the database.commons/
+     * 
+     * The steps are:
+     * 1) Create an in-memory BAR (aka ZIP) file containing the BPMN file.
+     * 2) Create a Flowable deployment with:
+     *    - The Skillbase deployment title as the name
+     *    - The Skillbase deployment id as the key
+     *    - The BAR file contents
+     * 
+     * @param deployment The Skillable deployment
+     * @return the Flowable deployment ID
+     */
+    @Override
+    @Transactional
+    public String insertDeployment(WorkflowDeployment deployment) {
+
         try {
 
-            List<EntityPart> parts = Arrays.asList(
-                    EntityPart.withName("file")
-                            .fileName(resourceName)
-                            .content(this.getClass().getResourceAsStream(resourceName))
-                            .build());
+            // Create an output stream for the Zip "file" bytes
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ZipOutputStream zos = new ZipOutputStream(bos);
 
-            GenericEntity<List<EntityPart>> genericEntity = new GenericEntity<>(parts) {
-            };
+            // Add the deployment BPMN as an entry
+            ZipEntry ze = new ZipEntry(deployment.title);
+            zos.putNextEntry(ze);
+            zos.write(bos.toByteArray(), 0, bos.size());
+    
+            // Finish the Zip stream
+            zos.finish();
+    
+            // Create an input stream from the Zip "file" bytes
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ZipInputStream zip = new ZipInputStream(bis);
 
-            var entity = Entity.entity(genericEntity, MediaType.MULTIPART_FORM_DATA);
+            // Create a Flowable deployment with the Zip "file" and our ID as the key
+            Deployment peerDeployment = repository.createDeployment()
+                .name(deployment.title)
+                .key(String.valueOf(deployment.deployment_id))
+                .addZipInputStream(zip)
+                .deploy();
+            log.info("peerDeployment = {}", peerDeployment.getId());
 
-            Response resp = targetDeployments
-                    .request(MediaType.MULTIPART_FORM_DATA)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .post(entity);
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
+            return peerDeployment.getId();
         }
-
         catch (Exception e) {
-            log.info(String.valueOf(e));
+            e.printStackTrace();
             return null;
         }
-    }
-
-    private JsonObject listDeployments() {
-        try {
-            Response resp = targetDeployments
-                    .request(MediaType.TEXT_PLAIN_TYPE)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .get();
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        } catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private JsonObject listDefinitions(String deploymentId) {
-        try {
-            Response resp = targetDefinitions
-                    .queryParam("deploymentId", deploymentId)
-                    .request(MediaType.TEXT_PLAIN_TYPE)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .get();
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        } catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private JsonObject listInstanceDefinitions(String deploymentId) {
-        try {
-
-            Response resp = targetInstanceDefinitions
-                    .queryParam("deploymentId", deploymentId)
-                    .request(MediaType.TEXT_PLAIN_TYPE)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .get();
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        } catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private JsonObject listInstanceInstances(String pid) {
-        try {
-            Response resp = targetInstanceInstances
-                    .queryParam("instanceDefinitionId", pid)
-                    .request(MediaType.TEXT_PLAIN_TYPE)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .get();
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        } catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private JsonObject startInstanceInstance(String pdid) {
-        try {
-
-            JsonObjectBuilder jvb = Json.createObjectBuilder();
-            jvb.add("name", "holiday");
-            jvb.add("employee", "admin");
-            jvb.add("nrOfHolidays", "3");
-            jvb.add("description", "beach");
-
-            JsonArrayBuilder jab = Json.createArrayBuilder();
-            jab.add(jvb.build());
-
-            JsonObjectBuilder job = Json.createObjectBuilder();
-            job.add("instanceDefinitionId", pdid);
-            // job.add("instanceDefinitionKey", "holidayRequest");
-            job.add("returnVariables", true);
-            job.add("variables", jab.build());
-
-            JsonObject jvp = job.build();
-
-            var start = Entity.json(jvp.toString());
-
-            Response resps = targetInstanceInstances
-                    .request(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .post(start);
-
-            String respStr = resps.readEntity(String.class);
-
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        }
-
-        catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private JsonObject listTasks(String piid) {
-        try {
-            Response resp = targetTasks
-                    // / .queryParam("instanceInstanceId", piid)
-                    .request(MediaType.TEXT_PLAIN_TYPE)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, basicAuth)
-                    .get();
-
-            String respStr = resp.readEntity(String.class);
-            JsonReader respReader = Json.createReader(new StringReader(respStr));
-            JsonObject respObject = respReader.readObject();
-
-            return respObject;
-        }
-
-        catch (Exception e) {
-            log.info(String.valueOf(e));
-            throw e;
-        }
-    }
-
-    private void testRest(String resourceName) {
-
-        try {
-            log.info("================================\n");
-
-            JsonObject createResp = createDeployment(resourceName);
-            log.info("createResp = {}", createResp);
-
-            String did = createResp.getString("id");
-            log.info("did = {}", did);
-
-            log.info("================================\n");
-
-            JsonObject listDeploymentsResp = listDeployments();
-            log.info("listDeploymentsResp = {}", listDeploymentsResp);
-
-            log.info("================================\n");
-
-            JsonObject listDefinitionsResp = listDefinitions(did);
-            log.info("listDefinitionsResp = {}", listDefinitionsResp);
-
-            log.info("================================\n");
-
-            JsonObject listInstanceDefinitionsResp = listInstanceDefinitions(did);
-            log.info("listInstanceDefinitionsResp = {}", listInstanceDefinitionsResp);
-
-            JsonArray pdlist = listInstanceDefinitionsResp.getJsonArray("data");
-            log.info("pdlist = {}", pdlist);
-
-            JsonObject pdobj = pdlist.getJsonObject(0);
-            log.info("pdobj = {}", pdobj);
-
-            String pdid = pdobj.getString("id");
-            log.info("resp pdid = {}", pdid);
-
-            log.info("================================\n");
-
-            JsonObject listInstanceInstancesResp = listInstanceInstances(pdid);
-            log.info("listInstanceInstancesResp = {}", listInstanceInstancesResp);
-
-            log.info("================================\n");
-
-            JsonObject startInstanceInstanceResp = startInstanceInstance(pdid);
-            log.info("startInstanceInstanceResp = {}", startInstanceInstanceResp);
-
-            String piid = startInstanceInstanceResp.getString("id");
-            log.info("piid = {}", piid);
-
-            log.info("================================\n");
-
-            JsonObject listInstanceInstancesRespAfter = listInstanceInstances(pdid);
-            log.info("listInstanceInstancesRespAfter = {}", listInstanceInstancesRespAfter);
-
-            log.info("================================\n");
-
-            JsonObject listTasksResp = listTasks(piid);
-            log.info("listTasksResp = {}", listTasksResp);
-
-            log.info("================================\n");
-
-            JsonArray tklist = listTasksResp.getJsonArray("data");
-            log.info("tklist = {}", tklist);
-
-            JsonObject tkobj = tklist.getJsonObject(0);
-            log.info("tkobj = {}", tkobj);
-
-            String tkid = tkobj.getString("id");
-            log.info("resp tkid = {}", tkid);
-
-            log.info("================================\n");
-
-        } catch (Exception e) {
-            log.info(String.valueOf(e));
-        } finally {
-            // client.close();
-        }
 
     }
-        */
 
     @Override
-    public UUID insertDefinition(WorkflowDefinition definition) {
+    public void updateDeployment(WorkflowDeployment deployment) {
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteDeployment(UUID id) {
+
+        Deployment peerDeployment = repository
+            .createDeploymentQuery()
+               .deploymentKey(String.valueOf(id))
+               .singleResult();
+
+        repository.deleteDeployment(peerDeployment.getId(), true);
+    }
+
+    @Override
+    @Transactional
+    public String startProcess(UUID id) {
+
+        // ProcessDefinition definition = repository.getProcessDefinition(String.valueOf(id));
+
+        ProcessInstance instance = runtime.createProcessInstanceBuilder()
+            .processDefinitionKey(String.valueOf(id))
+            .name(String.valueOf(id))
+//            .variables()
+            .start();
+
+        return instance.getId();
+    }
+
+   
+    @Override
+    public String insertInstance(WorkflowInstance instance) {
         return null;
     }
 
     @Override
-    public boolean updateDefinition(WorkflowDefinition definition) {
-        return true;
+    public void updateInstance(WorkflowInstance instance) {
     }
 
     @Override
-    public boolean deleteDefinition(UUID id) {
-        return true;
+    public void deleteInstance(UUID id) {
+        String peerId = String.valueOf(id);
+        runtime.deleteProcessInstance(peerId, "");
     }
 
-
     @Override
-    public UUID insertDeployment(WorkflowDeployment deployment) {
+    public String insertTask(WorkflowTask task) {
         return null;
     }
 
     @Override
-    public boolean updateDeployment(WorkflowDeployment deployment) {
-        return true;
+    public void updateTask(WorkflowTask task) {
     }
 
     @Override
-    public boolean deleteDeployment(UUID id) {
-        return true;
+    public void deleteTask(UUID id) {
+        String peerId = String.valueOf(id);
+        task.deleteTask(peerId, "");
     }
-
-
-    @Override
-    public UUID insertInstance(WorkflowInstance instance) {
-        return null;
-    }
-
-    @Override
-    public boolean updateInstance(WorkflowInstance instance) {
-        return true;
-    }
-
-    @Override
-    public boolean deleteInstance(UUID id) {
-        return true;
-    }
-
-
-    @Override
-    public UUID insertTask(WorkflowTask task) {
-        return null;
-    }
-
-    @Override
-    public boolean updateTask(WorkflowTask task) {
-        return true;
-    }
-
-    @Override
-    public boolean deleteTask(UUID id) {
-        return true;
-    }
-
 
     @Override
     public void test() {
+
         log.info("test");
-//        testRest("/test.bpmn20.bpmn");
+
+        Deployment deployment = repository.createDeployment()
+                .key("FOO")
+                .addClasspathResource("test.bpmn20.xml")
+                .deploy();
+        log.info("deployment = {}", deployment.getName());
+        ProcessDefinition definition = repository.createProcessDefinitionQuery()
+                .deploymentId(deployment.getId())
+                .singleResult();
+        log.info("definition = {}", definition.getName());
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("employee", "Steve");
+        variables.put("nrOfHolidays", 3);
+        variables.put("description", "Burned Out");
+        ProcessInstance instance = runtime.startProcessInstanceByKey("FOO", variables);
+        log.info("instance = {}", instance.getName());
+
+        List<Task> tasks = task.createTaskQuery().taskCandidateGroup("managers").list();
+        log.info("You have {} tasks", tasks.size());
+        for (int i = 0; i < tasks.size(); i++) {
+            log.info((i + 1) + ") " + tasks.get(i).getName());
+        }
     }
 }

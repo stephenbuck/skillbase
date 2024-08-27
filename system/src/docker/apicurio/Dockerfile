@@ -1,0 +1,1 @@
+FROM apicurio/apicurio-registry-mem:latest

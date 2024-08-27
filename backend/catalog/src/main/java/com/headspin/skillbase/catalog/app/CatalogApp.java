@@ -33,7 +33,6 @@ public class CatalogApp extends AppBase {
     private CatalogAppEvents events;
     private CatalogAppFeatures features;
     private CatalogAppHealth health;
-    private CatalogAppMetrics metrics;
     private CatalogAppTelemetry telemetry;
 
     public CatalogApp() {
@@ -42,7 +41,6 @@ public class CatalogApp extends AppBase {
         this.events = new CatalogAppEvents();
         this.features = new CatalogAppFeatures();
         this.health = new CatalogAppHealth();
-        this.metrics = new CatalogAppMetrics();
         this.telemetry = new CatalogAppTelemetry();
     }
 

@@ -1,5 +1,8 @@
 package com.headspin.skillbase.member.interfaces.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +19,7 @@ import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.member.providers.MemberConfigProvider;
 import com.headspin.skillbase.member.providers.MemberEventsProvider;
 import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
+import com.headspin.skillbase.member.providers.MemberFilesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -63,6 +67,9 @@ public class MemberUsersService {
 
     @Inject
     private MemberAuthProvider auth;
+
+    @Inject
+    private MemberFilesProvider fsys;
 
     /**
      * Inserts a new member user.
@@ -137,6 +144,61 @@ public class MemberUsersService {
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
+        return updated;
+    }
+
+    /**
+     * Uploads (or replaces) a member image.
+     *
+     * @param user_id The requested user id.
+     * @param type The MIME type of the image.
+     * @param input The input stream of the image.
+     * @return The updated member user.
+     * @since 1.0
+     */
+    //    @RolesAllowed({ "Admin" })
+    public MemberUser uploadImage(@NotNull final UUID user_id, @NotNull final String type, @NotNull final InputStream input) throws IOException {
+        final MemberUser current = findById(user_id).get();
+        // final UUID dstUuid = UUID.randomUUID();
+        // fsys.upload(user_id, input, dstUuid);
+        // BOZO current.image_id = fsys.upload(user_id, input);
+        // BOZO current.image_type = type;
+        final MemberUser updated = repo.update(current);
+        return updated;
+    }
+
+    /**
+     * Downloads a member image.
+     *
+     * @param user_id The requested user id.
+     * @param The image MIME type.
+     * @since 1.0
+     */
+    //    @RolesAllowed({ "Admin" })
+    public String downloadImage(@NotNull final UUID user_id, @NotNull final OutputStream output) throws IOException {
+        /*
+        final MemberUser current = findById(user_id).get();
+        if (current.image_id != null && current.image_type != null) {
+            fsys.download(user_id, current.image_id, output);
+            return current.image_type;
+        }
+        */
+        return null;
+    }
+
+    /**
+     * Deletes a member image.
+     *
+     * @param user_id The requested user id.
+     * @return The updated member user.
+     * @since 1.0
+     */
+    //    @RolesAllowed({ "Admin" })
+    public MemberUser deleteImage(@NotNull final UUID user_id) throws IOException {
+        final MemberUser current = findById(user_id).get();
+        // BOZO current.image_id = null;
+        // BOZO current.image_type = null;
+        final MemberUser updated = repo.update(current);
         return updated;
     }
 
