@@ -49,8 +49,8 @@ public class CatalogSkill extends DomainEntity {
         @JsonbProperty("note")
         @Column(name = "note") @NotNull public String note;
 
-        @JsonbProperty("image")
-        @Column(name = "image") public byte[] image;
+        @JsonbProperty("image_id")
+        @Column(name = "image_id") public String image_id;
 
         @JsonbProperty("created_at")
         @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
@@ -67,6 +67,7 @@ public class CatalogSkill extends DomainEntity {
                 stringBuilder.append("    category_id   = " + category_id + "\n");
                 stringBuilder.append("    title         = " + title + "\n");
                 stringBuilder.append("    note          = " + note + "\n");
+                stringBuilder.append("    image_id      = " + image_id + "\n");
                 stringBuilder.append("    created_at    = " + created_at + "\n");
                 stringBuilder.append("    updated_at    = " + updated_at + "\n");
                 stringBuilder.append("}\n");

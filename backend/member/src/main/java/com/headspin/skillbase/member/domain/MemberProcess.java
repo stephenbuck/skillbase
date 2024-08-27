@@ -36,9 +36,6 @@ public class MemberProcess extends DomainEntity {
         @JsonbProperty("note")
         @Column(name = "note") @NotNull public String note;
 
-        @JsonbProperty("image")
-        @Column(name = "image") public byte[] image;
-
         @JsonbProperty("created_at")
         @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
 

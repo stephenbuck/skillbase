@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS catalog.category (
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
   FOREIGN KEY (parent_id) REFERENCES catalog.category(category_id)
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS catalog.skill (
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
   FOREIGN KEY (category_id) REFERENCES catalog.category(category_id)
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS catalog.credential (
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   bpmn                 TEXT            NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now(),

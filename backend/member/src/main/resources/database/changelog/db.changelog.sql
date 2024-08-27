@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS member.user (
   phone                VARCHAR     NOT NULL,
   email                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now()
 );
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS member.group (
   group_id             UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   valid_for            INT             NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now()
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS member.achievement (
   state                VARCHAR         NULL DEFAULT NULL,
   title                VARCHAR     NOT NULL,
   note                 VARCHAR     NOT NULL DEFAULT '',
-  image                TEXT            NULL DEFAULT NULL,
+  image_id             VARCHAR         NULL DEFAULT NULL,
   valid_for            INT             NULL DEFAULT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now(),

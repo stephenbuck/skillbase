@@ -49,8 +49,8 @@ public class CatalogCredential extends DomainEntity {
         @JsonbProperty("note")
         @Column(name = "note") @NotNull public String note;
 
-        @JsonbProperty("image")
-        @Column(name = "image") public byte[] image;
+        @JsonbProperty("image_id")
+        @Column(name = "image_id") public String image_id;
 
         @JsonbProperty("bpmn")
         @Column(name = "bpmn") public byte[] bpmn;
@@ -69,7 +69,7 @@ public class CatalogCredential extends DomainEntity {
                 stringBuilder.append("    model_id      = " + model_id + "\n");
                 stringBuilder.append("    skill_id      = " + skill_id + "\n");
                 stringBuilder.append("    title         = " + title + "\n");
-                stringBuilder.append("    note          = " + note + "\n");
+                stringBuilder.append("    image_id      = " + image_id + "\n");
                 stringBuilder.append("    created_at    = " + created_at + "\n");
                 stringBuilder.append("    updated_at    = " + updated_at + "\n");
                 stringBuilder.append("}\n");
