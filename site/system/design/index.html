@@ -89,17 +89,17 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Storage</a>
+                <li class="toctree-l2"><a class="reference internal" >Image</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/storage/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/image/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/storage/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/image/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/storage/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/image/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/storage/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/image/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../backend/storage/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../backend/image/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -199,6 +199,11 @@ The use of seperate schemas will facilitate moving to a database-per-service mod
 in the future.</p>
 <ul>
 <li>See https://postgresql.org</li>
+</ul>
+<p><strong>Storage (skillbase/minio):</strong></p>
+<p>Object storage functionality (MinIO) runs in a custom container derived from the 'minio/minio:latest' image. The Skillbase image adds custom configuration.</p>
+<ul>
+<li>See https://min.io</li>
 </ul>
 <p><strong>Identity (skillbase/keycloak):</strong></p>
 <p>Identity functionality (Keycloak) runs in a custom container derived from the

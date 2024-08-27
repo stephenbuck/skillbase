@@ -13,6 +13,7 @@ import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -53,10 +54,13 @@ public class MemberAchievementsService {
     private CommonConfigProvider conf;
 
     @Inject
+    private CommonEventsProvider evnt;
+
+    @Inject
     private CommonFeaturesProvider feat;
 
     @Inject
-    private CommonEventsProvider evnt;
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new member achievement.
@@ -78,6 +82,7 @@ public class MemberAchievementsService {
                 .add("state", achievement.state)
                 .add("title", achievement.title)
                 .add("note", achievement.note)
+                .add("image_id", achievement.image_id)
                 .add("created_at", String.valueOf(achievement.created_at))
                 .add("updated_at", String.valueOf(achievement.updated_at))
                 .build());
@@ -122,6 +127,7 @@ public class MemberAchievementsService {
                 .add("state", updated.state)
                 .add("title", updated.title)
                 .add("note", updated.note)
+                .add("image_id", updated.image_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -168,10 +174,11 @@ public class MemberAchievementsService {
     // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
-        conf.test();
-        feat.test();
-        evnt.test();
         auth.test();
+        conf.test();
+        evnt.test();
+        feat.test();
+        stor.test();
         return 0;
     }
 }

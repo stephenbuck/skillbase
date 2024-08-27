@@ -11,6 +11,7 @@ import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -50,10 +51,13 @@ public class WorkflowDefinitionsService {
     private CommonConfigProvider conf;
 
     @Inject
+    private CommonEventsProvider evnt;
+
+    @Inject
     private CommonFeaturesProvider feat;
 
     @Inject
-    private CommonEventsProvider evnt;
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new workflow definition.
@@ -178,8 +182,9 @@ public class WorkflowDefinitionsService {
     public Integer test() {
         log.info("test:");
         conf.test();
-        feat.test();
         evnt.test();
+        feat.test();
+        stor.test();
         work.test();
         return 0;
     }

@@ -89,17 +89,17 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Storage</a>
+                <li class="toctree-l2"><a class="reference internal" >Image</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -188,6 +188,15 @@ category and have a corresponding deployment entity in the workflow service.
 Credential (e.g. License) are associated with a Skill and have a corresponding
 process definition in the workflow service. To achieve a credential, a user
 follows its workflow process.</p>
+<p>File storage, for images and other artifacts, is based on a POSIX filesystem
+provided by the JuiceFS filesystem. The catalog service will use the following
+directory layout. File names will be based on UUIDs and MIME types will be
+handled by file extensions.</p>
+<pre><code>skillbase
+    catalog
+        &lt;file-uuid&gt;.&lt;file-extension&gt;
+        ...
+</code></pre>
 <p><strong>Domain Entities:</strong></p>
 <ul>
 <li>CatalogCategory</li>

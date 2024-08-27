@@ -10,6 +10,7 @@ import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -52,6 +53,9 @@ public class CatalogCategoriesService {
     @Inject
     private CommonFeaturesProvider feat;
 
+    @Inject
+    private CommonStorageProvider stor;
+
     /**
      * Inserts a new catalog category.
      *
@@ -72,6 +76,7 @@ public class CatalogCategoriesService {
                 .add("is_enabled", category.is_enabled)
                 .add("title", category.title)
                 .add("note", category.note)
+                .add("image_id", category.image_id)
                 .add("created_at", String.valueOf(category.created_at))
                 .add("updated_at", String.valueOf(category.updated_at))
                 .build());
@@ -116,6 +121,7 @@ public class CatalogCategoriesService {
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
+                .add("image_id", updated.image_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -237,8 +243,9 @@ public class CatalogCategoriesService {
     public Integer test() {
         log.info("test:");
         conf.test();
-        feat.test();
         evnt.test();
+        feat.test();
+        stor.test();
         return 0;
     }
 }

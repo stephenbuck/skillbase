@@ -89,17 +89,17 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Storage</a>
+                <li class="toctree-l2"><a class="reference internal" >Image</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../storage/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../image/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../storage/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../image/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../storage/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../image/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../storage/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../image/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../storage/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../image/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -243,24 +243,24 @@ container for the microservices.</p>
 <li>See https://microprofile.io/specifications/microprofile-health/</li>
 </ul>
 <p><strong>Messaging (Jakarta EE JMS):</strong></p>
-<p>The Skillbase backend uses the Jakarta EE JMS framework to produce and consume events.</p>
-<p><strong>Metrics (Jakarta EE Metrics):</strong></p>
-<p>The Skillbase backend uses the Jakarta EE Metrics framework to provide runtime metrics.</p>
-<ul>
-<li>See https://github.com/smallrye/smallrye-metrics</li>
-<li>See https://microprofile.io/specifications/microprofile-metrics/</li>
-</ul>
+<p>The Skillbase backend uses the Jakarta EE JMS framework to produce and consume events via a
+message broker (e.g. Kafka).</p>
 <p><strong>Search (Elasticsearch)</strong></p>
-<p>The Skillbase backend uses the Elasticsearch engine for keyword search.</p>
+<p>The Skillbase backend uses the Elasticsearch engine for keyword search. The search engine is
+updated via Change Data Capture (CDC) events (e.g. Debezium).</p>
 <ul>
 <li>See https://elasticsearch.co</li>
 </ul>
-<p><strong>Persistence (Jakarta EE Persistence):</strong></p>
-<p>The Skillbase backend uses the Jakara EE Persistence framework for object storage.</p>
+<p><strong>Persistence (Jakarta EE Persistence, MinIO Object Store):</strong></p>
+<p>The Skillbase backend uses the Jakara EE Persistence framework for relational (e.g. PostgreSQL)
+data storage and a distributed object store (e.g. MinIO) for content storage. Distributed objects
+are accessed through a POSIX file system layer (e.g. JuiceFS).</p>
 <ul>
 <li>See https://postgresql.org</li>
 <li>See https://liquibase.com</li>
 <li>See https://github.com/mtxr/vscode-sqltools</li>
+<li>See https://minio.com</li>
+<li>See https://juicefs.com</li>
 </ul>
 <p><strong>GraphQL (Jakarta Microprofile GraphQL):</strong></p>
 <p>The Skillbase backend uses the Jakarta Microprofile GraphQL framework to provide GraphQL endpoints.</p>

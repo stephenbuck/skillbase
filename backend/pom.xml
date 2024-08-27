@@ -689,8 +689,8 @@
   <modules>
     <module>common</module>
     <module>catalog</module>
+    <module>image</module>
     <module>member</module>
-    <module>storage</module>
     <module>workflow</module>
 </modules>
 

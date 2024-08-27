@@ -11,6 +11,7 @@ import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -54,6 +55,9 @@ public class WorkflowInstancesService {
 
     @Inject
     private CommonFeaturesProvider feat;
+
+    @Inject
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new workflow instance.
@@ -191,9 +195,10 @@ public class WorkflowInstancesService {
     // @RolesAllowed({ "Admin" })
     public Integer test() {
         conf.test();
-        feat.test();
         evnt.test();
+        feat.test();
         work.test();
+        stor.test();
         return 0;
     }
 }

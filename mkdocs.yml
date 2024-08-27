@@ -21,12 +21,12 @@ nav:
         - 'Build': 'backend/member/build.md'
         - 'Test': 'backend/member/test.md'
         - 'Endpoints': 'backend/member/endpoints.md'
-      - 'Storage':
-        - 'Overview': 'backend/storage/index.md'
-        - 'Design': 'backend/storage/design.md'
-        - 'Build': 'backend/storage/build.md'
-        - 'Test': 'backend/storage/test.md'
-        - 'Endpoints': 'backend/storage/endpoints.md'
+      - 'Image':
+        - 'Overview': 'backend/image/index.md'
+        - 'Design': 'backend/image/design.md'
+        - 'Build': 'backend/image/build.md'
+        - 'Test': 'backend/image/test.md'
+        - 'Endpoints': 'backend/image/endpoints.md'
       - 'Workflow':
         - 'Overview': 'backend/workflow/index.md'
         - 'Design': 'backend/workflow/design.md'

@@ -89,17 +89,17 @@
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" >Storage</a>
+                <li class="toctree-l2"><a class="reference internal" >Image</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/">Overview</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/">Overview</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/design/">Design</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/design/">Design</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/build/">Build</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/build/">Build</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/test/">Test</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/test/">Test</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../storage/endpoints/">Endpoints</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../image/endpoints/">Endpoints</a>
                 </li>
     </ul>
                 </li>
@@ -186,6 +186,17 @@ Users represent member profiles. Users can be members of Groups. Achievements
 are associated with a user.</p>
 <p>The member service delegates some of its functionality to a third-party IAM
 (e.g. Keycloak) for authentication, authorization, and JWT tokens.</p>
+<p>File storage, for images and BPMN models, is based on a POSIX filesystem
+provided by the JuiceFS filesystem. The member service will use the following
+directory layout. File names will be based on UUIDs and MIME types will be
+handled by file extensions.</p>
+<pre><code>skillbase
+    member
+        &lt;user-uuid&gt;
+            &lt;file-uuid.&lt;file-extension&gt;&gt;
+            ...
+        ...
+</code></pre>
 <p><strong>Domain Entities:</strong></p>
 <ul>
 <li>MemberAchievement</li>

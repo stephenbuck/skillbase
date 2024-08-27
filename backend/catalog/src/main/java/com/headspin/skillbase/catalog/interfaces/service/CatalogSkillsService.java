@@ -11,6 +11,7 @@ import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 import com.headspin.skillbase.common.providers.CommonSearchProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -56,6 +57,9 @@ public class CatalogSkillsService {
     @Inject
     private CommonSearchProvider srch;
 
+    @Inject
+    private CommonStorageProvider stor;
+
     /**
      * Inserts a new catalog skill.
      *
@@ -77,6 +81,7 @@ public class CatalogSkillsService {
                 .add("is_enabled", skill.is_enabled)
                 .add("title", skill.title)
                 .add("note", skill.note)
+                .add("image_id", skill.image_id)
                 .add("created_at", String.valueOf(skill.created_at))
                 .add("updated_at", String.valueOf(skill.updated_at))
                 .build());
@@ -122,6 +127,7 @@ public class CatalogSkillsService {
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
+                .add("image_id", updated.image_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -244,6 +250,7 @@ public class CatalogSkillsService {
         evnt.test();
         feat.test();
         srch.test();
+        stor.test();
         return 0;
     }
 }

@@ -63,13 +63,13 @@ public class MemberUsersService {
     private CommonConfigProvider conf;
 
     @Inject
-    private CommonFeaturesProvider feat;
-
-    @Inject
     private CommonEventsProvider evnt;
 
     @Inject
-    private CommonStorageProvider fsys;
+    private CommonFeaturesProvider feat;
+
+    @Inject
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new member user.
@@ -94,6 +94,7 @@ public class MemberUsersService {
                 .add("email", user.email)
                 .add("phone", user.phone)
                 .add("note", user.note)
+                .add("image_id", user.image_id)
                 .add("created_at", String.valueOf(user.created_at))
                 .add("updated_at", String.valueOf(user.updated_at))
                 .build());
@@ -141,6 +142,7 @@ public class MemberUsersService {
                 .add("email", updated.email)
                 .add("phone", updated.phone)
                 .add("note", updated.note)
+                .add("image_id", updated.image_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -300,10 +302,11 @@ public class MemberUsersService {
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
-        conf.test();
-        feat.test();
-        evnt.test();
         auth.test();
+        conf.test();
+        evnt.test();
+        feat.test();
+        stor.test();
         return 0;
     }
 }

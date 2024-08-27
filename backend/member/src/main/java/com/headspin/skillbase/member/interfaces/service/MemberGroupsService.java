@@ -15,6 +15,7 @@ import com.headspin.skillbase.member.providers.MemberAuthProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -58,10 +59,13 @@ public class MemberGroupsService {
     private CommonConfigProvider conf;
 
     @Inject
+    private CommonEventsProvider evnt;
+
+    @Inject
     private CommonFeaturesProvider feat;
 
     @Inject
-    private CommonEventsProvider evnt;
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new member group.
@@ -81,6 +85,7 @@ public class MemberGroupsService {
                 .add("group_id", String.valueOf(group.group_id))
                 .add("title", group.title)
                 .add("note", group.note)
+                .add("image_id", group.image_id)
                 .add("created_at", String.valueOf(group.created_at))
                 .add("updated_at", String.valueOf(group.updated_at))
                 .build());
@@ -123,6 +128,7 @@ public class MemberGroupsService {
                 .add("group_id", String.valueOf(updated.group_id))
                 .add("title", updated.title)
                 .add("note", updated.note)
+                .add("image_id", updated.image_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -186,10 +192,11 @@ public class MemberGroupsService {
 //    @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
-        conf.test();
-        feat.test();
-        evnt.test();
         auth.test();
+        conf.test();
+        evnt.test();
+        feat.test();
+        stor.test();
         return 0;
     }
 }

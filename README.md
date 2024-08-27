@@ -15,6 +15,7 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Feature Flags (Open Features, Flipt)
 - Security (JWT, OAuth, Keycloak)
 - Database (JPA, Postgres, Liquibase)
+- Storage (MinIO, JuiceFS)
 - Containers (Docker)
 - Infrastructure (Terraform, Kubernetes)
 - Configuration (Microprofile, etcd)
@@ -57,6 +58,10 @@ Integrated with IAM provider, Keycloak, for JWT, OAuth, and RBAC security.
 **Database**
 
 Built on industry-standard Postgres relational database, using the Jakarta JPA framework and the Liquibase schema management tool. Future versions may use MongoDB for account profiles.
+
+**Storage (skillbase/minio):**
+
+Object storage functionality is provided by MinIO.
 
 **Containers**
 

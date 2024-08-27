@@ -1,0 +1,465 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>skillbase-backend-image</name>
+  <packaging>war</packaging>
+
+  <artifactId>skillbase-backend-image</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <version>0.1</version>
+
+  <parent>
+    <artifactId>skillbase-backend</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>0.1</version>
+  </parent>
+
+  <properties>
+    <failOnMissingWebXml>false</failOnMissingWebXml>
+  </properties>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>docker-maven-plugin</artifactId>
+        <groupId>io.fabric8</groupId>
+        <configuration>
+          <registry>localhost:5000</registry>
+          <logStdout>true</logStdout>
+          <images>
+            <image>
+              <alias>image</alias>
+              <name>skillbase/image:${project.version}</name>
+              <build>
+                <contextDir>${project.dir}</contextDir>
+                <dockerFile>${project.dir}</dockerFile>
+              </build>
+              <run>
+                <autoRemove>false</autoRemove>
+                <ports>8080:8080</ports>
+                <ports>9990:9990</ports>
+              </run>
+            </image>
+          </images>
+        </configuration>
+        <!--
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>build</goal>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+        -->
+      </plugin>
+
+      <!--
+      <plugin>
+        <artifactId>elasticsearch-maven-plugin</artifactId>
+        <groupId>com.github.alexcojocaru</groupId>
+        <version>${elastic.plugin.version}</version>
+        <configuration>
+            <version>${elastic.search.version}</version>
+            <clusterName>skillbase</clusterName>
+            <transportPort>9300</transportPort>
+            <httpPort>9200</httpPort>
+        </configuration>
+        <executions>
+            <execution>
+                <id>start-elasticsearch</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                    <goal>runforked</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>stop-elasticsearch</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                    <goal>stop</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+      -->
+      
+      <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      <plugin>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <groupId>net.revelc.code.formatter</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+
+      <plugin>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <groupId>org.openrewrite.maven</groupId>
+        <version>${maven.rewrite.version}</version>
+        <configuration>
+          <activeRecipes>
+          </activeRecipes>
+          <activeStyles>
+          </activeStyles>
+          <configLocation>./rewrite.yml</configLocation>
+          <failOnDryRunResults>false</failOnDryRunResults>
+          <exclusions>
+          </exclusions>
+          <plainTextMasks>
+          </plainTextMasks>
+        </configuration>
+      </plugin>
+
+      <!--
+      <plugin>
+        <artifactId>smallrye-graphql-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+      </plugin>
+      -->
+
+      <!--
+      <plugin>
+        <artifactId>smallrye-open-api-maven-plugin</artifactId>
+        <groupId>io.smallrye</groupId>
+      </plugin>
+      -->
+
+      <!--
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+
+      <plugin>  
+        <artifactId>versions-maven-plugin</artifactId>  
+        <groupId>org.codehaus.mojo</groupId>  
+      </plugin>  
+
+      <plugin>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <groupId>org.wildfly.plugins</groupId>
+        <configuration>
+          <hostname>172.17.0.1</hostname>
+          <port>9990</port>
+          <username>admin</username>
+          <password>admin</password>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <dependencies>
+
+    <!-- Project -->
+     
+    <dependency>
+      <artifactId>skillbase-backend-common</artifactId>
+      <groupId>com.headspin.skillbase</groupId>
+    </dependency>
+
+    <!-- External -->
+
+    <dependency>
+      <artifactId>cloudevents-api</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-core</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-json-jackson</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>cloudevents-kafka</artifactId>
+      <groupId>io.cloudevents</groupId>
+    </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>configsource-etcd</artifactId>
+      <groupId>org.microprofile-ext.config-ext</groupId>
+    </dependency>
+    -->
+
+    <dependency>
+      <artifactId>elasticsearch-java</artifactId>
+      <groupId>co.elastic.clients</groupId>
+    </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>elasticsearch</artifactId>
+      <groupId>org.elasticsearch</groupId>
+    </dependency>
+    -->
+          
+    <dependency>
+      <artifactId>flipt-java</artifactId>
+      <groupId>io.flipt</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>graphql-java</artifactId>
+      <groupId>com.graphql-java</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jackson-databind</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jakarta.inject-api</artifactId>
+      <groupId>jakarta.inject</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <groupId>jakarta.platform</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>jakarta.json-api</artifactId>
+      <groupId>jakarta.json</groupId>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <artifactId>kafka-clients</artifactId>
+      <groupId>org.apache.kafka</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>log4j-api</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>log4j-core</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-config-api</artifactId>
+      <groupId>org.eclipse.microprofile.config</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-fault-tolerance-api</artifactId>
+      <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-graphql-api</artifactId>
+      <groupId>org.eclipse.microprofile.graphql</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-health-api</artifactId>
+      <groupId>org.eclipse.microprofile.health</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-jwt-auth-api</artifactId>
+      <groupId>org.eclipse.microprofile.jwt</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>microprofile-openapi-api</artifactId>
+      <groupId>org.eclipse.microprofile.openapi</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>minio</artifactId>
+      <groupId>io.minio</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>problem</artifactId>
+      <groupId>org.zalando</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>sdk</artifactId>
+      <groupId>dev.openfeature</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
+    </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>smallrye-config</artifactId>
+      <groupId>io.smallrye.config</groupId>
+    </dependency>
+    -->
+
+    <dependency>
+      <artifactId>smallrye-graphql-api</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>smallrye-graphql-ui-graphiql</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>smallrye-health</artifactId>
+      <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <!--
+    <dependency>
+      <artifactId>spring-boot</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-boot-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    
+    <dependency>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-web</artifactId>
+      <groupId>org.springframework</groupId>
+    </dependency>
+  
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    -->
+
+    <!-- Test -->
+
+    <dependency>
+      <artifactId>archunit-junit5</artifactId>
+      <groupId>com.tngtech.archunit</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>kafka</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <artifactId>testcontainers</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>   
+
+  </dependencies>
+
+</project>

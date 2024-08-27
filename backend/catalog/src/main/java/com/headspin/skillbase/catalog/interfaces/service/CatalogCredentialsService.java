@@ -9,6 +9,7 @@ import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -46,10 +47,13 @@ public class CatalogCredentialsService {
     private CommonConfigProvider conf;
 
     @Inject
+    private CommonEventsProvider evnt;
+
+    @Inject
     private CommonFeaturesProvider feat;
 
     @Inject
-    private CommonEventsProvider evnt;
+    private CommonStorageProvider stor;
 
     /**
      * Inserts a new catalog credential.
@@ -71,7 +75,8 @@ public class CatalogCredentialsService {
                 .add("is_enabled", credential.is_enabled)
                 .add("title", credential.title)
                 .add("note", credential.note)
-                .add("bpmn", String.valueOf(credential.bpmn))
+                .add("image_id", credential.image_id)
+                .add("bpmn_id", credential.bpmn_id)
                 .add("created_at", String.valueOf(credential.created_at))
                 .add("updated_at", String.valueOf(credential.updated_at))
                 .build());
@@ -116,7 +121,8 @@ public class CatalogCredentialsService {
                 .add("is_enabled", updated.is_enabled)
                 .add("title", updated.title)
                 .add("note", updated.note)
-                .add("bpmn", String.valueOf(updated.bpmn))
+                .add("image_id", updated.image_id)
+                .add("bpmn_id", updated.bpmn_id)
                 .add("created_at", String.valueOf(updated.created_at))
                 .add("updated_at", String.valueOf(updated.updated_at))
                 .build());
@@ -185,8 +191,9 @@ public class CatalogCredentialsService {
     public Integer test() {
         log.info("test:");
         conf.test();
-        feat.test();
         evnt.test();
+        feat.test();
+        stor.test();
         return 0;
     }
 }
