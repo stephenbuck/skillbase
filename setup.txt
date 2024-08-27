@@ -12,7 +12,7 @@ sudo apt install -y maven
 sudo apt install -y mkdocs
 sudo apt install -y gnupg software-properties-common
 sudo snap install node --classic
-sudo snap install dockera
+sudo snap install docker
 
 sudo docker run -d -p 5000:5000 --name registry registry:latest
 
