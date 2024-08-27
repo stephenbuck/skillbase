@@ -18,7 +18,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.headspin.skillbase.storage.providers.StorageEventsProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.events.StorageEvent;
 import com.headspin.skillbase.common.events.EventListener;
 
@@ -36,7 +36,7 @@ import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Kafka implementation of the Storage events provider interface.
+ * Kafka implementation of the common events provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class StorageEventsProviderKafka implements StorageEventsProvider {
+public class StorageEventsProviderKafka implements CommonEventsProvider {
 
     private static final Duration poll_timeout = Duration.ofMillis(500);
     private static final String consumer_group = "skillbase";

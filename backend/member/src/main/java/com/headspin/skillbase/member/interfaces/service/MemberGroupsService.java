@@ -12,9 +12,9 @@ import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberGroupRepo;
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.providers.MemberAuthProvider;
-import com.headspin.skillbase.member.providers.MemberConfigProvider;
-import com.headspin.skillbase.member.providers.MemberEventsProvider;
-import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -52,16 +52,16 @@ public class MemberGroupsService {
     private MemberGroupRepo repo;
 
     @Inject
-    private MemberConfigProvider conf;
-
-    @Inject
-    private MemberFeaturesProvider feat;
-
-    @Inject
-    private MemberEventsProvider evnt;
-
-    @Inject
     private MemberAuthProvider auth;
+
+    @Inject
+    private CommonConfigProvider conf;
+
+    @Inject
+    private CommonFeaturesProvider feat;
+
+    @Inject
+    private CommonEventsProvider evnt;
 
     /**
      * Inserts a new member group.

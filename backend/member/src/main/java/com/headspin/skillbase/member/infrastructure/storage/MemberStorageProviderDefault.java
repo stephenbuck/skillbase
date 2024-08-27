@@ -1,4 +1,4 @@
-package com.headspin.skillbase.member.infrastructure.files;
+package com.headspin.skillbase.member.infrastructure.storage;
 
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-import com.headspin.skillbase.member.providers.MemberFilesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.constraints.NotNull;
@@ -30,14 +30,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class MemberFilesProviderDefault implements MemberFilesProvider {
+public class MemberStorageProviderDefault implements CommonStorageProvider {
 
     // Config: com.headspin.skillbase.storage.files.root
 
     private final FileSystem fsys;
     private final String root;
 
-    public MemberFilesProviderDefault() {
+    public MemberStorageProviderDefault() {
         this.fsys = FileSystems.getDefault();
         this.root = "/";
     }
@@ -121,5 +121,29 @@ public class MemberFilesProviderDefault implements MemberFilesProvider {
             boolean readable = Files.isReadable(directory);
             System.out.println("directory = " + directory + " - " + readable);
         }
+    }
+
+    @Override
+    public void uploadObject(String id, InputStream input, Long size) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'uploadObject'");
+    }
+
+    @Override
+    public InputStream downloadObject(String id) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'downloadObject'");
+    }
+
+    @Override
+    public void deleteObject(String id) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteObject'");
+    }
+
+    @Override
+    public List<String> listObjects() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listObjects'");
     }
 }

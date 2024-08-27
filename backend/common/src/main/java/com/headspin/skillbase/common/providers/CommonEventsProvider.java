@@ -1,4 +1,4 @@
-package com.headspin.skillbase.storage.providers;
+package com.headspin.skillbase.common.providers;
 
 import java.util.Collection;
 
@@ -7,13 +7,13 @@ import com.headspin.skillbase.common.events.EventListener;
 import jakarta.json.JsonObject;
 
 /**
- * Storage events provider interface.
+ * Common events provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
-public interface StorageEventsProvider {
+public interface CommonEventsProvider {
 
     /**
      * Produces an event with the specified topic, type, and JSON data.

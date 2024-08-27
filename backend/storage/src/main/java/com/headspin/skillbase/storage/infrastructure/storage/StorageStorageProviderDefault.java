@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
-import com.headspin.skillbase.storage.providers.StorageFilesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ import io.minio.Result;
 import io.minio.messages.Item;
 
 /**
- * Default implementation of the Storage files provider interface.
+ * Minio implementation of the common files provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -40,7 +40,7 @@ import io.minio.messages.Item;
 
 @Slf4j
 @ApplicationScoped
-public class StorageFilesProviderDefault implements StorageFilesProvider {
+public class StorageStorageProviderDefault implements CommonStorageProvider {
 
     // Config: com.headspin.skillbase.storage.files.root
 
@@ -53,7 +53,7 @@ public class StorageFilesProviderDefault implements StorageFilesProvider {
     private final String bucket = "skillbase";
     private final MinioClient minio;
 
-    public StorageFilesProviderDefault() throws Exception {
+    public StorageStorageProviderDefault() throws Exception {
 
         this.fsys = FileSystems.getDefault();
         this.root = "/";

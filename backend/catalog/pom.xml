@@ -407,11 +407,6 @@
     </dependency>
 
     <dependency>
-      <artifactId>microprofile-telemetry-api</artifactId>
-      <groupId>org.eclipse.microprofile.telemetry</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>microprofile-openapi-api</artifactId>
       <groupId>org.eclipse.microprofile.openapi</groupId>
     </dependency>

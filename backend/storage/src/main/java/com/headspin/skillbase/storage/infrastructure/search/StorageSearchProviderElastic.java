@@ -9,7 +9,7 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.headspin.skillbase.storage.providers.StorageSearchProvider;
+import com.headspin.skillbase.common.providers.CommonSearchProvider;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -21,7 +21,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of the Storage search provider interface.
+ * Elasticsearch implementation of the common search provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class StorageSearchProviderElastic implements StorageSearchProvider {
+public class StorageSearchProviderElastic implements CommonSearchProvider {
 
     public StorageSearchProviderElastic() {
     }

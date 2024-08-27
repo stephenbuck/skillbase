@@ -362,7 +362,6 @@
     <dependency>
       <artifactId>minio</artifactId>
       <groupId>io.minio</groupId>
-      <version>8.5.12</version>
     </dependency>
 
     <dependency>

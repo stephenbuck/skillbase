@@ -1,6 +1,6 @@
 package com.headspin.skillbase.member.infrastructure.features;
 
-import com.headspin.skillbase.member.providers.MemberFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class MemberFeaturesProviderFlipt implements MemberFeaturesProvider {
+public class MemberFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     /*
     @Inject

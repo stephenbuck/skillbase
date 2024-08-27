@@ -2,7 +2,7 @@ package com.headspin.skillbase.catalog.infrastructure.features;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class CatalogFeaturesProviderFlipt implements CatalogFeaturesProvider {
+public class CatalogFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     @Inject
     @ConfigProperty(name = "com.headspin.skillbase.catalog.flipt.url")

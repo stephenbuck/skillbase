@@ -7,9 +7,9 @@ import java.util.UUID;
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
-import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -44,13 +44,13 @@ public class CatalogCategoriesService {
     private CatalogCategoryRepo repo;
 
     @Inject
-    private CatalogConfigProvider conf;
+    private CommonConfigProvider conf;
 
     @Inject
-    private CatalogEventsProvider evnt;
+    private CommonEventsProvider evnt;
 
     @Inject
-    private CatalogFeaturesProvider feat;
+    private CommonFeaturesProvider feat;
 
     /**
      * Inserts a new catalog category.

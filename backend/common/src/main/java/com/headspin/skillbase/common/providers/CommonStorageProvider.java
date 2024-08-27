@@ -1,4 +1,4 @@
-package com.headspin.skillbase.storage.providers;
+package com.headspin.skillbase.common.providers;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,13 @@ import java.util.UUID;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Storage files provider interface.
+ * Common storage provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
-public interface StorageFilesProvider {
+public interface CommonStorageProvider {
 
     public Path resolvePath(@NotNull final UUID homeUuid, @NotNull final UUID srcUuid);
 

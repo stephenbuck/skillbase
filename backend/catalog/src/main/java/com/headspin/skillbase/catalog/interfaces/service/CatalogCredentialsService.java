@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
-import com.headspin.skillbase.catalog.providers.CatalogConfigProvider;
-import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
-import com.headspin.skillbase.catalog.providers.CatalogFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 
 import jakarta.annotation.Resource;
@@ -43,13 +43,13 @@ public class CatalogCredentialsService {
     private CatalogCredentialRepo repo;
 
     @Inject
-    private CatalogConfigProvider conf;
+    private CommonConfigProvider conf;
 
     @Inject
-    private CatalogFeaturesProvider feat;
+    private CommonFeaturesProvider feat;
 
     @Inject
-    private CatalogEventsProvider evnt;
+    private CommonEventsProvider evnt;
 
     /**
      * Inserts a new catalog credential.

@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
-import com.headspin.skillbase.member.providers.MemberConfigProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class MemberConfigProviderDefault implements MemberConfigProvider {
+public class MemberConfigProviderDefault implements CommonConfigProvider {
 
     private final Config config;
 

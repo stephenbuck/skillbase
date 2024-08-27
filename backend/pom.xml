@@ -69,6 +69,7 @@
     <microprofile.jwt.version>2.1</microprofile.jwt.version>
     <microprofile.openapi.version>4.0</microprofile.openapi.version>
     <microprofile.telemetry.version>2.0</microprofile.telemetry.version>
+    <minio.version>8.5.12</minio.version>
     <openfeature.version>1.9.0</openfeature.version>
     <postgresql.version>42.7.3</postgresql.version>
     <slf4j.version>2.0.13</slf4j.version>
@@ -553,6 +554,12 @@
         <version>${microprofile.telemetry.version}</version>
       </dependency>
 
+      <dependency>
+        <artifactId>minio</artifactId>
+        <groupId>io.minio</groupId>
+        <version>${minio.version}</version>
+      </dependency>
+  
       <dependency>
         <artifactId>postgresql</artifactId>
         <groupId>org.postgresql</groupId>

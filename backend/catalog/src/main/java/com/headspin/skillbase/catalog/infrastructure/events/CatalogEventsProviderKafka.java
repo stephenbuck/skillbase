@@ -18,7 +18,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.headspin.skillbase.catalog.providers.CatalogEventsProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.EventListener;
 
@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class CatalogEventsProviderKafka implements CatalogEventsProvider {
+public class CatalogEventsProviderKafka implements CommonEventsProvider {
 
     private static final Duration poll_timeout = Duration.ofMillis(500);
     private static final String consumer_group = "skillbase";

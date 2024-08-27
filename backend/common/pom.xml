@@ -215,6 +215,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>minio</artifactId>
+      <groupId>io.minio</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>

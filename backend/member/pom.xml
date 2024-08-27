@@ -358,11 +358,6 @@
     </dependency>
 
     <dependency>
-      <artifactId>microprofile-telemetry-api</artifactId>
-      <groupId>org.eclipse.microprofile.telemetry</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>

@@ -1,15 +1,15 @@
-package com.headspin.skillbase.catalog.providers;
+package com.headspin.skillbase.common.providers;
 
 import java.util.List;
 
 /**
- * Catalog search provider interface.
+ * Common search provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
-public interface CatalogSearchProvider {
+public interface CommonSearchProvider {
 
     public List<String> search(String keyword, String sort, Integer offset, Integer limit);
 

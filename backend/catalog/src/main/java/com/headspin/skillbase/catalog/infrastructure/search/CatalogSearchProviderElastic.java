@@ -9,7 +9,7 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.headspin.skillbase.catalog.providers.CatalogSearchProvider;
+import com.headspin.skillbase.common.providers.CommonSearchProvider;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class CatalogSearchProviderElastic implements CatalogSearchProvider {
+public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
     public CatalogSearchProviderElastic() {
     }

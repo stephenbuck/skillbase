@@ -1,6 +1,6 @@
 package com.headspin.skillbase.workflow.infrastructure.features;
 
-import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import io.flipt.api.FliptClient;
 import io.flipt.api.evaluation.Evaluation;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class WorkflowFeaturesProviderFlipt implements WorkflowFeaturesProvider {
+public class WorkflowFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     private final FliptClient client;
 

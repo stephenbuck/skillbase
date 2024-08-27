@@ -20,7 +20,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.headspin.skillbase.common.events.EventListener;
 import com.headspin.skillbase.common.events.WorkflowEvent;
-import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class WorkflowEventsProviderKafka implements WorkflowEventsProvider {
+public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
     private static final Duration poll_timeout = Duration.ofMillis(500);
     private static final String acks_config = "all";

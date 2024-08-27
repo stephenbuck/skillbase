@@ -7,10 +7,10 @@ import java.util.UUID;
 import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinitionRepo;
-import com.headspin.skillbase.workflow.providers.WorkflowConfigProvider;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
-import com.headspin.skillbase.workflow.providers.WorkflowFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -44,16 +44,16 @@ public class WorkflowDefinitionsService {
     private WorkflowDefinitionRepo repo;
 
     @Inject
-    private WorkflowConfigProvider conf;
-
-    @Inject
-    private WorkflowFeaturesProvider feat;
-
-    @Inject
-    private WorkflowEventsProvider evnt;
-
-    @Inject
     private WorkflowEngineProvider work;
+
+    @Inject
+    private CommonConfigProvider conf;
+
+    @Inject
+    private CommonFeaturesProvider feat;
+
+    @Inject
+    private CommonEventsProvider evnt;
 
     /**
      * Inserts a new workflow definition.

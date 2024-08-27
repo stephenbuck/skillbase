@@ -9,7 +9,7 @@ import com.headspin.skillbase.common.app.AppEvents;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.WorkflowEvent;
 import com.headspin.skillbase.member.infrastructure.events.MemberEventsProviderKafka;
-import com.headspin.skillbase.member.providers.MemberEventsProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.CloudEventData;
@@ -32,19 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberAppEvents extends AppEvents {
 
     @Inject
-    private MemberEventsProvider evnt;
+    private CommonEventsProvider evnt;
 
     private final List<String> topics = Arrays.asList(
-        CatalogEvent.CATALOG_EVENT_TOPIC,
-        WorkflowEvent.WORKFLOW_EVENT_TOPIC
-    );
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            WorkflowEvent.WORKFLOW_EVENT_TOPIC);
 
     public MemberAppEvents() {
         try {
             this.evnt = new MemberEventsProviderKafka();
             evnt.consume(topics, this);
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -151,53 +149,53 @@ public class MemberAppEvents extends AppEvents {
 
             default:
                 break;
-        }       
+        }
     }
 
     private void onInstanceCreated(final WorkflowEvent event, final JsonObject json) {
-    /*
-        MemberProcess process = new MemberProcess();
-        process.state = event?.state;
-        process.title = event?.title;
-        process.note = event?.note;
-        insertProcess(process);
-    */
+        /*
+         * MemberProcess process = new MemberProcess();
+         * process.state = event?.state;
+         * process.title = event?.title;
+         * process.note = event?.note;
+         * insertProcess(process);
+         */
     }
 
     private void onInstanceDeleted(final WorkflowEvent event, final JsonObject json) {
-    /*
-        MemberProcess process = findByInstanceId(event?.instance_id);
-        deleteProcess(process.process_id);
-    */
+        /*
+         * MemberProcess process = findByInstanceId(event?.instance_id);
+         * deleteProcess(process.process_id);
+         */
     }
 
     private void onInstanceUpdated(final WorkflowEvent event, final JsonObject json) {
-    /*
-        MemberProcess process = findByInstanceId(event?.instance_id);
-        process.state = event?.state;
-        updateProcess(process);
-    */
+        /*
+         * MemberProcess process = findByInstanceId(event?.instance_id);
+         * process.state = event?.state;
+         * updateProcess(process);
+         */
     }
 
     /*
-    private void onInstancePassed(WorkflowEvent event, JsonObject json) {
-        
-        MemberProcess process = findByInstanceId(event?.instance_id);
-        process.state = event?.state;
-        updateProcess(process);
-
-        MemberAchievement achievement = new MemberAchievement();
-        achievement.skill_id = event?.skill_id;
-        achievement.credential_id = event?.credential_id;
-        achievement.title = event?.title;
-        achievement.note = event?.note;
-        insertAchievement(achievement);
-    }
-    */
+     * private void onInstancePassed(WorkflowEvent event, JsonObject json) {
+     * 
+     * MemberProcess process = findByInstanceId(event?.instance_id);
+     * process.state = event?.state;
+     * updateProcess(process);
+     * 
+     * MemberAchievement achievement = new MemberAchievement();
+     * achievement.skill_id = event?.skill_id;
+     * achievement.credential_id = event?.credential_id;
+     * achievement.title = event?.title;
+     * achievement.note = event?.note;
+     * insertAchievement(achievement);
+     * }
+     */
 
     /*
-    private void onInstanceFailed(WorkflowEvent event, JsonObject json) {
-        // TBD
-    }
-    */    
+     * private void onInstanceFailed(WorkflowEvent event, JsonObject json) {
+     * // TBD
+     * }
+     */
 }

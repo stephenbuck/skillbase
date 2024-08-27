@@ -8,10 +8,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
-import com.headspin.skillbase.storage.providers.StorageConfigProvider;
-import com.headspin.skillbase.storage.providers.StorageEventsProvider;
-import com.headspin.skillbase.storage.providers.StorageFeaturesProvider;
-import com.headspin.skillbase.storage.providers.StorageFilesProvider;
+import com.headspin.skillbase.common.providers.CommonConfigProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
@@ -42,16 +42,16 @@ public class StorageFilesService {
     private SessionContext ctx;
 
     @Inject
-    private StorageConfigProvider conf;
+    private CommonConfigProvider conf;
 
     @Inject
-    private StorageEventsProvider evnt;
+    private CommonEventsProvider evnt;
 
     @Inject
-    private StorageFeaturesProvider feat;
+    private CommonFeaturesProvider feat;
 
     @Inject
-    private StorageFilesProvider fsys;
+    private CommonStorageProvider fsys;
 
     @Operation(summary = "Resolve to a path")
     public Path resolvePath(@NotNull final UUID home, @NotNull final UUID uuid) {

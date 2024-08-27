@@ -14,7 +14,7 @@ import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.infrastructure.events.WorkflowEventsProviderKafka;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
-import com.headspin.skillbase.workflow.providers.WorkflowEventsProvider;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.CloudEventData;
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkflowAppEvents extends AppEvents {
 
     @Inject
-    private WorkflowEventsProvider evnt;
+    private CommonEventsProvider evnt;
 
     @Inject
     private WorkflowDeploymentsService deps;
