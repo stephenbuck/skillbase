@@ -108,6 +108,40 @@ resource "docker_container" "apisix" {
 
 /*
 ################################################################################
+# Connect
+################################################################################
+
+resource "docker_image" "connect" {
+  name = "debezium/connect:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "connect" {
+  name = "connect"
+  image = docker_image.connect.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
+  ports {
+    internal = 8083
+    external = 8083
+  }
+  env = [
+    "BOOTSTRAP_SERVERS=kafka:9092",
+    "GROUP_ID=1",
+    "CONFIG_STORAGE_TOPIC=my_connect_configs",
+    "OFFSET_STORAGE_TOPIC=my_connect_offsets",
+    "STATUS_STORAGE_TOPIC=my_source_connect_statuses"
+  ]
+  depends_on = [
+    docker_container.kafka,
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
 # Debezium
 ################################################################################
 

@@ -1,6 +1,7 @@
 package com.headspin.skillbase.member.interfaces.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.interfaces.service.MemberUsersService;
 
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -71,23 +73,23 @@ public class MemberUsersREST {
     @POST
     @Path("{user_id}/image")
     @Operation(summary = "Upload member image")
-    public Response uploadImage(@PathParam("user_id") final UUID user_id) throws IOException {
-        service.uploadImage(user_id, null, null);
-        return Response.ok().build();
+    public Response uploadImage(@PathParam("user_id") final UUID user_id, final InputStream input, final Long size) throws Exception {
+        String image_id = service.uploadImage(user_id, input, size);
+        return Response.ok(image_id).build();
     }
 
     @GET
     @Path("{user_id}/image")
     @Operation(summary = "Download member image")
-    public Response downloadImage(@PathParam("user_id") final UUID user_id) throws IOException {
-        String type = service.downloadImage(user_id, null);
-        return Response.ok().build();
+    public Response downloadImage(@PathParam("user_id") final UUID user_id) throws Exception {
+        final InputStream input = service.downloadImage(user_id);
+        return Response.ok(input).build();
     }
 
     @DELETE
     @Path("{user_id}/image")
     @Operation(summary = "Delete member image")
-    public Response deleteImage(@PathParam("user_id") final UUID user_id) throws IOException {
+    public Response deleteImage(@PathParam("user_id") final UUID user_id) throws Exception {
         service.deleteImage(user_id);
         return Response.ok().build();
     }

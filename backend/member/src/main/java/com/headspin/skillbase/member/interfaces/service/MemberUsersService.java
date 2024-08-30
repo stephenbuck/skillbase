@@ -28,6 +28,7 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.UserTransaction;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -153,55 +154,45 @@ public class MemberUsersService {
      * Uploads (or replaces) a member image.
      *
      * @param user_id The requested user id.
-     * @param type The MIME type of the image.
      * @param input The input stream of the image.
-     * @return The updated member user.
+     * @return The image id.
      * @since 1.0
      */
     //    @RolesAllowed({ "Admin" })
-    public MemberUser uploadImage(@NotNull final UUID user_id, @NotNull final String type, @NotNull final InputStream input) throws IOException {
-        final MemberUser current = findById(user_id).get();
-        // final UUID dstUuid = UUID.randomUUID();
-        // fsys.upload(user_id, input, dstUuid);
-        // BOZO current.image_id = fsys.upload(user_id, input);
-        // BOZO current.image_type = type;
-        final MemberUser updated = repo.update(current);
-        return updated;
+    @Transactional
+    public String uploadImage(@NotNull final UUID user_id, @NotNull final InputStream input, @NotNull final Long size) throws Exception {
+        final MemberUser user = repo.findById(user_id).get();
+        user.image_id = stor.uploadObject(input, size);
+        repo.update(user);
+        return user.image_id;
     }
 
     /**
      * Downloads a member image.
      *
      * @param user_id The requested user id.
-     * @param The image MIME type.
+     * @return The image input stream.
      * @since 1.0
      */
     //    @RolesAllowed({ "Admin" })
-    public String downloadImage(@NotNull final UUID user_id, @NotNull final OutputStream output) throws IOException {
-        /*
-        final MemberUser current = findById(user_id).get();
-        if (current.image_id != null && current.image_type != null) {
-            fsys.download(user_id, current.image_id, output);
-            return current.image_type;
-        }
-        */
-        return null;
+    public InputStream downloadImage(@NotNull final UUID user_id) throws Exception {
+        final MemberUser user = repo.findById(user_id).get();
+        return stor.downloadObject(user.image_id);
     }
 
     /**
      * Deletes a member image.
      *
      * @param user_id The requested user id.
-     * @return The updated member user.
      * @since 1.0
      */
     //    @RolesAllowed({ "Admin" })
-    public MemberUser deleteImage(@NotNull final UUID user_id) throws IOException {
-        final MemberUser current = findById(user_id).get();
-        // BOZO current.image_id = null;
-        // BOZO current.image_type = null;
-        final MemberUser updated = repo.update(current);
-        return updated;
+    @Transactional
+    public void deleteImage(@NotNull final UUID user_id) throws Exception {
+        final MemberUser user = findById(user_id).get();
+        stor.deleteObject(user.image_id);
+        user.image_id = null;
+        repo.update(user);
     }
 
     /**

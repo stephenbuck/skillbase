@@ -412,6 +412,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>minio</artifactId>
+      <groupId>io.minio</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>

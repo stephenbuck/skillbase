@@ -69,10 +69,9 @@ public class CommonStorageProviderMinio implements CommonStorageProvider {
     }
 
     private void go() throws Exception {
-        String id = String.valueOf(UUID.randomUUID());
         InputStream s = new ByteArrayInputStream("Hello World".getBytes());
 
-        uploadObject(id, s, Long.valueOf(id.length()));
+        String id = uploadObject(s, Long.valueOf(id.length()));
         try (InputStream i = downloadObject(id)) {
             log.info("BINGO");
         }
