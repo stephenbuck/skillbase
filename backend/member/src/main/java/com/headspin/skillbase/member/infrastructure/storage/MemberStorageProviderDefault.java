@@ -3,6 +3,8 @@ package com.headspin.skillbase.member.infrastructure.storage;
 import java.io.InputStream;
 import java.util.UUID;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import io.minio.BucketExistsArgs;
@@ -12,12 +14,13 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of the Member files provider interface.
+ * Default implementation of the Member storage provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -27,51 +30,63 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class MemberStorageProviderDefault implements CommonStorageProvider {
 
-    private final String endpoint = "http://minio1:9000";
-    private final String accessKey = "zHOLGqmBHrUTd2Db08eM";
-    private final String secretKey = "kDgcbKHjiqVTHXgRbMWUQ0TwiZDnjxbV3yC901aT";
-    private final String bucket = "skillbase";
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.member.minio.endpoint")
+    private String configEndpoint;
+
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.member.minio.bucket")
+    private String configBucket;
+
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.member.minio.access")
+    private String configAccess;
+
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.member.minio.secret")
+    private String configSecret;
+
     private final MinioClient minio;
 
     public MemberStorageProviderDefault() throws Exception {
         this.minio = MinioClient.builder()
-                .endpoint(endpoint)
-                .credentials(accessKey, secretKey)
+                .endpoint(configEndpoint)
+                .credentials(configAccess, configSecret)
                 .build();
-        if (!minio.bucketExists(BucketExistsArgs.builder().bucket(bucket).build())) {
-            minio.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        if (!minio.bucketExists(BucketExistsArgs.builder().bucket(configBucket).build())) {
+            minio.makeBucket(MakeBucketArgs.builder().bucket(configBucket).build());
         }
     }
     
     @Override
     @Transactional
     public String uploadObject(@NotNull final InputStream input, @NotNull final Long size) throws Exception {
-        String id = String.valueOf(UUID.randomUUID());
+        String object_id = String.valueOf(UUID.randomUUID());
         minio.putObject(
                 PutObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(id)
+                        .bucket(configBucket)
+                        .object(object_id)
                         .stream(input, size, 50000000L)
                         .build());
-        return id;
+        return object_id;
     }
 
     @Override
-    public InputStream downloadObject(@NotNull final String id) throws Exception {
+    public InputStream downloadObject(@NotNull final String object_id) throws Exception {
         return minio.getObject(
                 GetObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(id)
+                        .bucket(configBucket)
+                        .object(object_id)
                         .build());
     }
 
     @Override
     @Transactional
-    public void deleteObject(@NotNull final String id) throws Exception {
+    public void deleteObject(@NotNull final String object_id) throws Exception {
         minio.removeObject(
                 RemoveObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(id)
+                        .bucket(configBucket)
+                        .object(object_id)
                         .build());
     }
 

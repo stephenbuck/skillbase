@@ -361,6 +361,11 @@
       <artifactId>microprofile-openapi-api</artifactId>
       <groupId>org.eclipse.microprofile.openapi</groupId>
     </dependency>
+
+    <dependency>
+      <artifactId>minio</artifactId>
+      <groupId>io.minio</groupId>
+    </dependency>
     
     <dependency>
       <artifactId>postgresql</artifactId>

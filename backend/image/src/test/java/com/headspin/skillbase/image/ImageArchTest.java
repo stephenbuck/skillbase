@@ -6,7 +6,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.GeneralCodingRules;
 
 @AnalyzeClasses(packages = "com.headspin.skillbase.image")
-public class ImageAppTelemetryArchTest {
+public class ImageArchTest {
 
     /*
     @ArchTest

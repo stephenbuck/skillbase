@@ -9,6 +9,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,14 +30,12 @@ public class CatalogConfigProviderDefault implements CommonConfigProvider {
     }
     
     @Override
-    public Optional<?> getOptionalValue(String key, Class<?> type) {
+    public Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type) {
         return config.getOptionalValue(key, type);
     }
 
     @Override
     public void test() {
         log.info("test:");
-        log.info("flipt url = {}", getOptionalValue("com.headspin.skillbase.catalog.flipt.url", String.class));
-        log.info("kafka url = {}", getOptionalValue("com.headspin.skillbase.catalog.kafka.url", String.class));
     }
 }

@@ -2,6 +2,8 @@ package com.headspin.skillbase.common.providers;
 
 import java.util.Optional;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * Common config provider interface.
  * 
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 public interface CommonConfigProvider {
 
-    public Optional<?> getOptionalValue(String key, Class<?> type);
+    public Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type);
 
     public void test();
     

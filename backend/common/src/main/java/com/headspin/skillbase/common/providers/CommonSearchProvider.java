@@ -2,6 +2,8 @@ package com.headspin.skillbase.common.providers;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * Common search provider interface.
  * 
@@ -11,7 +13,7 @@ import java.util.List;
 
 public interface CommonSearchProvider {
 
-    public List<String> search(String keyword, String sort, Integer offset, Integer limit);
+    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit);
 
     public void test();
     

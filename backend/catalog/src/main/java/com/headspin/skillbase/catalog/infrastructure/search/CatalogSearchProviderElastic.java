@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpHost;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.elasticsearch.client.RestClient;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -18,6 +19,8 @@ import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,23 +34,24 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.url")
+    private String configUrl;
+
+    @Inject
+    @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.index")
+    private String configIndex;
+
     public CatalogSearchProviderElastic() {
     }
     
     @Override
-    public void test() {
-        log.info("test:");
-        List<String> results = search("cpr", null, null, null);
-        results.forEach(System.out::println);
-    }
-
-    @Override
-    public List<String> search(final String keyword, final String sort, final Integer offset, final Integer limit) {
+    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit) {
 
         log.info("search({})", keyword);
 
         final RestClient rest = RestClient
-            .builder(HttpHost.create("http://elastic:9200"))
+            .builder(HttpHost.create(configUrl))
             .build();
         
         final JacksonJsonpMapper mapper = new JacksonJsonpMapper();
@@ -58,7 +62,7 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
             SearchResponse<ObjectNode> search = client
                 .search(s -> s
-                .index("skillbase")
+                .index(configIndex)
                     .from(Objects.requireNonNullElse(offset, 0))
                     .size(Objects.requireNonNullElse(limit, 10))
                 .query(q -> q
@@ -82,5 +86,12 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
             log.info(String.valueOf(e));
             return null;
         }
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
+        List<String> results = search("cpr", null, null, null);
+        results.forEach(System.out::println);
     }
 }

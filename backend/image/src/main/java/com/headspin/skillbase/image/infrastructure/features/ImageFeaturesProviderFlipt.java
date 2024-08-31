@@ -10,6 +10,7 @@ import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,19 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.storage.flipt.url")
-    private String url;
+    @ConfigProperty(name = "com.headspin.skillbase.image.flipt.url")
+    private String configUrl;
 
     private final FliptClient client;
 
     public ImageFeaturesProviderFlipt() {
         this.client = FliptClient.builder()
-                .url("http://flipt:8087")
+                .url(configUrl)
                 .build();
     }
 
     @Override
-    public boolean evaluateBoolean(String key, boolean def) {
+    public boolean evaluateBoolean(@NotNull final String key, final boolean def) {
         try {
 
             Evaluation ev = client.evaluation();
@@ -58,6 +59,5 @@ public class ImageFeaturesProviderFlipt implements CommonFeaturesProvider {
     @Override
     public void test() {
         log.info("test:");
-        log.info("allow-reports = {}", evaluateBoolean("allow-reports", false));
     }
 }

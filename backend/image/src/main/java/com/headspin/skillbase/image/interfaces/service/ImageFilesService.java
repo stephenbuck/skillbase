@@ -53,87 +53,24 @@ public class ImageFilesService {
     @Inject
     private CommonStorageProvider stor;
 
-    @Operation(summary = "Resolve to a path")
-    public Path resolvePath(@NotNull final UUID home, @NotNull final UUID uuid) {
-        return stor.resolvePath(home, uuid);
-    }
-
-    @Operation(summary = "Resolve to a file")
-    public File resolveFile(@NotNull final UUID home, @NotNull final UUID uuid) {
-        return stor.resolveFile(home, uuid);
+    @Retry
+    @Timeout
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size) throws Exception {
+        return stor.uploadObject(input, size);
     }
 
     @Retry
     @Timeout
-    @Operation(summary = "Upload a file")
-    public void upload(@NotNull final UUID home, @NotNull final InputStream src, @NotNull final UUID dst)
-            throws IOException {
-        stor.upload(home, src, dst);
+    public InputStream downloadObject(@NotNull final String image_id) throws Exception {
+        return stor.downloadObject(image_id);
+
     }
 
     @Retry
     @Timeout
-    @Operation(summary = "Download a file")
-    public void download(@NotNull final UUID home, @NotNull final UUID src, @NotNull final OutputStream dst)
-            throws IOException {
-        stor.download(home, src, dst);
+    public void deleteObject(@NotNull final String image_id) throws Exception {
+        stor.deleteObject(image_id);
     }
-
-    @Retry
-    @Timeout
-    @Operation(summary = "Copy a file")
-    public void copy(@NotNull final UUID home, @NotNull final UUID src, @NotNull final UUID dst) throws IOException {
-        stor.copy(home, src, dst);
-    }
-
-    @Retry
-    @Timeout
-    @Operation(summary = "Move a file")
-    public void move(@NotNull final UUID home, @NotNull final UUID src, @NotNull final UUID dst) throws IOException {
-        stor.move(home, src, dst);
-    }
-
-    @Retry
-    @Timeout
-    @Operation(summary = "Delete a file")
-    public void delete(@NotNull final UUID home, @NotNull final UUID uuid) throws IOException {
-        stor.delete(home, uuid);
-    }
-
-    @Retry
-    @Timeout
-    @Operation(summary = "Rename a file")
-    public void rename(@NotNull final UUID home, @NotNull final UUID src, @NotNull final UUID dst) throws IOException {
-        stor.rename(home, src, dst);
-    }
-
-    @Retry
-    @Timeout
-    @Operation(summary = "List files")
-    public List<String> list(@NotNull final UUID home, @NotNull final UUID uuid) throws IOException {
-        return stor.list(home, uuid);
-    }
-
-
-
-    public void uploadObject(String id, InputStream input, Long size) throws Exception {
-        stor.uploadObject(id, input, size);
-    }
-
-    public InputStream downloadObject(String id) throws Exception {
-        return stor.downloadObject(id);
-
-    }
-
-    public void deleteObject(String id) throws Exception {
-        stor.deleteObject(id);
-
-    }
-
-    public List<String> listObjects() throws Exception {
-        return stor.listObjects();
-    }
-
 
 
     @Operation(summary = "Test service")

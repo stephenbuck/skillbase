@@ -32,6 +32,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,7 +110,7 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
     @Override
     @Transactional
-    public void produce(final String topic, final String type, final JsonObject json) {
+    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final JsonObject json) {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
@@ -139,7 +140,8 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
      */
     
     @Override
-    public void consume(final Collection<String> topics, final EventListener listener) {
+    public void consume(@NotNull final Collection<String> topics, @NotNull final EventListener listener) {
+
         this.thread = new Thread(new Runnable() {
 
             public void run() {

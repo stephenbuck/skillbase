@@ -18,7 +18,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
- * Storage files GraphQL endpoint.
+ * Image files GraphQL endpoint.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -33,20 +33,14 @@ public class ImageFilesGQL {
     private JsonWebToken jwt;
 
     @Inject
-    private StorageFilesService service;
+    private ImageFilesService service;
 
-    public StorageFilesGQL() {
+    public ImageFilesGQL() {
     }
 
     @Mutation("delete")
-    @Description("Delete a file")
-    public void delete(@Name("uuid") final UUID uuid) throws IOException {
-        service.delete(uuid, uuid);
-    }
-
-    @Query("list")
-    @Description("List files")
-    public List<String> list() throws IOException {
-        return service.list(null, null);
+    @Description("Delete an image")
+    public void delete(@Name("image_id") final String image_id) throws Exception {
+        service.deleteObject(image_id);
     }
 }

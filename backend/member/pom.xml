@@ -313,6 +313,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>keycloak-admin-client</artifactId>
+      <groupId>org.keycloak</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>log4j-api</artifactId>
       <groupId>org.apache.logging.log4j</groupId>
     </dependency>
@@ -355,6 +360,11 @@
     <dependency>
       <artifactId>microprofile-openapi-api</artifactId>
       <groupId>org.eclipse.microprofile.openapi</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>minio</artifactId>
+      <groupId>io.minio</groupId>
     </dependency>
 
     <dependency>

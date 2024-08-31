@@ -1,5 +1,7 @@
 package com.headspin.skillbase.common.providers;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * Common features provider interface.
  * 
@@ -9,7 +11,7 @@ package com.headspin.skillbase.common.providers;
 
 public interface CommonFeaturesProvider {
 
-    public boolean evaluateBoolean(String key, boolean def);
+    public boolean evaluateBoolean(@NotNull final String key, final boolean def);
     
     public void test();
 

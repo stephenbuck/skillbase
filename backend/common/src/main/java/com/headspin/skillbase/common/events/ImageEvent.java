@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import jakarta.json.JsonObject;
 
-public class StorageEvent extends SkillbaseEvent {
+public class ImageEvent extends SkillbaseEvent {
 
     public static final String STORAGE_EVENT_TOPIC  = "skillbase_storage_event";
 
@@ -44,18 +44,18 @@ public class StorageEvent extends SkillbaseEvent {
     public static final String STORAGE_FILE_UPDATED = "com.headspin.skillbase.storage.file.updated";
 
 
-    public StorageEvent(String type, JsonObject data) {
+    public ImageEvent(String type, JsonObject data) {
         this(UUID.randomUUID(), type, data);
     }
 
-    public StorageEvent(UUID id, String type, JsonObject data) {
+    public ImageEvent(UUID id, String type, JsonObject data) {
         super(id, type, data);
     }
 
     @Override
     public String toString() {
         return
-            "StorageEvent {\n" +
+            "ImageEvent {\n" +
                 "id   = " + id() + "\n" +
                 "type = " + type() + "\n" +
                 "data = " + data() + "\n" +

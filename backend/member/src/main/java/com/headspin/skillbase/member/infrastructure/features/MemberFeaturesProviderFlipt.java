@@ -1,5 +1,7 @@
 package com.headspin.skillbase.member.infrastructure.features;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 
 import io.flipt.api.FliptClient;
@@ -7,6 +9,8 @@ import io.flipt.api.evaluation.Evaluation;
 import io.flipt.api.evaluation.models.BooleanEvaluationResponse;
 import io.flipt.api.evaluation.models.EvaluationRequest;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,22 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class MemberFeaturesProviderFlipt implements CommonFeaturesProvider {
 
-    /*
     @Inject
     @ConfigProperty(name = "com.headspin.skillbase.member.flipt.url")
-    private String url;
-    */
+    private String configUrl;
 
     private final FliptClient client;
 
     public MemberFeaturesProviderFlipt() {
         this.client = FliptClient.builder()
-                .url("http://flipt:8080")
+                .url(configUrl)
                 .build();
     }
 
     @Override
-    public boolean evaluateBoolean(String key, boolean def) {
+    public boolean evaluateBoolean(@NotNull final String key, final boolean def) {
         try {
 
             Evaluation ev = client.evaluation();
@@ -58,6 +60,5 @@ public class MemberFeaturesProviderFlipt implements CommonFeaturesProvider {
     @Override
     public void test() {
         log.info("test:");
-        log.info("allow-reports = {}", evaluateBoolean("allow-reports", false));
     }
 }
