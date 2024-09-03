@@ -6,13 +6,13 @@ import java.util.Set;
 import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import com.headspin.skillbase.common.app.AppBase;
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowDefinitionsREST;
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowDeploymentsREST;
 import com.headspin.skillbase.workflow.interfaces.rest.WorkflowInstancesREST;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
 
 /**
  * Application for the workflow service.
@@ -23,25 +23,15 @@ import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/workflow")
 @LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
-public class WorkflowApp extends Application {
+public class WorkflowApp extends AppBase {
 
     @Inject
     private JsonWebToken jwt;
 
-    private final WorkflowAppConfig config;
-    private final WorkflowAppControl control;
-    private final WorkflowAppEvents events; 
-    private final WorkflowAppFeatures features; 
-    private final WorkflowAppHealth health; 
-    private final WorkflowAppTelemetry telemetry; 
+    @Inject
+    private WorkflowAppHome home;
 
     public WorkflowApp() {
-        this.config = new WorkflowAppConfig();
-        this.control = new WorkflowAppControl();
-        this.events = new WorkflowAppEvents();
-        this.features = new WorkflowAppFeatures();
-        this.health = new WorkflowAppHealth();
-        this.telemetry = new WorkflowAppTelemetry();
     }
 
     @Override

@@ -34,15 +34,22 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class ImageSearchProviderElastic implements CommonSearchProvider {
 
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.image.elastic.url")
-    private String configUrl;
+    private final String url;
+    private final String index;
+    private final RestClient rest;
+    private final JacksonJsonpMapper mapper;
 
     @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.image.elastic.index")
-    private String configIndex;
-
-    public ImageSearchProviderElastic() {
+    public ImageSearchProviderElastic(
+        @ConfigProperty(name = "com.headspin.skillbase.image.elastic.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.image.elastic.index") String configIndex    
+    ) {
+        this.url = configUrl;
+        this.index = configIndex;
+        this.rest = RestClient
+            .builder(HttpHost.create(url))
+            .build();
+        this.mapper = new JacksonJsonpMapper();
     }
     
     @Override
@@ -50,19 +57,13 @@ public class ImageSearchProviderElastic implements CommonSearchProvider {
 
         log.info("search({})", keyword);
 
-        final RestClient rest = RestClient
-            .builder(HttpHost.create(configUrl))
-            .build();
-        
-        final JacksonJsonpMapper mapper = new JacksonJsonpMapper();
-        
         try (ElasticsearchTransport transport = new RestClientTransport(rest, mapper)) {
 
             ElasticsearchClient client = new ElasticsearchClient(transport);
 
             SearchResponse<ObjectNode> search = client
                 .search(s -> s
-                .index(configIndex)
+                .index(index)
                     .from(Objects.requireNonNullElse(offset, 0))
                     .size(Objects.requireNonNullElse(limit, 10))
                 .query(q -> q

@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppControl;
  */
 
 public class CatalogAppControl extends AppControl {
-
     public CatalogAppControl() {
     }
 }

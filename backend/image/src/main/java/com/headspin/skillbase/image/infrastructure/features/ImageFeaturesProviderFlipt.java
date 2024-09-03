@@ -24,13 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class ImageFeaturesProviderFlipt implements CommonFeaturesProvider {
 
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.image.flipt.url")
-    private String configUrl;
-
     private final FliptClient client;
 
-    public ImageFeaturesProviderFlipt() {
+    @Inject
+    public ImageFeaturesProviderFlipt(
+        @ConfigProperty(name = "com.headspin.skillbase.image.flipt.url") String configUrl    
+    ) {
         this.client = FliptClient.builder()
                 .url(configUrl)
                 .build();

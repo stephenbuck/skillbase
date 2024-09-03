@@ -7,6 +7,7 @@ import com.headspin.skillbase.workflow.domain.WorkflowTask;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,8 +62,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     private final RuntimeService runtime;
     private final TaskService task;
 
-    public WorkflowEngineProviderFlowable() {
+    @Inject
+    public WorkflowEngineProviderFlowable(
 
+    ) {
         this.config = new StandaloneProcessEngineConfiguration()
             .setJdbcUrl("jdbc:postgresql://postgres:5432/skillbase")
             .setJdbcUsername("postgres")

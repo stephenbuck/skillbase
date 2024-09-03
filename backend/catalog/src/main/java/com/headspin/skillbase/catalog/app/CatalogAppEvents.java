@@ -8,4 +8,6 @@ package com.headspin.skillbase.catalog.app;
  */
 
 public class CatalogAppEvents {
+    public CatalogAppEvents() {
+    }
 }

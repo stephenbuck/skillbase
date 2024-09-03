@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppFeatures;
  */
 
 public class ImageAppFeatures extends AppFeatures {
-
     public ImageAppFeatures() {
     }
 }

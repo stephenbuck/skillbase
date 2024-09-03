@@ -28,20 +28,10 @@ public class MemberApp extends AppBase {
     @Inject
     private JsonWebToken jwt;
     
-    private final MemberAppConfig config;
-    private final MemberAppControl control;
-    private final MemberAppEvents events;
-    private final MemberAppFeatures features;
-    private final MemberAppHealth health;
-    private final MemberAppTelemetry telemetry;
+    @Inject
+    private MemberAppHome home;
 
     public MemberApp() {
-        this.config = new MemberAppConfig();
-        this.control = new MemberAppControl();
-        this.events = new MemberAppEvents();
-        this.features = new MemberAppFeatures();
-        this.health = new MemberAppHealth();
-        this.telemetry = new MemberAppTelemetry();
     }
 
     @Override

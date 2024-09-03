@@ -26,20 +26,10 @@ public class ImageApp extends AppBase {
     @Inject
     private JsonWebToken jwt;
 
-    private ImageAppConfig config;
-    private ImageAppControl control;
-    private ImageAppEvents events;
-    private ImageAppFeatures features;
-    private ImageAppHealth health;
-    private ImageAppTelemetry telemetry;
+    @Inject
+    private ImageAppHome home;
 
     public ImageApp() {
-        this.config = new ImageAppConfig();
-        this.control = new ImageAppControl();
-        this.events = new ImageAppEvents();
-        this.features = new ImageAppFeatures();
-        this.health = new ImageAppHealth();
-        this.telemetry = new ImageAppTelemetry();
     }
 
     @Override

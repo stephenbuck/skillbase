@@ -11,7 +11,6 @@ import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.MemberEvent;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
-import com.headspin.skillbase.workflow.infrastructure.events.WorkflowEventsProviderKafka;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
@@ -37,9 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkflowAppEvents extends AppEvents {
 
     @Inject
-    private CommonEventsProvider evnt;
-
-    @Inject
     private WorkflowDeploymentsService deps;
 
     @Inject
@@ -50,14 +46,11 @@ public class WorkflowAppEvents extends AppEvents {
         MemberEvent.MEMBER_EVENT_TOPIC
     );
 
-    public WorkflowAppEvents() {
-        try {
-            this.evnt = new WorkflowEventsProviderKafka();
-            evnt.consume(topics, this);
-        }
-        catch (final Exception e) {
-            e.printStackTrace();
-        }
+    @Inject
+    public WorkflowAppEvents(
+        CommonEventsProvider evnt
+    ) {
+        evnt.consume(topics, this);
     }
 
     /**

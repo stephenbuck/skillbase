@@ -34,32 +34,18 @@ import org.keycloak.admin.client.resource.UsersResource;
 @ApplicationScoped
 public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.url")
-    private String configUrl;
+    private final Keycloak admin;
+    private final RealmResource realm;
+    private final UsersResource users;
 
     @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.realm")
-    private String configRealm;
-
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.client")
-    private String configClient;
-
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.username")
-    private String configUsername;
-
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.password")
-    private String configPassword;
-
-    private Keycloak admin;
-    private RealmResource realm;
-    private UsersResource users;
-
-    public MemberAuthProviderKeycloak() {
-
+    public MemberAuthProviderKeycloak(
+        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.realm") String configRealm,
+        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.client") String configClient,
+        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.username") String configUsername,
+        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.password") String configPassword
+    ) {
         this.admin = KeycloakBuilder.builder()
             .serverUrl(configUrl)
             .realm(configRealm)        

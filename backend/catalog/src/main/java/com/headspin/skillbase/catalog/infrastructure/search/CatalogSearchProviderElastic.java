@@ -34,35 +34,36 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
-    @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.url")
-    private String configUrl;
+    private final String url;
+    private final String index;
+    private final RestClient rest;
+    private final JacksonJsonpMapper mapper;
 
     @Inject
-    @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.index")
-    private String configIndex;
-
-    public CatalogSearchProviderElastic() {
+    public CatalogSearchProviderElastic(
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.index") String configIndex
+    ) {
+        this.url = configUrl;
+        this.index = configIndex;
+        this.rest = RestClient
+            .builder(HttpHost.create(url))
+            .build();
+        this.mapper = new JacksonJsonpMapper();        
     }
-    
+
     @Override
     public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit) {
 
         log.info("search({})", keyword);
 
-        final RestClient rest = RestClient
-            .builder(HttpHost.create(configUrl))
-            .build();
-        
-        final JacksonJsonpMapper mapper = new JacksonJsonpMapper();
-        
         try (ElasticsearchTransport transport = new RestClientTransport(rest, mapper)) {
 
             ElasticsearchClient client = new ElasticsearchClient(transport);
 
             SearchResponse<ObjectNode> search = client
                 .search(s -> s
-                .index(configIndex)
+                .index(index)
                     .from(Objects.requireNonNullElse(offset, 0))
                     .size(Objects.requireNonNullElse(limit, 10))
                 .query(q -> q

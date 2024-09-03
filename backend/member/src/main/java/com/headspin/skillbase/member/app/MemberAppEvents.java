@@ -8,7 +8,6 @@ import java.util.UUID;
 import com.headspin.skillbase.common.app.AppEvents;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.WorkflowEvent;
-import com.headspin.skillbase.member.infrastructure.events.MemberEventsProviderKafka;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 
 import io.cloudevents.CloudEvent;
@@ -31,20 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class MemberAppEvents extends AppEvents {
 
-    @Inject
-    private CommonEventsProvider evnt;
-
     private final List<String> topics = Arrays.asList(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_EVENT_TOPIC);
 
-    public MemberAppEvents() {
-        try {
-            this.evnt = new MemberEventsProviderKafka();
-            evnt.consume(topics, this);
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+    @Inject
+    public MemberAppEvents(
+        CommonEventsProvider evnt
+    ) {
+        evnt.consume(topics, this);
     }
 
     /**

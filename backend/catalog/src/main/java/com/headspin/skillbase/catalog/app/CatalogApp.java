@@ -28,20 +28,10 @@ public class CatalogApp extends AppBase {
     @Inject
     private JsonWebToken jwt;
 
-    private CatalogAppConfig config;
-    private CatalogAppControl control;
-    private CatalogAppEvents events;
-    private CatalogAppFeatures features;
-    private CatalogAppHealth health;
-    private CatalogAppTelemetry telemetry;
+    @Inject
+    private CatalogAppHome home;
 
     public CatalogApp() {
-        this.config = new CatalogAppConfig();
-        this.control = new CatalogAppControl();
-        this.events = new CatalogAppEvents();
-        this.features = new CatalogAppFeatures();
-        this.health = new CatalogAppHealth();
-        this.telemetry = new CatalogAppTelemetry();
     }
 
     @Override

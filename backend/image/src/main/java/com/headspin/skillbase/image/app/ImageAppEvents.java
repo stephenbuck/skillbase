@@ -8,4 +8,6 @@ package com.headspin.skillbase.image.app;
  */
 
 public class ImageAppEvents {
+    public ImageAppEvents() {
+    }
 }

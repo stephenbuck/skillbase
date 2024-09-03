@@ -1,6 +1,5 @@
 package com.headspin.skillbase.workflow.infrastructure.events;
 
-import java.net.InetAddress;
 import java.net.URI;
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -16,6 +15,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.headspin.skillbase.common.events.EventListener;
@@ -29,6 +29,7 @@ import io.cloudevents.jackson.JsonCloudEventData;
 import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
@@ -49,8 +50,6 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
     private static final Duration poll_timeout = Duration.ofMillis(500);
     private static final String acks_config = "all";
-    private static final String consumer_group = "skillbase";
-    private static final String bootstrap_servers = "kafka:9092";
     private static final String key_serializer = "org.apache.kafka.common.serialization.StringSerializer";
     private static final String val_serializer = "io.cloudevents.kafka.CloudEventSerializer";
     private static final String key_deserializer = "org.apache.kafka.common.serialization.StringDeserializer";
@@ -58,30 +57,27 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
     private static final String auto_offset_reset = "latest";
     private static final String enable_auto_commit = "true";
 
-    private final String client_id;
-    private final String group_id;
-
     private final Properties admnConfig;
     private final Properties prodConfig;
     private final Properties consConfig;
 
     private Thread thread;
 
-    public WorkflowEventsProviderKafka() {
-
-        // Configure the IDs
-        this.client_id = String.valueOf(InetAddress.getLoopbackAddress()); // .getLocalHost().getHostName();
-        this.group_id = consumer_group;
-
+    @Inject
+    public WorkflowEventsProviderKafka(
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.kafka.bootstraps") String configBootstraps,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.kafka.clientid") String configClientId,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.kafka.groupid") String configGroupId
+    ) {
         // Configure the admin
         this.admnConfig = new Properties();
-        this.admnConfig.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_servers);
+        this.admnConfig.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, configBootstraps);
 
         // Configure the producer
         this.prodConfig = new Properties();
         this.prodConfig.put(ProducerConfig.ACKS_CONFIG, acks_config);
-        this.prodConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_servers);
-        this.prodConfig.put(ProducerConfig.CLIENT_ID_CONFIG, client_id);
+        this.prodConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, configBootstraps);
+        this.prodConfig.put(ProducerConfig.CLIENT_ID_CONFIG, configClientId);
         this.prodConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, key_serializer);
         this.prodConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, val_serializer);
 
@@ -91,8 +87,8 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
         // Configure the consumer
         this.consConfig = new Properties();
-        this.consConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_servers);
-        this.consConfig.put(ConsumerConfig.GROUP_ID_CONFIG, group_id);
+        this.consConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, configBootstraps);
+        this.consConfig.put(ConsumerConfig.GROUP_ID_CONFIG, configGroupId);
         this.consConfig.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, key_deserializer);
         this.consConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, val_deserializer);
         this.consConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, auto_offset_reset);

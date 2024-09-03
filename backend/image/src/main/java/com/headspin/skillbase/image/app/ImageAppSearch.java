@@ -8,7 +8,6 @@ package com.headspin.skillbase.image.app;
  */
 
 public class ImageAppSearch {
-
     public ImageAppSearch() {
     }
 }
