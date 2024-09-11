@@ -318,6 +318,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>lettuce-core</artifactId>
+      <groupId>io.lettuce</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>log4j-api</artifactId>
       <groupId>org.apache.logging.log4j</groupId>
     </dependency>
@@ -415,6 +420,11 @@
     </dependency>
     -->
 
+    <dependency>
+      <artifactId>xmemcached</artifactId>
+      <groupId>com.googlecode.xmemcached</groupId>
+    </dependency>
+    
     <!-- Test -->
 
     <dependency>

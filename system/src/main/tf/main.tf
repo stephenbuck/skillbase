@@ -225,6 +225,16 @@ variable "keycloak_user_pass" {
   default = "admin"
 }
 
+variable "memcached_port_internal" {
+  type = number
+  default = 11211
+}
+
+variable "memcached_port_external" {
+  type = number
+  default = 11211
+}
+
 variable "minio_user_name" {
   type = string
   default = "skillbase"
@@ -253,6 +263,16 @@ variable "minio_api_port_internal" {
 variable "minio_api_port_external" {
   type = number
   default = 9001
+}
+
+variable "nginx_port_internal" {
+  type = number
+  default = 80
+}
+
+variable "nginx_port_external" {
+  type = number
+  default = 80
 }
 
 variable "postgres_user_name" {
@@ -649,60 +669,6 @@ resource "docker_container" "kafka" {
   ]
 }
 
-/*
-resource "kafka_topic" "skillbase_catalog_event" {
-  name = "skillbase_catalog_event"
-  replication_factor = 1
-  partitions = 1
-  config = {
-    "segment.ms" = "20000"
-    "cleanup.policy" = "compact"
-  }
-  depends_on = [
-    docker_container.kafka
-  ]
-}
-
-resource "kafka_topic" "skillbase_member_event" {
-  name = "skillbase_member_event"
-  replication_factor = 1
-  partitions = 1
-  config = {
-    "segment.ms" = "20000"
-    "cleanup.policy" = "compact"
-  }
-  depends_on = [
-    docker_container.kafka
-  ]
-}
-
-resource "kafka_topic" "skillbase_image_event" {
-  name = "skillbase_image_event"
-  replication_factor = 1
-  partitions = 1
-  config = {
-    "segment.ms" = "20000"
-    "cleanup.policy" = "compact"
-  }
-  depends_on = [
-    docker_container.kafka
-  ]
-}
-
-resource "kafka_topic" "skillbase_workflow_event" {
-  name = "skillbase_workflow_event"
-  replication_factor = 1
-  partitions = 1
-  config = {
-    "segment.ms" = "20000"
-    "cleanup.policy" = "compact"
-  }
-  depends_on = [
-    docker_container.kafka
-  ]
-}
-*/
-
 ################################################################################
 # Kafka-Connect
 ################################################################################
@@ -825,6 +791,30 @@ resource "docker_container" "keycloak" {
 }
 */
 
+/*
+################################################################################
+# Memcached
+################################################################################
+
+resource "docker_image" "memcached" {
+  name = "skillbase/memcached:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "memcached" {
+  name = "memcached"
+  image = docker_image.memcached.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.memcached_port_internal
+    external = var.memcached_port_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
+*/
+
 ################################################################################
 # Minio
 ################################################################################
@@ -876,11 +866,11 @@ resource "docker_container" "nginx" {
   network_mode = docker_network.private_network.name
   restart = "always"
   env = [
-    "NGINX_PORT=80"
+    "NGINX_PORT=${var.nginx_port_internal}"
   ]
   ports {
-    internal = 80
-    external = 80
+    internal = var.nginx_port_internal
+    external = var.nginx_port_external
   }
   depends = [
     docker_container.registry
@@ -1016,16 +1006,14 @@ resource "docker_container" "wildfly" {
     //    docker_container.flipt,
     //    docker_container.flowable,
     docker_container.kafka,
+    docker_container.kafka_connect,
+    docker_container.kafka_schema,
     //    docker_container.keycloak,
+    //    docker_container.memcached,
     docker_container.minio,
     docker_container.postgres,
     //    docker_container.redis,
     docker_container.registry
-
-    //    kafka_topic.skillbase_catalog_event,
-    //    kafka_topic.skillbase_member_event,
-    //    kafka_topic.skillbase_storage_event,
-    //    kafka_topic.skillbase_workflow_event
   ]
 }
 
@@ -1043,33 +1031,8 @@ resource "docker_container" "catalog" {
   name  = "catalog"
   image = docker_image.catalog.image_id
   depends_on = [
-    docker_container.etcd,
-    docker_container.kafka,
-    docker_container.postgres,
-    docker_container.registry
-  ]
-}
-*/
-
-/*
-################################################################################
-# Skillbase Member
-################################################################################
-
-resource "docker_image" "member" {
-  name = "skillbase/member:${var.skillbase_tag}"
-  keep_locally = true
-}
-
-resource "docker_container" "member" {
-  name = "member"
-  image = docker_image.member.image_id
-  depends_on = [
-    docker_container.etcd,
-    docker_container.kafka,
-    docker_container.keycloak,
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.registry,
+    docker_container.wildfly
   ]
 }
 */
@@ -1088,9 +1051,28 @@ resource "docker_container" "image" {
   name  = "image"
   image = docker_image.image.image_id
   depends_on = [
-    docker_container.kafka,
-    docker_container.minio,
-    docker_container.registry
+    docker_container.registry,
+    docker_container.wildfly
+  ]
+}
+*/
+
+/*
+################################################################################
+# Skillbase Member
+################################################################################
+
+resource "docker_image" "member" {
+  name = "skillbase/member:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "member" {
+  name = "member"
+  image = docker_image.member.image_id
+  depends_on = [
+    docker_container.registry,
+    docker_container.wildfly
   ]
 }
 */
@@ -1105,14 +1087,11 @@ resource "docker_image" "workflow" {
   keep_locally = true
 }
 resource "docker_container" "workflow" {
-  name  = "workflow"
+  name = "workflow"
   image = docker_image.workflow.image_id
   depends_on = [
-    docker_container.etcd,
-    docker_container.flowable,
-    docker_container.kafka,
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.registry,
+    docker_container.wildfly
   ]
 }
 */

@@ -3,6 +3,7 @@
 **REST Endpoints:**
 
 * '/member'
+* '/member/achievements'
 * '/member/groups'
 * '/member/users'
 

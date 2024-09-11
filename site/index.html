@@ -196,7 +196,7 @@
 <li>Configuration (Microprofile, etcd)</li>
 <li>Workflow (BPMN, Flowable)</li>
 <li>Search (Elasticsearch)</li>
-<li>Caching (Redis)</li>
+<li>Caching (Redis, Memcached)</li>
 <li>Interfaces (REST, GraphQL)</li>
 <li>Logging (Log4j, Slf4j, fluentd)</li>
 <li>Testing (JUnit, ArchUnit, Testcontainers)</li>
@@ -231,9 +231,9 @@
 <p><strong>Workflow</strong></p>
 <p>Workflow process management is handled using BPMN process diagrams and the Flowable engine and API. Future versions may embed the engine with the application to simplify transaction management.</p>
 <p><strong>Search</strong></p>
-<p>Keyword search for skills, etc. is handled by the Elasticsearch engine.</p>
+<p>Keyword search for skills, etc. is handled by the Elasticsearch search engine.</p>
 <p><strong>Caching</strong></p>
-<p>Distributed caching is handled using Redis, and it's Java API. Cache contents will be updated by domain events received from Kafka.</p>
+<p>Distributed caching is handled using Redis or Memcached, and their Java APIs. Cache contents will be updated by domain events received from Kafka.</p>
 <p><strong>Interfaces</strong></p>
 <p>Application access is through REST and GraphQL endpoints.</p>
 <p><strong>Logging</strong></p>
@@ -299,5 +299,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-09-11 03:06:59.821630+00:00
+Build Date UTC : 2024-09-11 03:47:12.833295+00:00
 -->

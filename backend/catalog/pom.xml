@@ -371,12 +371,10 @@
       <groupId>org.apache.kafka</groupId>
     </dependency>
 
-<!--
     <dependency>
       <artifactId>lettuce-core</artifactId>
       <groupId>io.lettuce</groupId>
     </dependency>
--->
 
     <dependency>
       <artifactId>log4j-api</artifactId>
@@ -497,12 +495,10 @@
     </dependency>
     -->
 
-<!--
     <dependency>
       <artifactId>xmemcached</artifactId>
       <groupId>com.googlecode.xmemcached</groupId>
     </dependency>
--->
 
     <!-- Test -->
 

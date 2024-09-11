@@ -4,6 +4,7 @@
 
 * '/catalog'
 * '/catalog/categories'
+* '/catalog/credentials'
 * '/catalog/skills'
 
 **GraphQL Endpoints:**

@@ -3,8 +3,10 @@
 **REST Endpoints:**
 
 * '/workflow'
-* '/workflow/models'
-* '/workflow/processes'
+* '/workflow/definitions'
+* '/workflow/deployments'
+* '/workflow/instances'
+* '/workflow/tasks'
 
 **GraphQL Endpoints:**
 

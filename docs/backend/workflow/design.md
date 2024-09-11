@@ -21,8 +21,8 @@ skillbase
 
 **Domain Entities:**
 
-* WorkflowDeployment
 * WorkflowDefinition
+* WorkflowDeployment
 * WorkflowInstance
 * WorkflowTask
 
@@ -44,11 +44,6 @@ skillbase
 * SKILLBASE_WORKFLOW_TASK_CREATED
 * SKILLBASE_WORKFLOW_TASK_DELETED
 * SKILLBASE_WORKFLOW_TASK_UPDATED
-
-* SKILLBASE_WORKFLOW_PROCESS_STARTED
-* SKILLBASE_WORKFLOW_PROCESS_STOPPED
-* SKILLBASE_WORKFLOW_PROCESS_PASSED
-* SKILLBASE_WORKFLOW_PROCESS_FAILED
 
 
 **Subscribed Events:**

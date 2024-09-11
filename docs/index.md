@@ -21,7 +21,7 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Configuration (Microprofile, etcd)
 - Workflow (BPMN, Flowable)
 - Search (Elasticsearch)
-- Caching (Redis)
+- Caching (Redis, Memcached)
 - Interfaces (REST, GraphQL)
 - Logging (Log4j, Slf4j, fluentd)
 - Testing (JUnit, ArchUnit, Testcontainers)
@@ -81,11 +81,11 @@ Workflow process management is handled using BPMN process diagrams and the Flowa
 
 **Search**
 
-Keyword search for skills, etc. is handled by the Elasticsearch engine.
+Keyword search for skills, etc. is handled by the Elasticsearch search engine.
 
 **Caching**
 
-Distributed caching is handled using Redis, and it's Java API. Cache contents will be updated by domain events received from Kafka.
+Distributed caching is handled using Redis or Memcached, and their Java APIs. Cache contents will be updated by domain events received from Kafka.
 
 **Interfaces**
 

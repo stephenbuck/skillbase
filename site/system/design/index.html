@@ -265,6 +265,13 @@ image. The Skillbase image adds custom configuration.</p>
 <ul>
 <li>See https://redis.io</li>
 </ul>
+<p><strong>Caching (skillbase/memcached):</strong></p>
+<p>Caching functionality (Memcached) runs in a custom container derived from the 'memcached:latest'
+image. The Skillbase image adds custom configuration.</p>
+<p>Memcached is used primarily for session management.</p>
+<ul>
+<li>See https://memcached.org</li>
+</ul>
 <p><strong>Change-Data (skillbase/debezium):</strong></p>
 <p>Change-Data Capture functionality (Debezium) runs in a custom container derived from the 'debezium/server:latest' image. The Skillbase image adds configuration for connectors.</p>
 <p>Integration with Debezium is through its Postgres and Kafka interfaces.</p>

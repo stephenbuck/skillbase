@@ -107,6 +107,15 @@ Redis is used primarily for session management.
 
 * See https://redis.io
 
+**Caching (skillbase/memcached):**
+
+Caching functionality (Memcached) runs in a custom container derived from the 'memcached:latest'
+image. The Skillbase image adds custom configuration.
+
+Memcached is used primarily for session management.
+
+* See https://memcached.org
+
 **Change-Data (skillbase/debezium):**
 
 Change-Data Capture functionality (Debezium) runs in a custom container derived from the 'debezium/server:latest' image. The Skillbase image adds configuration for connectors.

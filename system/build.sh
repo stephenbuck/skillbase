@@ -38,6 +38,10 @@ popd
 # sudo docker build -f ${PWD}/Dockerfile -t skillbase/keycloak:latest ${PWD} 
 # popd
 
+pushd src/docker/memcached
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/memcached:latest ${PWD} 
+popd
+
 pushd src/docker/minio
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/minio:latest ${PWD} 
 popd

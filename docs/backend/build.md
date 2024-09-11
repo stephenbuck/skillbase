@@ -5,8 +5,9 @@ The Skillbase backend is built using Maven and a variety of plugins for dependen
 The Docker container names are:
 
 * 'skillbase/catalog:latest'
-* 'skillbase/workflow:latest'
+* 'skillbase/image:latest'
 * 'skillbase/member:latest'
+* 'skillbase/workflow:latest'
 
 **Commands:**
 
@@ -17,7 +18,7 @@ The Docker container names are:
 
 **Tools:**
 
-* Type 'psql -d skillbase -U postgres -h localhost -p 5432' for the Postgres tool
+* Type 'psql -d skillbase -U postgres -h localhost -p 5432' for the Postgres tool (password is 'postgres')
 * Type 'sudo mvn liquibase:help' for Liquibase tool
 * Type 'sudo mvn docker:help' for Docker tool
 * Type 'sudo mvn wildfly:help' for Wildfly tool
