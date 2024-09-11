@@ -5,11 +5,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -39,6 +42,7 @@ public class CatalogCredentialRepoJPA implements CatalogCredentialRepo {
 
     @Override
     @Transactional
+    @Retry(retryOn = {OptimisticLockException.class}, maxRetries = 10, delay = 100)
     public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) {
         return em.merge(credential);
     }

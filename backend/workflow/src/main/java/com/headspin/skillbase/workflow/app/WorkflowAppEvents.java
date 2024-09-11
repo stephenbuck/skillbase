@@ -9,11 +9,11 @@ import java.util.UUID;
 import com.headspin.skillbase.common.app.AppEvents;
 import com.headspin.skillbase.common.events.CatalogEvent;
 import com.headspin.skillbase.common.events.MemberEvent;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.workflow.domain.WorkflowDefinition;
 import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDefinitionsService;
 import com.headspin.skillbase.workflow.interfaces.service.WorkflowDeploymentsService;
-import com.headspin.skillbase.common.providers.CommonEventsProvider;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.CloudEventData;
@@ -49,7 +49,8 @@ public class WorkflowAppEvents extends AppEvents {
     @Inject
     public WorkflowAppEvents(
         CommonEventsProvider evnt
-    ) {
+    )
+    {
         evnt.consume(topics, this);
     }
 
@@ -61,70 +62,54 @@ public class WorkflowAppEvents extends AppEvents {
      * @param topic
      * @param event
      */
-    public void onCloudEvent(final String topic, final CloudEvent event) {
+    public void onCloudEvent(final String topic, final CloudEvent event)  {
 
         log.info("cloud event = {}", event);
 
-        final CloudEventData data = event.getData();
+        /*
+        try {
 
-        final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
+            final CloudEventData data = event.getData();
 
-        final JsonParser parser = Json.createParser(stream);
+            final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
 
-        if (parser.hasNext()) {
+            final JsonParser parser = Json.createParser(stream);
 
-            parser.next();
+            if (parser.hasNext()) {
 
-            final UUID eventId = UUID.fromString(event.getId());
-            final String eventType = event.getType();
-            final JsonObject eventJson = parser.getObject();
+                parser.next();
 
-            switch (topic) {
-                case CatalogEvent.CATALOG_EVENT_TOPIC:
-                    onCatalogEvent(new CatalogEvent(eventId, eventType, eventJson), eventJson);
-                    break;
-                case MemberEvent.MEMBER_EVENT_TOPIC:
-                    onMemberEvent(new MemberEvent(eventId, eventType, eventJson), eventJson);
-                    break;
-                default:
-                    break;
-            }
+                final UUID eventId = UUID.fromString(event.getId());
+                final String eventType = event.getType();
+                final JsonObject eventJson = parser.getObject();
+
+                switch (eventType) {
+                    case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
+                        onCredentialCreated(event, eventJson);
+                        break;
+                    case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
+                        onCredentialDeleted(event, eventJson);
+                        break;
+                    case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
+                        onCredentialUpdated(event, eventJson);
+                        break;
+                    case CatalogEvent.CATALOG_SKILL_CREATED:
+                        onSkillCreated(event, eventJson);
+                        break;
+                    case CatalogEvent.CATALOG_SKILL_DELETED:
+                        onSkillDeleted(event, eventJson);
+                        break;
+                    case CatalogEvent.CATALOG_SKILL_UPDATED:
+                        onSkillUpdated(event, eventJson);
+                        break;
+                    default:
+                        break;
+                }
         }
-    }
-
-    /**
-     * When a CatalogEvent event arrives, this method dispatches it
-     * to the correct handler based on the event type.
-     * 
-     * @param event
-     * @param json
-     */
-    private void onCatalogEvent(final CatalogEvent event, final JsonObject json) {
-
-        log.info("catalog event = {}", event);
-
-        switch (event.type()) {
-            case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
-                onCredentialCreated(event, json);
-                break;
-            case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
-                onCredentialDeleted(event, json);
-                break;
-            case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
-                onCredentialUpdated(event, json);
-                break;
-            case CatalogEvent.CATALOG_SKILL_CREATED:
-                onSkillCreated(event, json);
-                break;
-            case CatalogEvent.CATALOG_SKILL_DELETED:
-                onSkillDeleted(event, json);
-                break;
-            case CatalogEvent.CATALOG_SKILL_UPDATED:
-                onSkillUpdated(event, json);
-                break;
-            default:
-                break;
+        catch (Exception e) {
+            log.error("TBD", e);
         }
+        */
     }
 
     /**
@@ -134,7 +119,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialCreated(final CatalogEvent event, final JsonObject json) {
+    private void onCredentialCreated(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onCredentialCreated()");
 
@@ -155,7 +140,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialDeleted(final CatalogEvent event, final JsonObject json) {
+    private void onCredentialDeleted(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onCredentialDeleted()");
 
@@ -177,7 +162,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onCredentialUpdated(final CatalogEvent event, final JsonObject json) {
+    private void onCredentialUpdated(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onCredentialUpdated()");
 
@@ -201,7 +186,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillCreated(final CatalogEvent event, final JsonObject json) {
+    private void onSkillCreated(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onSkillCreated()");
 
@@ -222,7 +207,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillDeleted(final CatalogEvent event, final JsonObject json) {
+    private void onSkillDeleted(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onSkillDelete():");
 
@@ -244,7 +229,7 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onSkillUpdated(final CatalogEvent event, final JsonObject json) {
+    private void onSkillUpdated(final CatalogEvent event, final JsonObject json) throws Exception {
 
         log.info("onSkillUpdate():");
 
@@ -269,11 +254,11 @@ public class WorkflowAppEvents extends AppEvents {
      * @param event
      * @param json
      */
-    private void onMemberEvent(final MemberEvent event, final JsonObject json) {
+    /*
+    private void onMemberEvent(final MemberEvent event, final JsonObject json) throws Exception {
 
         log.info("member event = {}", event);
 
-        /*
         switch (event.type()) {
             case MemberEvent.MEMBER_ACHIEVEMENT_CREATED:
                 onAchievementCreated(event, json);
@@ -296,6 +281,6 @@ public class WorkflowAppEvents extends AppEvents {
             default:
                 break;
         }
-        */
     }
+    */
 }

@@ -1,0 +1,17 @@
+{
+  "name": "skillbase-catalog",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "postgres",
+    "database.dbname": "skillbase",
+    "database.server.name": "postgres",
+    "schema.include.list": "skillbase",
+    "table.include.list": "catalog.category, catalog.skill, catalog.credential, catalog.outbox",
+    "topic.prefix": "skillbase-catalog-cdc"
+  }
+}

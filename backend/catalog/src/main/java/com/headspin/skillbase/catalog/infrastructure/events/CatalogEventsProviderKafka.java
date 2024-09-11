@@ -30,8 +30,6 @@ import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.MediaType;
@@ -65,9 +63,9 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
 
     @Inject
     public CatalogEventsProviderKafka(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.kafka.bootstraps") String configBootstraps,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.kafka.clientid") String configClientId,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.kafka.groupid") String configGroupId
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") String configBootstraps,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") String configClientId,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") String configGroupId
     ) {
         // Configure the admin
         this.admnConfig = new Properties();
@@ -106,7 +104,7 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
 
     @Override
     @Transactional
-    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final JsonObject json) {
+    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final String json) {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
@@ -171,9 +169,7 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
         produce(
                 CatalogEvent.CATALOG_EVENT_TOPIC,
                 CatalogEvent.CATALOG_SKILL_DELETED,
-                Json.createObjectBuilder()
-                        .add("skill_id", String.valueOf(UUID.randomUUID()))
-                        .build());
+                "{}");
     }
 
     /*

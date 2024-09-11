@@ -40,19 +40,19 @@ public class WorkflowInstancesGQL {
     
     @Mutation("insert")
     @Description("Insert new workflow instance")
-    public UUID insert(@Name("instance") final WorkflowInstance instance) {
+    public UUID insert(@Name("instance") final WorkflowInstance instance) throws Exception {
         return service.insert(instance);
     }
 
     @Mutation("delete")
     @Description("Delete workflow instance by id")
-    public void delete(@Name("instance_id") final UUID instance_id) {
+    public void delete(@Name("instance_id") final UUID instance_id) throws Exception {
         service.delete(instance_id);
     }
 
     @Mutation("update")
     @Description("Update existing workflow instance")
-    public void update(@Name("instance") final WorkflowInstance instance) {
+    public void update(@Name("instance") final WorkflowInstance instance) throws Exception {
         service.update(instance);
     }
 

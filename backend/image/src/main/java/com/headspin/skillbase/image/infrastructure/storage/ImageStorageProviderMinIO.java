@@ -10,10 +10,13 @@ import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -51,24 +54,30 @@ public class ImageStorageProviderMinIO implements CommonStorageProvider {
     }
 
     @Override
-    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size) throws Exception {
-        String image_id = String.valueOf(UUID.randomUUID());
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        String object_id = String.valueOf(UUID.randomUUID());
         minio.putObject(
                 PutObjectArgs.builder()
                         .bucket(bucket)
-                        .object(image_id)
-                        .stream(input, size, 50000000L)
+                        .object(object_id)
+                        .stream(input, size, PutObjectArgs.MAX_PART_SIZE)
+                        .contentType(String.valueOf(type))
                         .build());
-        return image_id;
+        return object_id;
     }
 
     @Override
-    public InputStream downloadObject(@NotNull final String image_id) throws Exception {
-        return minio.getObject(
+    public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception {
+        GetObjectResponse resp = minio.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucket)
-                        .object(image_id)
+                        .object(object_id)
                         .build());
+        return new CommonStorageObject(
+            object_id,
+            resp.headers().get(HttpHeaders.CONTENT_TYPE),
+            Long.valueOf(resp.headers().get(HttpHeaders.CONTENT_TYPE)),
+            resp);
     }
 
     @Override

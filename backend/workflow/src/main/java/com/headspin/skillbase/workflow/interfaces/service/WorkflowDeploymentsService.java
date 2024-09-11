@@ -68,20 +68,14 @@ public class WorkflowDeploymentsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final WorkflowDeployment deployment) {
+    public UUID insert(@NotNull @Valid final WorkflowDeployment deployment) throws Exception {
+
         final UUID deployment_id = repo.insert(deployment);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED,
-            Json.createObjectBuilder()
-                .add("deployment_id", String.valueOf(deployment.deployment_id))
-                .add("skill_id", String.valueOf(deployment.skill_id))
-                .add("state", deployment.state)
-                .add("title", deployment.title)
-                .add("note", deployment.note)
-                .add("created_at", String.valueOf(deployment.created_at))
-                .add("updated_at", String.valueOf(deployment.updated_at))
-                .build());
+            WorkflowDeployment.toJson(deployment));
+
         return deployment_id;
     }
 
@@ -93,14 +87,12 @@ public class WorkflowDeploymentsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID deployment_id) {
+    public void delete(@NotNull final UUID deployment_id) throws Exception {
         repo.delete(deployment_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
-            Json.createObjectBuilder()
-                .add("deployment_id", String.valueOf(deployment_id))
-                .build());
+            "{}");
     }
 
     /**
@@ -112,20 +104,12 @@ public class WorkflowDeploymentsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowDeployment update(@NotNull @Valid final WorkflowDeployment deployment) {
+    public WorkflowDeployment update(@NotNull @Valid final WorkflowDeployment deployment) throws Exception {
         final WorkflowDeployment updated = repo.update(deployment);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED,
-            Json.createObjectBuilder()
-                .add("deployment_id", String.valueOf(updated.deployment_id))
-                .add("skill_id", String.valueOf(updated.skill_id))
-                .add("state", updated.state)
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            WorkflowDeployment.toJson(updated));
         return updated;
     }
 

@@ -30,8 +30,6 @@ import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.MediaType;
@@ -106,7 +104,7 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
 
     @Override
     @Transactional
-    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final JsonObject json) {
+    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final String json) {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
@@ -171,9 +169,7 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
         produce(
                 ImageEvent.STORAGE_EVENT_TOPIC,
                 ImageEvent.STORAGE_FILE_DELETED,
-                Json.createObjectBuilder()
-                        .add("skill_id", String.valueOf(UUID.randomUUID()))
-                        .build());
+                "{}");
     }
 
     /*

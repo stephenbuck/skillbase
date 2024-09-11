@@ -24,25 +24,29 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class CatalogFeaturesProviderFlipt implements CommonFeaturesProvider {
 
+    private final String namespace;
     private final FliptClient client;
 
     @Inject
     public CatalogFeaturesProviderFlipt(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.flipt.url") String configUrl
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.features.flipt.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.features.flipt.namespace") String configNamespace
     ) {
+        this.namespace = configNamespace;
         this.client = FliptClient.builder()
                 .url(configUrl)
                 .build();
     }
 
     @Override
-    public boolean evaluateBoolean(@NotNull final String key, final boolean def) {
+    public boolean evaluateBoolean(@NotNull final String flag, final boolean def) {
         try {
 
             Evaluation ev = client.evaluation();
 
             EvaluationRequest er = EvaluationRequest.builder()
-                    .flagKey("allow-reports")
+                    .namespaceKey(this.namespace)
+                    .flagKey(flag)
                     .build();
 
             BooleanEvaluationResponse ber = ev.evaluateBoolean(er);

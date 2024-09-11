@@ -68,20 +68,12 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final WorkflowDefinition definition) {
+    public UUID insert(@NotNull @Valid final WorkflowDefinition definition) throws Exception {
         final UUID definition_id = repo.insert(definition);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
-            Json.createObjectBuilder()
-                .add("definition_id", String.valueOf(definition.definition_id))
-                .add("deployment_id", String.valueOf(definition.deployment_id))
-                .add("credential_id", String.valueOf(definition.credential_id))
-                .add("title", definition.title)
-                .add("note", definition.note)
-                .add("created_at", String.valueOf(definition.created_at))
-                .add("updated_at", String.valueOf(definition.updated_at))
-                .build());
+            WorkflowDefinition.toJson(definition));
         return definition_id;
     }
 
@@ -93,14 +85,12 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID definition_id) {
+    public void delete(@NotNull final UUID definition_id) throws Exception {
         repo.delete(definition_id);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
-            Json.createObjectBuilder()
-                .add("definition_id", String.valueOf(definition_id))
-                .build());
+            "{}");
     }
 
     /**
@@ -112,20 +102,12 @@ public class WorkflowDefinitionsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition) {
+    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition)throws Exception {
         final WorkflowDefinition updated = repo.update(definition);
         evnt.produce(
             WorkflowEvent.WORKFLOW_EVENT_TOPIC,
             WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
-            Json.createObjectBuilder()
-                .add("definition_id", String.valueOf(updated.definition_id))
-                .add("deployment_id", String.valueOf(updated.deployment_id))
-                .add("credential_id", String.valueOf(updated.credential_id))
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            WorkflowDefinition.toJson(updated));
         return updated;
     }
 

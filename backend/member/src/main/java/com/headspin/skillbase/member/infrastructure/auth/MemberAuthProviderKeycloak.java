@@ -40,11 +40,11 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
     @Inject
     public MemberAuthProviderKeycloak(
-        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.realm") String configRealm,
-        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.client") String configClient,
-        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.username") String configUsername,
-        @ConfigProperty(name = "com.headspin.skillbase.member.keycloak.password") String configPassword
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.realm") String configRealm,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.client") String configClient,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.username") String configUsername,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.password") String configPassword
     ) {
         this.admin = KeycloakBuilder.builder()
             .serverUrl(configUrl)

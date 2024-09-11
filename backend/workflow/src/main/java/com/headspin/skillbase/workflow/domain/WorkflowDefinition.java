@@ -1,11 +1,13 @@
 package com.headspin.skillbase.workflow.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.headspin.skillbase.common.domain.DomainEntity;
 
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,46 +30,67 @@ import jakarta.validation.constraints.NotNull;
  */
 
 @Entity
+@Cacheable
 @Table(schema = "workflow", name = "definition")
 public class WorkflowDefinition extends DomainEntity {
 
-        @JsonbProperty("definition_id")
-        @Column(name = "definition_id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID definition_id;
+    @JsonbProperty("definition_id")
+    @Column(name = "definition_id") @NotNull @Id @GeneratedValue(strategy = GenerationType.UUID) public UUID definition_id;
 
-        @JsonbProperty("peer_id")
-        @Column(name = "peer_id") public String peer_id;
+    @JsonbProperty("peer_id")
+    @Column(name = "peer_id") public String peer_id;
 
-        @JsonbProperty("deployment_id")
-        @Column(name = "deployment_id") @NotNull public UUID deployment_id;
+    @JsonbProperty("deployment_id")
+    @Column(name = "deployment_id") @NotNull public UUID deployment_id;
 
-        @JsonbProperty("credential_id")
-        @Column(name = "credential_id") @NotNull public UUID credential_id;
+    @JsonbProperty("credential_id")
+    @Column(name = "credential_id") @NotNull public UUID credential_id;
 
-        @JsonbProperty("title")
-        @Column(name = "title") @NotNull @NotBlank public String title;
+    @JsonbProperty("title")
+    @Column(name = "title") @NotNull @NotBlank public String title;
 
-        @JsonbProperty("note")
-        @Column(name = "note") @NotNull public String note;
+    @JsonbProperty("note")
+    @Column(name = "note") @NotNull public String note;
 
-        @JsonbProperty("created_at")
-        @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date created_at;
+    @JsonbProperty("image_id")
+    @Column(name = "image_id") public String image_id;
 
-        @JsonbProperty("updated_at")
-        @Column(name = "updated_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public Date updated_at;
+    @JsonbProperty("valid_for")
+    @Column(name = "valid_for") @NotNull public Integer valid_for;
 
-        @Override
-        public String toString() {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("WorkflowDefinition {\n");
-                stringBuilder.append("    definition_id  = " + definition_id + "\n");
-                stringBuilder.append("    peer_id        = " + peer_id + "\n");
-                stringBuilder.append("    deployment_id  = " + deployment_id + "\n");
-                stringBuilder.append("    credential_id  = " + credential_id + "\n");
-                stringBuilder.append("    title          = " + title + "\n");
-                stringBuilder.append("    note           = " + note + "\n");
-                stringBuilder.append("    created_at     = " + created_at + "\n");
-                stringBuilder.append("    updated_at     = " + updated_at + "\n");
-                stringBuilder.append("}\n");
-                return stringBuilder.toString();
-        }
+    @JsonbProperty("created_at")
+    @Column(name = "created_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public LocalDateTime created_at;
+
+    @JsonbProperty("updated_at")
+    @Column(name = "updated_at") @NotNull @Temporal(TemporalType.TIMESTAMP) public LocalDateTime updated_at;
+
+    @JsonbProperty("version")
+    @Column(name = "version") @NotNull @Version public Integer version;
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("WorkflowDefinition {\n");
+        stringBuilder.append("    definition_id  = " + definition_id + "\n");
+        stringBuilder.append("    peer_id        = " + peer_id + "\n");
+        stringBuilder.append("    deployment_id  = " + deployment_id + "\n");
+        stringBuilder.append("    credential_id  = " + credential_id + "\n");
+        stringBuilder.append("    title          = " + title + "\n");
+        stringBuilder.append("    note           = " + note + "\n");
+        stringBuilder.append("    image_id       = " + image_id + "\n");
+        stringBuilder.append("    valid_for      = " + valid_for + "\n");
+        stringBuilder.append("    created_at     = " + created_at + "\n");
+        stringBuilder.append("    updated_at     = " + updated_at + "\n");
+        stringBuilder.append("    version        = " + version + "\n");
+        stringBuilder.append("}\n");
+        return stringBuilder.toString();
+    }
+        
+    public static WorkflowDefinition fromJson(String json) throws Exception {
+        return JsonbBuilder.create().fromJson(json, WorkflowDefinition.class);
+    }
+    
+    public static String toJson(WorkflowDefinition definition) throws Exception {
+        return JsonbBuilder.create().toJson(definition);
+    }
 }

@@ -6,8 +6,8 @@ import java.util.Set;
 import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import com.headspin.skillbase.member.interfaces.rest.MemberUsersREST;
 import com.headspin.skillbase.common.app.AppBase;
+import com.headspin.skillbase.member.interfaces.rest.MemberUsersREST;
 import com.headspin.skillbase.member.interfaces.rest.MemberAchievementsREST;
 import com.headspin.skillbase.member.interfaces.rest.MemberGroupsREST;
 

@@ -22,7 +22,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -76,19 +75,12 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final MemberGroup group) {
+    public UUID insert(@NotNull @Valid final MemberGroup group) throws Exception {
         final UUID group_id = repo.insert(group);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_CREATED,
-            Json.createObjectBuilder()
-                .add("group_id", String.valueOf(group.group_id))
-                .add("title", group.title)
-                .add("note", group.note)
-                .add("image_id", group.image_id)
-                .add("created_at", String.valueOf(group.created_at))
-                .add("updated_at", String.valueOf(group.updated_at))
-                .build());
+            MemberGroup.toJson(group));
         return group_id;
     }
 
@@ -100,14 +92,12 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID group_id) {
+    public void delete(@NotNull final UUID group_id) throws Exception {
         repo.delete(group_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_DELETED,
-            Json.createObjectBuilder()
-                .add("group_id", String.valueOf(group_id))
-                .build());
+            "{}");
     }
 
     /**
@@ -119,19 +109,12 @@ public class MemberGroupsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public MemberGroup update(@NotNull @Valid final MemberGroup group) {
+    public MemberGroup update(@NotNull @Valid final MemberGroup group) throws Exception {
         final MemberGroup updated = repo.update(group);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_GROUP_UPDATED,
-            Json.createObjectBuilder()
-                .add("group_id", String.valueOf(updated.group_id))
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("image_id", updated.image_id)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            MemberGroup.toJson(group));
         return updated;
     }
 
@@ -143,7 +126,7 @@ public class MemberGroupsService {
      * @since 1.0
      */
 //    @RolesAllowed({ "Admin" })
-    public Optional<MemberGroup> findById(@NotNull final UUID group_id) {
+    public Optional<MemberGroup> findById(@NotNull final UUID group_id) throws Exception {
         return repo.findById(group_id);
     }
 

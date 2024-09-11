@@ -40,7 +40,7 @@ public class ImageFilesGQL {
 
     @Mutation("delete")
     @Description("Delete an image")
-    public void delete(@Name("image_id") final String image_id) throws Exception {
-        service.deleteObject(image_id);
+    public void deleteImage(@Name("image_id") final String image_id) throws Exception {
+        service.deleteImage(image_id);
     }
 }

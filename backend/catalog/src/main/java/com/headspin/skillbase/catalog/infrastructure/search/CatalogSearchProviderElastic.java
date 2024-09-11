@@ -41,8 +41,8 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
     @Inject
     public CatalogSearchProviderElastic(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.elastic.index") String configIndex
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.index") String configIndex
     ) {
         this.url = configUrl;
         this.index = configIndex;

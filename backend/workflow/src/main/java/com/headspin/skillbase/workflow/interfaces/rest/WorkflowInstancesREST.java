@@ -48,7 +48,7 @@ public class WorkflowInstancesREST {
 
     @PUT
     @Operation(summary = "Insert new workflow instance")
-    public Response insert(final WorkflowInstance instance) {
+    public Response insert(final WorkflowInstance instance) throws Exception {
         final UUID instance_id = service.insert(instance);
         return Response.ok(URI.create("/instances/" + instance_id)).build();
     }
@@ -56,14 +56,14 @@ public class WorkflowInstancesREST {
     @DELETE
     @Path("{instance_id}")
     @Operation(summary = "Delete workflow instance by id")
-    public Response deleteById(@PathParam("instance_id") final UUID instance_id) {
+    public Response deleteById(@PathParam("instance_id") final UUID instance_id) throws Exception {
         service.delete(instance_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing workflow instance")
-    public Response update(final WorkflowInstance instance) {
+    public Response update(final WorkflowInstance instance) throws Exception {
         return Response.ok(service.update(instance)).build();
     }
 

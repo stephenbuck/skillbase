@@ -1,4 +1,4 @@
-package com.headspin.skillbase.image.infrastructure.search;
+package com.headspin.skillbase.member.infrastructure.search;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Elasticsearch implementation of the common search provider interface.
+ * Default implementation of the catalog search provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class ImageSearchProviderElastic implements CommonSearchProvider {
+public class MemberSearchProviderElastic implements CommonSearchProvider {
 
     private final String url;
     private final String index;
@@ -40,18 +40,18 @@ public class ImageSearchProviderElastic implements CommonSearchProvider {
     private final JacksonJsonpMapper mapper;
 
     @Inject
-    public ImageSearchProviderElastic(
-        @ConfigProperty(name = "com.headspin.skillbase.image.elastic.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.image.elastic.index") String configIndex    
+    public MemberSearchProviderElastic(
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.url") String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.index") String configIndex
     ) {
         this.url = configUrl;
         this.index = configIndex;
         this.rest = RestClient
             .builder(HttpHost.create(url))
             .build();
-        this.mapper = new JacksonJsonpMapper();
+        this.mapper = new JacksonJsonpMapper();        
     }
-    
+
     @Override
     public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit) {
 
@@ -92,5 +92,7 @@ public class ImageSearchProviderElastic implements CommonSearchProvider {
     @Override
     public void test() {
         log.info("test:");
+        List<String> results = search("cpr", null, null, null);
+        results.forEach(System.out::println);
     }
 }

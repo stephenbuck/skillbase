@@ -2,8 +2,8 @@ embed-server --std-out=echo --server-config=standalone-full.xml
 
 batch
 
-module add --name=org.postgres --resources=postgresql-42.7.3.jar --dependencies=javax.api,javax.transaction.api
+module add --name=org.postgres --resources=postgresql-42.7.4.jar --dependencies=javax.api,javax.transaction.api
 
-deploy /opt/jboss/wildfly/postgresql-42.7.3.jar
+deploy /opt/jboss/wildfly/postgresql-42.7.4.jar
 
 run-batch

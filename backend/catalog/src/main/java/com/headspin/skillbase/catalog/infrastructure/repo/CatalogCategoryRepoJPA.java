@@ -5,12 +5,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -40,6 +43,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
+    @Retry(retryOn = {OptimisticLockException.class}, maxRetries = 10, delay = 100)
     public CatalogCategory update(@NotNull @Valid final CatalogCategory category) {
         return em.merge(category);
     }

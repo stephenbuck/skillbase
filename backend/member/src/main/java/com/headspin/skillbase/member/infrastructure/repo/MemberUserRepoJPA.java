@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberUser;
@@ -12,6 +14,7 @@ import com.headspin.skillbase.member.domain.MemberUserRepo;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -41,6 +44,7 @@ public class MemberUserRepoJPA implements MemberUserRepo {
 
     @Override
     @Transactional
+    @Retry(retryOn = {OptimisticLockException.class}, maxRetries = 10, delay = 100)
     public MemberUser update(@NotNull @Valid final MemberUser user) {
         return em.merge(user);
     }

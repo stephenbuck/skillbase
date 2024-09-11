@@ -5,11 +5,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+
 import com.headspin.skillbase.workflow.domain.WorkflowDeployment;
 import com.headspin.skillbase.workflow.domain.WorkflowDeploymentRepo;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -46,6 +49,7 @@ public class WorkflowDeploymentRepoJPA implements WorkflowDeploymentRepo {
 
     @Override
     @Transactional
+    @Retry(retryOn = {OptimisticLockException.class}, maxRetries = 10, delay = 100)
     public WorkflowDeployment update(@NotNull @Valid final WorkflowDeployment deployment) {
         return em.merge(deployment);
     }

@@ -10,10 +10,13 @@ import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -35,40 +38,46 @@ public class CatalogStorageProviderMinIO implements CommonStorageProvider {
 
     @Inject
     public CatalogStorageProviderMinIO(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.minio.endpoint") String configEndpoint,        
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.minio.bucket") String configBucket,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.minio.access") String configAccess,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.minio.secret") String configSecret
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.storage.minio.endpoint") String configEndpoint,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.storage.minio.bucket") String configBucket,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.storage.minio.access") String configAccess,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.storage.minio.secret") String configSecret
     ) throws Exception {
         this.bucket = configBucket;
         this.minio = MinioClient.builder()
                 .endpoint(configEndpoint)
                 .credentials(configAccess, configSecret)
                 .build();
-        if (!minio.bucketExists(BucketExistsArgs.builder().bucket(bucket).build())) {
-            minio.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        if (!minio.bucketExists(BucketExistsArgs.builder().bucket(configBucket).build())) {
+            minio.makeBucket(MakeBucketArgs.builder().bucket(configBucket).build());
         }
     }
 
     @Override
-    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size) throws Exception {
-        final String object_id = String.valueOf(UUID.randomUUID());
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        String object_id = String.valueOf(UUID.randomUUID());
         minio.putObject(
                 PutObjectArgs.builder()
                         .bucket(bucket)
                         .object(object_id)
-                        .stream(input, size, 50000000L)
+                        .stream(input, size, PutObjectArgs.MAX_PART_SIZE)
+                        .contentType(String.valueOf(type))
                         .build());
         return object_id;
     }
 
     @Override
-    public InputStream downloadObject(@NotNull final String object_id) throws Exception {
-        return minio.getObject(
+    public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception {
+        GetObjectResponse resp = minio.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucket)
                         .object(object_id)
                         .build());
+        return new CommonStorageObject(
+            object_id,
+            resp.headers().get(HttpHeaders.CONTENT_TYPE),
+            Long.valueOf(resp.headers().get(HttpHeaders.CONTENT_TYPE)),
+            resp);
     }
 
     @Override

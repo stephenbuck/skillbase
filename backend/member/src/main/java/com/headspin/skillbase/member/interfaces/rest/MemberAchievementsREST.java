@@ -48,7 +48,7 @@ public class MemberAchievementsREST {
 
     @PUT
     @Operation(summary = "Insert new member achievement")
-    public Response insert(final MemberAchievement achievement) {
+    public Response insert(final MemberAchievement achievement) throws Exception {
         final UUID achievement_id = service.insert(achievement);
         return Response.ok(URI.create("/achievements/" + achievement_id)).build();
     }
@@ -56,14 +56,14 @@ public class MemberAchievementsREST {
     @DELETE
     @Path("{achievement_id}")
     @Operation(summary = "Delete member achievement by id")
-    public Response deleteById(@PathParam("achievement_id") final UUID achievement_id) {
+    public Response deleteById(@PathParam("achievement_id") final UUID achievement_id) throws Exception {
         service.delete(achievement_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing member achievement")
-    public Response update(final MemberAchievement achievement) {
+    public Response update(final MemberAchievement achievement) throws Exception {
         return Response.ok(service.update(achievement)).build();
     }
 
@@ -76,7 +76,7 @@ public class MemberAchievementsREST {
     @GET
     @Path("{achievement_id}")
     @Operation(summary = "Find member achievement by id")
-    public Response findById(@PathParam("achievement_id") final UUID achievement_id) {
+    public Response findById(@PathParam("achievement_id") final UUID achievement_id) throws Exception {
         final Optional<MemberAchievement> match = service.findById(achievement_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();

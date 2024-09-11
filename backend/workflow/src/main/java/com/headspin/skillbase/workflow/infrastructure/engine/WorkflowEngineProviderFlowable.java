@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.flowable.engine.IdentityService;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.RepositoryService;
@@ -57,23 +56,24 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
     private final ProcessEngineConfiguration config;
     private final ProcessEngine engine;
-//    private final IdentityService identity;
     private final RepositoryService repository;
     private final RuntimeService runtime;
     private final TaskService task;
 
     @Inject
     public WorkflowEngineProviderFlowable(
-
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.url") String configJdbcUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.username") String configJdbcUsername,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.password") String configJdbcPassword,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.driver") String configJdbcDriver
     ) {
         this.config = new StandaloneProcessEngineConfiguration()
-            .setJdbcUrl("jdbc:postgresql://postgres:5432/skillbase")
-            .setJdbcUsername("postgres")
-            .setJdbcPassword("postgres")
-            .setJdbcDriver("org.postgresql.Driver")
+            .setJdbcUrl(configJdbcUrl)
+            .setJdbcUsername(configJdbcUsername)
+            .setJdbcPassword(configJdbcPassword)
+            .setJdbcDriver(configJdbcDriver)
             .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
         this.engine = config.buildProcessEngine();
-//        this.identity = engine.getIdentityService();
         this.repository = engine.getRepositoryService();
         this.runtime = engine.getRuntimeService();
         this.task = engine.getTaskService();
@@ -105,10 +105,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
      * Creates a Flowable deployment based on a Skillbase deployment.
      * 
      * This method is transactional so that it can be combined with the
-     * insertion of the Skillbase deployment into the database.commons/
+     * insertion of the Skillbase deployment into the database.
      * 
      * The steps are:
-     * 1) Create an in-memory BAR (aka ZIP) file containing the BPMN file.
+     * 1) Create an in-memory JAR (aka ZIP) file containing the BPMN file.
      * 2) Create a Flowable deployment with:
      *    - The Skillbase deployment title as the name
      *    - The Skillbase deployment id as the key

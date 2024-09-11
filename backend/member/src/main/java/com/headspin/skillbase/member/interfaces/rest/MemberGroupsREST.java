@@ -48,7 +48,7 @@ public class MemberGroupsREST {
     
     @PUT
     @Operation(summary = "Insert new member group")
-    public Response insert(final MemberGroup group) {
+    public Response insert(final MemberGroup group) throws Exception {
         final UUID group_id = service.insert(group);
         return Response.ok(URI.create("/groups/" + group_id)).build();
     }
@@ -56,14 +56,14 @@ public class MemberGroupsREST {
     @DELETE
     @Path("{group_id}")
     @Operation(summary = "Delete member group by id")
-    public Response delete(@PathParam("group_id") final UUID group_id) {
+    public Response delete(@PathParam("group_id") final UUID group_id) throws Exception {
         service.delete(group_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing member group")
-    public Response update(final MemberGroup group) {
+    public Response update(final MemberGroup group) throws Exception {
         return Response.ok(service.update(group)).build();
     }
 
@@ -76,7 +76,7 @@ public class MemberGroupsREST {
     @GET
     @Path("{group_id}")
     @Operation(summary = "Find member group by id")
-    public Response findById(@PathParam("group_id") final UUID group_id) {
+    public Response findById(@PathParam("group_id") final UUID group_id) throws Exception {
         final Optional<MemberGroup> match = service.findById(group_id);
         if (match.isPresent()) {
             return Response.ok(match.get()).build();

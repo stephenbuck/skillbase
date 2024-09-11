@@ -40,25 +40,25 @@ public class MemberUsersGQL {
     
     @Mutation("insert")
     @Description("Insert new member user")
-    public UUID insert(@Name("user") final MemberUser user) {
+    public UUID insert(@Name("user") final MemberUser user) throws Exception {
         return service.insert(user);
     }
 
     @Mutation("delete")
     @Description("Delete member user by id")
-    public void delete(@Name("user_id") final UUID user_id) {
+    public void delete(@Name("user_id") final UUID user_id) throws Exception {
         service.delete(user_id);
     }
 
     @Mutation("update")
     @Description("Update existing member user")
-    public void update(@Name("user") final MemberUser user) {
+    public void update(@Name("user") final MemberUser user) throws Exception {
         service.update(user);
     }
 
     @Query("findById")
     @Description("Find member user by id")
-    public MemberUser findById(@Name("user_id") final UUID user_id) {
+    public MemberUser findById(@Name("user_id") final UUID user_id) throws Exception {
         return service.findById(user_id).orElse(null);
     }
 

@@ -6,7 +6,7 @@ WORKDIR /opt/jboss/wildfly
 
 COPY standalone-full.xml ./standalone/configuration/standalone-full.xml
 
-COPY postgresql-42.7.3.jar .
+COPY postgresql-42.7.4.jar .
 
 COPY batch.cli .
 
@@ -15,7 +15,7 @@ RUN ./bin/jboss-cli.sh --file=./batch.cli
 RUN ./bin/add-user.sh admin admin --silent
 
 RUN rm -rf ./standalone/configuration/standalone_xml_history
-RUN rm -rf ./postgresql-42.7.3.jar
+RUN rm -rf ./postgresql-42.7.4.jar
 
 USER root
  

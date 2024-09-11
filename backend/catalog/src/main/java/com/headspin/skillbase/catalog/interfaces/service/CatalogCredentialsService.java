@@ -1,11 +1,16 @@
 package com.headspin.skillbase.catalog.interfaces.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogCredentialRepo;
+import com.headspin.skillbase.common.providers.CommonCacheProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
@@ -17,10 +22,10 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -55,6 +60,42 @@ public class CatalogCredentialsService {
     @Inject
     private CommonStorageProvider stor;
 
+    @Inject
+    private CommonCacheProvider cache;
+
+    private void cacheSet(@NotNull final CatalogCredential credential) {
+        try {
+            final String key = String.valueOf(credential.credential_id);
+            final String val = CatalogCredential.toJson(credential);
+            cache.set(key, val);
+        }
+        catch (Exception e) {
+            log.error("Cache set failed", e);
+        }
+    }
+
+    private CatalogCredential cacheGet(@NotNull final UUID credential_id) {
+        try {
+            final String key = String.valueOf(credential_id);
+            final String val = cache.get(key);
+            return CatalogCredential.fromJson(val);
+        }
+        catch (Exception e) {
+            log.error("Cache get failed", e);
+            return null;
+        }
+    }
+
+    private void cacheDelete(@NotNull final UUID credential_id) {
+        try {
+            final String key = String.valueOf(credential_id);
+            cache.delete(key);
+        }
+        catch (Exception e) {
+            log.error("Cache delete failed", e);
+        }
+    }
+
     /**
      * Inserts a new catalog credential.
      *
@@ -64,22 +105,21 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final CatalogCredential credential) {
+    public UUID insert(@NotNull @Valid final CatalogCredential credential) throws Exception {
+
+        // Insert the object
         final UUID credential_id = repo.insert(credential);
+
+        // Produce the created event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_CREATED,
-            Json.createObjectBuilder()
-                .add("credential_id", String.valueOf(credential.credential_id))
-                .add("skill_id", String.valueOf(credential.skill_id))
-                .add("is_enabled", credential.is_enabled)
-                .add("title", credential.title)
-                .add("note", credential.note)
-                .add("image_id", credential.image_id)
-                .add("bpmn_id", credential.bpmn_id)
-                .add("created_at", String.valueOf(credential.created_at))
-                .add("updated_at", String.valueOf(credential.updated_at))
-                .build());
+            CatalogCredential.toJson(credential));
+
+        // Update the cache
+        cacheSet(credential);
+
+        // Return the object id
         return credential_id;
     }
 
@@ -91,14 +131,19 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID credential_id) {
+    public void delete(@NotNull final UUID credential_id) throws Exception {
+
+        // Delete the object
         repo.delete(credential_id);
+
+        // Produce the deleted event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_DELETED,
-            Json.createObjectBuilder()
-                .add("credential_id", String.valueOf(credential_id))
-                .build());
+            "{}");
+
+        // Update the cache
+        cacheDelete(credential_id);
     }
 
     /**
@@ -110,22 +155,21 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) {
+    public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) throws Exception {
+
+        // Update the object
         final CatalogCredential updated = repo.update(credential);
+
+        // Produce the updated event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
-            Json.createObjectBuilder()
-                .add("credential_id", String.valueOf(updated.credential_id))
-                .add("skill_id", String.valueOf(updated.skill_id))
-                .add("is_enabled", updated.is_enabled)
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("image_id", updated.image_id)
-                .add("bpmn_id", updated.bpmn_id)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            CatalogCredential.toJson(updated));
+
+        // Update the cache
+        cacheSet(updated);
+
+        // Return the updated object
         return updated;
     }
 
@@ -138,7 +182,23 @@ public class CatalogCredentialsService {
      */
 //    @RolesAllowed({ "Admin" })
     public Optional<CatalogCredential> findById(@NotNull final UUID credential_id) {
-        return repo.findById(credential_id);
+
+        // Try to return the cached version
+        CatalogCredential cached = cacheGet(credential_id);
+        if (cached != null) {
+            return Optional.of(cached);
+        }
+
+        // Find the object
+        Optional<CatalogCredential> result = repo.findById(credential_id);
+
+        // If object found, update the cache
+        if (result.isPresent()) {
+            cacheSet(result.get());
+        }
+
+        // Return the result
+        return result;
     }
 
     /**
@@ -176,6 +236,42 @@ public class CatalogCredentialsService {
         return true;
     }
 
+    @Retry
+    @Timeout
+    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        return stor.uploadObject(input, size, type);
+    }
+
+    @Retry
+    @Timeout
+    public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final String image_id) throws Exception {
+        return stor.downloadObject(image_id);
+    }
+
+    @Retry
+    @Timeout
+    public void deleteImage(@NotNull final String image_id) throws Exception {
+        stor.deleteObject(image_id);
+    }
+
+    @Retry
+    @Timeout
+    public String uploadBPMN(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        return stor.uploadObject(input, size, type);
+    }
+
+    @Retry
+    @Timeout
+    public CommonStorageProvider.CommonStorageObject downloadBPMN(@NotNull final String bpmn_id) throws Exception {
+        return stor.downloadObject(bpmn_id);
+    }
+
+    @Retry
+    @Timeout
+    public void deleteBPMN(@NotNull final String bpmn_id) throws Exception {
+        stor.deleteObject(bpmn_id);
+    }
+
     /**
      * Returns a count of catalog credentials.
      *
@@ -194,6 +290,7 @@ public class CatalogCredentialsService {
         evnt.test();
         feat.test();
         stor.test();
+        cache.test();
         return 0;
     }
 }

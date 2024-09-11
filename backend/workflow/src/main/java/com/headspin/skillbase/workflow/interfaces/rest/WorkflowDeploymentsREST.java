@@ -48,7 +48,7 @@ public class WorkflowDeploymentsREST {
     
     @PUT
     @Operation(summary = "Insert new workflow deployment")
-    public Response insert(final WorkflowDeployment deployment) {
+    public Response insert(final WorkflowDeployment deployment) throws Exception {
         final UUID deployment_id = service.insert(deployment);
         return Response.ok(URI.create("/deployments/" + deployment_id)).build();
     }
@@ -56,14 +56,14 @@ public class WorkflowDeploymentsREST {
     @DELETE
     @Path("{deployment_id}")
     @Operation(summary = "Delete workflow deployment by id")
-    public Response delete(@PathParam("deployment_id") final UUID deployment_id) {
+    public Response delete(@PathParam("deployment_id") final UUID deployment_id) throws Exception {
         service.delete(deployment_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing workflow deployment")
-    public Response update(final WorkflowDeployment deployment) {
+    public Response update(final WorkflowDeployment deployment) throws Exception {
         return Response.ok(service.update(deployment)).build();
     }
 

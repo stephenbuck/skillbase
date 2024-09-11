@@ -40,7 +40,7 @@ public class CatalogCategoriesGQL {
     
     @Mutation("insert")
     @Description("Insert new catalog category")
-    public UUID insert(@Name("category") final CatalogCategory category) {
+    public UUID insert(@Name("category") final CatalogCategory category) throws Exception {
         return service.insert(category);
     }
 
@@ -52,13 +52,13 @@ public class CatalogCategoriesGQL {
 
     @Mutation("update")
     @Description("Update existing catalog category")
-    public void update(@Name("category") final CatalogCategory category) {
+    public void update(@Name("category") final CatalogCategory category) throws Exception {
         service.update(category);
     }
 
     @Query("findById")
     @Description("Find catalog category by id")
-    public CatalogCategory findById(@Name("category_id") final UUID category_id) {
+    public CatalogCategory findById(@Name("category_id") final UUID category_id) throws Exception {
         return service.findById(category_id).orElse(null);
     }
 

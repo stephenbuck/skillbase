@@ -1,12 +1,17 @@
 package com.headspin.skillbase.catalog.interfaces.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import com.headspin.skillbase.catalog.domain.CatalogCredential;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
 import com.headspin.skillbase.catalog.domain.CatalogSkillRepo;
+import com.headspin.skillbase.common.providers.CommonCacheProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
@@ -19,10 +24,10 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -60,6 +65,42 @@ public class CatalogSkillsService {
     @Inject
     private CommonStorageProvider stor;
 
+    @Inject
+    private CommonCacheProvider cache;
+
+    private void cacheSet(@NotNull final CatalogSkill skill) {
+        try {
+            final String key = String.valueOf(skill.skill_id);
+            final String val = CatalogSkill.toJson(skill);
+            cache.set(key, val);
+        }
+        catch (Exception e) {
+            log.error("Cache set failed", e);
+        }
+    }
+
+    private CatalogSkill cacheGet(@NotNull final UUID skill_id) {
+        try {
+            final String key = String.valueOf(skill_id);
+            final String val = cache.get(key);
+            return CatalogSkill.fromJson(val);
+        }
+        catch (Exception e) {
+            log.error("Cache get failed", e);
+            return null;
+        }
+    }
+
+    private void cacheDelete(@NotNull final UUID skill_id) {
+        try {
+            final String key = String.valueOf(skill_id);
+            cache.delete(key);
+        }
+        catch (Exception e) {
+            log.error("Cache delete failed", e);
+        }
+    }
+
     /**
      * Inserts a new catalog skill.
      *
@@ -69,22 +110,21 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final CatalogSkill skill) {
+    public UUID insert(@NotNull @Valid final CatalogSkill skill) throws Exception {
+
+        // Insert the object
         final UUID skill_id = repo.insert(skill);
+
+        // Produce the created event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_CREATED,
-            Json.createObjectBuilder()
-                .add("skill_id", String.valueOf(skill.skill_id))
-                .add("deployment_id", String.valueOf(skill.deployment_id))
-                .add("category_id", String.valueOf(skill.category_id))
-                .add("is_enabled", skill.is_enabled)
-                .add("title", skill.title)
-                .add("note", skill.note)
-                .add("image_id", skill.image_id)
-                .add("created_at", String.valueOf(skill.created_at))
-                .add("updated_at", String.valueOf(skill.updated_at))
-                .build());
+            CatalogSkill.toJson(skill));
+
+        // Update the cache
+        cacheSet(skill);
+
+        // Return the object id
         return skill_id;
     }
 
@@ -96,14 +136,19 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID skill_id) {
+    public void delete(@NotNull final UUID skill_id) throws Exception {
+
+        // Delete the object
         repo.delete(skill_id);
+
+        // Produce the deleted event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_DELETED,
-            Json.createObjectBuilder()
-                .add("skill_id", String.valueOf(skill_id))
-                .build());
+            "{}");
+
+        // Update the cache
+        cacheDelete(skill_id);
     }
 
     /**
@@ -115,22 +160,21 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogSkill update(@NotNull @Valid final CatalogSkill skill) {
+    public CatalogSkill update(@NotNull @Valid final CatalogSkill skill) throws Exception {
+
+        // Update the object
         final CatalogSkill updated = repo.update(skill);
+
+        // Produce the updated event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_SKILL_UPDATED,
-            Json.createObjectBuilder()
-                .add("skill_id", String.valueOf(updated.skill_id))
-                .add("deployment_id", String.valueOf(updated.deployment_id))
-                .add("category_id", String.valueOf(updated.category_id))
-                .add("is_enabled", updated.is_enabled)
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("image_id", updated.image_id)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            CatalogSkill.toJson(updated));
+
+        // Update the cache
+        cacheSet(updated);
+
+        // Return the updated object
         return updated;
     }
 
@@ -143,7 +187,23 @@ public class CatalogSkillsService {
      */
 //    @RolesAllowed({ "Member" })
     public Optional<CatalogSkill> findById(@NotNull final UUID skill_id) {
-        return repo.findById(skill_id);
+
+        // Try to return the cached version
+        CatalogSkill cached = cacheGet(skill_id);
+        if (cached != null) {
+            return Optional.of(cached);
+        }
+
+        // Find the object
+        Optional<CatalogSkill> result = repo.findById(skill_id);
+
+        // If object found, update the cache
+        if (result.isPresent()) {
+            cacheSet(result.get());
+        }
+
+        // Return the result
+        return result;
     }
 
     /**
@@ -233,6 +293,108 @@ public class CatalogSkillsService {
     }
 
     /**
+     * Uploads a catalog skill image.
+     *
+     * @param skill_id The requested skill id.
+     * @param input The image input stream.
+     * @param size The size of the image (or -1 if unknown).
+     * @param type The media type of the image (e.g. image/jpeg).
+     * @return The id of the new image.
+     * @since 1.0
+     */
+    @Retry
+    @Timeout
+    @Transactional
+    //    @RolesAllowed({ "Admin" })
+    public String uploadImage(@NotNull final UUID skill_id, @NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+
+        // Fetch the skill
+        final CatalogSkill skill = findById(skill_id).get();
+
+        // Save the old image
+        final String old_image_id = skill.image_id;
+
+        // Upload the new image
+        final String new_image_id = stor.uploadObject(input, size, type);
+        
+        // Update the skill with the new image
+        try {
+            skill.image_id = new_image_id;
+            update(skill);
+        }
+
+        // On exception, delete the new image and rethrow
+        catch (Exception e) {
+            stor.deleteObject(new_image_id);
+            throw e;
+        }
+
+        // Delete the old image (it's an update)
+        try {
+            if (old_image_id != null) {
+                stor.deleteObject(old_image_id);
+            }
+        }
+
+        // On exception, just log, but don't rethrow
+        catch (Exception e) {
+            log.error("Update to delete old image", e);
+        }
+
+        // Return the new image id
+        return new_image_id;
+    }
+
+    /**
+     * Downloads a catalog skill image.
+     *
+     * @param skill_id The requested skill id.
+     * @return The storage object of the image.
+     * @since 1.0
+     */
+    @Retry
+    @Timeout
+    //    @RolesAllowed({ "Admin" })
+    public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final UUID skill_id) throws Exception {
+        return stor.downloadObject(findById(skill_id).get().image_id);
+    }
+
+    /**
+     * Deletes a catalog skill image.
+     *
+     * @param skill_id The requested skill id.
+     * @since 1.0
+     */
+    @Retry
+    @Timeout
+    @Transactional
+    //    @RolesAllowed({ "Admin" })
+    public void deleteImage(@NotNull final UUID skill_id) throws Exception {
+
+        // Fetch the skill
+        final CatalogSkill skill = findById(skill_id).get();
+
+        // Save the old image id
+        final String old_image_id = skill.image_id;
+
+        // Update the skill image_id to null
+        skill.image_id = null;
+        update(skill);
+
+        // Delete the old image
+        try {
+            if (old_image_id != null) {
+                stor.deleteObject(old_image_id);
+            }
+        }
+
+        // On exception, just log, but don't rethrow
+        catch (Exception e) {
+            log.error("Update to delete old image", e);
+        }
+    }
+
+    /**
      * Returns a count of catalog skills.
      *
      * @return The count.
@@ -251,6 +413,7 @@ public class CatalogSkillsService {
         feat.test();
         srch.test();
         stor.test();
+        cache.test();
         return 0;
     }
 }

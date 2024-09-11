@@ -7,20 +7,23 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
+
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
 
 /**
- * MinIO implementation of the Member storage provider interface.
+ * MinIO implementation of the common files provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -35,10 +38,10 @@ public class WorkflowStorageProviderMinIO implements CommonStorageProvider {
 
     @Inject
     public WorkflowStorageProviderMinIO(
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.minio.endpoint") String configEndpoint,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.minio.bucket") String configBucket,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.minio.access") String configAccess,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.minio.secret") String configSecret    
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.storage.minio.endpoint") String configEndpoint,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.storage.minio.bucket") String configBucket,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.storage.minio.access") String configAccess,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.storage.minio.secret") String configSecret
     ) throws Exception {
         this.bucket = configBucket;
         this.minio = MinioClient.builder()
@@ -49,31 +52,35 @@ public class WorkflowStorageProviderMinIO implements CommonStorageProvider {
             minio.makeBucket(MakeBucketArgs.builder().bucket(configBucket).build());
         }
     }
-    
+
     @Override
-    @Transactional
-    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size) throws Exception {
-        String object_id = String.valueOf(UUID.randomUUID());
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        String image_id = String.valueOf(UUID.randomUUID());
         minio.putObject(
                 PutObjectArgs.builder()
                         .bucket(bucket)
-                        .object(object_id)
-                        .stream(input, size, 50000000L)
+                        .object(image_id)
+                        .stream(input, size, PutObjectArgs.MAX_PART_SIZE)
+                        .contentType(String.valueOf(type))
                         .build());
-        return object_id;
+        return image_id;
     }
 
     @Override
-    public InputStream downloadObject(@NotNull final String object_id) throws Exception {
-        return minio.getObject(
+    public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception {
+        GetObjectResponse resp = minio.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucket)
                         .object(object_id)
                         .build());
+        return new CommonStorageObject(
+            object_id,
+            resp.headers().get(HttpHeaders.CONTENT_TYPE),
+            Long.valueOf(resp.headers().get(HttpHeaders.CONTENT_TYPE)),
+            resp);
     }
 
     @Override
-    @Transactional
     public void deleteObject(@NotNull final String object_id) throws Exception {
         minio.removeObject(
                 RemoveObjectArgs.builder()

@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import com.headspin.skillbase.common.events.EventListener;
 
-import jakarta.json.JsonObject;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -23,7 +22,7 @@ public interface CommonEventsProvider {
      * @param type
      * @param json
      */
-    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final JsonObject json);
+    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final String json);
 
     /**
      * Starts consuming events with any of the the specified topics and

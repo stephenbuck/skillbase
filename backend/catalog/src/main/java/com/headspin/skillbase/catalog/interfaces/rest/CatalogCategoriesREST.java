@@ -13,13 +13,14 @@ import org.zalando.problem.Status;
 
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.interfaces.service.CatalogCategoriesService;
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.security.enterprise.authentication.mechanism.http.OpenIdAuthenticationMechanismDefinition;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -27,6 +28,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.EntityPart;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -63,7 +66,7 @@ public class CatalogCategoriesREST {
      */
     @PUT
     @Operation(summary = "Insert new catalog category")
-    public Response insert(final CatalogCategory category) {
+    public Response insert(final CatalogCategory category) throws Exception {
         try {
             final UUID category_id = service.insert(category);
             return Response.ok(category_id).build();
@@ -116,7 +119,7 @@ public class CatalogCategoriesREST {
 
     @POST
     @Operation(summary = "Update existing catalog category")
-    public Response update(final CatalogCategory category) {
+    public Response update(final CatalogCategory category) throws Exception {
         return Response.ok(service.update(category)).build();
     }
 
@@ -142,7 +145,7 @@ public class CatalogCategoriesREST {
     @GET
     @Path("{category_id}")
     @Operation(summary = "Find catalog category by id")
-    public Response findById(@PathParam("category_id") final UUID category_id) {
+    public Response findById(@PathParam("category_id") final UUID category_id) throws Exception {
         try {
             final Optional<CatalogCategory> match = service.findById(category_id);
             return Response
@@ -230,6 +233,44 @@ public class CatalogCategoriesREST {
      * return Response.ok(service.deleteCategorySkill(category_id, skill_id)).build();
      * }
      */
+
+
+    @POST
+    @Path("/image")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Upload category image")
+    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception { 
+        String object_id = service.uploadImage(
+            part.getContent(),
+            -1L,
+            part.getMediaType()); 
+        return Response
+            .ok(object_id)
+            .build();
+    }
+
+    @GET
+    @Path("/image/{image_id}")
+    @Operation(summary = "Download category image")
+    public Response downloadImage(@PathParam("image_id") String image_id) throws Exception {
+        final CommonStorageProvider.CommonStorageObject object =
+            service.downloadImage(image_id);
+        return Response
+            .ok(object.input)
+            .header(HttpHeaders.CONTENT_TYPE, object.type)
+            .header(HttpHeaders.CONTENT_LENGTH, object.size)
+            .build();
+    }
+
+    @DELETE
+    @Path("/image/{image_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Delete category image")
+    public Response deleteImage(@PathParam("image_id") String image_id) throws Exception {
+        service.deleteImage(image_id);
+        return Response.ok().build();
+    }
 
     @GET
     @Path("count")

@@ -48,7 +48,7 @@ public class WorkflowDefinitionsREST {
     
     @PUT
     @Operation(summary = "Insert new workflow definition")
-    public Response insert(final WorkflowDefinition definition) {
+    public Response insert(final WorkflowDefinition definition) throws Exception {
         final UUID definition_id = service.insert(definition);
         return Response.ok(URI.create("/definitions/" + definition_id)).build();
     }
@@ -56,20 +56,20 @@ public class WorkflowDefinitionsREST {
     @DELETE
     @Path("{definition_id}")
     @Operation(summary = "Delete workflow definition by id")
-    public Response delete(@PathParam("definition_id") final UUID definition_id) {
+    public Response delete(@PathParam("definition_id") final UUID definition_id) throws Exception {
         service.delete(definition_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing workflow definition")
-    public Response update(final WorkflowDefinition definition) {
+    public Response update(final WorkflowDefinition definition) throws Exception {
         return Response.ok(service.update(definition)).build();
     }
 
     @GET
     @Operation(summary = "Find all workflow definitions")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) throws Exception {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 

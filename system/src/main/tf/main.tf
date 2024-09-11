@@ -2,9 +2,322 @@
 # Variables
 ################################################################################
 
+locals {
+}
+
+variable "apicurio_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "apicurio_port_external" {
+  type = number
+  default = 8085
+}
+
+variable "apisix_1_port_internal" {
+  type = number
+  default = 9080
+}
+
+variable "apisix_1_port_external" {
+  type = number
+  default = 9080
+}
+
+variable "apisix_2_port_internal" {
+  type = number
+  default = 9180
+}
+
+variable "apisix_2_port_external" {
+  type = number
+  default = 9180
+}
+
+variable "apisix_3_port_internal" {
+  type = number
+  default = 9443
+}
+
+variable "apisix_3_port_external" {
+  type = number
+  default = 9443
+}
+
+variable "debezium_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "debezium_port_external" {
+  type = number
+  default = 8088
+}
+
+variable "docker_network_name" {
+  type = string
+  default = "skillbase"
+}
+
+variable "docker_registry_port_internal" {
+  type = number
+  default = 5000
+}
+
+variable "docker_registry_port_external" {
+  type = number
+  default = 5000
+}
+
+variable "docker_registry_user_name" {
+  type = string
+  default = "stephenbuck"
+}
+
+variable "docker_registry_user_pass" {
+  type = string
+  default = "stephenbuck"
+}
+
+variable "elastic_api_port_internal" {
+  type = number
+  default = 9200
+}
+
+variable "elastic_api_port_external" {
+  type = number
+  default = 9200
+}
+
+variable "elastic_peer_port_internal" {
+  type = number
+  default = 9300
+}
+
+variable "elastic_peer_port_external" {
+  type = number
+  default = 9300
+}
+
+variable "etcd_client_port_internal" {
+  type = number
+  default = 2379
+}
+
+variable "etcd_client_port_external" {
+  type = number
+  default = 2379
+}
+
+variable "etcd_peer_port_internal" {
+  type = number
+  default = 2380
+}
+
+variable "etcd_peer_port_external" {
+  type = number
+  default = 2380
+}
+
+variable "flip_admin_port_internal" {
+  type = number
+  default = 9000
+}
+
+variable "flip_admin_port_external" {
+  type = number
+  default = 9007
+}
+
+variable "flip_api_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "flip_api_port_external" {
+  type = number
+  default = 8087
+}
+
+variable "fluentd_port_internal" {
+  type = number
+  default = 9880
+}
+
+variable "fluentd_port_external" {
+  type = number
+  default = 9880
+}
+
+variable "kafka_broker_port_internal_1" {
+  type = number
+  default = 9092
+}
+
+variable "kafka_broker_port_external_1" {
+  type = number
+  default = 9092
+}
+
+variable "kafka_connect_port_internal" {
+  type = number
+  default = 8083
+}
+
+variable "kafka_connect_port_external" {
+  type = number
+  default = 8083
+}
+
+variable "kafka_connect_topic_config" {
+  type = string
+  default = "kafka_connect_configs"
+}
+
+variable "kafka_connect_topic_offset" {
+  type = string
+  default = "kafka_connect_offsets"
+}
+
+variable "kafka_connect_topic_status" {
+  type = string
+  default = "kafka_connect_statuses"
+}
+
+variable "kafka_ui_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "kafka_schema_port_external" {
+  type = number
+  default = 8081
+}
+
+variable "kafka_schema_port_internal" {
+  type = number
+  default = 8081
+}
+
+variable "kafka_ui_port_external" {
+  type = number
+  default = 8088
+}
+
+variable "keycloak_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "keycloak_port_external" {
+  type = number
+  default = 18080
+}
+
+variable "keycloak_user_name" {
+  type = string
+  default = "admin"
+}
+
+variable "keycloak_user_pass" {
+  type = string
+  default = "admin"
+}
+
+variable "minio_user_name" {
+  type = string
+  default = "skillbase"
+}
+
+variable "minio_user_pass" {
+  type = string
+  default = "skillbase"
+}
+
+variable "minio_admin_port_internal" {
+  type = number
+  default = 9000
+}
+
+variable "minio_admin_port_external" {
+  type = number
+  default = 9000
+}
+
+variable "minio_api_port_internal" {
+  type = number
+  default = 9001
+}
+
+variable "minio_api_port_external" {
+  type = number
+  default = 9001
+}
+
+variable "postgres_user_name" {
+  type = string
+  default = "postgres"
+}
+
+variable "postgres_user_pass" {
+  type = string
+  default = "postgres"
+}
+
+variable "postgres_port_internal" {
+  type = number
+  default = 5432
+}
+
+variable "postgres_port_external" {
+  type = number
+  default = 5432
+}
+
+variable "prometheus_port_internal" {
+  type = number
+  default = 9090
+}
+
+variable "prometheus_port_external" {
+  type = number
+  default = 9090
+}
+
+variable "redis_port_internal" {
+  type = number
+  default = 6379
+}
+
+variable "redis_port_external" {
+  type = number
+  default = 6379
+}
+
 variable "skillbase_tag" {
   type = string
   default = "latest"
+}
+
+variable "wildfly_admin_port_internal" {
+  type = number
+  default = 9990
+}
+
+variable "wildfly_admin_port_external" {
+  type = number
+  default = 9990
+}
+
+variable "wildfly_http_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "wildfly_http_port_external" {
+  type = number
+  default = 8080
 }
 
 ################################################################################
@@ -27,7 +340,7 @@ terraform {
 }
 
 provider "kafka" {
-  bootstrap_servers = ["kafka:9092"]
+  bootstrap_servers = ["kafka:${kafka_broker_port_internal_1}"]
 }
 
 ################################################################################
@@ -37,14 +350,14 @@ provider "kafka" {
 provider "docker" {
   host = "unix:///var/run/docker.sock"
   registry_auth {
-    address = "localhost:5000"
-    username = "stephenbuck"
-    password = "buckstephen"
+    address = "localhost:${var.docker_registry_port_internal}"
+    username = var.docker_registry_user_name
+    password = var.docker_registry_user_pass
   }
 }
 
 resource "docker_network" "private_network" {
-  name = "skillbase"
+  name = var.docker_network_name
 }
 
 /*
@@ -63,8 +376,8 @@ resource "docker_container" "apicurio" {
   network_mode = docker_network.private_network.name
   restart = "always"
   ports {
-    internal = 8080
-    external = 8085
+    internal = var.apicurio_port_internal
+    external = var.apicurio_port_external
   }
   depends_on = [
     docker_container.kafka,
@@ -91,50 +404,20 @@ resource "docker_container" "apisix" {
   restart = "always"
   env = [
     "APISIX_STAND_ALONE=true"
-  ]
+  ] 
   ports {
-    internal = 9080
-    external = 9080
+    internal = var.apisix_1_port_internal
+    external = var.apisix_1_port_external
   }
   ports {
-    internal = 9443
-    external = 9443
+    internal = var.apisix_2_port_internal
+    external = var.apisix_2_port_external
+  }
+  ports {
+    internal = var.apisix_3_port_internal
+    external = var.apisix_3_port_external
   }
   depends_on = [
-    docker_container.registry
-  ]
-}
-*/
-
-/*
-################################################################################
-# Connect
-################################################################################
-
-resource "docker_image" "connect" {
-  name = "debezium/connect:latest"
-  keep_locally = true
-}
-
-resource "docker_container" "connect" {
-  name = "connect"
-  image = docker_image.connect.image_id
-  network_mode = docker_network.private_network.name
-  restart = "always"
-  ports {
-    internal = 8083
-    external = 8083
-  }
-  env = [
-    "BOOTSTRAP_SERVERS=kafka:9092",
-    "GROUP_ID=1",
-    "CONFIG_STORAGE_TOPIC=my_connect_configs",
-    "OFFSET_STORAGE_TOPIC=my_connect_offsets",
-    "STATUS_STORAGE_TOPIC=my_source_connect_statuses"
-  ]
-  depends_on = [
-    docker_container.kafka,
-    docker_container.postgres,
     docker_container.registry
   ]
 }
@@ -156,8 +439,8 @@ resource "docker_container" "debezium" {
   network_mode = docker_network.private_network.name
   restart = "always"
   ports {
-    internal = 8080
-    external = 8088
+    internal = var.debezium_port_internal
+    external = var.debezium_port_external
   }
   volumes {
     container_path = "/debezum/conf"
@@ -195,12 +478,12 @@ resource "docker_container" "elastic" {
     #    "http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization"
   ]
   ports {
-    internal = 9200
-    external = 9200
+    internal = var.elastic_api_port_internal
+    external = var.elastic_api_port_external
   }
   ports {
-    internal = 9300
-    external = 9300
+    internal = var.elastic_peer_port_internal
+    external = var.elastic_peer_port_external
   }
   depends_on = [
     docker_container.registry
@@ -226,20 +509,20 @@ resource "docker_container" "etcd" {
   env = [
     "ETCD_ENABLE_V2=true",
     "ALLOW_NONE_AUTHENTICATION=yes",
-    "ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379",
-    "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379"
+    "ETCD_ADVERTISE_CLIENT_URLS=http://etcd:${var.etcd_client_port_internal}",
+    "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:${var.etcd_client_port_internal}"
   ]
   volumes {
     container_path = "/etcd_data"
     host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/etcd/etcd_data"
   }
   ports {
-    internal = 2379
-    external = 2379
+    internal = var.etcd_client_port_internal
+    external = var.etcd_client_port_external
   }
   ports {
-    internal = 2380
-    external = 2380
+    internal = var.etcd_peer_port_internal
+    external = var.etcd_peer_port_external
   }
   depends_on = [
     docker_container.registry
@@ -263,12 +546,12 @@ resource "docker_container" "flipt" {
   network_mode = docker_network.private_network.name
   stdin_open = true
   ports {
-      internal = 8080
-      external = 8087
+      internal = var.flipt_api_port_internal
+      external = var.flipt_api_port_external
   }
   ports {
-      internal = 9000
-      external = 9007
+      internal = var.flipt_admin_port_internal
+      external = var.flipt_admin_port_external
   }
   depends_on = [
     docker_container.registry
@@ -291,8 +574,8 @@ resource "docker_container" "flowable" {
   image = docker_image.flowable.image_id
   network_mode = docker_network.private_network.name
   ports {
-    internal = 8080
-    external = 8081
+    internal = var.flowable_port_internal
+    external = var.flowable_port_external
   }
   depends_on = [
     docker_container.postgres,
@@ -316,8 +599,8 @@ resource "docker_container" "fluentd" {
   image = docker_image.fluentd.image_id
   network_mode = docker_network.private_network.name
   ports {
-    internal = 9880
-    external = 9880
+    internal = var.fluentd_port_internal
+    external = var.fluentd_port_external
   }
   depends_on = [
     docker_container.registry
@@ -358,8 +641,8 @@ resource "docker_container" "kafka" {
     "KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true"
   ]
   ports {
-    internal = 9092
-    external = 9092
+    internal = var.kafka_broker_port_internal_1
+    external = var.kafka_broker_port_external_1
   }
   depends_on = [
     docker_container.registry
@@ -393,8 +676,8 @@ resource "kafka_topic" "skillbase_member_event" {
   ]
 }
 
-resource "kafka_topic" "skillbase_storage_event" {
-  name = "skillbase_storage_event"
+resource "kafka_topic" "skillbase_image_event" {
+  name = "skillbase_image_event"
   replication_factor = 1
   partitions = 1
   config = {
@@ -420,6 +703,98 @@ resource "kafka_topic" "skillbase_workflow_event" {
 }
 */
 
+################################################################################
+# Kafka-Connect
+################################################################################
+
+resource "docker_image" "kafka_connect" {
+  name = "skillbase/kafka_connect:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "kafka_connect" {
+  name = "kafka_connect"
+  image = docker_image.kafka_connect.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
+  ports {
+    internal = var.kafka_connect_port_internal
+    external = var.kafka_connect_port_external
+  }
+  env = [
+    "BOOTSTRAP_SERVERS=kafka:${var.kafka_broker_port_internal_1}",
+    "GROUP_ID=1",
+    "CONFIG_STORAGE_TOPIC=${var.kafka_connect_topic_config}",
+    "OFFSET_STORAGE_TOPIC=${var.kafka_connect_topic_offset}",
+    "STATUS_STORAGE_TOPIC=${var.kafka_connect_topic_status}"
+  ]
+  depends_on = [
+    docker_container.kafka,
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+
+################################################################################
+# Kafka-Schema
+################################################################################
+
+resource "docker_image" "kafka_schema" {
+  name = "skillbase/kafka_schema:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "kafka_schema" {
+  name = "kafka_schema"
+  image = docker_image.kafka_schema.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "SCHEMA_REGISTRY_HOST_NAME=kafka_schema",
+    "SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:${var.kafka_broker_port_internal_1}",
+    "SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:${var.kafka_schema_port_internal}"
+  ]
+  ports {
+    internal = var.kafka_schema_port_internal
+    external = var.kafka_schema_port_external
+  }
+  depends_on = [
+    docker_container.kafka
+  ]
+}
+
+################################################################################
+# Kafka-UI
+################################################################################
+
+resource "docker_image" "kafka_ui" {
+  name = "skillbase/kafka_ui:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "kafka_ui" {
+  name = "kafka_ui"
+  image = docker_image.kafka_ui.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "KAFKA_CLUSTERS_0_NAME=local",
+    "KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:${var.kafka_broker_port_internal_1}",
+    "KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://kafka_schema:${var.kafka_schema_port_internal}",
+    "KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME=kafka_connect",
+    "KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS=http://kafka_connect:${var.kafka_connect_port_internal}",
+    "DYNAMIC_CONFIG_ENABLED=true"
+  ]
+  ports {
+    internal = var.kafka_ui_port_internal
+    external = var.kafka_ui_port_external
+  }
+  depends_on = [
+    docker_container.registry,
+    docker_container.kafka,
+    docker_container.kafka_connect,
+    docker_container.kafka_schema
+  ]
+}
+
 /*
 ################################################################################
 # KeyCloak
@@ -435,12 +810,12 @@ resource "docker_container" "keycloak" {
   image = docker_image.keycloak.image_id
   network_mode = docker_network.private_network.name
   env = [
-    "KEYCLOAK_ADMIN=admin",
-    "KEYCLOAK_ADMIN_PASSWORD=admin"
+    "KEYCLOAK_ADMIN=${var.keycloak_user_name}",
+    "KEYCLOAK_ADMIN_PASSWORD=${var.keycloak.user_pass}"
   ]
   ports {
-    internal = 8080
-    external = 18080
+    internal = var.keycloak_port_internal
+    external = var.keycloak_port_external
   }
   depends_on = [
     docker_container.postgres,
@@ -464,16 +839,16 @@ resource "docker_container" "minio" {
   image = docker_image.minio.image_id
   network_mode = docker_network.private_network.name
   env = [
-    "MINIO_ROOT_USER=skillbase",
-    "MINIO_ROOT_PASSWORD=skillbase"
+    "MINIO_ROOT_USER=${var.minio_user_name}",
+    "MINIO_ROOT_PASSWORD=${var.minio_user_pass}"
   ]
   ports {
-    internal = 9000
-    external = 9000
+    internal = var.minio_admin_port_internal
+    external = var.minio_admin_port_external
   }
   ports {
-    internal = 9001
-    external = 9001
+    internal = var.minio_api_port_internal
+    external = var.minio_api_port_external
   }
   volumes {
     container_path = "/data"
@@ -482,7 +857,7 @@ resource "docker_container" "minio" {
   depends_on = [
     docker_container.registry
   ]
-  command = ["server", "/data", "--console-address", ":9001"]
+  command = ["server", "/data", "--console-address", ":${var.minio_api_port_internal}"]
 }
 
 /*
@@ -527,17 +902,41 @@ resource "docker_container" "postgres" {
   image = docker_image.postgres.image_id
   network_mode = docker_network.private_network.name
   env = [
-    "POSTGRES_USER=postgres",
-    "POSTGRES_PASSWORD=postgres"
+    "POSTGRES_USER=${var.postgres_user_name}",
+    "POSTGRES_PASSWORD=${var.postgres_user_pass}"
   ]
   ports {
-    internal = 5432
-    external = 5432
+    internal = var.postgres_port_internal
+    external = var.postgres_port_external
   }
   depends_on = [
     docker_container.registry
   ]
 }
+
+/*
+################################################################################
+# Redis
+################################################################################
+
+resource "docker_image" "redis" {
+  name = "skillbase/redis:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "redis" {
+  name = "redis"
+  image = docker_image.redis.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.redis_port_internal
+    external = var.redis_port_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
+*/
 
 ################################################################################
 # Registry
@@ -553,8 +952,8 @@ resource "docker_container" "registry" {
   image = docker_image.registry.image_id
   restart = "always"
   ports {
-    internal = 5000
-    external = 5000
+    internal = var.docker_registry_port_internal
+    external = var.docker_registry_port_external
   }
 }
 
@@ -573,8 +972,8 @@ resource "docker_container" "prometheus" {
   image = docker_image.prometheus.image_id
   network_mode = docker_network.private_network.name
   ports {
-    internal = 9090
-    external = 9090
+    internal = var.prometheus_port_internal
+    external = var.prometheus_port_external
   }
   depends_on = [
     docker_container.registry
@@ -596,12 +995,12 @@ resource "docker_container" "wildfly" {
   image = docker_image.wildfly.image_id
   network_mode = docker_network.private_network.name
   ports {
-    internal = 9990
-    external = 9990
+    internal = var.wildfly_admin_port_internal
+    external = var.wildfly_admin_port_external
   }
   ports {
-    internal = 8080
-    external = 8080
+    internal = var.wildfly_http_port_internal
+    external = var.wildfly_http_port_external
   }
   host {
     host = "wildfly"
@@ -620,6 +1019,7 @@ resource "docker_container" "wildfly" {
     //    docker_container.keycloak,
     docker_container.minio,
     docker_container.postgres,
+    //    docker_container.redis,
     docker_container.registry
 
     //    kafka_topic.skillbase_catalog_event,
@@ -653,7 +1053,7 @@ resource "docker_container" "catalog" {
 
 /*
 ################################################################################
-# Member
+# Skillbase Member
 ################################################################################
 
 resource "docker_image" "member" {
@@ -676,21 +1076,20 @@ resource "docker_container" "member" {
 
 /*
 ################################################################################
-# Skillbase Storage
+# Skillbase Image
 ################################################################################
 
-resource "docker_image" "storage" {
-  name = "skillbase/storage:${var.skillbase_tag}"
+resource "docker_image" "image" {
+  name = "skillbase/image:${var.skillbase_tag}"
   keep_locally = true
 }
 
-resource "docker_container" "storage" {
-  name  = "storage"
-  image = docker_image.storage.image_id
+resource "docker_container" "image" {
+  name  = "image"
+  image = docker_image.image.image_id
   depends_on = [
-    docker_container.etcd,
     docker_container.kafka,
-    docker_container.postgres,
+    docker_container.minio,
     docker_container.registry
   ]
 }

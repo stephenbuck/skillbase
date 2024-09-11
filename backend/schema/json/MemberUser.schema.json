@@ -32,6 +32,10 @@
       "type": "string",
       "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
     },
+    "image_id": {
+      "description": "The id of the image",
+      "type": "string"
+    },
     "created_at": {
       "description": "The create timestamp",
       "type": "string",
@@ -41,6 +45,11 @@
       "description": "The update timestamp",
       "type": "string",
       "format": "date-time"
+    },
+    "version": {
+      "description": "The update version",
+      "type": "string",
+      "format": "integer"
     }
   },
   "required": [

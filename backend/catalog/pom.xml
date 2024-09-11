@@ -287,6 +287,11 @@
     <!-- External -->
 
     <dependency>
+        <artifactId>cache-api</artifactId>
+        <groupId>javax.cache</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>cloudevents-api</artifactId>
       <groupId>io.cloudevents</groupId>
     </dependency>
@@ -365,6 +370,13 @@
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
     </dependency>
+
+<!--
+    <dependency>
+      <artifactId>lettuce-core</artifactId>
+      <groupId>io.lettuce</groupId>
+    </dependency>
+-->
 
     <dependency>
       <artifactId>log4j-api</artifactId>
@@ -484,6 +496,13 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     -->
+
+<!--
+    <dependency>
+      <artifactId>xmemcached</artifactId>
+      <groupId>com.googlecode.xmemcached</groupId>
+    </dependency>
+-->
 
     <!-- Test -->
 

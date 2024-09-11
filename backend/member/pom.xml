@@ -277,6 +277,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>elasticsearch-java</artifactId>
+      <groupId>co.elastic.clients</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>flipt-java</artifactId>
       <groupId>io.flipt</groupId>
     </dependency>

@@ -54,10 +54,12 @@
     <jakarta.version>10.0.0</jakarta.version>
     <java.problem.version>0.27.1</java.problem.version>
     <java.s3.spi.version>2.0.4</java.s3.spi.version>
+    <javax.cache.version>1.1.1</javax.cache.version>
     <json.validator.version>1.4.0</json.validator.version>
     <junit.version>5.9.2</junit.version>
     <kafka.clients.version>3.7.1</kafka.clients.version>
     <keycloak.version>25.0.1</keycloak.version>
+    <lettuce.version>6.4.0.RELEASE</lettuce.version>    
     <liquibase.maven.version>2.0.1</liquibase.maven.version>
     <liquibase.version>4.28.0</liquibase.version>
     <log4j.version>2.23.1</log4j.version>
@@ -84,6 +86,7 @@
     <swagger.version>2.1.6</swagger.version>
     <testcontainers.version>1.19.8</testcontainers.version>
     <wildfly.maven.version>4.2.2.Final</wildfly.maven.version>
+    <xmemcached.version>2.4.8</xmemcached.version>
 
   </properties>
 
@@ -378,6 +381,12 @@
       </dependency>
     
       <dependency>
+          <artifactId>cache-api</artifactId>
+          <groupId>javax.cache</groupId>
+          <version>${javax.cache.version}</version>
+      </dependency>
+
+      <dependency>
         <artifactId>cloudevents-api</artifactId>
         <groupId>io.cloudevents</groupId>
         <version>${cloudevents.version}</version>
@@ -492,6 +501,12 @@
         <artifactId>keycloak-admin-client</artifactId>
         <groupId>org.keycloak</groupId>
         <version>${keycloak.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>lettuce-core</artifactId>
+        <groupId>io.lettuce</groupId>
+        <version>${lettuce.version}</version>
       </dependency>
 
       <dependency>
@@ -637,7 +652,13 @@
         <groupId>org.springframework</groupId>
         <version>${spring.web.version}</version>
       </dependency>
-    
+
+      <dependency>
+        <groupId>com.googlecode.xmemcached</groupId>
+        <artifactId>xmemcached</artifactId>
+        <version>${xmemcached.version}</version>
+      </dependency>
+              
       <!-- Test -->
 
       <dependency>

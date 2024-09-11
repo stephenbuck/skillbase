@@ -1,7 +1,5 @@
 package com.headspin.skillbase.member.interfaces.rest;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,13 +8,14 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
 import com.headspin.skillbase.member.domain.MemberUser;
 import com.headspin.skillbase.member.interfaces.service.MemberUsersService;
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -24,6 +23,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.EntityPart;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -51,7 +52,7 @@ public class MemberUsersREST {
 
     @PUT
     @Operation(summary = "Insert new member user")
-    public Response insert(final MemberUser user) {
+    public Response insert(final MemberUser user) throws Exception {
         final UUID user_id = service.insert(user);
         return Response.ok(URI.create("/users/" + user_id)).build();
     }
@@ -59,39 +60,15 @@ public class MemberUsersREST {
     @DELETE
     @Path("{user_id}")
     @Operation(summary = "Delete member user by id")
-    public Response deleteById(@PathParam("user_id") final UUID user_id) {
+    public Response deleteById(@PathParam("user_id") final UUID user_id) throws Exception {
         service.delete(user_id);
         return Response.ok().build();
     }
 
     @POST
     @Operation(summary = "Update existing member user")
-    public Response update(final MemberUser user) {
+    public Response update(final MemberUser user) throws Exception {
         return Response.ok(service.update(user)).build();
-    }
-
-    @POST
-    @Path("{user_id}/image")
-    @Operation(summary = "Upload member image")
-    public Response uploadImage(@PathParam("user_id") final UUID user_id, final InputStream input, final Long size) throws Exception {
-        String image_id = service.uploadImage(user_id, input, size);
-        return Response.ok(image_id).build();
-    }
-
-    @GET
-    @Path("{user_id}/image")
-    @Operation(summary = "Download member image")
-    public Response downloadImage(@PathParam("user_id") final UUID user_id) throws Exception {
-        final InputStream input = service.downloadImage(user_id);
-        return Response.ok(input).build();
-    }
-
-    @DELETE
-    @Path("{user_id}/image")
-    @Operation(summary = "Delete member image")
-    public Response deleteImage(@PathParam("user_id") final UUID user_id) throws Exception {
-        service.deleteImage(user_id);
-        return Response.ok().build();
     }
 
     @GET
@@ -103,7 +80,7 @@ public class MemberUsersREST {
     @GET
     @Path("{user_id}")
     @Operation(summary = "Find member user by id")
-    public Response findById(@PathParam("user_id") final UUID user_id) {
+    public Response findById(@PathParam("user_id") final UUID user_id) throws Exception {
         final Optional<MemberUser> match = service.findById(user_id);
         if (match.isPresent()) {
             return Response.ok(match.get(), MediaType.APPLICATION_JSON).build();
@@ -142,6 +119,47 @@ public class MemberUsersREST {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("{user_id}/image")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Upload member image")
+    public Response uploadImage(
+        @PathParam("user_id") UUID user_id,
+        @FormParam("file") EntityPart part
+    ) throws Exception { 
+        String image_id = service.uploadImage(
+            user_id,
+            part.getContent(),
+            -1L,
+            part.getMediaType()); 
+        return Response
+            .ok(image_id)
+            .build();
+    }
+
+    @GET
+    @Path("/{user_id}/image")
+    @Operation(summary = "Download member image")
+    public Response downloadImage(@PathParam("user_id") UUID user_id) throws Exception {
+        final CommonStorageProvider.CommonStorageObject object = service.downloadImage(user_id);
+        return Response
+            .ok(object.input)
+            .header(HttpHeaders.CONTENT_TYPE, object.type)
+            .header(HttpHeaders.CONTENT_LENGTH, object.size)
+            .build();
+    }
+
+    @DELETE
+    @Path("/user_id/image")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Delete member image")
+    public Response deleteImage(@PathParam("user_id") UUID user_id) throws Exception {
+        service.deleteImage(user_id);
+        return Response.ok().build();
+    }
+
+    
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })

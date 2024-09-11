@@ -40,19 +40,19 @@ public class CatalogSkillsGQL {
     
     @Mutation("insert")
     @Description("Insert new catalog skill")
-    public UUID insert(@Name("skill") final CatalogSkill skill) {
+    public UUID insert(@Name("skill") final CatalogSkill skill) throws Exception {
         return service.insert(skill);
     }
 
     @Mutation("delete")
     @Description("Delete catalog skill by id")
-    public void delete(@Name("skill_id") final UUID skill_id) {
+    public void delete(@Name("skill_id") final UUID skill_id) throws Exception {
         service.delete(skill_id);
     }
 
     @Mutation("update")
     @Description("Update existing catalog skill")
-    public void update(@Name("skill") final CatalogSkill skill) {
+    public void update(@Name("skill") final CatalogSkill skill) throws Exception {
         service.update(skill);
     }
 

@@ -20,7 +20,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -71,21 +70,12 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final MemberAchievement achievement) {
+    public UUID insert(@NotNull @Valid final MemberAchievement achievement) throws Exception {
         final UUID achievement_id = repo.insert(achievement);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
-            Json.createObjectBuilder()
-                .add("achievement_id", String.valueOf(achievement.achievement_id))
-                .add("user_id", String.valueOf(achievement.user_id))
-                .add("state", achievement.state)
-                .add("title", achievement.title)
-                .add("note", achievement.note)
-                .add("image_id", achievement.image_id)
-                .add("created_at", String.valueOf(achievement.created_at))
-                .add("updated_at", String.valueOf(achievement.updated_at))
-                .build());
+            MemberAchievement.toJson(achievement));
         return achievement_id;
     }
 
@@ -97,14 +87,12 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID achievement_id) {
+    public void delete(@NotNull final UUID achievement_id) throws Exception {
         repo.delete(achievement_id);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_ACHIEVEMENT_DELETED,
-            Json.createObjectBuilder()
-                .add("achievement_id", String.valueOf(achievement_id))
-                .build());
+            "{}");
     }
 
     /**
@@ -116,21 +104,12 @@ public class MemberAchievementsService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public MemberAchievement update(@NotNull @Valid final MemberAchievement achievement) {
+    public MemberAchievement update(@NotNull @Valid final MemberAchievement achievement) throws Exception {
         final MemberAchievement updated = repo.update(achievement);
         evnt.produce(
             MemberEvent.MEMBER_EVENT_TOPIC,
             MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
-            Json.createObjectBuilder()
-                .add("achievement_id", String.valueOf(updated.achievement_id))
-                .add("user_id", String.valueOf(updated.user_id))
-                .add("state", updated.state)
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("image_id", updated.image_id)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            MemberAchievement.toJson(achievement));
         return updated;
     }
 
@@ -142,7 +121,7 @@ public class MemberAchievementsService {
      * @since 1.0
      */
     // @RolesAllowed({ "Admin" })
-    public Optional<MemberAchievement> findById(@NotNull final UUID achievement_id) {
+    public Optional<MemberAchievement> findById(@NotNull final UUID achievement_id) throws Exception {
         return repo.findById(achievement_id);
     }
 

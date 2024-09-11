@@ -40,19 +40,19 @@ public class WorkflowDeploymentsGQL {
     
     @Mutation("insert")
     @Description("Insert new workflow deployment")
-    public UUID insert(@Name("deployment") final WorkflowDeployment deployment) {
+    public UUID insert(@Name("deployment") final WorkflowDeployment deployment) throws Exception {
         return service.insert(deployment);
     }
 
     @Mutation("delete")
     @Description("Delete workflow deployment by id")
-    public void delete(@Name("deployment_id") final UUID deployment_id) {
+    public void delete(@Name("deployment_id") final UUID deployment_id) throws Exception {
         service.delete(deployment_id);
     }
 
     @Mutation("update")
     @Description("Update existing workflow deployment")
-    public void update(@Name("deployment") final WorkflowDeployment deployment) {
+    public void update(@Name("deployment") final WorkflowDeployment deployment) throws Exception {
         service.update(deployment);
     }
 

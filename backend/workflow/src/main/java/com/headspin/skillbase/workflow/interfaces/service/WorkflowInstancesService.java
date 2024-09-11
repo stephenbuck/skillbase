@@ -68,22 +68,12 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final WorkflowInstance instance) {
+    public UUID insert(@NotNull @Valid final WorkflowInstance instance) throws Exception {
         final UUID instance_id = repo.insert(instance);
         evnt.produce(
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
                 WorkflowEvent.WORKFLOW_INSTANCE_CREATED,
-                Json.createObjectBuilder()
-                        .add("instance_id", String.valueOf(instance.instance_id))
-                        .add("definition_id", String.valueOf(instance.definition_id))
-                        .add("user_id", String.valueOf(instance.user_id))
-                        .add("is_test", instance.is_test)
-                        .add("state", instance.state)
-                        .add("title", instance.title)
-                        .add("note", instance.note)
-                        .add("created_at", String.valueOf(instance.created_at))
-                        .add("updated_at", String.valueOf(instance.updated_at))
-                        .build());
+                WorkflowInstance.toJson(instance));
         return instance_id;
     }
 
@@ -95,14 +85,12 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public void delete(@NotNull final UUID instance_id) {
+    public void delete(@NotNull final UUID instance_id) throws Exception {
         repo.delete(instance_id);
         evnt.produce(
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
                 WorkflowEvent.WORKFLOW_INSTANCE_DELETED,
-                Json.createObjectBuilder()
-                        .add("instance_id", String.valueOf(instance_id))
-                        .build());
+                "{}");
     }
 
     /**
@@ -114,22 +102,12 @@ public class WorkflowInstancesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowInstance update(@NotNull @Valid final WorkflowInstance instance) {
+    public WorkflowInstance update(@NotNull @Valid final WorkflowInstance instance) throws Exception {
         final WorkflowInstance updated = repo.update(instance);
         evnt.produce(
                 WorkflowEvent.WORKFLOW_EVENT_TOPIC,
                 WorkflowEvent.WORKFLOW_INSTANCE_UPDATED,
-                Json.createObjectBuilder()
-                        .add("instance_id", String.valueOf(updated.instance_id))
-                        .add("definition_id", String.valueOf(updated.definition_id))
-                        .add("user_id", String.valueOf(updated.user_id))
-                        .add("is_test", updated.is_test)
-                        .add("state", updated.state)
-                        .add("title", updated.title)
-                        .add("note", updated.note)
-                        .add("created_at", String.valueOf(updated.created_at))
-                        .add("updated_at", String.valueOf(updated.updated_at))
-                        .build());
+                WorkflowInstance.toJson(updated));
         return updated;
     }
 

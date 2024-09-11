@@ -1,12 +1,17 @@
 package com.headspin.skillbase.catalog.interfaces.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import com.headspin.skillbase.catalog.domain.CatalogCategory;
 import com.headspin.skillbase.catalog.domain.CatalogCategoryRepo;
 import com.headspin.skillbase.catalog.domain.CatalogSkill;
+import com.headspin.skillbase.common.providers.CommonCacheProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
@@ -18,10 +23,10 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -56,6 +61,42 @@ public class CatalogCategoriesService {
     @Inject
     private CommonStorageProvider stor;
 
+    @Inject
+    private CommonCacheProvider cache;
+
+    private void cacheSet(@NotNull final CatalogCategory category) {
+        try {
+            final String key = String.valueOf(category.category_id);
+            final String val = CatalogCategory.toJson(category);
+            cache.set(key, val);
+        }
+        catch (Exception e) {
+            log.error("Cache set failed", e);
+        }
+    }
+
+    private CatalogCategory cacheGet(@NotNull final UUID category_id) {
+        try {
+            final String key = String.valueOf(category_id);
+            final String val = cache.get(key);
+            return CatalogCategory.fromJson(val);
+        }
+        catch (Exception e) {
+            log.error("Cache get failed", e);
+            return null;
+        }
+    }
+
+    private void cacheDelete(@NotNull final UUID category_id) {
+        try {
+            final String key = String.valueOf(category_id);
+            cache.delete(key);
+        }
+        catch (Exception e) {
+            log.error("Cache delete failed", e);
+        }
+    }
+
     /**
      * Inserts a new catalog category.
      *
@@ -65,21 +106,21 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final CatalogCategory category) {
+    public UUID insert(@NotNull @Valid final CatalogCategory category) throws Exception {
+
+        // Insert the object
         final UUID category_id = repo.insert(category);
+
+        // Produce the created event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_CREATED,
-            Json.createObjectBuilder()
-                .add("category_id", String.valueOf(category.category_id))
-                .add("parent_id", String.valueOf(category.parent_id))
-                .add("is_enabled", category.is_enabled)
-                .add("title", category.title)
-                .add("note", category.note)
-                .add("image_id", category.image_id)
-                .add("created_at", String.valueOf(category.created_at))
-                .add("updated_at", String.valueOf(category.updated_at))
-                .build());
+            CatalogCategory.toJson(category));
+
+        // Update the cache
+        cacheSet(category);
+
+        // Return the object id
         return category_id;
     }
 
@@ -92,13 +133,18 @@ public class CatalogCategoriesService {
     // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID category_id) {
+
+        // Delete the object
         repo.delete(category_id);
+
+        // Produce the deleted event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_DELETED,
-            Json.createObjectBuilder()
-                .add("category_id", String.valueOf(category_id))
-                .build());
+            "{}");
+
+        // Update the cache
+        cacheDelete(category_id);
     }
 
     /**
@@ -110,21 +156,21 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public CatalogCategory update(@NotNull @Valid final CatalogCategory category) {
+    public CatalogCategory update(@NotNull @Valid final CatalogCategory category) throws Exception {
+
+        // Update the object
         final CatalogCategory updated = repo.update(category);
+
+        // Produce the updated event
         evnt.produce(
             CatalogEvent.CATALOG_EVENT_TOPIC,
             CatalogEvent.CATALOG_CATEGORY_UPDATED,
-            Json.createObjectBuilder()
-                .add("category_id", String.valueOf(updated.category_id))
-                .add("parent_id", String.valueOf(updated.parent_id))
-                .add("is_enabled", updated.is_enabled)
-                .add("title", updated.title)
-                .add("note", updated.note)
-                .add("image_id", updated.image_id)
-                .add("created_at", String.valueOf(updated.created_at))
-                .add("updated_at", String.valueOf(updated.updated_at))
-                .build());
+            CatalogCategory.toJson(updated));
+
+        // Update the cache
+        cacheSet(updated);
+
+        // Return the updated object
         return updated;
     }
 
@@ -136,8 +182,24 @@ public class CatalogCategoriesService {
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public Optional<CatalogCategory> findById(@NotNull final UUID category_id) {
-        return repo.findById(category_id);
+    public Optional<CatalogCategory> findById(@NotNull final UUID category_id) throws Exception {
+
+        // Try to return the cached version
+        CatalogCategory cached = cacheGet(category_id);
+        if (cached != null) {
+            return Optional.of(cached);
+        }
+
+        // Find the object
+        Optional<CatalogCategory> result = repo.findById(category_id);
+
+        // If object found, update the cache
+        if (result.isPresent()) {
+            cacheSet(result.get());
+        }
+
+        // Return the result
+        return result;
     }
 
     /**
@@ -228,6 +290,24 @@ public class CatalogCategoriesService {
         repo.deleteCategoryCategory(category_id, subcategory_id);
     }
 
+    @Retry
+    @Timeout
+    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+        return stor.uploadObject(input, size, type);
+    }
+
+    @Retry
+    @Timeout
+    public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final String image_id) throws Exception {
+        return stor.downloadObject(image_id);
+    }
+
+    @Retry
+    @Timeout
+    public void deleteImage(@NotNull final String image_id) throws Exception {
+        stor.deleteObject(image_id);
+    }
+
     /**
      * Returns a count of catalog categories.
      *
@@ -246,6 +326,7 @@ public class CatalogCategoriesService {
         evnt.test();
         feat.test();
         stor.test();
+        cache.test();
         return 0;
     }
 }
