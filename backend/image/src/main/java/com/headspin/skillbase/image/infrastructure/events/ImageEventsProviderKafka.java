@@ -63,9 +63,9 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
 
     @Inject
     public ImageEventsProviderKafka(
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.bootstraps") final String configBootstraps,
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.clientid") final String configClientId,
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.groupid") final String configGroupId
+        @ConfigProperty(name = "com.headspin.skillbase.image.events.kafka.bootstraps") final String configBootstraps,
+        @ConfigProperty(name = "com.headspin.skillbase.image.events.kafka.clientid") final String configClientId,
+        @ConfigProperty(name = "com.headspin.skillbase.image.events.kafka.groupid") final String configGroupId
     ) {
         // Configure the admin
         this.admnConfig = new Properties();
