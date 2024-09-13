@@ -36,7 +36,7 @@ public class WorkflowApp extends AppBase {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classSet = new HashSet<>();
+        final Set<Class<?>> classSet = new HashSet<>();
         classSet.add(WorkflowApp.class);
         classSet.add(WorkflowDeploymentsREST.class);
         classSet.add(WorkflowDefinitionsREST.class);

@@ -28,7 +28,7 @@ public class CatalogCacheProviderRedis implements CommonCacheProvider {
     private final RedisCommands<String, String> cmnds;
 
     public CatalogCacheProviderRedis(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.redis.lettuce.uri") String configURI
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.redis.lettuce.uri") final String configURI
     )
     {
         this.uri = RedisURI.create(configURI);
@@ -37,27 +37,27 @@ public class CatalogCacheProviderRedis implements CommonCacheProvider {
         this.cmnds = conn.sync();
     }
 
-    public String get(String key) throws Exception {
+    public String get(final String key) throws Exception {
         return cmnds.get(key);
     }
 
     @Override
-    public boolean set(String key, String val) throws Exception {
+    public boolean set(final String key, final String val) throws Exception {
         return "OK".equals(cmnds.set(key, val));
     }
 
     @Override
-    public boolean touch(String key) throws Exception {
+    public boolean touch(final String key) throws Exception {
         return cmnds.touch(key) == 1;
     }
 
     @Override
-    public boolean exists(String key) throws Exception {
+    public boolean exists(final String key) throws Exception {
         return cmnds.exists(key) == 1;
     }
 
     @Override
-    public boolean delete(String key) throws Exception {
+    public boolean delete(final String key) throws Exception {
         return cmnds.del(key) == 1;
     }
 

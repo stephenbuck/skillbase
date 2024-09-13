@@ -61,26 +61,30 @@ public class CatalogCategory extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("CatalogCategory {\n");
-        stringBuilder.append("    category_id = " + category_id + "\n");
-        stringBuilder.append("    parent_id   = " + parent_id + "\n");
-        stringBuilder.append("    is_enabled  = " + is_enabled + "\n");
-        stringBuilder.append("    title       = " + title + "\n");
-        stringBuilder.append("    note        = " + note + "\n");
-        stringBuilder.append("    image_id    = " + image_id + "\n");
-        stringBuilder.append("    created_at  = " + created_at + "\n");
-        stringBuilder.append("    updated_at  = " + updated_at + "\n");
-        stringBuilder.append("    version     = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("CatalogCategory {\n")
+            .append("    category_id = " + category_id + "\n")
+            .append("    parent_id   = " + parent_id + "\n")
+            .append("    is_enabled  = " + is_enabled + "\n")
+            .append("    title       = " + title + "\n")
+            .append("    note        = " + note + "\n")
+            .append("    image_id    = " + image_id + "\n")
+            .append("    created_at  = " + created_at + "\n")
+            .append("    updated_at  = " + updated_at + "\n")
+            .append("    version     = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static CatalogCategory fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static CatalogCategory fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, CatalogCategory.class);
     }
     
-    public static String toJson(CatalogCategory category) throws Exception {
+    public static String toJson(final CatalogCategory category) throws Exception {
         return JsonbBuilder.create().toJson(category);
     }
 }

@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppConfig;
 */
 
 public class WorkflowAppConfig extends AppConfig {
-
     public WorkflowAppConfig() {
     }
 }

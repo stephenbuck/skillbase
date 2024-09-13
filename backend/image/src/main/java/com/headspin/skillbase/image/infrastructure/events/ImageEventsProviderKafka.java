@@ -63,9 +63,9 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
 
     @Inject
     public ImageEventsProviderKafka(
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.bootstraps") String configBootstraps,
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.clientid") String configClientId,
-        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.groupid") String configGroupId
+        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.bootstraps") final String configBootstraps,
+        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.clientid") final String configClientId,
+        @ConfigProperty(name = "com.headspin.skillbase.image.kafka.groupid") final String configGroupId
     ) {
         // Configure the admin
         this.admnConfig = new Properties();
@@ -108,19 +108,21 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
-                .wrap(new ObjectMapper().valueToTree(json));
+            .wrap(new ObjectMapper()
+            .valueToTree(json));
 
         // Create a CloudEvent object
-        final CloudEvent event = CloudEventBuilder.v1()
-                .withSource(URI.create(ImageEvent.SKILLBASE_EVENT_SOURCE))
-                .withType(type)
-                .withId(String.valueOf(UUID.randomUUID()))
-                .withTime(ZonedDateTime.now().toOffsetDateTime())
-                .withData(MediaType.APPLICATION_JSON, data)
-                .build();
+        final CloudEvent event = CloudEventBuilder
+            .v1()
+            .withSource(URI.create(ImageEvent.SKILLBASE_EVENT_SOURCE))
+            .withType(type)
+            .withId(String.valueOf(UUID.randomUUID()))
+            .withTime(ZonedDateTime.now().toOffsetDateTime())
+            .withData(MediaType.APPLICATION_JSON, data)
+            .build();
 
         // Create the KafkaProducer and send the event
-        try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(prodConfig)) {
+        try (final KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(prodConfig)) {
             producer.send(new ProducerRecord<>(topic, event));
         }
     }
@@ -141,7 +143,7 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
             public void run() {
 
                 // Create the KafkaConsumer
-                try (KafkaConsumer<String, CloudEvent> consumer = new KafkaConsumer<>(consConfig)) {
+                try (final KafkaConsumer<String, CloudEvent> consumer = new KafkaConsumer<>(consConfig)) {
 
                     // Subscribe to the topics we're interested in
                     consumer.subscribe(topics);
@@ -167,9 +169,9 @@ public class ImageEventsProviderKafka implements CommonEventsProvider {
     public void test() {
         log.info("test:");
         produce(
-                ImageEvent.STORAGE_EVENT_TOPIC,
-                ImageEvent.STORAGE_FILE_DELETED,
-                "{}");
+            ImageEvent.STORAGE_EVENT_TOPIC,
+            ImageEvent.STORAGE_FILE_DELETED,
+            "{}");
     }
 
     /*

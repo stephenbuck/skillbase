@@ -189,15 +189,13 @@ public class CatalogSkillsService {
     public Optional<CatalogSkill> findById(@NotNull final UUID skill_id) {
 
         // Try to return the cached version
-        CatalogSkill cached = cacheGet(skill_id);
+        final CatalogSkill cached = cacheGet(skill_id);
         if (cached != null) {
             return Optional.of(cached);
         }
 
-        // Find the object
-        Optional<CatalogSkill> result = repo.findById(skill_id);
-
         // If object found, update the cache
+        final Optional<CatalogSkill> result = repo.findById(skill_id);
         if (result.isPresent()) {
             cacheSet(result.get());
         }

@@ -69,28 +69,32 @@ public class WorkflowInstance extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("WorkflowInstance {\n");
-        stringBuilder.append("    instance_id   = " + instance_id + "\n");
-        stringBuilder.append("    peer_id       = " + peer_id + "\n");
-        stringBuilder.append("    definition_id = " + definition_id + "\n");
-        stringBuilder.append("    user_id       = " + user_id + "\n");
-        stringBuilder.append("    is_test       = " + is_test + "\n");
-        stringBuilder.append("    state         = " + state + "\n");
-        stringBuilder.append("    title         = " + title + "\n");
-        stringBuilder.append("    note          = " + note + "\n");
-        stringBuilder.append("    created_at    = " + created_at + "\n");
-        stringBuilder.append("    updated_at    = " + updated_at + "\n");
-        stringBuilder.append("    version       = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("WorkflowInstance {\n")
+            .append("    instance_id   = " + instance_id + "\n")
+            .append("    peer_id       = " + peer_id + "\n")
+            .append("    definition_id = " + definition_id + "\n")
+            .append("    user_id       = " + user_id + "\n")
+            .append("    is_test       = " + is_test + "\n")
+            .append("    state         = " + state + "\n")
+            .append("    title         = " + title + "\n")
+            .append("    note          = " + note + "\n")
+            .append("    created_at    = " + created_at + "\n")
+            .append("    updated_at    = " + updated_at + "\n")
+            .append("    version       = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static WorkflowInstance fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static WorkflowInstance fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, WorkflowInstance.class);
     }
     
-    public static String toJson(WorkflowInstance instance) throws Exception {
+    public static String toJson(final WorkflowInstance instance) throws Exception {
         return JsonbBuilder.create().toJson(instance);
     }
 }

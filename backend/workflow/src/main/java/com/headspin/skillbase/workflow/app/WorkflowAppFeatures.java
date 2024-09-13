@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppFeatures;
 */
 
 public class WorkflowAppFeatures extends AppFeatures {
-
     public WorkflowAppFeatures() {
     }
 }

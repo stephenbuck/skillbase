@@ -36,7 +36,7 @@ public class CatalogApp extends AppBase {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classSet = new HashSet<>();
+        final Set<Class<?>> classSet = new HashSet<>();
         classSet.add(CatalogApp.class);
         classSet.add(CatalogCategoriesREST.class);
         classSet.add(CatalogCredentialsREST.class);

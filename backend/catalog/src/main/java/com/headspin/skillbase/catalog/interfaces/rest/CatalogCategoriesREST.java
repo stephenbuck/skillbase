@@ -1,8 +1,8 @@
 package com.headspin.skillbase.catalog.interfaces.rest;
 
-import java.net.URI;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.eclipse.microprofile.auth.LoginConfig;
@@ -28,9 +28,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.EntityPart;
+import jakarta.ws.rs.core.EntityTag;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
 
 /**
@@ -52,17 +56,19 @@ public class CatalogCategoriesREST {
     @Inject
     private CatalogCategoriesService service;
 
+    private final CacheControl cacheControl;
+
     public CatalogCategoriesREST() {
+        this.cacheControl = new CacheControl();
+        cacheControl.setMaxAge(3600);
     }
 
     /*
      * @ApiResponses(value = {
-     * 
-     * @ApiResponse(responseCode = "400", description = "Invalid category"),
-     * 
-     * @ApiResponse(responseCode = "400", description = "Category already exists"),
-     * 
-     * @ApiResponse(responseCode = "500", description = "Internal server error")})
+     *     @ApiResponse(responseCode = "400", description = "Invalid category"),
+     *     @ApiResponse(responseCode = "400", description = "Category already exists"),
+     *     @ApiResponse(responseCode = "500", description = "Internal server error")
+     * })
      */
     @PUT
     @Operation(summary = "Insert new catalog category")
@@ -72,40 +78,37 @@ public class CatalogCategoriesREST {
             return Response.ok(category_id).build();
         } catch (final EntityExistsException e) {
             return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withType(URI.create("https://example.org/not-found"))
-                                    .withTitle("Invalid category supplied")
-                                    .withStatus(Status.BAD_REQUEST)
-                                    .withDetail("TBD")
-                                    .build())
-                    .build();
+                .status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(
+                    Problem.builder()
+                        .withTitle("Invalid category supplied")
+                        .withStatus(Status.BAD_REQUEST)
+                        .withDetail("TBD")
+                        .build())
+                .build();
         } catch (final IllegalArgumentException e) {
             return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withType(URI.create("https://example.org/not-found"))
-                                    .withTitle("Invalid category supplied")
-                                    .withStatus(Status.BAD_REQUEST)
-                                    .withDetail("TBD")
-                                    .build())
-                    .build();
+                .status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(
+                    Problem.builder()
+                        .withTitle("Invalid category supplied")
+                        .withStatus(Status.BAD_REQUEST)
+                        .withDetail("TBD")
+                        .build())
+                .build();
         } catch (final TransactionRequiredException e) {
             return Response
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withType(URI.create("https://example.org/not-found"))
-                                    .withTitle("Transaction required")
-                                    .withStatus(Status.INTERNAL_SERVER_ERROR)
-                                    .withDetail("TBD")
-                                    .build())
-                    .build();
+                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(
+                    Problem.builder()
+                        .withTitle("Transaction required")
+                        .withStatus(Status.INTERNAL_SERVER_ERROR)
+                        .withDetail("TBD")
+                        .build())
+                .build();
         }
     }
 
@@ -123,6 +126,67 @@ public class CatalogCategoriesREST {
         return Response.ok(service.update(category)).build();
     }
 
+    /*
+     * @ApiResponses(value = {
+     *     @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+     *     @ApiResponse(responseCode = "404", description = "Category not found"),
+     *     @ApiResponse(responseCode = "500", description = "Internal server error")
+     * })
+     */
+    @GET
+    @Path("{category_id}")
+    @Operation(summary = "Find catalog category by id")
+    public Response findById(@Context Request request, @PathParam("category_id") final UUID category_id) throws Exception {
+
+        try {
+            
+            // Find the category
+            final CatalogCategory entity = service.findById(category_id).get();
+            
+            // Generate ETag for the resource        
+            final EntityTag etag = new EntityTag(entity.toETag());
+
+            // If client's ETag matches the current ETag...
+            Response.ResponseBuilder builder = request.evaluatePreconditions(etag);
+            if (builder != null) {
+                return builder.build();
+            }
+
+            // Otherwise, fetch and return the resource with a new ETag
+            else {
+                return Response
+                    .ok(entity, MediaType.APPLICATION_JSON)
+                    .tag(etag)
+                    .cacheControl(cacheControl)
+                    .header(HttpHeaders.EXPIRES, expiresAt(60))
+                    .build();
+            }
+
+        } catch (final IllegalArgumentException e) {
+            return Response
+                .status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(
+                    Problem.builder()
+                        .withTitle("Invalid ID supplied")
+                        .withStatus(Status.NOT_FOUND)
+                        .withDetail("category_id = " + category_id)
+                        .build())
+                .build();
+        } catch (final NoSuchElementException e) {
+            return Response
+                .status(Response.Status.NOT_FOUND)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(
+                    Problem.builder()
+                        .withTitle("Category not found")
+                        .withStatus(Status.NOT_FOUND)
+                        .withDetail("category_id = " + category_id)
+                        .build())
+                .build();
+        }
+    }
+
     @GET
     @Operation(summary = "Find all catalog categories")
     public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
@@ -133,59 +197,14 @@ public class CatalogCategoriesREST {
             .build();
     }
 
-    /*
-     * @ApiResponses(value = {
-     * 
-     * @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-     * 
-     * @ApiResponse(responseCode = "404", description = "Category not found"),
-     * 
-     * @ApiResponse(responseCode = "500", description = "Internal server error")})
-     */
-    @GET
-    @Path("{category_id}")
-    @Operation(summary = "Find catalog category by id")
-    public Response findById(@PathParam("category_id") final UUID category_id) throws Exception {
-        try {
-            final Optional<CatalogCategory> match = service.findById(category_id);
-            return Response
-                    .status(Response.Status.OK)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(match.get())
-                    .build();
-        } catch (final IllegalArgumentException e) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withType(URI.create("https://example.org/not-found"))
-                                    .withTitle("Invalid ID supplied")
-                                    .withStatus(Status.NOT_FOUND)
-                                    .withDetail("category_id = " + category_id)
-                                    .build())
-                    .build();
-        } catch (final NoSuchElementException e) {
-            return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withType(URI.create("https://example.org/not-found"))
-                                    .withTitle("Category not found")
-                                    .withStatus(Status.NOT_FOUND)
-                                    .withDetail("category_id = " + category_id)
-                                    .build())
-                    .build();
-        }
-    }
-
     @GET
     @Path("{category_id}/categories")
     @Operation(summary = "Find all catalog category subcategories")
     public Response findCategoryCategories(@PathParam("category_id") final UUID category_id, @QueryParam("sort") final String sort,
             @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
-        return Response.ok(service.findCategoryCategories(category_id, sort, offset, limit)).build();
+        return Response
+            .ok(service.findCategoryCategories(category_id, sort, offset, limit))
+            .build();
     }
 
     @POST
@@ -234,14 +253,13 @@ public class CatalogCategoriesREST {
      * }
      */
 
-
     @POST
     @Path("/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Upload category image")
     public Response uploadImage(@FormParam("file") EntityPart part) throws Exception { 
-        String object_id = service.uploadImage(
+        final String object_id = service.uploadImage(
             part.getContent(),
             -1L,
             part.getMediaType()); 
@@ -286,5 +304,12 @@ public class CatalogCategoriesREST {
     @Operation(summary = "test")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
+    }
+
+    private String expiresAt(int minutes) {
+        return OffsetDateTime
+            .now()
+            .plusMinutes(60)
+            .format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }

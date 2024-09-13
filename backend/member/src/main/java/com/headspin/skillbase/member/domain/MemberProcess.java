@@ -54,26 +54,30 @@ public class MemberProcess extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("MemberProcess {\n");
-        stringBuilder.append("    process_id = " + process_id + "\n");
-        stringBuilder.append("    peer_id    = " + peer_id + "\n");
-        stringBuilder.append("    user_id    = " + user_id + "\n");
-        stringBuilder.append("    state      = " + state + "\n");
-        stringBuilder.append("    title      = " + title + "\n");
-        stringBuilder.append("    note       = " + note + "\n");
-        stringBuilder.append("    created_at = " + created_at + "\n");
-        stringBuilder.append("    updated_at = " + updated_at + "\n");
-        stringBuilder.append("    version    = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("MemberProcess {\n")
+            .append("    process_id = " + process_id + "\n")
+            .append("    peer_id    = " + peer_id + "\n")
+            .append("    user_id    = " + user_id + "\n")
+            .append("    state      = " + state + "\n")
+            .append("    title      = " + title + "\n")
+            .append("    note       = " + note + "\n")
+            .append("    created_at = " + created_at + "\n")
+            .append("    updated_at = " + updated_at + "\n")
+            .append("    version    = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static MemberProcess fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static MemberProcess fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, MemberProcess.class);
     }
     
-    public static String toJson(MemberProcess process) throws Exception {
+    public static String toJson(final MemberProcess process) throws Exception {
         return JsonbBuilder.create().toJson(process);
     }
 }

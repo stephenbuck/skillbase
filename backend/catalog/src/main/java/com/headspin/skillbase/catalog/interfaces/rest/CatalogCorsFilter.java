@@ -11,7 +11,7 @@ import jakarta.ws.rs.ext.Provider;
 public class CatalogCorsFilter implements ContainerResponseFilter {
 
     @Override
-    public void filter(ContainerRequestContext requestContext, 
+    public void filter(final ContainerRequestContext requestContext, 
       ContainerResponseContext responseContext) throws IOException {
           responseContext.getHeaders().add(
             "Access-Control-Allow-Origin", "*");

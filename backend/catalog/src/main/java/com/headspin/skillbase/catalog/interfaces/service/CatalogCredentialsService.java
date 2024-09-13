@@ -184,15 +184,13 @@ public class CatalogCredentialsService {
     public Optional<CatalogCredential> findById(@NotNull final UUID credential_id) {
 
         // Try to return the cached version
-        CatalogCredential cached = cacheGet(credential_id);
+        final CatalogCredential cached = cacheGet(credential_id);
         if (cached != null) {
             return Optional.of(cached);
         }
 
-        // Find the object
-        Optional<CatalogCredential> result = repo.findById(credential_id);
-
         // If object found, update the cache
+        final Optional<CatalogCredential> result = repo.findById(credential_id);
         if (result.isPresent()) {
             cacheSet(result.get());
         }

@@ -38,16 +38,16 @@ public class MemberStorageProviderMinIO implements CommonStorageProvider {
 
     @Inject
     public MemberStorageProviderMinIO(
-        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.endpoint") String configEndpoint,
-        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.bucket") String configBucket,
-        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.access") String configAccess,
-        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.secret") String configSecret
+        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.endpoint") final String configEndpoint,
+        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.bucket") final String configBucket,
+        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.access") final String configAccess,
+        @ConfigProperty(name = "com.headspin.skillbase.member.storage.minio.secret") final String configSecret
     ) throws Exception {
         this.bucket = configBucket;
         this.minio = MinioClient.builder()
-                .endpoint(configEndpoint)
-                .credentials(configAccess, configSecret)
-                .build();
+            .endpoint(configEndpoint)
+            .credentials(configAccess, configSecret)
+            .build();
         if (!minio.bucketExists(BucketExistsArgs.builder().bucket(configBucket).build())) {
             minio.makeBucket(MakeBucketArgs.builder().bucket(configBucket).build());
         }
@@ -57,22 +57,22 @@ public class MemberStorageProviderMinIO implements CommonStorageProvider {
     public String uploadObject(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
         String image_id = String.valueOf(UUID.randomUUID());
         minio.putObject(
-                PutObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(image_id)
-                        .stream(input, size, PutObjectArgs.MAX_PART_SIZE)
-                        .contentType(String.valueOf(type))
-                        .build());
+            PutObjectArgs.builder()
+                .bucket(bucket)
+                .object(image_id)
+                .stream(input, size, PutObjectArgs.MAX_PART_SIZE)
+                .contentType(String.valueOf(type))
+                .build());
         return image_id;
     }
 
     @Override
     public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception {
-        GetObjectResponse resp = minio.getObject(
-                GetObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(object_id)
-                        .build());
+        final GetObjectResponse resp = minio.getObject(
+            GetObjectArgs.builder()
+                .bucket(bucket)
+                .object(object_id)
+                .build());
         return new CommonStorageObject(
             object_id,
             resp.headers().get(HttpHeaders.CONTENT_TYPE),
@@ -83,10 +83,10 @@ public class MemberStorageProviderMinIO implements CommonStorageProvider {
     @Override
     public void deleteObject(@NotNull final String object_id) throws Exception {
         minio.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucket)
-                        .object(object_id)
-                        .build());
+            RemoveObjectArgs.builder()
+                .bucket(bucket)
+                .object(object_id)
+                .build());
     }
 
     @Override

@@ -36,7 +36,7 @@ public class MemberApp extends AppBase {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classSet = new HashSet<>();
+        final Set<Class<?>> classSet = new HashSet<>();
         classSet.add(MemberApp.class);
         classSet.add(MemberAchievementsREST.class);
         classSet.add(MemberGroupsREST.class);

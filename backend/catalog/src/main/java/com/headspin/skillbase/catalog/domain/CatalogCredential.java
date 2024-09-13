@@ -66,27 +66,31 @@ public class CatalogCredential extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("CatalogCredential {\n");
-        stringBuilder.append("    credential_id = " + credential_id + "\n");
-        stringBuilder.append("    skill_id      = " + skill_id + "\n");
-        stringBuilder.append("    is_enabled    = " + is_enabled + "\n");
-        stringBuilder.append("    title         = " + title + "\n");
-        stringBuilder.append("    note          = " + title + "\n");
-        stringBuilder.append("    image_id      = " + image_id + "\n");
-        stringBuilder.append("    bpmn_id       = " + bpmn_id + "\n");
-        stringBuilder.append("    created_at    = " + created_at + "\n");
-        stringBuilder.append("    updated_at    = " + updated_at + "\n");
-        stringBuilder.append("    version       = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("CatalogCredential {\n")
+            .append("    credential_id = " + credential_id + "\n")
+            .append("    skill_id      = " + skill_id + "\n")
+            .append("    is_enabled    = " + is_enabled + "\n")
+            .append("    title         = " + title + "\n")
+            .append("    note          = " + title + "\n")
+            .append("    image_id      = " + image_id + "\n")
+            .append("    bpmn_id       = " + bpmn_id + "\n")
+            .append("    created_at    = " + created_at + "\n")
+            .append("    updated_at    = " + updated_at + "\n")
+            .append("    version       = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static CatalogCredential fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static CatalogCredential fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, CatalogCredential.class);
     }
     
-    public static String toJson(CatalogCredential credential) throws Exception {
+    public static String toJson(final CatalogCredential credential) throws Exception {
         return JsonbBuilder.create().toJson(credential);
     }
 }

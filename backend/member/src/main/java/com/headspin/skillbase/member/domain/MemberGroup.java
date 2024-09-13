@@ -51,25 +51,29 @@ public class MemberGroup extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("MemberGroup {\n");
-        stringBuilder.append("    group_id   = " + group_id + "\n");
-        stringBuilder.append("    title      = " + title + "\n");
-        stringBuilder.append("    note       = " + note + "\n");
-        stringBuilder.append("    image_id   = " + image_id + "\n");
-        stringBuilder.append("    valid_for  = " + valid_for + "\n");
-        stringBuilder.append("    created_at = " + created_at + "\n");
-        stringBuilder.append("    updated_at = " + updated_at + "\n");
-        stringBuilder.append("    version    = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("MemberGroup {\n")
+            .append("    group_id   = " + group_id + "\n")
+            .append("    title      = " + title + "\n")
+            .append("    note       = " + note + "\n")
+            .append("    image_id   = " + image_id + "\n")
+            .append("    valid_for  = " + valid_for + "\n")
+            .append("    created_at = " + created_at + "\n")
+            .append("    updated_at = " + updated_at + "\n")
+            .append("    version    = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static MemberGroup fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static MemberGroup fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, MemberGroup.class);
     }
     
-    public static String toJson(MemberGroup group) throws Exception {
+    public static String toJson(final MemberGroup group) throws Exception {
         return JsonbBuilder.create().toJson(group);
     }
 }

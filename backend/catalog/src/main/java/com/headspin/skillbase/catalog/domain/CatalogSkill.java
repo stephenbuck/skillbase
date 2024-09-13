@@ -66,27 +66,31 @@ public class CatalogSkill extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("CatalogSkill {\n");
-        stringBuilder.append("    skill_id      = " + skill_id + "\n");
-        stringBuilder.append("    deployment_id = " + deployment_id + "\n");
-        stringBuilder.append("    category_id   = " + category_id + "\n");
-        stringBuilder.append("    is_enabled    = " + is_enabled + "\n");
-        stringBuilder.append("    title         = " + title + "\n");
-        stringBuilder.append("    note          = " + note + "\n");
-        stringBuilder.append("    image_id      = " + image_id + "\n");
-        stringBuilder.append("    created_at    = " + created_at + "\n");
-        stringBuilder.append("    updated_at    = " + updated_at + "\n");
-        stringBuilder.append("    version       = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("CatalogSkill {\n")
+            .append("    skill_id      = " + skill_id + "\n")
+            .append("    deployment_id = " + deployment_id + "\n")
+            .append("    category_id   = " + category_id + "\n")
+            .append("    is_enabled    = " + is_enabled + "\n")
+            .append("    title         = " + title + "\n")
+            .append("    note          = " + note + "\n")
+            .append("    image_id      = " + image_id + "\n")
+            .append("    created_at    = " + created_at + "\n")
+            .append("    updated_at    = " + updated_at + "\n")
+            .append("    version       = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static CatalogSkill fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static CatalogSkill fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, CatalogSkill.class);
     }
     
-    public static String toJson(CatalogSkill skill) throws Exception {
+    public static String toJson(final CatalogSkill skill) throws Exception {
         return JsonbBuilder.create().toJson(skill);
     }
 }

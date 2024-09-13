@@ -48,7 +48,7 @@ public class WorkflowAppEvents extends AppEvents {
 
     @Inject
     public WorkflowAppEvents(
-        CommonEventsProvider evnt
+        final CommonEventsProvider evnt
     )
     {
         evnt.consume(topics, this);

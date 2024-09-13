@@ -34,7 +34,7 @@ public class ImageApp extends AppBase {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classSet = new HashSet<>();
+        final Set<Class<?>> classSet = new HashSet<>();
         classSet.add(ImageApp.class);
         classSet.add(ImageFilesREST.class);
         return classSet;

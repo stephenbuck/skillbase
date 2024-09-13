@@ -36,7 +36,7 @@ public class MemberAppEvents extends AppEvents {
 
     @Inject
     public MemberAppEvents(
-        CommonEventsProvider evnt
+        final CommonEventsProvider evnt
     ) {
         evnt.consume(topics, this);
     }

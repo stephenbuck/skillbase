@@ -156,7 +156,7 @@ public class CatalogCredentialsREST {
         final CommonStorageProvider.CommonStorageObject object =
             service.downloadBPMN(bpmn_id);
         // MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        EntityTag tag = new EntityTag(bpmn_id);
+        final EntityTag tag = new EntityTag(bpmn_id);
         Response r = Response
             .ok(object.input)
             .tag(tag)

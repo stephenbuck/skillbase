@@ -185,15 +185,13 @@ public class CatalogCategoriesService {
     public Optional<CatalogCategory> findById(@NotNull final UUID category_id) throws Exception {
 
         // Try to return the cached version
-        CatalogCategory cached = cacheGet(category_id);
+        final CatalogCategory cached = cacheGet(category_id);
         if (cached != null) {
             return Optional.of(cached);
         }
 
-        // Find the object
-        Optional<CatalogCategory> result = repo.findById(category_id);
-
         // If object found, update the cache
+        final Optional<CatalogCategory> result = repo.findById(category_id);
         if (result.isPresent()) {
             cacheSet(result.get());
         }

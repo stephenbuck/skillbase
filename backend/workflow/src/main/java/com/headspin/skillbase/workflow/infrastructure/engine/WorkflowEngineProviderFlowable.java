@@ -29,10 +29,8 @@ import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 import org.flowable.engine.repository.Deployment;
-import org.flowable.engine.repository.DeploymentQuery;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.engine.runtime.ProcessInstanceBuilder;
 import org.flowable.task.api.Task;
 
 /**
@@ -62,10 +60,10 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
     @Inject
     public WorkflowEngineProviderFlowable(
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.url") String configJdbcUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.username") String configJdbcUsername,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.password") String configJdbcPassword,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.driver") String configJdbcDriver
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.url") final String configJdbcUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.username") final String configJdbcUsername,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.password") final String configJdbcPassword,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.driver") final String configJdbcDriver
     ) {
         this.config = new StandaloneProcessEngineConfiguration()
             .setJdbcUrl(configJdbcUrl)
@@ -83,22 +81,22 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     @Transactional
     public String insertDefinition(WorkflowDefinition definition) {
 
-        String deploymentId = "";
+        final String deploymentId = "";
 
-        ProcessDefinition peerDefinition = repository.createProcessDefinitionQuery()
-                .deploymentId(null) // BOZO
-                .singleResult();
+        final ProcessDefinition peerDefinition = repository.createProcessDefinitionQuery()
+            .deploymentId(deploymentId) // BOZO
+            .singleResult();
         log.info("peerDefinition = {}", peerDefinition.getName());
 
         return peerDefinition.getId();
     }
 
     @Override
-    public void updateDefinition(WorkflowDefinition definition) {
+    public void updateDefinition(final WorkflowDefinition definition) {
     }
 
     @Override
-    public void deleteDefinition(UUID id) {
+    public void deleteDefinition(final UUID id) {
     }
 
     /**
@@ -119,16 +117,16 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
      */
     @Override
     @Transactional
-    public String insertDeployment(WorkflowDeployment deployment) {
+    public String insertDeployment(final WorkflowDeployment deployment) {
 
         try {
 
             // Create an output stream for the Zip "file" bytes
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ZipOutputStream zos = new ZipOutputStream(bos);
+            final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            final ZipOutputStream zos = new ZipOutputStream(bos);
 
             // Add the deployment BPMN as an entry
-            ZipEntry ze = new ZipEntry(deployment.title);
+            final ZipEntry ze = new ZipEntry(deployment.title);
             zos.putNextEntry(ze);
             zos.write(bos.toByteArray(), 0, bos.size());
     
@@ -136,11 +134,11 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             zos.finish();
     
             // Create an input stream from the Zip "file" bytes
-            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-            ZipInputStream zip = new ZipInputStream(bis);
+            final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            final ZipInputStream zip = new ZipInputStream(bis);
 
             // Create a Flowable deployment with the Zip "file" and our ID as the key
-            Deployment peerDeployment = repository.createDeployment()
+            final Deployment peerDeployment = repository.createDeployment()
                 .name(deployment.title)
                 .key(String.valueOf(deployment.deployment_id))
                 .addZipInputStream(zip)
@@ -153,19 +151,17 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override
-    public void updateDeployment(WorkflowDeployment deployment) {
-
+    public void updateDeployment(final WorkflowDeployment deployment) {
     }
 
     @Override
     @Transactional
-    public void deleteDeployment(UUID id) {
+    public void deleteDeployment(final UUID id) {
 
-        Deployment peerDeployment = repository
+        final Deployment peerDeployment = repository
             .createDeploymentQuery()
                .deploymentKey(String.valueOf(id))
                .singleResult();
@@ -175,11 +171,11 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
     @Override
     @Transactional
-    public String startProcess(UUID id) {
+    public String startProcess(final UUID id) {
 
         // ProcessDefinition definition = repository.getProcessDefinition(String.valueOf(id));
 
-        ProcessInstance instance = runtime.createProcessInstanceBuilder()
+        final ProcessInstance instance = runtime.createProcessInstanceBuilder()
             .processDefinitionKey(String.valueOf(id))
             .name(String.valueOf(id))
 //            .variables()
@@ -190,32 +186,32 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
    
     @Override
-    public String insertInstance(WorkflowInstance instance) {
+    public String insertInstance(final WorkflowInstance instance) {
         return null;
     }
 
     @Override
-    public void updateInstance(WorkflowInstance instance) {
+    public void updateInstance(final WorkflowInstance instance) {
     }
 
     @Override
-    public void deleteInstance(UUID id) {
-        String peerId = String.valueOf(id);
+    public void deleteInstance(final UUID id) {
+        final String peerId = String.valueOf(id);
         runtime.deleteProcessInstance(peerId, "");
     }
 
     @Override
-    public String insertTask(WorkflowTask task) {
+    public String insertTask(final WorkflowTask task) {
         return null;
     }
 
     @Override
-    public void updateTask(WorkflowTask task) {
+    public void updateTask(final WorkflowTask task) {
     }
 
     @Override
-    public void deleteTask(UUID id) {
-        String peerId = String.valueOf(id);
+    public void deleteTask(final UUID id) {
+        final String peerId = String.valueOf(id);
         task.deleteTask(peerId, "");
     }
 
@@ -224,24 +220,26 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
         log.info("test");
 
-        Deployment deployment = repository.createDeployment()
-                .key("FOO")
-                .addClasspathResource("test.bpmn20.xml")
-                .deploy();
+        final Deployment deployment = repository.createDeployment()
+            .key("FOO")
+            .addClasspathResource("test.bpmn20.xml")
+            .deploy();
         log.info("deployment = {}", deployment.getName());
-        ProcessDefinition definition = repository.createProcessDefinitionQuery()
-                .deploymentId(deployment.getId())
-                .singleResult();
+
+        final ProcessDefinition definition = repository.createProcessDefinitionQuery()
+            .deploymentId(deployment.getId())
+            .singleResult();
         log.info("definition = {}", definition.getName());
 
-        Map<String, Object> variables = new HashMap<String, Object>();
+        final Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("employee", "Steve");
         variables.put("nrOfHolidays", 3);
         variables.put("description", "Burned Out");
-        ProcessInstance instance = runtime.startProcessInstanceByKey("FOO", variables);
+        
+        final ProcessInstance instance = runtime.startProcessInstanceByKey("FOO", variables);
         log.info("instance = {}", instance.getName());
 
-        List<Task> tasks = task.createTaskQuery().taskCandidateGroup("managers").list();
+        final List<Task> tasks = task.createTaskQuery().taskCandidateGroup("managers").list();
         log.info("You have {} tasks", tasks.size());
         for (int i = 0; i < tasks.size(); i++) {
             log.info((i + 1) + ") " + tasks.get(i).getName());

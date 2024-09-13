@@ -60,25 +60,29 @@ public class WorkflowTask extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("WorkflowTask {\n");
-        stringBuilder.append("    task_id     = " + task_id + "\n");
-        stringBuilder.append("    peer_id     = " + peer_id + "\n");
-        stringBuilder.append("    instance_id = " + instance_id + "\n");
-        stringBuilder.append("    title       = " + title + "\n");
-        stringBuilder.append("    note        = " + note + "\n");
-        stringBuilder.append("    created_at  = " + created_at + "\n");
-        stringBuilder.append("    updated_at  = " + updated_at + "\n");
-        stringBuilder.append("    version     = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("WorkflowTask {\n")
+            .append("    task_id     = " + task_id + "\n")
+            .append("    peer_id     = " + peer_id + "\n")
+            .append("    instance_id = " + instance_id + "\n")
+            .append("    title       = " + title + "\n")
+            .append("    note        = " + note + "\n")
+            .append("    created_at  = " + created_at + "\n")
+            .append("    updated_at  = " + updated_at + "\n")
+            .append("    version     = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static WorkflowTask fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static WorkflowTask fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, WorkflowTask.class);
     }
     
-    public static String toJson(WorkflowTask task) throws Exception {
+    public static String toJson(final WorkflowTask task) throws Exception {
         return JsonbBuilder.create().toJson(task);
     }
 }

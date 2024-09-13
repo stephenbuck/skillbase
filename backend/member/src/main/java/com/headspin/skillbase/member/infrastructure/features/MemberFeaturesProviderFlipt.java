@@ -29,8 +29,8 @@ public class MemberFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     @Inject
     public MemberFeaturesProviderFlipt(
-        @ConfigProperty(name = "com.headspin.skillbase.member.features.flipt.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.member.features.flipt.namespace") String configNamespace    
+        @ConfigProperty(name = "com.headspin.skillbase.member.features.flipt.url") final String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.member.features.flipt.namespace") final String configNamespace    
     ) {
         this.namespace = configNamespace;
         this.client = FliptClient.builder()
@@ -42,14 +42,14 @@ public class MemberFeaturesProviderFlipt implements CommonFeaturesProvider {
     public boolean evaluateBoolean(@NotNull final String flag, final boolean def) {
         try {
 
-            Evaluation ev = client.evaluation();
+            final Evaluation ev = client.evaluation();
 
-            EvaluationRequest er = EvaluationRequest.builder()
+            final EvaluationRequest er = EvaluationRequest.builder()
                     .namespaceKey(this.namespace)
                     .flagKey(flag)
                     .build();
 
-            BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
+            final BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
 
             return ber.isEnabled();
 

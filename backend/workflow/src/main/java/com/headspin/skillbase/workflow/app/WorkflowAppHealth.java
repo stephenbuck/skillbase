@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppHealth;
 */
 
 public class WorkflowAppHealth extends AppHealth {
-
     public WorkflowAppHealth() {
     }
 }

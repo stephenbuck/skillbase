@@ -20,27 +20,27 @@ public class CatalogCacheProviderDummy implements CommonCacheProvider {
     }
     
     @Override
-    public String get(String key) throws Exception {
+    public String get(final String key) throws Exception {
         return null;
     }
 
     @Override
-    public boolean set(String key, String object) throws Exception {
+    public boolean set(final String key, final String val) throws Exception {
         return false;
     }
 
     @Override
-    public boolean touch(String key) throws Exception {
+    public boolean touch(final String key) throws Exception {
         return false;
     }
 
     @Override
-    public boolean exists(String key) throws Exception {
+    public boolean exists(final String key) throws Exception {
         return false;
     }
 
     @Override
-    public boolean delete(String key) throws Exception {
+    public boolean delete(final String key) throws Exception {
         return false;
     }
 

@@ -10,7 +10,6 @@ import com.headspin.skillbase.common.app.AppTelemetry;
 */
 
 public class WorkflowAppTelemetry extends AppTelemetry {
-
     public WorkflowAppTelemetry() {
     }
 }

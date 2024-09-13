@@ -29,30 +29,25 @@ public class WorkflowFeaturesProviderFlipt implements CommonFeaturesProvider {
 
     @Inject
     public WorkflowFeaturesProviderFlipt(
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.features.flipt.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.features.flipt.namespace") String configNamespace    
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.features.flipt.url") final String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.workflow.features.flipt.namespace") final String configNamespace    
     ) {
         this.namespace = configNamespace;
         this.client = FliptClient.builder()
-                .url(configUrl)
-                .build();
+            .url(configUrl)
+            .build();
     }
 
     @Override
     public boolean evaluateBoolean(@NotNull final String flag, final boolean def) {
         try {
-
-            Evaluation ev = client.evaluation();
-
-            EvaluationRequest er = EvaluationRequest.builder()
-                    .namespaceKey(namespace)
-                    .flagKey(flag)
-                    .build();
-
-            BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
-
+            final Evaluation ev = client.evaluation();
+            final EvaluationRequest er = EvaluationRequest.builder()
+                .namespaceKey(namespace)
+                .flagKey(flag)
+                .build();
+            final BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
             return ber.isEnabled();
-
         } catch (Throwable e) {
             log.info(String.valueOf(e));
             return def;

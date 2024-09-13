@@ -136,7 +136,7 @@ public class CatalogSkillsREST {
         @PathParam("skill_id") UUID skill_id,
         @FormParam("file") EntityPart part
     ) throws Exception { 
-        String object_id = service.uploadImage(
+        final String object_id = service.uploadImage(
             skill_id,
             part.getContent(),
             -1L,

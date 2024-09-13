@@ -57,26 +57,30 @@ public class MemberAchievement extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("MemberAchievement {\n");
-        stringBuilder.append("    achievement_id = " + achievement_id + "\n");
-        stringBuilder.append("    user_id        = " + user_id + "\n");
-        stringBuilder.append("    title          = " + title + "\n");
-        stringBuilder.append("    note           = " + note + "\n");
-        stringBuilder.append("    image_id       = " + image_id + "\n");
-        stringBuilder.append("    valid_for      = " + valid_for + "\n");
-        stringBuilder.append("    created_at     = " + created_at + "\n");
-        stringBuilder.append("    updated_at     = " + updated_at + "\n");
-        stringBuilder.append("    version        = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("MemberAchievement {\n")
+            .append("    achievement_id = " + achievement_id + "\n")
+            .append("    user_id        = " + user_id + "\n")
+            .append("    title          = " + title + "\n")
+            .append("    note           = " + note + "\n")
+            .append("    image_id       = " + image_id + "\n")
+            .append("    valid_for      = " + valid_for + "\n")
+            .append("    created_at     = " + created_at + "\n")
+            .append("    updated_at     = " + updated_at + "\n")
+            .append("    version        = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static MemberAchievement fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static MemberAchievement fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, MemberAchievement.class);
     }
     
-    public static String toJson(MemberAchievement achievement) throws Exception {
+    public static String toJson(final MemberAchievement achievement) throws Exception {
         return JsonbBuilder.create().toJson(achievement);
     }
 }

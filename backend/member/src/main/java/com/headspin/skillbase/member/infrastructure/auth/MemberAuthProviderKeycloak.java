@@ -40,11 +40,11 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
     @Inject
     public MemberAuthProviderKeycloak(
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.realm") String configRealm,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.client") String configClient,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.username") String configUsername,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.password") String configPassword
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.url") final String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.realm") final String configRealm,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.client") final String configClient,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.username") final String configUsername,
+        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.password") final String configPassword
     ) {
         this.admin = KeycloakBuilder.builder()
             .serverUrl(configUrl)
@@ -61,28 +61,28 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
     }
 
     @Override
-    public void insertUser(UUID id, MemberUser user) {
+    public void insertUser(final UUID id, final MemberUser user) {
     }
 
     @Override
-    public void deleteUser(UUID user_id) {
+    public void deleteUser(final UUID user_id) {
         users.delete(String.valueOf(user_id));
     }
 
     @Override
-    public void updateUser(MemberUser user) {
+    public void updateUser(final MemberUser user) {
     }
 
     @Override
-    public void insertGroup(UUID id, MemberGroup group) {
+    public void insertGroup(final UUID id, final MemberGroup group) {
     }
 
     @Override
-    public void deleteGroup(UUID group_id) {
+    public void deleteGroup(final UUID group_id) {
     }
 
     @Override
-    public void updateGroup(MemberGroup group) {
+    public void updateGroup(final MemberGroup group) {
     }
 
     @Override

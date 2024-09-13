@@ -41,8 +41,8 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
     @Inject
     public CatalogSearchProviderElastic(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.url") String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.index") String configIndex
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.url") final String configUrl,
+        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.index") final String configIndex
     ) {
         this.url = configUrl;
         this.index = configIndex;
@@ -57,11 +57,11 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
         log.info("search({})", keyword);
 
-        try (ElasticsearchTransport transport = new RestClientTransport(rest, mapper)) {
+        try (final ElasticsearchTransport transport = new RestClientTransport(rest, mapper)) {
 
-            ElasticsearchClient client = new ElasticsearchClient(transport);
+            final ElasticsearchClient client = new ElasticsearchClient(transport);
 
-            SearchResponse<ObjectNode> search = client
+            final SearchResponse<ObjectNode> search = client
                 .search(s -> s
                 .index(index)
                     .from(Objects.requireNonNullElse(offset, 0))
@@ -75,11 +75,11 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
 
             /* Use full text .match() */
             
-            HitsMetadata<ObjectNode> meta = search.hits();
+            final HitsMetadata<ObjectNode> meta = search.hits();
 
-            List<String> results = meta.hits().stream().map(
-                h -> String.valueOf(h.source())
-            ).collect(Collectors.toList());
+            final List<String> results = meta.hits().stream().map(
+                h -> String.valueOf(h.source()))
+                    .collect(Collectors.toList());
 
             return results;
         }
@@ -92,7 +92,7 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
     @Override
     public void test() {
         log.info("test:");
-        List<String> results = search("cpr", null, null, null);
+        final List<String> results = search("cpr", null, null, null);
         results.forEach(System.out::println);
     }
 }

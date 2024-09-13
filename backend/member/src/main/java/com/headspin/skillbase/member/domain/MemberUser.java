@@ -66,30 +66,34 @@ public class MemberUser extends DomainEntity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("MemberUser {\n");
-        stringBuilder.append("    user_id    = " + user_id + "\n");
-        stringBuilder.append("    peer_id    = " + peer_id + "\n");
-        stringBuilder.append("    is_enabled = " + is_enabled + "\n");
-        stringBuilder.append("    user_name  = " + user_name + "\n");
-        stringBuilder.append("    first_name = " + first_name + "\n");
-        stringBuilder.append("    last_name  = " + last_name + "\n");
-        stringBuilder.append("    email      = " + email + "\n");
-        stringBuilder.append("    phone      = " + phone + "\n");
-        stringBuilder.append("    note       = " + note + "\n");
-        stringBuilder.append("    image_id   = " + image_id + "\n");
-        stringBuilder.append("    created_at = " + created_at + "\n");
-        stringBuilder.append("    updated_at = " + updated_at + "\n");
-        stringBuilder.append("    version    = " + version + "\n");
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+        return new StringBuilder()
+            .append("MemberUser {\n")
+            .append("    user_id    = " + user_id + "\n")
+            .append("    peer_id    = " + peer_id + "\n")
+            .append("    is_enabled = " + is_enabled + "\n")
+            .append("    user_name  = " + user_name + "\n")
+            .append("    first_name = " + first_name + "\n")
+            .append("    last_name  = " + last_name + "\n")
+            .append("    email      = " + email + "\n")
+            .append("    phone      = " + phone + "\n")
+            .append("    note       = " + note + "\n")
+            .append("    image_id   = " + image_id + "\n")
+            .append("    created_at = " + created_at + "\n")
+            .append("    updated_at = " + updated_at + "\n")
+            .append("    version    = " + version + "\n")
+            .append("}\n")
+            .toString();
     }
 
-    public static MemberUser fromJson(String json) throws Exception {
+    public String toETag() {
+        return String.valueOf(hashCode());
+    }
+
+    public static MemberUser fromJson(final String json) throws Exception {
         return JsonbBuilder.create().fromJson(json, MemberUser.class);
     }
     
-    public static String toJson(MemberUser user) throws Exception {
+    public static String toJson(final MemberUser user) throws Exception {
         return JsonbBuilder.create().toJson(user);
     }
 }
