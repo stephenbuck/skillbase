@@ -3,7 +3,6 @@ package com.headspin.skillbase.catalog.interfaces.graphql;
 import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
@@ -26,7 +25,6 @@ import jakarta.inject.Inject;
 
 @GraphQLApi
 @ApplicationScoped
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCredentialsGQL {
 
     @Inject
@@ -37,10 +35,10 @@ public class CatalogCredentialsGQL {
 
     public CatalogCredentialsGQL() {
     }
-    
+
     @Mutation("insert")
     @Description("Insert new catalog skill credential")
-    public UUID insert(@Name("credential") final CatalogCredential credential) throws Exception  {
+    public UUID insert(@Name("credential") final CatalogCredential credential) throws Exception {
         return service.insert(credential);
     }
 
@@ -71,7 +69,8 @@ public class CatalogCredentialsGQL {
 
     @Query("findAllByTitleLike")
     @Description("Find all catalog skill credentials by title")
-    public List<CatalogCredential> findAllByTitleLike(@Name("pattern") final String pattern, @Name("sort") final String sort,
+    public List<CatalogCredential> findAllByTitleLike(@Name("pattern") final String pattern,
+            @Name("sort") final String sort,
             @Name("offset") final Integer offset, @Name("limit") final Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);
     }

@@ -63,10 +63,9 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
 
     @Inject
     public CatalogEventsProviderKafka(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") final String configBootstraps,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") final String configClientId,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") final String configGroupId
-    ) {
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") final String configClientId,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") final String configGroupId) {
         // Configure the admin
         this.admnConfig = new Properties();
         this.admnConfig.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, configBootstraps);
@@ -108,16 +107,16 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
-            .wrap(new ObjectMapper().valueToTree(json));
+                .wrap(new ObjectMapper().valueToTree(json));
 
         // Create a CloudEvent object
         final CloudEvent event = CloudEventBuilder.v1()
-            .withSource(URI.create(CatalogEvent.SKILLBASE_EVENT_SOURCE))
-            .withType(type)
-            .withId(String.valueOf(UUID.randomUUID()))
-            .withTime(ZonedDateTime.now().toOffsetDateTime())
-            .withData(MediaType.APPLICATION_JSON, data)
-            .build();
+                .withSource(URI.create(CatalogEvent.SKILLBASE_EVENT_SOURCE))
+                .withType(type)
+                .withId(String.valueOf(UUID.randomUUID()))
+                .withTime(ZonedDateTime.now().toOffsetDateTime())
+                .withData(MediaType.APPLICATION_JSON, data)
+                .build();
 
         // Create the KafkaProducer and send the event
         try (KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(prodConfig)) {
@@ -167,9 +166,9 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
     public void test() {
         log.info("test:");
         produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_SKILL_DELETED,
-            "{}");
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_SKILL_DELETED,
+                "{}");
     }
 
     /*

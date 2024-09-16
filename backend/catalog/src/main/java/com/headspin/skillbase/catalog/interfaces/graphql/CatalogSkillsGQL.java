@@ -3,7 +3,6 @@ package com.headspin.skillbase.catalog.interfaces.graphql;
 import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
@@ -26,7 +25,6 @@ import jakarta.inject.Inject;
 
 @GraphQLApi
 @ApplicationScoped
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogSkillsGQL {
 
     @Inject
@@ -37,7 +35,7 @@ public class CatalogSkillsGQL {
 
     public CatalogSkillsGQL() {
     }
-    
+
     @Mutation("insert")
     @Description("Insert new catalog skill")
     public UUID insert(@Name("skill") final CatalogSkill skill) throws Exception {

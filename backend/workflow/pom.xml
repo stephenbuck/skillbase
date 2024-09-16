@@ -421,6 +421,11 @@
     -->
 
     <dependency>
+        <artifactId>valkey-java</artifactId>
+        <groupId>io.valkey</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>xmemcached</artifactId>
       <groupId>com.googlecode.xmemcached</groupId>
     </dependency>

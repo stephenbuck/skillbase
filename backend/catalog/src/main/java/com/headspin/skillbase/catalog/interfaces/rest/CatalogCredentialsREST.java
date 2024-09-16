@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
@@ -39,7 +38,6 @@ import jakarta.ws.rs.core.Response;
 @Path("credentials")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCredentialsREST {
 
     @Inject
@@ -50,7 +48,7 @@ public class CatalogCredentialsREST {
 
     public CatalogCredentialsREST() {
     }
-    
+
     @PUT
     @Operation(summary = "Insert new catalog skill credential")
     public Response insert(final CatalogCredential credential) throws Exception {
@@ -74,7 +72,8 @@ public class CatalogCredentialsREST {
 
     @GET
     @Operation(summary = "Find all catalog skill credentials")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
@@ -102,27 +101,26 @@ public class CatalogCredentialsREST {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Upload credential image")
-    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception { 
+    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception {
         String object_id = service.uploadImage(
-            part.getContent(),
-            -1L,
-            part.getMediaType()); 
+                part.getContent(),
+                -1L,
+                part.getMediaType());
         return Response
-            .ok(object_id)
-            .build();
+                .ok(object_id)
+                .build();
     }
 
     @GET
     @Path("/image/{image_id}")
     @Operation(summary = "Download credential image")
     public Response downloadImage(@PathParam("image_id") String image_id) throws Exception {
-        final CommonStorageProvider.CommonStorageObject object =
-            service.downloadImage(image_id);
+        final CommonStorageProvider.CommonStorageObject object = service.downloadImage(image_id);
         return Response
-            .ok(object.input)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
     }
 
     @DELETE
@@ -139,30 +137,29 @@ public class CatalogCredentialsREST {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Upload credential BPMN")
-    public Response uploadBPMN(@FormParam("file") EntityPart part) throws Exception { 
+    public Response uploadBPMN(@FormParam("file") EntityPart part) throws Exception {
         String object_id = service.uploadBPMN(
-            part.getContent(),
-            -1L,
-            part.getMediaType()); 
+                part.getContent(),
+                -1L,
+                part.getMediaType());
         return Response
-            .ok(object_id)
-            .build();
+                .ok(object_id)
+                .build();
     }
 
     @GET
     @Path("/bpmn/{bpmn_id}")
     @Operation(summary = "Download credential BPMN")
     public Response downloadBPMN(@PathParam("bpmn_id") String bpmn_id) throws Exception {
-        final CommonStorageProvider.CommonStorageObject object =
-            service.downloadBPMN(bpmn_id);
+        final CommonStorageProvider.CommonStorageObject object = service.downloadBPMN(bpmn_id);
         // MessageDigest digest = MessageDigest.getInstance("SHA-256");
         final EntityTag tag = new EntityTag(bpmn_id);
         Response r = Response
-            .ok(object.input)
-            .tag(tag)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .tag(tag)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
         return r;
     }
 

@@ -3,7 +3,6 @@ package com.headspin.skillbase.catalog.interfaces.graphql;
 import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.graphql.Description;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
@@ -26,7 +25,6 @@ import jakarta.inject.Inject;
 
 @GraphQLApi
 @ApplicationScoped
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCategoriesGQL {
 
     @Inject
@@ -37,7 +35,7 @@ public class CatalogCategoriesGQL {
 
     public CatalogCategoriesGQL() {
     }
-    
+
     @Mutation("insert")
     @Description("Insert new catalog category")
     public UUID insert(@Name("category") final CatalogCategory category) throws Exception {
@@ -71,7 +69,8 @@ public class CatalogCategoriesGQL {
 
     @Query("findAllByTitleLike")
     @Description("Find all categories by title")
-    public List<CatalogCategory> findAllByTitleLike(@Name("pattern") final String pattern, @Name("sort") final String sort,
+    public List<CatalogCategory> findAllByTitleLike(@Name("pattern") final String pattern,
+            @Name("sort") final String sort,
             @Name("offset") final Integer offset, @Name("limit") final Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);
     }

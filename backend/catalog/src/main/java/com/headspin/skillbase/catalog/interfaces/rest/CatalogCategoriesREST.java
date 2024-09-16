@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.zalando.problem.Problem;
@@ -47,7 +46,6 @@ import jakarta.ws.rs.core.Response;
 @Path("categories")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogCategoriesREST {
 
     @Inject
@@ -65,9 +63,12 @@ public class CatalogCategoriesREST {
 
     /*
      * @ApiResponses(value = {
-     *     @ApiResponse(responseCode = "400", description = "Invalid category"),
-     *     @ApiResponse(responseCode = "400", description = "Category already exists"),
-     *     @ApiResponse(responseCode = "500", description = "Internal server error")
+     * 
+     * @ApiResponse(responseCode = "400", description = "Invalid category"),
+     * 
+     * @ApiResponse(responseCode = "400", description = "Category already exists"),
+     * 
+     * @ApiResponse(responseCode = "500", description = "Internal server error")
      * })
      */
     @PUT
@@ -78,37 +79,37 @@ public class CatalogCategoriesREST {
             return Response.ok(category_id).build();
         } catch (final EntityExistsException e) {
             return Response
-                .status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(
-                    Problem.builder()
-                        .withTitle("Invalid category supplied")
-                        .withStatus(Status.BAD_REQUEST)
-                        .withDetail("TBD")
-                        .build())
-                .build();
+                    .status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(
+                            Problem.builder()
+                                    .withTitle("Invalid category supplied")
+                                    .withStatus(Status.BAD_REQUEST)
+                                    .withDetail("TBD")
+                                    .build())
+                    .build();
         } catch (final IllegalArgumentException e) {
             return Response
-                .status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(
-                    Problem.builder()
-                        .withTitle("Invalid category supplied")
-                        .withStatus(Status.BAD_REQUEST)
-                        .withDetail("TBD")
-                        .build())
-                .build();
+                    .status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(
+                            Problem.builder()
+                                    .withTitle("Invalid category supplied")
+                                    .withStatus(Status.BAD_REQUEST)
+                                    .withDetail("TBD")
+                                    .build())
+                    .build();
         } catch (final TransactionRequiredException e) {
             return Response
-                .status(Response.Status.INTERNAL_SERVER_ERROR)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(
-                    Problem.builder()
-                        .withTitle("Transaction required")
-                        .withStatus(Status.INTERNAL_SERVER_ERROR)
-                        .withDetail("TBD")
-                        .build())
-                .build();
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(
+                            Problem.builder()
+                                    .withTitle("Transaction required")
+                                    .withStatus(Status.INTERNAL_SERVER_ERROR)
+                                    .withDetail("TBD")
+                                    .build())
+                    .build();
         }
     }
 
@@ -128,22 +129,26 @@ public class CatalogCategoriesREST {
 
     /*
      * @ApiResponses(value = {
-     *     @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-     *     @ApiResponse(responseCode = "404", description = "Category not found"),
-     *     @ApiResponse(responseCode = "500", description = "Internal server error")
+     * 
+     * @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+     * 
+     * @ApiResponse(responseCode = "404", description = "Category not found"),
+     * 
+     * @ApiResponse(responseCode = "500", description = "Internal server error")
      * })
      */
     @GET
     @Path("{category_id}")
     @Operation(summary = "Find catalog category by id")
-    public Response findById(@Context Request request, @PathParam("category_id") final UUID category_id) throws Exception {
+    public Response findById(@Context Request request, @PathParam("category_id") final UUID category_id)
+            throws Exception {
 
         try {
-            
+
             // Find the category
             final CatalogCategory entity = service.findById(category_id).get();
-            
-            // Generate ETag for the resource        
+
+            // Generate ETag for the resource
             final EntityTag etag = new EntityTag(entity.toETag());
 
             // If client's ETag matches the current ETag...
@@ -155,35 +160,35 @@ public class CatalogCategoriesREST {
             // Otherwise, fetch and return the resource with a new ETag
             else {
                 return Response
-                    .ok(entity, MediaType.APPLICATION_JSON)
-                    .tag(etag)
-                    .cacheControl(cacheControl)
-                    .header(HttpHeaders.EXPIRES, expiresAt(60))
-                    .build();
+                        .ok(entity, MediaType.APPLICATION_JSON)
+                        .tag(etag)
+                        .cacheControl(cacheControl)
+                        .header(HttpHeaders.EXPIRES, expiresAt(60))
+                        .build();
             }
 
         } catch (final IllegalArgumentException e) {
             return Response
-                .status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(
-                    Problem.builder()
-                        .withTitle("Invalid ID supplied")
-                        .withStatus(Status.NOT_FOUND)
-                        .withDetail("category_id = " + category_id)
-                        .build())
-                .build();
+                    .status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(
+                            Problem.builder()
+                                    .withTitle("Invalid ID supplied")
+                                    .withStatus(Status.NOT_FOUND)
+                                    .withDetail("category_id = " + category_id)
+                                    .build())
+                    .build();
         } catch (final NoSuchElementException e) {
             return Response
-                .status(Response.Status.NOT_FOUND)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(
-                    Problem.builder()
-                        .withTitle("Category not found")
-                        .withStatus(Status.NOT_FOUND)
-                        .withDetail("category_id = " + category_id)
-                        .build())
-                .build();
+                    .status(Response.Status.NOT_FOUND)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(
+                            Problem.builder()
+                                    .withTitle("Category not found")
+                                    .withStatus(Status.NOT_FOUND)
+                                    .withDetail("category_id = " + category_id)
+                                    .build())
+                    .build();
         }
     }
 
@@ -192,25 +197,27 @@ public class CatalogCategoriesREST {
     public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
             @QueryParam("limit") final Integer limit) {
         return Response
-            .ok(service.findAll(sort, offset, limit))
-            .header("Access-Control-Allow-Origin", "*")
-            .build();
+                .ok(service.findAll(sort, offset, limit))
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
     }
 
     @GET
     @Path("{category_id}/categories")
     @Operation(summary = "Find all catalog category subcategories")
-    public Response findCategoryCategories(@PathParam("category_id") final UUID category_id, @QueryParam("sort") final String sort,
+    public Response findCategoryCategories(@PathParam("category_id") final UUID category_id,
+            @QueryParam("sort") final String sort,
             @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response
-            .ok(service.findCategoryCategories(category_id, sort, offset, limit))
-            .build();
+                .ok(service.findCategoryCategories(category_id, sort, offset, limit))
+                .build();
     }
 
     @POST
     @Path("{category_id}/categories/{subcategory_id}")
     @Operation(summary = "Insert catalog category subcategory")
-    public Response insertCategoryCategory(@PathParam("category_id") final UUID category_id, @PathParam("subcategory_id") final UUID subcategory_id) {
+    public Response insertCategoryCategory(@PathParam("category_id") final UUID category_id,
+            @PathParam("subcategory_id") final UUID subcategory_id) {
         service.insertCategoryCategory(category_id, subcategory_id);
         return Response.ok().build();
     }
@@ -218,7 +225,8 @@ public class CatalogCategoriesREST {
     @DELETE
     @Path("{category_id}/categories/{subcategory_id}")
     @Operation(summary = "Delete catalog category subcategory")
-    public Response deleteCategoryCategory(@PathParam("category_id") final UUID category_id, @PathParam("subcategory_id") final UUID subcategory_id) {
+    public Response deleteCategoryCategory(@PathParam("category_id") final UUID category_id,
+            @PathParam("subcategory_id") final UUID subcategory_id) {
         service.deleteCategoryCategory(category_id, category_id);
         return Response.ok().build();
     }
@@ -226,7 +234,8 @@ public class CatalogCategoriesREST {
     @GET
     @Path("{category_id}/skills")
     @Operation(summary = "Find all catalog category skills")
-    public Response findCategorySkills(@PathParam("category_id") final UUID category_id, @QueryParam("sort") final String sort,
+    public Response findCategorySkills(@PathParam("category_id") final UUID category_id,
+            @QueryParam("sort") final String sort,
             @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findCategorySkills(category_id, sort, offset, limit)).build();
     }
@@ -239,7 +248,8 @@ public class CatalogCategoriesREST {
      * @Operation(summary = "insertCategorySkill")
      * public Response insertCategorySkill(@PathParam("category_id") UUID
      * category_id, @PathParam("skill_id") UUID skill_id) {
-     * return Response.ok(service.insertCategorySkill(category_id, skill_id)).build();
+     * return Response.ok(service.insertCategorySkill(category_id,
+     * skill_id)).build();
      * }
      * 
      * @DELETE
@@ -249,7 +259,8 @@ public class CatalogCategoriesREST {
      * @Operation(summary = "deleteCategorySkill")
      * public Response deleteCategorySkill(@PathParam("category_id") UUID
      * category_id, @PathParam("skill_id") UUID skill_id) {
-     * return Response.ok(service.deleteCategorySkill(category_id, skill_id)).build();
+     * return Response.ok(service.deleteCategorySkill(category_id,
+     * skill_id)).build();
      * }
      */
 
@@ -258,27 +269,26 @@ public class CatalogCategoriesREST {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Upload category image")
-    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception { 
+    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception {
         final String object_id = service.uploadImage(
-            part.getContent(),
-            -1L,
-            part.getMediaType()); 
+                part.getContent(),
+                -1L,
+                part.getMediaType());
         return Response
-            .ok(object_id)
-            .build();
+                .ok(object_id)
+                .build();
     }
 
     @GET
     @Path("/image/{image_id}")
     @Operation(summary = "Download category image")
     public Response downloadImage(@PathParam("image_id") String image_id) throws Exception {
-        final CommonStorageProvider.CommonStorageObject object =
-            service.downloadImage(image_id);
+        final CommonStorageProvider.CommonStorageObject object = service.downloadImage(image_id);
         return Response
-            .ok(object.input)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
     }
 
     @DELETE
@@ -308,8 +318,8 @@ public class CatalogCategoriesREST {
 
     private String expiresAt(int minutes) {
         return OffsetDateTime
-            .now()
-            .plusMinutes(60)
-            .format(DateTimeFormatter.RFC_1123_DATE_TIME);
+                .now()
+                .plusMinutes(60)
+                .format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }

@@ -346,6 +346,11 @@
     </dependency>
 
     <dependency>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>jakarta.inject-api</artifactId>
       <groupId>jakarta.inject</groupId>
     </dependency>
@@ -494,6 +499,11 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     -->
+
+    <dependency>
+        <artifactId>valkey-java</artifactId>
+        <groupId>io.valkey</groupId>
+    </dependency>
 
     <dependency>
       <artifactId>xmemcached</artifactId>

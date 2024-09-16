@@ -52,6 +52,10 @@ sudo docker build -f ${PWD}/Dockerfile -t skillbase/postgres:latest ${PWD}
 pushd src/docker/redis
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/redis:latest ${PWD}
 
+pushd src/docker/valkey
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/valkey:latest ${PWD}
+popd
+
 pushd src/docker/wildfly
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/wildfly:latest ${PWD} 
 popd

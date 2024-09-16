@@ -27,30 +27,6 @@ INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-3',
 INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-4', 'Note-4');
 INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-5', 'Note-5');
 
-CREATE TABLE IF NOT EXISTS catalog.credential (
-  credential_id        UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
-  skill_id             UUID        NOT NULL,
-  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
-  title                VARCHAR     NOT NULL,
-  note                 VARCHAR     NOT NULL DEFAULT '',
-  image_id             VARCHAR         NULL DEFAULT NULL,
-  bpmn_id              VARCHAR         NULL DEFAULT NULL,
-  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  version              INTEGER     NOT NULL DEFAULT 0,
-  PRIMARY KEY (credential_id),
-  FOREIGN KEY (skill_id) REFERENCES catalog.skill(skill_id)
-);
-ALTER TABLE catalog.credential REPLICA IDENTITY DEFAULT;
-CREATE INDEX credential_skill ON catalog.credential(skill_id);
-CREATE INDEX credential_title ON catalog.credential(title);
-
-insert into catalog.credential (title, skill_id, note) values('Credential-1', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-1');
-insert into catalog.credential (title, skill_id, note) values('Credential-2', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-2');
-insert into catalog.credential (title, skill_id, note) values('Credential-3', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-3');
-insert into catalog.credential (title, skill_id, note) values('Credential-4', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-4');
-insert into catalog.credential (title, skill_id, note) values('Credential-5', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-5');
-
 CREATE TABLE IF NOT EXISTS catalog.skill (
   skill_id             UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   deployment_id        VARCHAR         NULL DEFAULT NULL,
@@ -74,6 +50,30 @@ insert into catalog.skill (title, category_id, note) values('Skill-2', (select c
 insert into catalog.skill (title, category_id, note) values('Skill-3', (select category_id from catalog.category where title like '%-1' limit 1), 'Note-3');
 insert into catalog.skill (title, category_id, note) values('Skill-4', (select category_id from catalog.category where title like '%-1' limit 1), 'Note-4');
 insert into catalog.skill (title, category_id, note) values('Skill-5', (select category_id from catalog.category where title like '%-1' limit 1), 'Note-5');
+
+CREATE TABLE IF NOT EXISTS catalog.credential (
+  credential_id        UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  skill_id             UUID        NOT NULL,
+  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
+  title                VARCHAR     NOT NULL,
+  note                 VARCHAR     NOT NULL DEFAULT '',
+  image_id             VARCHAR         NULL DEFAULT NULL,
+  bpmn_id              VARCHAR         NULL DEFAULT NULL,
+  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
+  version              INTEGER     NOT NULL DEFAULT 0,
+  PRIMARY KEY (credential_id),
+  FOREIGN KEY (skill_id) REFERENCES catalog.skill(skill_id)
+);
+ALTER TABLE catalog.credential REPLICA IDENTITY DEFAULT;
+CREATE INDEX credential_skill ON catalog.credential(skill_id);
+CREATE INDEX credential_title ON catalog.credential(title);
+
+insert into catalog.credential (title, skill_id, note) values('Credential-1', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-1');
+insert into catalog.credential (title, skill_id, note) values('Credential-2', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-2');
+insert into catalog.credential (title, skill_id, note) values('Credential-3', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-3');
+insert into catalog.credential (title, skill_id, note) values('Credential-4', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-4');
+insert into catalog.credential (title, skill_id, note) values('Credential-5', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-5');
 
 CREATE TABLE IF NOT EXISTS catalog.outbox (
   outbox_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),

@@ -1,0 +1,2 @@
+FROM valkey/valkey:latest
+

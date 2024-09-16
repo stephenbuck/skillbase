@@ -320,6 +320,16 @@ variable "skillbase_tag" {
   default = "latest"
 }
 
+variable "valkey_port_internal" {
+  type = number
+  default = 6379
+}
+
+variable "valkey_port_external" {
+  type = number
+  default = 6379
+}
+
 variable "wildfly_admin_port_internal" {
   type = number
   default = 9990
@@ -972,6 +982,28 @@ resource "docker_container" "prometheus" {
 */
 
 ################################################################################
+# Valkey
+################################################################################
+
+resource "docker_image" "valkey" {
+  name = "skillbase/valkey:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "valkey" {
+  name = "valkey"
+  image = docker_image.valkey.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.valkey_port_internal
+    external = var.valkey_port_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
+
+################################################################################
 # Wildfly
 ################################################################################
 
@@ -1013,6 +1045,7 @@ resource "docker_container" "wildfly" {
     docker_container.minio,
     docker_container.postgres,
     //    docker_container.redis,
+    docker_container.valkey,
     docker_container.registry
   ]
 }

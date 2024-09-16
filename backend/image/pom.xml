@@ -416,6 +416,11 @@
     </dependency>
     -->
 
+    <dependency>
+        <artifactId>valkey-java</artifactId>
+        <groupId>io.valkey</groupId>
+    </dependency>
+
     <!-- Test -->
 
     <dependency>

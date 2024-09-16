@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
@@ -38,7 +37,6 @@ import jakarta.ws.rs.core.Response;
 @Path("skills")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
-@LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class CatalogSkillsREST {
 
     @Inject
@@ -122,43 +120,40 @@ public class CatalogSkillsREST {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response search(@QueryParam("keyword") final String keyword,
-        @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
-        @QueryParam("limit") final Integer limit) {
+            @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.search(keyword, sort, offset, limit)).build();
     }
- 
+
     @POST
     @Path("{skill_id}/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Upload skill image")
     public Response uploadImage(
-        @PathParam("skill_id") UUID skill_id,
-        @FormParam("file") EntityPart part
-    ) throws Exception { 
+            @PathParam("skill_id") UUID skill_id,
+            @FormParam("file") EntityPart part) throws Exception {
         final String object_id = service.uploadImage(
-            skill_id,
-            part.getContent(),
-            -1L,
-            part.getMediaType()); 
+                skill_id,
+                part.getContent(),
+                -1L,
+                part.getMediaType());
         return Response
-            .ok(object_id)
-            .build();
+                .ok(object_id)
+                .build();
     }
 
     @GET
     @Path("/{skill_id}/image")
     @Operation(summary = "Download skill image")
     public Response downloadImage(
-        @PathParam("skill_id") UUID skill_id
-    ) throws Exception {
-        final CommonStorageProvider.CommonStorageObject object =
-            service.downloadImage(skill_id);
+            @PathParam("skill_id") UUID skill_id) throws Exception {
+        final CommonStorageProvider.CommonStorageObject object = service.downloadImage(skill_id);
         return Response
-            .ok(object.input)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
     }
 
     @DELETE
