@@ -1,0 +1,29 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>skillbase_client</name>
+  <packaging>pom</packaging>
+  
+  <artifactId>skillbase_client</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <version>0.1</version>
+
+  <parent>
+    <artifactId>skillbase</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>0.1</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

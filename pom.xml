@@ -15,6 +15,7 @@
 
   <modules>
     <module>backend</module>
+    <module>client</module>
     <module>frontend</module>
     <module>system</module>
   </modules>
