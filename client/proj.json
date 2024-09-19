@@ -1,0 +1,10 @@
+{
+    "commands": [
+        {
+            "cmnd": "version",
+            "note": "<note>",
+            "args": {
+            }
+        }
+    ]
+}

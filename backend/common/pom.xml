@@ -144,6 +144,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>flipt-java</artifactId>
+      <groupId>io.flipt</groupId>
+    </dependency>
+  
+    <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>
     </dependency>
@@ -174,7 +179,7 @@
       <groupId>com.networknt</groupId>
     </dependency>
 
-  <dependency>
+    <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
     </dependency>
@@ -232,6 +237,11 @@
     <dependency>
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+        <artifactId>valkey-java</artifactId>
+        <groupId>io.valkey</groupId>
     </dependency>
 
     <!-- Test -->

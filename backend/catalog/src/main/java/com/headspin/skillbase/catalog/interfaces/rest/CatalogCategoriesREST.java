@@ -81,34 +81,19 @@ public class CatalogCategoriesREST {
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withTitle("Invalid category supplied")
-                                    .withStatus(Status.BAD_REQUEST)
-                                    .withDetail("TBD")
-                                    .build())
+                    .entity(Problem.valueOf(Status.BAD_REQUEST))
                     .build();
         } catch (final IllegalArgumentException e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withTitle("Invalid category supplied")
-                                    .withStatus(Status.BAD_REQUEST)
-                                    .withDetail("TBD")
-                                    .build())
+                    .entity(Problem.valueOf(Status.BAD_REQUEST))
                     .build();
         } catch (final TransactionRequiredException e) {
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withTitle("Transaction required")
-                                    .withStatus(Status.INTERNAL_SERVER_ERROR)
-                                    .withDetail("TBD")
-                                    .build())
+                    .entity(Problem.valueOf(Status.INTERNAL_SERVER_ERROR))
                     .build();
         }
     }
@@ -171,23 +156,13 @@ public class CatalogCategoriesREST {
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withTitle("Invalid ID supplied")
-                                    .withStatus(Status.NOT_FOUND)
-                                    .withDetail("category_id = " + category_id)
-                                    .build())
+                    .entity(Problem.valueOf(Status.NOT_FOUND))
                     .build();
         } catch (final NoSuchElementException e) {
             return Response
                     .status(Response.Status.NOT_FOUND)
                     .type(MediaType.APPLICATION_JSON)
-                    .entity(
-                            Problem.builder()
-                                    .withTitle("Category not found")
-                                    .withStatus(Status.NOT_FOUND)
-                                    .withDetail("category_id = " + category_id)
-                                    .build())
+                    .entity(Problem.valueOf(Status.NOT_FOUND))
                     .build();
         }
     }

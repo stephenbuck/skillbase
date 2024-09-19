@@ -1,0 +1,69 @@
+package com.headspin.skillbase.catalog.infrastructure.storage;
+
+import java.io.InputStream;
+import java.util.UUID;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import com.headspin.skillbase.common.providers.CommonStorageProvider;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * JuiceFS implementation of common storage provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
+@ApplicationScoped
+public class CatalogStorageProviderJuiceFS implements CommonStorageProvider {
+
+    private final String mount;
+
+    @Inject
+    public CatalogStorageProviderJuiceFS(
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.storage.juicefs.mount") final String configMount)
+            throws Exception {
+        this.mount = configMount;
+    }
+
+    @Override
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size,
+            @NotNull final MediaType type) throws Exception {
+
+        // Generate a UUID for the object
+        final String object_id = String.valueOf(UUID.randomUUID());
+
+        // TBD
+        return object_id;
+    }
+
+    @Override
+    public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception {
+        // TBD
+        final String type = null;
+        final Long size = 0L;
+        final InputStream input = null;
+        return new CommonStorageProvider.CommonStorageObject(
+                object_id,
+                type,
+                size,
+                input);
+    }
+
+    @Override
+    public void deleteObject(@NotNull final String object_id) throws Exception {
+        // TBD
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
+    }
+}

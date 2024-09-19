@@ -1,0 +1,173 @@
+package com.headspin.skillbase.catalog.infrastructure.events;
+
+import java.net.URI;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.pulsar.client.api.Consumer;
+import org.apache.pulsar.client.api.Message;
+import org.apache.pulsar.client.api.Producer;
+import org.apache.pulsar.client.api.PulsarClient;
+import org.apache.pulsar.client.api.Schema;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.headspin.skillbase.common.providers.CommonEventsProvider;
+import com.headspin.skillbase.common.events.CatalogEvent;
+import com.headspin.skillbase.common.events.EventListener;
+
+import io.cloudevents.CloudEvent;
+import io.cloudevents.core.builder.CloudEventBuilder;
+import io.cloudevents.jackson.JsonCloudEventData;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Pulsar implementation of the catalog events provider interface.
+ * 
+ * @author Stephen Buck
+ * @since 1.0
+ */
+
+@Slf4j
+@ApplicationScoped
+public class CatalogEventsProviderPulsar implements CommonEventsProvider {
+
+    private final String bootstraps;
+    private final String subscriber;
+
+    private PulsarClient buildClient() throws Exception {
+        return PulsarClient.builder()
+                .serviceUrl(this.bootstraps)
+                .build();
+    }
+
+    private Producer<String> buildProducer(PulsarClient client, String topic) throws Exception {
+        return client
+                .newProducer(Schema.STRING)
+                .topic(topic)
+                .create();
+    }
+
+    private CloudEvent buildEvent(Message<String> message) {
+        return CloudEventBuilder
+                .v1()
+                .withData(message.getData())
+                .build();
+    }
+
+    @Inject
+    public CatalogEventsProviderPulsar(
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
+
+        this.bootstraps = configBootstraps;
+        this.subscriber = configSubscriber;
+    }
+
+    /**
+     * Produces an event with the specified topic, type, and JSON data by
+     * posting it the configured Pulsar broker.
+     * 
+     * @param topic
+     * @param type
+     * @param json
+     */
+
+    @Override
+    @Transactional
+    public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final String json) {
+
+        // Wrap the json data as CloudEvent data
+        final JsonCloudEventData data = JsonCloudEventData
+                .wrap(new ObjectMapper().valueToTree(json));
+
+        // Create a CloudEvent object
+        final CloudEvent event = CloudEventBuilder
+                .v1()
+                .withSource(URI.create(CatalogEvent.SKILLBASE_EVENT_SOURCE))
+                .withType(type)
+                .withId(String.valueOf(UUID.randomUUID()))
+                .withTime(ZonedDateTime.now().toOffsetDateTime())
+                .withData(MediaType.APPLICATION_JSON, data)
+                .build();
+
+        try (final PulsarClient client = buildClient()) {
+            try (final Producer<String> producer = buildProducer(client, topic)) {
+                producer.send(String.valueOf(event));
+            }
+        } catch (Exception e) {
+            log.error("Producer error", e);
+        }
+    }
+
+    /**
+     * Starts consuming events with any of the the specified topics from
+     * the configured Pulsar broker and sends them to the specified listener.
+     * 
+     * @param topics
+     * @param listener
+     */
+
+    @Override
+    public void consume(@NotNull final Collection<String> topics, @NotNull final EventListener listener) {
+        try (final PulsarClient client = buildClient()) {
+            List<String> list = new ArrayList<String>(topics);
+            Consumer<String> cons = client
+                    .newConsumer(Schema.STRING)
+                    .subscriptionName(subscriber)
+                    .topics(list)
+                    .subscriptionName(subscriber)
+                    .messageListener((consumer, message) -> {
+                        try {
+                            listener.onCloudEvent(
+                                    message.getTopicName(),
+                                    buildEvent(message));
+                            consumer.acknowledge(message);
+                        } catch (Exception e) {
+                            consumer.negativeAcknowledge(message);
+                        }
+                    }).subscribe();
+        } catch (Exception e) {
+            log.error("Consumer error", e);
+        }
+    }
+
+    @Override
+    public void test() {
+        log.info("test:");
+        /*
+         * produce(
+         * CatalogEvent.CATALOG_EVENT_TOPIC,
+         * CatalogEvent.CATALOG_SKILL_DELETED,
+         * "{}");
+         */
+    }
+
+    /*
+     * private static final int num_partitions = 1;
+     * private static final short replication_factor = 1;
+     * private void check() {
+     * try (Admin admin = Admin.create(admnConfig)) {
+     * ListTopicsResult listres = admin.listTopics();
+     * if (!listres.names().get().contains(WorkflowEvent.WORKFLOW_EVENT_TOPIC)) {
+     * NewTopic topic = new NewTopic(WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+     * num_partitions,
+     * replication_factor);
+     * Set<NewTopic> topics = Collections.singleton(topic);
+     * CreateTopicsResult result = admin.createTopics(topics);
+     * KafkaFuture<Void> future =
+     * result.values().get(WorkflowEvent.WORKFLOW_EVENT_TOPIC);
+     * future.get();
+     * }
+     * }
+     * }
+     */
+}

@@ -80,22 +80,22 @@ variable "docker_registry_user_pass" {
   default = "stephenbuck"
 }
 
-variable "elastic_api_port_internal" {
+variable "elasticsearch_api_port_internal" {
   type = number
   default = 9200
 }
 
-variable "elastic_api_port_external" {
+variable "elasticsearch_api_port_external" {
   type = number
   default = 9200
 }
 
-variable "elastic_peer_port_internal" {
+variable "elasticsearch_peer_port_internal" {
   type = number
   default = 9300
 }
 
-variable "elastic_peer_port_external" {
+variable "elasticsearch_peer_port_external" {
   type = number
   default = 9300
 }
@@ -275,6 +275,26 @@ variable "nginx_port_external" {
   default = 80
 }
 
+variable "opensearch_main_port_internal" {
+  type = number
+  default = 9200
+}
+
+variable "opensearch_main_port_external" {
+  type = number
+  default = 9200
+}
+
+variable "opensearch_perf_port_internal" {
+  type = number
+  default = 9600
+}
+
+variable "opensearch_perf_port_external" {
+  type = number
+  default = 9600
+}
+
 variable "postgres_user_name" {
   type = string
   default = "postgres"
@@ -303,6 +323,16 @@ variable "prometheus_port_internal" {
 variable "prometheus_port_external" {
   type = number
   default = 9090
+}
+
+variable "opensearch_pulsar_internal" {
+  type = number
+  default = 7777
+}
+
+variable "opensearch_pulsar_external" {
+  type = number
+  default = 7777
 }
 
 variable "redis_port_internal" {
@@ -490,17 +520,17 @@ resource "docker_container" "debezium" {
 
 /*
 ################################################################################
-# Elasticsearch
+# ElasticSearch
 ################################################################################
 
-resource "docker_image" "elastic" {
-  name = "skillbase/elastic:latest"
+resource "docker_image" "elasticsearch" {
+  name = "skillbase/elasticsearch:latest"
   keep_locally = true
 }
 
-resource "docker_container" "elastic" {
-  name = "elastic"
-  image = docker_image.elastic.image_id
+resource "docker_container" "elasticsearch" {
+  name = "elasticsearch"
+  image = docker_image.elasticsearch.image_id
   network_mode = docker_network.private_network.name
   env = [
     "http.cors.enabled=true",
@@ -508,12 +538,12 @@ resource "docker_container" "elastic" {
     #    "http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization"
   ]
   ports {
-    internal = var.elastic_api_port_internal
-    external = var.elastic_api_port_external
+    internal = var.elasticsearch_api_port_internal
+    external = var.elasticsearch_api_port_external
   }
   ports {
-    internal = var.elastic_peer_port_internal
-    external = var.elastic_peer_port_external
+    internal = var.elasticsearch_peer_port_internal
+    external = var.elasticsearch_peer_port_external
   }
   depends_on = [
     docker_container.registry
@@ -638,6 +668,7 @@ resource "docker_container" "fluentd" {
 }
 */
 
+/*
 ################################################################################
 # Kafka
 ################################################################################
@@ -678,7 +709,9 @@ resource "docker_container" "kafka" {
     docker_container.registry
   ]
 }
+*/
 
+/*
 ################################################################################
 # Kafka-Connect
 ################################################################################
@@ -710,7 +743,9 @@ resource "docker_container" "kafka_connect" {
     docker_container.registry
   ]
 }
+*/
 
+/*
 ################################################################################
 # Kafka-Schema
 ################################################################################
@@ -737,7 +772,9 @@ resource "docker_container" "kafka_schema" {
     docker_container.kafka
   ]
 }
+*/
 
+/*
 ################################################################################
 # Kafka-UI
 ################################################################################
@@ -770,6 +807,7 @@ resource "docker_container" "kafka_ui" {
     docker_container.kafka_schema
   ]
 }
+*/
 
 /*
 ################################################################################
@@ -825,6 +863,7 @@ resource "docker_container" "memcached" {
 }
 */
 
+/*
 ################################################################################
 # Minio
 ################################################################################
@@ -859,6 +898,7 @@ resource "docker_container" "minio" {
   ]
   command = ["server", "/data", "--console-address", ":${var.minio_api_port_internal}"]
 }
+*/
 
 /*
 ################################################################################
@@ -883,6 +923,47 @@ resource "docker_container" "nginx" {
     external = var.nginx_port_external
   }
   depends = [
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
+# OpenSearch
+################################################################################
+
+resource "docker_image" "opensearch" {
+  name = "skillbase/opensearch:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "opensearch" {
+  name = "opensearch"
+  image = docker_image.opensearch.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.opensearch_main_port_internal
+    external = var.opensearch_main_port_external
+  }
+  ports {
+    internal = var.opensearch_perf_port_internal
+    external = var.opensearch_perf_port_external
+  }
+  env = [
+    "OPENSEARCH_INITIAL_ADMIN_PASSWORD=Skillbase2024!",
+    "cluster.name=opensearch-cluster",
+    "node.name=opensearch-node1",
+    "discovery.seed_hosts=opensearch-node1",
+    "cluster.initial_master_nodes=opensearch-node1",
+    "bootstrap.memory_lock=false",
+    "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+  ]
+  volumes {
+    container_path = "/opensearch-data1"
+    host_path = "/home/stephenbuck/Desktop/skillbase/system/runtime/opensearch/data"
+  }
+  depends_on = [
     docker_container.registry
   ]
 }
@@ -913,6 +994,30 @@ resource "docker_container" "postgres" {
     docker_container.registry
   ]
 }
+
+/*
+################################################################################
+# Pulsar
+################################################################################
+
+resource "docker_image" "pulsar" {
+  name = "skillbase/pulsar:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "pulsar" {
+  name = "pulsar"
+  image = docker_image.pulsar.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.pulsar_port_internal
+    external = var.pulsar_port_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
+*/
 
 /*
 ################################################################################
@@ -1033,19 +1138,40 @@ resource "docker_container" "wildfly" {
     "WILDFLY_MGMT_BIND_INTERFACE=0.0.0.0"
   ]
   depends_on = [
-    //    docker_container_debezium,
-    //    docker_container.elastic,
-    //    docker_container.flipt,
-    //    docker_container.flowable,
-    docker_container.kafka,
-    docker_container.kafka_connect,
-    docker_container.kafka_schema,
-    //    docker_container.keycloak,
+
+    // Caching:
     //    docker_container.memcached,
-    docker_container.minio,
-    docker_container.postgres,
     //    docker_container.redis,
     docker_container.valkey,
+
+    // CDC:
+    //    docker_container_debezium,
+
+    // Database:
+    docker_container.postgres,
+
+    // Events:
+    //    docker_container.kafka,
+    //    docker_container.kafka_connect,
+    //    docker_container.kafka_schema,
+
+    // Features:
+    //    docker_container.flipt,
+
+    // Identity:
+    //    docker_container.keycloak,
+
+    // Search:
+    //    docker_container.elasticsearch,
+    //    docker_container.opensearch,
+
+    // Storage:
+    //    docker_container.minio,
+
+    // Workflow:
+    //    docker_container.flowable,
+
+    // Registry:
     docker_container.registry
   ]
 }

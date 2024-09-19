@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: skillbase
+Version: 0.1.0
+Summary: Skillbase Tool
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: easydict>=1.13
+Requires-Dist: flask>=3.0.3
+Requires-Dist: jinja2>=3.1.4

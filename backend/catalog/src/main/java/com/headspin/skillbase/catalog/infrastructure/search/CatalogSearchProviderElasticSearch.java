@@ -24,7 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of the catalog search provider interface.
+ * ElasticSearch implementation of the catalog search provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
-public class CatalogSearchProviderElastic implements CommonSearchProvider {
+public class CatalogSearchProviderElasticSearch implements CommonSearchProvider {
 
     private final String url;
     private final String index;
@@ -40,20 +40,20 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
     private final JacksonJsonpMapper mapper;
 
     @Inject
-    public CatalogSearchProviderElastic(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.url") final String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elastic.index") final String configIndex
-    ) {
+    public CatalogSearchProviderElasticSearch(
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elasticsearch.url") final String configUrl,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.search.elasticsearch.index") final String configIndex) {
         this.url = configUrl;
         this.index = configIndex;
         this.rest = RestClient
-            .builder(HttpHost.create(url))
-            .build();
-        this.mapper = new JacksonJsonpMapper();        
+                .builder(HttpHost.create(url))
+                .build();
+        this.mapper = new JacksonJsonpMapper();
     }
 
     @Override
-    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit) {
+    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset,
+            final Integer limit) {
 
         log.info("search({})", keyword);
 
@@ -62,28 +62,26 @@ public class CatalogSearchProviderElastic implements CommonSearchProvider {
             final ElasticsearchClient client = new ElasticsearchClient(transport);
 
             final SearchResponse<ObjectNode> search = client
-                .search(s -> s
-                .index(index)
-                    .from(Objects.requireNonNullElse(offset, 0))
-                    .size(Objects.requireNonNullElse(limit, 10))
-                .query(q -> q
-                    .term(t -> t
-                        .field("title")
-                        .value(v -> v.stringValue(keyword))
-                    )),
-                    ObjectNode.class);
+                    .search(s -> s
+                            .index(index)
+                            .from(Objects.requireNonNullElse(offset, 0))
+                            .size(Objects.requireNonNullElse(limit, 10))
+                            .query(q -> q
+                                    .term(t -> t
+                                            .field("title")
+                                            .value(v -> v.stringValue(keyword)))),
+                            ObjectNode.class);
 
             /* Use full text .match() */
-            
+
             final HitsMetadata<ObjectNode> meta = search.hits();
 
             final List<String> results = meta.hits().stream().map(
-                h -> String.valueOf(h.source()))
+                    h -> String.valueOf(h.source()))
                     .collect(Collectors.toList());
 
             return results;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             log.info(String.valueOf(e));
             return null;
         }

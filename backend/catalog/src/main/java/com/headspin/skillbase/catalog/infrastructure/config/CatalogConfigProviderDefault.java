@@ -1,6 +1,5 @@
 package com.headspin.skillbase.catalog.infrastructure.config;
 
-
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.Config;
@@ -28,7 +27,7 @@ public class CatalogConfigProviderDefault implements CommonConfigProvider {
     public CatalogConfigProviderDefault() {
         this.config = ConfigProvider.getConfig();
     }
-    
+
     @Override
     public Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type) {
         return config.getOptionalValue(key, type);

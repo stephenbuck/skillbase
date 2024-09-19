@@ -46,11 +46,21 @@ pushd src/docker/minio
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/minio:latest ${PWD} 
 popd
 
+pushd src/docker/opensearch
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/opensearch:latest ${PWD}
+popd
+
 pushd src/docker/postgres
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/postgres:latest ${PWD}
+popd
+
+pushd src/docker/pulsar
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/pulsar:latest ${PWD}
+popd
 
 pushd src/docker/redis
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/redis:latest ${PWD}
+popd
 
 pushd src/docker/valkey
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/valkey:latest ${PWD}

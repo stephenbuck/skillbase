@@ -378,6 +378,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>opensearch-java</artifactId>
+      <groupId>org.opensearch.client</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>

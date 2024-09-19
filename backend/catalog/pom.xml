@@ -432,6 +432,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>opensearch-java</artifactId>
+      <groupId>org.opensearch.client</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.postgresql</groupId>
     </dependency>
@@ -439,6 +444,11 @@
     <dependency>
       <artifactId>problem</artifactId>
       <groupId>org.zalando</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>pulsar-client</artifactId>
+      <groupId>org.apache.pulsar</groupId>
     </dependency>
 
     <dependency>

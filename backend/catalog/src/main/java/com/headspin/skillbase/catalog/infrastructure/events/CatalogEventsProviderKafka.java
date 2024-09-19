@@ -140,21 +140,21 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
             public void run() {
 
                 // Create the KafkaConsumer
-                try (KafkaConsumer<String, CloudEvent> consumer = new KafkaConsumer<>(consConfig)) {
+                try (final KafkaConsumer<String, CloudEvent> consumer = new KafkaConsumer<>(consConfig)) {
 
                     // Subscribe to the topics we're interested in
                     consumer.subscribe(topics);
 
                     // Consume events and send them to the listener
-                    while (true) {
+                    for (;;) {
                         final ConsumerRecords<String, CloudEvent> records = consumer.poll(poll_timeout);
                         for (final ConsumerRecord<String, CloudEvent> record : records) {
                             listener.onCloudEvent(record.topic(), record.value());
                         }
                     }
 
-                } catch (final Exception e) {
-                    log.info(String.valueOf(e));
+                } catch (Exception e) {
+                    log.error("Consumer error", e);
                 }
             }
 
@@ -165,10 +165,12 @@ public class CatalogEventsProviderKafka implements CommonEventsProvider {
     @Override
     public void test() {
         log.info("test:");
-        produce(
-                CatalogEvent.CATALOG_EVENT_TOPIC,
-                CatalogEvent.CATALOG_SKILL_DELETED,
-                "{}");
+        /*
+         * produce(
+         * CatalogEvent.CATALOG_EVENT_TOPIC,
+         * CatalogEvent.CATALOG_SKILL_DELETED,
+         * "{}");
+         */
     }
 
     /*
