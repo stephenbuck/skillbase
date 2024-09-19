@@ -33,6 +33,11 @@ nav:
         - 'Build': 'backend/workflow/build.md'
         - 'Test': 'backend/workflow/test.md'
         - 'Endpoints': 'backend/workflow/endpoints.md'
+  - 'Client':
+      - 'Overview': 'client/index.md'
+      - 'Design': 'client/design.md'
+      - 'Build': 'client/build.md'
+      - 'Test': 'client/test.md'
   - 'Frontend':
       - 'Overview': 'frontend/index.md'
       - 'Design': 'frontend/design.md'
