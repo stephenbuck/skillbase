@@ -50,7 +50,7 @@ public class CatalogCredentialsREST {
     }
 
     @PUT
-    @Operation(summary = "Insert new catalog skill credential")
+    @Operation(summary = "Insert a catalog credential.")
     public Response insert(final CatalogCredential credential) throws Exception {
         final UUID credential_id = service.insert(credential);
         return Response.ok(URI.create("/credentials/" + credential_id)).build();
@@ -58,20 +58,20 @@ public class CatalogCredentialsREST {
 
     @DELETE
     @Path("{credential_id}")
-    @Operation(summary = "Delete catalog skill credential by id")
+    @Operation(summary = "Delete a catalog credential.")
     public Response delete(@PathParam("credential_id") final UUID credential_id) throws Exception {
         service.delete(credential_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing catalog skill credential")
+    @Operation(summary = "Update a catalog credential.")
     public Response update(final CatalogCredential credential) throws Exception {
         return Response.ok(service.update(credential)).build();
     }
 
     @GET
-    @Operation(summary = "Find all catalog skill credentials")
+    @Operation(summary = "Find all catalog credentials.")
     public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
             @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
@@ -79,7 +79,7 @@ public class CatalogCredentialsREST {
 
     @GET
     @Path("{credential_id}")
-    @Operation(summary = "Find catalog skill credential by id")
+    @Operation(summary = "Find a catalog credential by id.")
     public Response findById(@PathParam("credential_id") final UUID credential_id) {
         final Optional<CatalogCredential> match = service.findById(credential_id);
         if (match.isPresent()) {
@@ -91,7 +91,7 @@ public class CatalogCredentialsREST {
 
     @POST
     @Path("{credential_id}/start")
-    @Operation(summary = "start")
+    @Operation(summary = "Start a catalog credential process.")
     public Response start(@PathParam("credential_id") final UUID credential_id) {
         return Response.ok(service.start(credential_id)).build();
     }
@@ -100,7 +100,7 @@ public class CatalogCredentialsREST {
     @Path("/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Upload credential image")
+    @Operation(summary = "Upload a catalog credential image.")
     public Response uploadImage(@FormParam("file") EntityPart part) throws Exception {
         String object_id = service.uploadImage(
                 part.getContent(),
@@ -113,7 +113,7 @@ public class CatalogCredentialsREST {
 
     @GET
     @Path("/image/{image_id}")
-    @Operation(summary = "Download credential image")
+    @Operation(summary = "Download a catalog credential image.")
     public Response downloadImage(@PathParam("image_id") String image_id) throws Exception {
         final CommonStorageProvider.CommonStorageObject object = service.downloadImage(image_id);
         return Response
@@ -126,7 +126,7 @@ public class CatalogCredentialsREST {
     @DELETE
     @Path("/image/{image_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Delete credential image")
+    @Operation(summary = "Delete a catalog credential image.")
     public Response deleteImage(@PathParam("image_id") String image_id) throws Exception {
         service.deleteImage(image_id);
         return Response.ok().build();
@@ -136,7 +136,7 @@ public class CatalogCredentialsREST {
     @Path("/bpmn")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Upload credential BPMN")
+    @Operation(summary = "Upload a catalog credential BPMN.")
     public Response uploadBPMN(@FormParam("file") EntityPart part) throws Exception {
         String object_id = service.uploadBPMN(
                 part.getContent(),
@@ -149,7 +149,7 @@ public class CatalogCredentialsREST {
 
     @GET
     @Path("/bpmn/{bpmn_id}")
-    @Operation(summary = "Download credential BPMN")
+    @Operation(summary = "Download a catalog credential BPMN.")
     public Response downloadBPMN(@PathParam("bpmn_id") String bpmn_id) throws Exception {
         final CommonStorageProvider.CommonStorageObject object = service.downloadBPMN(bpmn_id);
         // MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -166,7 +166,7 @@ public class CatalogCredentialsREST {
     @DELETE
     @Path("/bpmn/{bpmn_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Delete credential BPMN")
+    @Operation(summary = "Delete a catalog credential BPMN.")
     public Response deleteBPMN(@PathParam("bpmn_id") String bpmn_id) throws Exception {
         service.deleteBPMN(bpmn_id);
         return Response.ok().build();
@@ -175,7 +175,7 @@ public class CatalogCredentialsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of catalog credentials.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -183,7 +183,7 @@ public class CatalogCredentialsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

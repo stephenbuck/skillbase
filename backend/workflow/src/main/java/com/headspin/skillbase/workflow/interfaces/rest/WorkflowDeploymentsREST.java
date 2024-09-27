@@ -39,15 +39,15 @@ public class WorkflowDeploymentsREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private WorkflowDeploymentsService service;
 
     public WorkflowDeploymentsREST() {
     }
-    
+
     @PUT
-    @Operation(summary = "Insert new workflow deployment")
+    @Operation(summary = "Insert a workflow deployment.")
     public Response insert(final WorkflowDeployment deployment) throws Exception {
         final UUID deployment_id = service.insert(deployment);
         return Response.ok(URI.create("/deployments/" + deployment_id)).build();
@@ -55,27 +55,28 @@ public class WorkflowDeploymentsREST {
 
     @DELETE
     @Path("{deployment_id}")
-    @Operation(summary = "Delete workflow deployment by id")
+    @Operation(summary = "Delete a workflow deployment.")
     public Response delete(@PathParam("deployment_id") final UUID deployment_id) throws Exception {
         service.delete(deployment_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing workflow deployment")
+    @Operation(summary = "Update a workflow deployment.")
     public Response update(final WorkflowDeployment deployment) throws Exception {
         return Response.ok(service.update(deployment)).build();
     }
 
     @GET
-    @Operation(summary = "Find all workflow deployments")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all workflow deployments.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{deployment_id}")
-    @Operation(summary = "Find workflow deployment by id")
+    @Operation(summary = "Find a workflow deployment by id.")
     public Response findById(@PathParam("deployment_id") final UUID deployment_id) {
         final Optional<WorkflowDeployment> match = service.findById(deployment_id);
         if (match.isPresent()) {
@@ -88,7 +89,7 @@ public class WorkflowDeploymentsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of workflow deployments.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -96,7 +97,7 @@ public class WorkflowDeploymentsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

@@ -37,38 +37,38 @@ public class CatalogSkillsGQL {
     }
 
     @Mutation("insert")
-    @Description("Insert new catalog skill")
+    @Description("Insert a catalog skill.")
     public UUID insert(@Name("skill") final CatalogSkill skill) throws Exception {
         return service.insert(skill);
     }
 
     @Mutation("delete")
-    @Description("Delete catalog skill by id")
+    @Description("Delete a catalog skill.")
     public void delete(@Name("skill_id") final UUID skill_id) throws Exception {
         service.delete(skill_id);
     }
 
     @Mutation("update")
-    @Description("Update existing catalog skill")
+    @Description("Update a catalog skill.")
     public void update(@Name("skill") final CatalogSkill skill) throws Exception {
         service.update(skill);
     }
 
     @Query("findById")
-    @Description("Find catalog skill by id")
+    @Description("Find a catalog skill by id.")
     public CatalogSkill findById(@Name("skill_id") final UUID skill_id) {
         return service.findById(skill_id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("Find all catalog skills")
+    @Description("Find all catalog skills.")
     public List<CatalogSkill> findAll(@Name("sort") final String sort, @Name("offset") final Integer offset,
             @Name("limit") final Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")
-    @Description("Find all catalog skills by title")
+    @Description("Find all catalog skills by title.")
     public List<CatalogSkill> findAllByTitleLike(@Name("pattern") final String pattern, @Name("sort") final String sort,
             @Name("offset") final Integer offset, @Name("limit") final Integer limit) {
         return service.findAllByTitleLike(pattern, sort, offset, limit);

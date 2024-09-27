@@ -62,7 +62,7 @@ public class MemberAchievementsService {
     private CommonStorageProvider stor;
 
     /**
-     * Inserts a new member achievement.
+     * Insert a member achievement.
      *
      * @param achievement The new achievement.
      * @return The id of the new achievement.
@@ -73,14 +73,14 @@ public class MemberAchievementsService {
     public UUID insert(@NotNull @Valid final MemberAchievement achievement) throws Exception {
         final UUID achievement_id = repo.insert(achievement);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
-            MemberAchievement.toJson(achievement));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_ACHIEVEMENT_CREATED,
+                MemberAchievement.toJson(achievement));
         return achievement_id;
     }
 
     /**
-     * Deletes a member achievement given an id.
+     * Delete a member achievement.
      *
      * @param achievement_id The requested achievement id.
      * @since 1.0
@@ -90,13 +90,13 @@ public class MemberAchievementsService {
     public void delete(@NotNull final UUID achievement_id) throws Exception {
         repo.delete(achievement_id);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_ACHIEVEMENT_DELETED,
-            "{}");
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_ACHIEVEMENT_DELETED,
+                "{}");
     }
 
     /**
-     * Updates an existing member achievement.
+     * Update a member achievement.
      *
      * @param achievement The updated achievement.
      * @return The updated achievement.
@@ -107,14 +107,14 @@ public class MemberAchievementsService {
     public MemberAchievement update(@NotNull @Valid final MemberAchievement achievement) throws Exception {
         final MemberAchievement updated = repo.update(achievement);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
-            MemberAchievement.toJson(achievement));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_ACHIEVEMENT_UPDATED,
+                MemberAchievement.toJson(achievement));
         return updated;
     }
 
     /**
-     * Returns a member achievement given an id.
+     * Find a member achievement by id.
      *
      * @param achievement_id The requested achievement id.
      * @return An optional member achievement.
@@ -126,11 +126,11 @@ public class MemberAchievementsService {
     }
 
     /**
-     * Returns a list of all member achievements.
+     * Find all member achievements.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of member achievements.
      * @since 1.0
      */
@@ -140,7 +140,7 @@ public class MemberAchievementsService {
     }
 
     /**
-     * Returns a count of member achievements.
+     * Return a count of member achievements.
      *
      * @return The count.
      * @since 1.0

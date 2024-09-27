@@ -58,7 +58,6 @@ public class ImageFilesService {
     @Timeout
     public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final String image_id) throws Exception {
         return stor.downloadObject(image_id);
-
     }
 
     @Retry
@@ -67,7 +66,7 @@ public class ImageFilesService {
         stor.deleteObject(image_id);
     }
 
-    @Operation(summary = "Test service")
+    @Operation(summary = "Test the service.")
     public Integer test() {
         log.info("test:");
         conf.test();

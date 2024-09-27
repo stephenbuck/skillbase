@@ -46,7 +46,7 @@ public class CatalogSkillsService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private CatalogSkillRepo repo;
 
@@ -68,47 +68,62 @@ public class CatalogSkillsService {
     @Inject
     private CommonCacheProvider cache;
 
-    private void cacheSet(@NotNull final CatalogSkill skill) {
+    /**
+     * Put a catalog skill in the cache.
+     *
+     * @param skill The skill.
+     * @since 1.0
+     */
+    private void cachePut(@NotNull final CatalogSkill skill) {
         try {
             final String key = String.valueOf(skill.skill_id);
             final String val = CatalogSkill.toJson(skill);
             cache.set(key, val);
-        }
-        catch (Exception e) {
-            log.error("Cache set failed", e);
+        } catch (Exception e) {
+            log.error("Cache put failed", e);
         }
     }
 
+    /**
+     * Get a catalog skill from the cache.
+     *
+     * @param skill_id The skill id.
+     * @since 1.0
+     */
     private CatalogSkill cacheGet(@NotNull final UUID skill_id) {
         try {
             final String key = String.valueOf(skill_id);
             final String val = cache.get(key);
             return CatalogSkill.fromJson(val);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache get failed", e);
             return null;
         }
     }
 
+    /**
+     * Delete a catalog skill from the cache.
+     *
+     * @param skill_id The skill id.
+     * @since 1.0
+     */
     private void cacheDelete(@NotNull final UUID skill_id) {
         try {
             final String key = String.valueOf(skill_id);
             cache.delete(key);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache delete failed", e);
         }
     }
 
     /**
-     * Inserts a new catalog skill.
+     * Insert a catalog skill.
      *
      * @param skill The new skill.
      * @return The id of the new skill.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final CatalogSkill skill) throws Exception {
 
@@ -117,24 +132,24 @@ public class CatalogSkillsService {
 
         // Produce the created event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_SKILL_CREATED,
-            CatalogSkill.toJson(skill));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_SKILL_CREATED,
+                CatalogSkill.toJson(skill));
 
         // Update the cache
-        cacheSet(skill);
+        cachePut(skill);
 
         // Return the object id
         return skill_id;
     }
 
     /**
-     * Deletes a catalog skill given an id.
+     * Delete a catalog skill.
      *
      * @param skill_id The requested skill id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID skill_id) throws Exception {
 
@@ -143,22 +158,22 @@ public class CatalogSkillsService {
 
         // Produce the deleted event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_SKILL_DELETED,
-            "{}");
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_SKILL_DELETED,
+                "{}");
 
         // Update the cache
         cacheDelete(skill_id);
     }
 
     /**
-     * Updates an existing catalog skill.
+     * Update a catalog skill.
      *
      * @param skill The updated skill.
      * @return The updated skill.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogSkill update(@NotNull @Valid final CatalogSkill skill) throws Exception {
 
@@ -167,25 +182,25 @@ public class CatalogSkillsService {
 
         // Produce the updated event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_SKILL_UPDATED,
-            CatalogSkill.toJson(updated));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_SKILL_UPDATED,
+                CatalogSkill.toJson(updated));
 
         // Update the cache
-        cacheSet(updated);
+        cachePut(updated);
 
         // Return the updated object
         return updated;
     }
 
     /**
-     * Returns a catalog skill given an id.
+     * Find a catalog skill by id.
      *
      * @param skill_id The requested skill id.
      * @return An optional catalog skill.
      * @since 1.0
      */
-//    @RolesAllowed({ "Member" })
+    // @RolesAllowed({ "Member" })
     public Optional<CatalogSkill> findById(@NotNull final UUID skill_id) {
 
         // Try to return the cached version
@@ -197,7 +212,7 @@ public class CatalogSkillsService {
         // If object found, update the cache
         final Optional<CatalogSkill> result = repo.findById(skill_id);
         if (result.isPresent()) {
-            cacheSet(result.get());
+            cachePut(result.get());
         }
 
         // Return the result
@@ -205,79 +220,80 @@ public class CatalogSkillsService {
     }
 
     /**
-     * Returns a list of all catalog skills.
+     * Find all catalog skills.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of catalog skills.
      * @since 1.0
      */
-//    @RolesAllowed({ "Member" })
+    // @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     /**
-     * Returns a list of all catalog skills with matching title.
+     * Find all catalog skills with matching title.
      *
      * @param pattern The requested title pattern.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort    Sort field.
+     * @param offset  Offset of first result.
+     * @param limit   Limit of results returned.
      * @return A list of catalog skills.
      * @since 1.0
      */
-//    @RolesAllowed({ "Member" })
+    // @RolesAllowed({ "Member" })
     public List<CatalogSkill> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
             final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
     /**
-     * Returns a list of all catalog credentials given a skill id.
+     * Find all catalog credentials by id.
      *
      * @param skill_id The requested skill id.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort     Sort field.
+     * @param offset   Offset of first result.
+     * @param limit    Limit of results returned.
      * @return A list of catalog credentials.
      * @since 1.0
      */
-//    @RolesAllowed({ "Member" })
-    public List<CatalogCredential> findSkillCredentials(@NotNull final UUID skill_id, final String sort, final Integer offset,
-    final Integer limit) {
+    // @RolesAllowed({ "Member" })
+    public List<CatalogCredential> findSkillCredentials(@NotNull final UUID skill_id, final String sort,
+            final Integer offset,
+            final Integer limit) {
         return repo.findSkillCredentials(skill_id, sort, offset, limit);
     }
 
     /**
-     * Inserts a new credential given a skill id.
+     * Insert a catalog credential.
      *
-     * @param skill_id The requested skill id.
+     * @param skill_id      The requested skill id.
      * @param credential_id The requested credential id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void insertSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
         repo.insertSkillCredential(skill_id, credential_id);
     }
 
     /**
-     * Deletes an existing credential given a skill id.
+     * Delete a catalog credential.
      *
-     * @param skill_id The requested skill id.
+     * @param skill_id      The requested skill id.
      * @param credential_id The requested credential id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void deleteSkillCredential(@NotNull final UUID skill_id, @NotNull final UUID credential_id) {
         repo.deleteSkillCredential(skill_id, credential_id);
     }
 
     /**
-     * Search for skills matching a given keyword.
+     * Search for catalog skills matching a given keyword.
      *
      * @param keyword The keyword to search for.
      * @return The list of matching skills.
@@ -285,26 +301,27 @@ public class CatalogSkillsService {
      */
     // @RolesAllowed({ "Admin" })
     public List<String> search(@NotNull final String keyword, final String sort, final Integer offset,
-    final Integer limit) {
+            final Integer limit) {
         log.info("search()");
         return srch.search(keyword, sort, offset, limit);
     }
 
     /**
-     * Uploads a catalog skill image.
+     * Upload a catalog skill image.
      *
      * @param skill_id The requested skill id.
-     * @param input The image input stream.
-     * @param size The size of the image (or -1 if unknown).
-     * @param type The media type of the image (e.g. image/jpeg).
+     * @param input    The image input stream.
+     * @param size     The size of the image (or -1 if unknown).
+     * @param type     The media type of the image (e.g. image/jpeg).
      * @return The id of the new image.
      * @since 1.0
      */
     @Retry
     @Timeout
     @Transactional
-    //    @RolesAllowed({ "Admin" })
-    public String uploadImage(@NotNull final UUID skill_id, @NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+    // @RolesAllowed({ "Admin" })
+    public String uploadImage(@NotNull final UUID skill_id, @NotNull final InputStream input, @NotNull final Long size,
+            @NotNull final MediaType type) throws Exception {
 
         // Fetch the skill
         final CatalogSkill skill = findById(skill_id).get();
@@ -314,7 +331,7 @@ public class CatalogSkillsService {
 
         // Upload the new image
         final String new_image_id = stor.uploadObject(input, size, type);
-        
+
         // Update the skill with the new image
         try {
             skill.image_id = new_image_id;
@@ -344,7 +361,7 @@ public class CatalogSkillsService {
     }
 
     /**
-     * Downloads a catalog skill image.
+     * Download a catalog skill image.
      *
      * @param skill_id The requested skill id.
      * @return The storage object of the image.
@@ -352,13 +369,13 @@ public class CatalogSkillsService {
      */
     @Retry
     @Timeout
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final UUID skill_id) throws Exception {
         return stor.downloadObject(findById(skill_id).get().image_id);
     }
 
     /**
-     * Deletes a catalog skill image.
+     * Delete a catalog skill image.
      *
      * @param skill_id The requested skill id.
      * @since 1.0
@@ -366,7 +383,7 @@ public class CatalogSkillsService {
     @Retry
     @Timeout
     @Transactional
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public void deleteImage(@NotNull final UUID skill_id) throws Exception {
 
         // Fetch the skill
@@ -393,17 +410,17 @@ public class CatalogSkillsService {
     }
 
     /**
-     * Returns a count of catalog skills.
+     * Return a count of catalog skills.
      *
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         conf.test();

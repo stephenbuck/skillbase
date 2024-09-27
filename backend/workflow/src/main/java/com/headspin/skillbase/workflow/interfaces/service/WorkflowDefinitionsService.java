@@ -18,7 +18,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -40,7 +40,7 @@ public class WorkflowDefinitionsService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private WorkflowDefinitionRepo repo;
 
@@ -60,107 +60,107 @@ public class WorkflowDefinitionsService {
     private CommonStorageProvider stor;
 
     /**
-     * Inserts a new workflow definition.
+     * Insert a workflow definition.
      *
      * @param definition The new definition.
      * @return The id of the new definition.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final WorkflowDefinition definition) throws Exception {
         final UUID definition_id = repo.insert(definition);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
-            WorkflowDefinition.toJson(definition));
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEFINITION_CREATED,
+                WorkflowDefinition.toJson(definition));
         return definition_id;
     }
 
     /**
-     * Deletes a workflow definition given an id.
+     * Delete a workflow definition.
      *
      * @param definition_id The requested definition id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID definition_id) throws Exception {
         repo.delete(definition_id);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
-            "{}");
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEFINITION_DELETED,
+                "{}");
     }
 
     /**
-     * Updates an existing workflow definition.
+     * Update a workflow definition.
      *
      * @param instance The updated definition.
      * @return The updated definition.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
-    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition)throws Exception {
+    public WorkflowDefinition update(@NotNull @Valid final WorkflowDefinition definition) throws Exception {
         final WorkflowDefinition updated = repo.update(definition);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
-            WorkflowDefinition.toJson(updated));
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEFINITION_UPDATED,
+                WorkflowDefinition.toJson(updated));
         return updated;
     }
 
     /**
-     * Returns a workflow definition given an id.
+     * Find a workflow definition by id.
      *
      * @param definition_id The requested definition id.
      * @return An optional workflow definition.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<WorkflowDefinition> findById(@NotNull final UUID definition_id) {
         return repo.findById(definition_id);
     }
 
     /**
-     * Returns a workflow definition given a credential id.
+     * Find a workflow definition by credential id.
      *
      * @param credential_id The requested credential id.
      * @return An optional workflow definition.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<WorkflowDefinition> findByCredentialId(@NotNull final UUID credential_id) {
         return repo.findByCredentialId(credential_id);
     }
 
     /**
-     * Returns a list of all workflow definitiones.
+     * Find all workflow definitions.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of workflow definitiones.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<WorkflowDefinition> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     /**
-     * Returns a count of workflow definitiones.
+     * Return a count of workflow definitions.
      *
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         conf.test();

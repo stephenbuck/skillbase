@@ -39,15 +39,15 @@ public class WorkflowDefinitionsREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private WorkflowDefinitionsService service;
 
     public WorkflowDefinitionsREST() {
     }
-    
+
     @PUT
-    @Operation(summary = "Insert new workflow definition")
+    @Operation(summary = "Insert a workflow definition.")
     public Response insert(final WorkflowDefinition definition) throws Exception {
         final UUID definition_id = service.insert(definition);
         return Response.ok(URI.create("/definitions/" + definition_id)).build();
@@ -55,27 +55,28 @@ public class WorkflowDefinitionsREST {
 
     @DELETE
     @Path("{definition_id}")
-    @Operation(summary = "Delete workflow definition by id")
+    @Operation(summary = "Delete a workflow definition.")
     public Response delete(@PathParam("definition_id") final UUID definition_id) throws Exception {
         service.delete(definition_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing workflow definition")
+    @Operation(summary = "Update a workflow definition.")
     public Response update(final WorkflowDefinition definition) throws Exception {
         return Response.ok(service.update(definition)).build();
     }
 
     @GET
-    @Operation(summary = "Find all workflow definitions")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) throws Exception {
+    @Operation(summary = "Find all workflow definitions.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) throws Exception {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{definition_id}")
-    @Operation(summary = "Find workflow definition by id")
+    @Operation(summary = "Find a workflow definition by id.")
     public Response findById(@PathParam("definition_id") final UUID definition_id) {
         final Optional<WorkflowDefinition> match = service.findById(definition_id);
         if (match.isPresent()) {
@@ -88,7 +89,7 @@ public class WorkflowDefinitionsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of workflow definitions.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -96,7 +97,7 @@ public class WorkflowDefinitionsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

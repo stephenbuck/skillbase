@@ -18,7 +18,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -40,7 +39,7 @@ public class WorkflowDeploymentsService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private WorkflowDeploymentRepo repo;
 
@@ -60,109 +59,109 @@ public class WorkflowDeploymentsService {
     private CommonStorageProvider stor;
 
     /**
-     * Inserts a new workflow deployment.
+     * Insert a workflow deployment.
      *
      * @param deployment The new deployment.
      * @return The id of the new deployment.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final WorkflowDeployment deployment) throws Exception {
 
         final UUID deployment_id = repo.insert(deployment);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED,
-            WorkflowDeployment.toJson(deployment));
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEPLOYMENT_CREATED,
+                WorkflowDeployment.toJson(deployment));
 
         return deployment_id;
     }
 
     /**
-     * Deletes a workflow deployment given an id.
+     * Delete a workflow deployment.
      *
      * @param deployment_id The requested deployment id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID deployment_id) throws Exception {
         repo.delete(deployment_id);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
-            "{}");
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
+                "{}");
     }
 
     /**
-     * Updates an existing workflow deployment.
+     * Update a workflow deployment.
      *
      * @param deployment The updated deployment.
      * @return The updated deployment.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public WorkflowDeployment update(@NotNull @Valid final WorkflowDeployment deployment) throws Exception {
         final WorkflowDeployment updated = repo.update(deployment);
         evnt.produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED,
-            WorkflowDeployment.toJson(updated));
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEPLOYMENT_UPDATED,
+                WorkflowDeployment.toJson(updated));
         return updated;
     }
 
     /**
-     * Returns a workflow deployment given an id.
+     * Return a workflow deployment by id.
      *
      * @param deployment_id Requested deployment id.
      * @return An optional workflow deployment.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<WorkflowDeployment> findById(@NotNull final UUID deployment_id) {
         return repo.findById(deployment_id);
     }
 
     /**
-     * Returns a workflow deployment given a skill id.
+     * Find a workflow deployment by skill id.
      *
      * @param skill_id The requested skill id.
      * @return An optional workflow deployment.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<WorkflowDeployment> findBySkillId(@NotNull final UUID skill_id) {
         return repo.findBySkillId(skill_id);
     }
 
     /**
-     * Returns a list of all workflow deployments.
+     * Find all workflow deployments.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of workflow deployments.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<WorkflowDeployment> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     /**
-     * Returns a count of workflow deployments.
+     * Return a count of workflow deployments.
      *
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         conf.test();

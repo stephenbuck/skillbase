@@ -63,10 +63,9 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
     @Inject
     public WorkflowEventsProviderKafka(
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.bootstraps") final String configBootstraps,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.clientid") final String configClientId,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.groupid") final String configGroupId
-    ) {
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.clientid") final String configClientId,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.groupid") final String configGroupId) {
         // Configure the admin
         this.admnConfig = new Properties();
         this.admnConfig.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, configBootstraps);
@@ -108,18 +107,18 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 
         // Wrap the json data as CloudEvent data
         final JsonCloudEventData data = JsonCloudEventData
-            .wrap(new ObjectMapper()
-                .valueToTree(json));
+                .wrap(new ObjectMapper()
+                        .valueToTree(json));
 
         // Create a CloudEvent object
         final CloudEvent event = CloudEventBuilder
-            .v1()
-            .withSource(URI.create(WorkflowEvent.SKILLBASE_EVENT_SOURCE))
-            .withType(type)
-            .withId(String.valueOf(UUID.randomUUID()))
-            .withTime(ZonedDateTime.now().toOffsetDateTime())
-            .withData(MediaType.APPLICATION_JSON, data)
-            .build();
+                .v1()
+                .withSource(URI.create(WorkflowEvent.SKILLBASE_EVENT_SOURCE))
+                .withType(type)
+                .withId(String.valueOf(UUID.randomUUID()))
+                .withTime(ZonedDateTime.now().toOffsetDateTime())
+                .withData(MediaType.APPLICATION_JSON, data)
+                .build();
 
         // Create the KafkaProducer and send the event
         try (final KafkaProducer<String, CloudEvent> producer = new KafkaProducer<>(prodConfig)) {
@@ -134,7 +133,7 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
      * @param topics
      * @param listener
      */
-    
+
     @Override
     public void consume(@NotNull final Collection<String> topics, @NotNull final EventListener listener) {
         this.thread = new Thread(new Runnable() {
@@ -153,8 +152,8 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
                             listener.onCloudEvent(record.topic(), record.value());
                         }
                     }
-                } catch (final Exception e) {
-                    log.info(String.valueOf(e));
+                } catch (Exception e) {
+                    log.error("Consumer error", e);
                 }
             }
 
@@ -166,9 +165,9 @@ public class WorkflowEventsProviderKafka implements CommonEventsProvider {
     public void test() {
         log.info("test:");
         produce(
-            WorkflowEvent.WORKFLOW_EVENT_TOPIC,
-            WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
-            "{}");
+                WorkflowEvent.WORKFLOW_EVENT_TOPIC,
+                WorkflowEvent.WORKFLOW_DEPLOYMENT_DELETED,
+                "{}");
     }
 
     /*

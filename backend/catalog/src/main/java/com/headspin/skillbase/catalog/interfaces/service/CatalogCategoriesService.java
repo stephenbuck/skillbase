@@ -64,41 +64,56 @@ public class CatalogCategoriesService {
     @Inject
     private CommonCacheProvider cache;
 
-    private void cacheSet(@NotNull final CatalogCategory category) {
+    /**
+     * Put a catalog category in the cache.
+     *
+     * @param category The category.
+     * @since 1.0
+     */
+    private void cachePut(@NotNull final CatalogCategory category) {
         try {
             final String key = String.valueOf(category.category_id);
             final String val = CatalogCategory.toJson(category);
             cache.set(key, val);
-        }
-        catch (Exception e) {
-            log.error("Cache set failed", e);
+        } catch (Exception e) {
+            log.error("Cache put failed", e);
         }
     }
 
+    /**
+     * Get a catalog category from the cache.
+     *
+     * @param category_id The category id.
+     * @since 1.0
+     */
     private CatalogCategory cacheGet(@NotNull final UUID category_id) {
         try {
             final String key = String.valueOf(category_id);
             final String val = cache.get(key);
             return CatalogCategory.fromJson(val);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache get failed", e);
             return null;
         }
     }
 
+    /**
+     * Delete a catalog category from the cache.
+     *
+     * @param category_id The category id.
+     * @since 1.0
+     */
     private void cacheDelete(@NotNull final UUID category_id) {
         try {
             final String key = String.valueOf(category_id);
             cache.delete(key);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache delete failed", e);
         }
     }
 
     /**
-     * Inserts a new catalog category.
+     * Insert a catalog category.
      *
      * @param category The new category.
      * @return The id of the new category.
@@ -113,19 +128,19 @@ public class CatalogCategoriesService {
 
         // Produce the created event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CATEGORY_CREATED,
-            CatalogCategory.toJson(category));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CATEGORY_CREATED,
+                CatalogCategory.toJson(category));
 
         // Update the cache
-        cacheSet(category);
+        cachePut(category);
 
         // Return the object id
         return category_id;
     }
 
     /**
-     * Deletes a catalog category given an id.
+     * Delete a catalog category.
      *
      * @param category_id The requested category id.
      * @since 1.0
@@ -139,16 +154,16 @@ public class CatalogCategoriesService {
 
         // Produce the deleted event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CATEGORY_DELETED,
-            "{}");
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CATEGORY_DELETED,
+                "{}");
 
         // Update the cache
         cacheDelete(category_id);
     }
 
     /**
-     * Updates an existing catalog category.
+     * Update a catalog category.
      *
      * @param category The updated category.
      * @return The updated category.
@@ -163,19 +178,19 @@ public class CatalogCategoriesService {
 
         // Produce the updated event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CATEGORY_UPDATED,
-            CatalogCategory.toJson(updated));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CATEGORY_UPDATED,
+                CatalogCategory.toJson(updated));
 
         // Update the cache
-        cacheSet(updated);
+        cachePut(updated);
 
         // Return the updated object
         return updated;
     }
 
     /**
-     * Returns a catalog category given an id.
+     * Find a catalog category by id.
      *
      * @param category_id The requested category id.
      * @return An optional category definition.
@@ -193,7 +208,7 @@ public class CatalogCategoriesService {
         // If object found, update the cache
         final Optional<CatalogCategory> result = repo.findById(category_id);
         if (result.isPresent()) {
-            cacheSet(result.get());
+            cachePut(result.get());
         }
 
         // Return the result
@@ -201,11 +216,11 @@ public class CatalogCategoriesService {
     }
 
     /**
-     * Returns a list of all catalog categories.
+     * Find all catalog categories.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of catalog categories.
      * @since 1.0
      */
@@ -215,55 +230,58 @@ public class CatalogCategoriesService {
     }
 
     /**
-     * Returns a list of all catalog categories with matching title.
+     * Find all catalog categories with matching title.
      *
      * @param pattern The title pattern.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort    Sort field.
+     * @param offset  Offset of first result.
+     * @param limit   Limit of results returned.
      * @return A list of catalog categories.
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogCategory> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+    public List<CatalogCategory> findAllByTitleLike(@NotNull final String pattern, final String sort,
+            final Integer offset,
             final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
     /**
-     * Returns a list of all catalog subcategories given a category id.
+     * Find all catalog category subcategories.
      *
      * @param category_id The requested category id.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort        Sort field.
+     * @param offset      Offset of first result.
+     * @param limit       Limit of results returned.
      * @return A list of catalog categories.
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogCategory> findCategoryCategories(@NotNull final UUID category_id, final String sort, final Integer offset, final Integer limit) {
+    public List<CatalogCategory> findCategoryCategories(@NotNull final UUID category_id, final String sort,
+            final Integer offset, final Integer limit) {
         return repo.findCategoryCategories(category_id, sort, offset, limit);
     }
 
     /**
-     * Returns a list of all catalog skills given a category id.
+     * Find all catalog category skills.
      *
      * @param category_id The requested category id.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort        Sort field.
+     * @param offset      Offset of first result.
+     * @param limit       Limit of results returned.
      * @return A list of catalog skills.
      * @since 1.0
      */
     // @RolesAllowed({ "Member" })
-    public List<CatalogSkill> findCategorySkills(@NotNull final UUID category_id, final String sort, final Integer offset, final Integer limit) {
+    public List<CatalogSkill> findCategorySkills(@NotNull final UUID category_id, final String sort,
+            final Integer offset, final Integer limit) {
         return repo.findCategorySkills(category_id, sort, offset, limit);
     }
 
     /**
-     * Inserts a new category subcategory.
+     * Insert a catalog category subcategory.
      *
-     * @param category_id The requested category id.
+     * @param category_id    The requested category id.
      * @param subcategory_id The requested subcategory_id.
      * @return True if successful.
      * @since 1.0
@@ -275,9 +293,9 @@ public class CatalogCategoriesService {
     }
 
     /**
-     * Deletes an existing category subcategory.
+     * Delete a catalog category subcategory.
      *
-     * @param category_id The requested category id.
+     * @param category_id    The requested category id.
      * @param subcategory_id The requested subcategory_id.
      * @return True if successful.
      * @since 1.0
@@ -290,7 +308,8 @@ public class CatalogCategoriesService {
 
     @Retry
     @Timeout
-    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type)
+            throws Exception {
         return stor.uploadObject(input, size, type);
     }
 
@@ -307,7 +326,7 @@ public class CatalogCategoriesService {
     }
 
     /**
-     * Returns a count of catalog categories.
+     * Return a count of catalog categories.
      *
      * @return The count.
      * @since 1.0

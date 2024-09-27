@@ -180,6 +180,25 @@
       </plugin>
 
       <plugin>
+        <artifactId>revapi-maven-plugin</artifactId>
+        <groupId>org.revapi</groupId>
+          <version>${revapi.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <artifactId>revapi-java</artifactId>
+            <groupId>org.revapi</groupId>
+          <version>${revapi.java.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>check</id>
+            <goals><goal>check</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <artifactId>rewrite-maven-plugin</artifactId>
         <groupId>org.openrewrite.maven</groupId>
         <version>${maven.rewrite.version}</version>
@@ -286,6 +305,11 @@
       <groupId>io.flipt</groupId>
     </dependency>
   
+    <dependency>
+      <artifactId>fluentd-log4j-appender</artifactId>
+      <groupId>io.github.technologize</groupId>
+    </dependency>
+
     <dependency>
       <artifactId>graphql-java</artifactId>
       <groupId>com.graphql-java</groupId>

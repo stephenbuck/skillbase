@@ -49,7 +49,7 @@ public class CatalogSkillsREST {
     }
 
     @PUT
-    @Operation(summary = "Insert new catalog skill")
+    @Operation(summary = "Insert a catalog skill.")
     public Response insert(final CatalogSkill skill) throws Exception {
         final UUID skill_id = service.insert(skill);
         return Response.ok(URI.create("/skills/" + skill_id)).build();
@@ -57,20 +57,20 @@ public class CatalogSkillsREST {
 
     @DELETE
     @Path("{skill_id}")
-    @Operation(summary = "Delete catalog skill by id")
+    @Operation(summary = "Delete a catalog skill.")
     public Response delete(@PathParam("skill_id") final UUID skill_id) throws Exception {
         service.delete(skill_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing catalog skill")
+    @Operation(summary = "Update a catalog skill.")
     public Response update(final CatalogSkill skill) throws Exception {
         return Response.ok(service.update(skill)).build();
     }
 
     @GET
-    @Operation(summary = "Find all catalog skills")
+    @Operation(summary = "Find all catalog skills.")
     public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
             @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
@@ -78,7 +78,7 @@ public class CatalogSkillsREST {
 
     @GET
     @Path("{skill_id}")
-    @Operation(summary = "Find catalog skill by id")
+    @Operation(summary = "Find a catalog skill by id.")
     public Response findById(@PathParam("skill_id") final UUID skill_id) throws Exception {
         final Optional<CatalogSkill> match = service.findById(skill_id);
         if (match.isPresent()) {
@@ -90,7 +90,7 @@ public class CatalogSkillsREST {
 
     @GET
     @Path("{skill_id}/credentials")
-    @Operation(summary = "Find catalog skill credentials")
+    @Operation(summary = "Find catalog skill credentials.")
     public Response findSkillCredentials(@PathParam("skill_id") final UUID skill_id,
             @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
             @QueryParam("limit") final Integer limit) {
@@ -99,7 +99,7 @@ public class CatalogSkillsREST {
 
     @POST
     @Path("{skill_id}/credentials/{credential_id}")
-    @Operation(summary = "Insert catalog skill credential")
+    @Operation(summary = "Insert a catalog skill credential.")
     public Response insertSkillCredential(@PathParam("skill_id") final UUID skill_id,
             @PathParam("credential_id") final UUID credential_id) {
         service.insertSkillCredential(skill_id, credential_id);
@@ -108,7 +108,7 @@ public class CatalogSkillsREST {
 
     @DELETE
     @Path("{skill_id}/credentials/{credential_id}")
-    @Operation(summary = "Delete catalog skill credential")
+    @Operation(summary = "Delete a catalog skill credential.")
     public Response deleteSkillCredential(@PathParam("skill_id") final UUID skill_id,
             @PathParam("credential_id") final UUID credential_id) {
         service.deleteSkillCredential(skill_id, credential_id);
@@ -119,6 +119,7 @@ public class CatalogSkillsREST {
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Search for catalog skill credentials.")
     public Response search(@QueryParam("keyword") final String keyword,
             @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
             @QueryParam("limit") final Integer limit) {
@@ -129,7 +130,7 @@ public class CatalogSkillsREST {
     @Path("{skill_id}/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Upload skill image")
+    @Operation(summary = "Upload a catalog skill image.")
     public Response uploadImage(
             @PathParam("skill_id") UUID skill_id,
             @FormParam("file") EntityPart part) throws Exception {
@@ -145,7 +146,7 @@ public class CatalogSkillsREST {
 
     @GET
     @Path("/{skill_id}/image")
-    @Operation(summary = "Download skill image")
+    @Operation(summary = "Download a catalog skill image.")
     public Response downloadImage(
             @PathParam("skill_id") UUID skill_id) throws Exception {
         final CommonStorageProvider.CommonStorageObject object = service.downloadImage(skill_id);
@@ -159,7 +160,7 @@ public class CatalogSkillsREST {
     @DELETE
     @Path("/{skill_id}/image")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Delete skill image")
+    @Operation(summary = "Delete a catalog skill image.")
     public Response deleteImage(@PathParam("skill_id") UUID skill_id) throws Exception {
         service.deleteImage(skill_id);
         return Response.ok().build();
@@ -168,7 +169,7 @@ public class CatalogSkillsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of catalog skills.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -176,7 +177,7 @@ public class CatalogSkillsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

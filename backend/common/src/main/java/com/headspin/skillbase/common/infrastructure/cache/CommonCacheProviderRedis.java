@@ -1,6 +1,4 @@
-package com.headspin.skillbase.catalog.infrastructure.cache;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+package com.headspin.skillbase.common.infrastructure.cache;
 
 import com.headspin.skillbase.common.providers.CommonCacheProvider;
 
@@ -8,29 +6,24 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Redis implementation of the catalog cache provider interface.
+ * Redis implementation of the common cache provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
-@ApplicationScoped
-public class CatalogCacheProviderRedis implements CommonCacheProvider {
+public class CommonCacheProviderRedis implements CommonCacheProvider {
 
     private final RedisURI uri;
     private final RedisClient client;
     private final StatefulRedisConnection<String, String> conn;
     private final RedisCommands<String, String> cmnds;
 
-    public CatalogCacheProviderRedis(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.redis.lettuce.uri") final String configURI
-    )
-    {
+    public CommonCacheProviderRedis(final String configURI) {
         this.uri = RedisURI.create(configURI);
         this.client = RedisClient.create(uri);
         this.conn = client.connect();

@@ -50,7 +50,7 @@ public class MemberUsersService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private JsonWebToken jwt;
 
@@ -76,156 +76,159 @@ public class MemberUsersService {
     private CommonSearchProvider srch;
 
     /**
-     * Inserts a new member user.
+     * Insert a member user.
      *
      * @param user The new user.
      * @return The id of the new user.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final MemberUser user) throws Exception {
         final UUID user_id = repo.insert(user);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_USER_CREATED,
-            MemberUser.toJson(user));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_USER_CREATED,
+                MemberUser.toJson(user));
         return user_id;
     }
 
     /**
-     * Deletes a member user given an id.
+     * Delete a member user.
      *
      * @param user_id The requested user id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID user_id) throws Exception {
         repo.delete(user_id);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_USER_DELETED,
-            "{}");
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_USER_DELETED,
+                "{}");
     }
 
     /**
-     * Updates an existing member user.
+     * Update a member user.
      *
      * @param user The updated user.
      * @return The updated user.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public MemberUser update(@NotNull @Valid final MemberUser user) throws Exception {
         final MemberUser updated = repo.update(user);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_USER_UPDATED,
-            MemberUser.toJson(user));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_USER_UPDATED,
+                MemberUser.toJson(user));
         return updated;
     }
 
     /**
-     * Returns a member user given an id.
+     * Find a member user by id.
      *
      * @param user_id The requested user id.
      * @return An optional member user.
      * @since 1.0
      */
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<MemberUser> findById(@NotNull final UUID user_id) throws Exception {
         return repo.findById(user_id);
     }
 
     /**
-     * Returns a list of all member users.
+     * Find all member users.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of member users.
      * @since 1.0
      */
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<MemberUser> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     /**
-     * Returns a list of all achievements for a member user.
+     * Find all member user achievements.
      *
      * @param user_id The requested user id.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort    Sort field.
+     * @param offset  Offset of first result.
+     * @param limit   Limit of results returned.
      * @return A list of member achievements.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
-    public List<MemberAchievement> findUserAchievements(@NotNull final UUID user_id, final String sort, final Integer offset, final Integer limit) {
+    // @RolesAllowed({ "Admin" })
+    public List<MemberAchievement> findUserAchievements(@NotNull final UUID user_id, final String sort,
+            final Integer offset, final Integer limit) {
         return repo.findUserAchievements(user_id, sort, offset, limit);
     }
 
     /**
-     * Returns a list of all groups for a member user.
+     * Find all member user groups.
      *
      * @param user_id The requested user id.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort    Sort field.
+     * @param offset  Offset of first result.
+     * @param limit   Limit of results returned.
      * @return A list of member groups.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
-    public List<MemberGroup> findUserGroups(@NotNull final UUID user_id, final String sort, final Integer offset, final Integer limit) {
+    // @RolesAllowed({ "Admin" })
+    public List<MemberGroup> findUserGroups(@NotNull final UUID user_id, final String sort, final Integer offset,
+            final Integer limit) {
         return repo.findUserGroups(user_id, sort, offset, limit);
     }
 
     /**
-     * Inserts an achievement given a member user id.
+     * Insert a member user achievement.
      *
-     * @param user_id The requested user id.
+     * @param user_id        The requested user id.
      * @param achievement_id The requested achievement id.
      * @return TBD
      * @since 1.0
      */
-//    @RolesAllow({ "Admin" })
+    // @RolesAllow({ "Admin" })
     @Transactional
     public void insertUserAchievement(@NotNull final UUID user_id, @NotNull final UUID achievement_id) {
         repo.insertUserAchievement(user_id, achievement_id);
     }
 
     /**
-     * Deletes an achievement given a member user id.
+     * Delete an member user achievement.
      *
-     * @param user_id The requested user id.
+     * @param user_id        The requested user id.
      * @param achievement_id The requested achievement id.
      * @return TBD
      * @since 1.0
      */
-//    @RolesAllow({ "Admin" })
+    // @RolesAllow({ "Admin" })
     @Transactional
     public void deleteUserAchievement(@NotNull final UUID user_id, @NotNull final UUID achievement_id) {
         repo.deleteUserAchievement(user_id, achievement_id);
     }
-   
+
     /**
-     * Uploads a member user image.
+     * Upload a member user image.
      *
      * @param user_id The requested user id.
-     * @param input The image input stream.
-     * @param size The size of the image (or -1 if unknown).
-     * @param type The media type of the image (e.g. image/jpeg).
+     * @param input   The image input stream.
+     * @param size    The size of the image (or -1 if unknown).
+     * @param type    The media type of the image (e.g. image/jpeg).
      * @return The id of the new image.
      * @since 1.0
      */
     @Retry
     @Timeout
     @Transactional
-    //    @RolesAllowed({ "Admin" })
-    public String uploadImage(@NotNull final UUID user_id, @NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+    // @RolesAllowed({ "Admin" })
+    public String uploadImage(@NotNull final UUID user_id, @NotNull final InputStream input, @NotNull final Long size,
+            @NotNull final MediaType type) throws Exception {
 
         // Fetch the user
         final MemberUser user = findById(user_id).get();
@@ -235,7 +238,7 @@ public class MemberUsersService {
 
         // Upload the new image
         final String new_image_id = stor.uploadObject(input, size, type);
-        
+
         // Update the user with the new image
         try {
             user.image_id = new_image_id;
@@ -265,7 +268,7 @@ public class MemberUsersService {
     }
 
     /**
-     * Downloads a member user image.
+     * Download a member user image.
      *
      * @param user_id The requested user id.
      * @return The storage object of the image.
@@ -273,13 +276,13 @@ public class MemberUsersService {
      */
     @Retry
     @Timeout
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public CommonStorageProvider.CommonStorageObject downloadImage(@NotNull final UUID user_id) throws Exception {
         return stor.downloadObject(findById(user_id).get().image_id);
     }
 
     /**
-     * Deletes a member user image.
+     * Delete a member user image.
      *
      * @param user_id The requested user id.
      * @since 1.0
@@ -287,7 +290,7 @@ public class MemberUsersService {
     @Retry
     @Timeout
     @Transactional
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public void deleteImage(@NotNull final UUID user_id) throws Exception {
 
         // Fetch the user
@@ -312,19 +315,19 @@ public class MemberUsersService {
             log.error("Update to delete old image", e);
         }
     }
- 
+
     /**
-     * Returns a count of member users.
+     * Return a count of member users.
      *
      * @return The count.
      * @since 1.0
      */
-    //    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         auth.test();

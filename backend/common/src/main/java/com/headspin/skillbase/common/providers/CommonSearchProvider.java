@@ -12,9 +12,8 @@ import jakarta.validation.constraints.NotNull;
  */
 
 public interface CommonSearchProvider {
-
-    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset, final Integer limit);
+    public List<String> search(@NotNull final String keyword, final String sort, final Integer offset,
+            final Integer limit);
 
     public void test();
-    
 }

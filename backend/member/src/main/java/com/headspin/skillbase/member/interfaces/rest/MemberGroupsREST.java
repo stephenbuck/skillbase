@@ -39,15 +39,15 @@ public class MemberGroupsREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private MemberGroupsService service;
 
     public MemberGroupsREST() {
     }
-    
+
     @PUT
-    @Operation(summary = "Insert new member group")
+    @Operation(summary = "Insert a member group.")
     public Response insert(final MemberGroup group) throws Exception {
         final UUID group_id = service.insert(group);
         return Response.ok(URI.create("/groups/" + group_id)).build();
@@ -55,27 +55,28 @@ public class MemberGroupsREST {
 
     @DELETE
     @Path("{group_id}")
-    @Operation(summary = "Delete member group by id")
+    @Operation(summary = "Delete a member group.")
     public Response delete(@PathParam("group_id") final UUID group_id) throws Exception {
         service.delete(group_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing member group")
+    @Operation(summary = "Update a member group.")
     public Response update(final MemberGroup group) throws Exception {
         return Response.ok(service.update(group)).build();
     }
 
     @GET
-    @Operation(summary = "Find all member groups")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member groups.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{group_id}")
-    @Operation(summary = "Find member group by id")
+    @Operation(summary = "Find a member group by id.")
     public Response findById(@PathParam("group_id") final UUID group_id) throws Exception {
         final Optional<MemberGroup> match = service.findById(group_id);
         if (match.isPresent()) {
@@ -87,23 +88,26 @@ public class MemberGroupsREST {
 
     @GET
     @Path("{group_id}/users")
-    @Operation(summary = "Find member group users")
-    public Response findGroupUsers(@PathParam("group_id") final UUID group_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member group users.")
+    public Response findGroupUsers(@PathParam("group_id") final UUID group_id, @QueryParam("sort") final String sort,
+            @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findGroupUsers(group_id, sort, offset, limit)).build();
     }
-    
+
     @POST
     @Path("{group_id}/users/{user_id}")
-    @Operation(summary = "Insert member group user")
-    public Response insertGroupUser(@PathParam("group_id") final UUID group_id, @PathParam("user_id") final UUID user_id) {
+    @Operation(summary = "Insert a member group user.")
+    public Response insertGroupUser(@PathParam("group_id") final UUID group_id,
+            @PathParam("user_id") final UUID user_id) {
         service.insertGroupUser(group_id, user_id);
         return Response.ok().build();
     }
 
     @DELETE
     @Path("{group_id}/users/{user_id}")
-    @Operation(summary = "Delete member group user")
-    public Response deleteGroupUser(@PathParam("group_id") final UUID group_id, @PathParam("user_id") final UUID user_id) {
+    @Operation(summary = "Delete a member group user.")
+    public Response deleteGroupUser(@PathParam("group_id") final UUID group_id,
+            @PathParam("user_id") final UUID user_id) {
         service.deleteGroupUser(group_id, user_id);
         return Response.ok().build();
     }
@@ -111,7 +115,7 @@ public class MemberGroupsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of member groups.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -119,7 +123,7 @@ public class MemberGroupsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

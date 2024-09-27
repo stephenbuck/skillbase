@@ -43,7 +43,7 @@ public class MemberUsersREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private MemberUsersService service;
 
@@ -51,7 +51,7 @@ public class MemberUsersREST {
     }
 
     @PUT
-    @Operation(summary = "Insert new member user")
+    @Operation(summary = "Insert a member user.")
     public Response insert(final MemberUser user) throws Exception {
         final UUID user_id = service.insert(user);
         return Response.ok(URI.create("/users/" + user_id)).build();
@@ -59,27 +59,28 @@ public class MemberUsersREST {
 
     @DELETE
     @Path("{user_id}")
-    @Operation(summary = "Delete member user by id")
+    @Operation(summary = "Delete a member user.")
     public Response deleteById(@PathParam("user_id") final UUID user_id) throws Exception {
         service.delete(user_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing member user")
+    @Operation(summary = "Update a member user.")
     public Response update(final MemberUser user) throws Exception {
         return Response.ok(service.update(user)).build();
     }
 
     @GET
-    @Operation(summary = "Find all member users")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member users.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{user_id}")
-    @Operation(summary = "Find member user by id")
+    @Operation(summary = "Find a member user by id.")
     public Response findById(@PathParam("user_id") final UUID user_id) throws Exception {
         final Optional<MemberUser> match = service.findById(user_id);
         if (match.isPresent()) {
@@ -91,30 +92,35 @@ public class MemberUsersREST {
 
     @GET
     @Path("{user_id}/achievements")
-    @Operation(summary = "Find member user achievements")
-    public Response findUserAchievements(@PathParam("user_id") final UUID user_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member user achievements.")
+    public Response findUserAchievements(@PathParam("user_id") final UUID user_id,
+            @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findUserAchievements(user_id, sort, offset, limit)).build();
     }
 
     @GET
     @Path("{user_id}/groups")
-    @Operation(summary = "Find member user groups")
-    public Response findUserGroups(@PathParam("user_id") final UUID user_id, @QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member user groups.")
+    public Response findUserGroups(@PathParam("user_id") final UUID user_id, @QueryParam("sort") final String sort,
+            @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findUserGroups(user_id, sort, offset, limit)).build();
     }
 
     @POST
     @Path("{user_id}/achievements/{achievement_id}")
-    @Operation(summary = "Insert member user achievement")
-    public Response insertUserAchievement(@PathParam("user_id") final UUID user_id, @PathParam("achievement_id") final UUID achievement_id) {
+    @Operation(summary = "Insert a member user achievement.")
+    public Response insertUserAchievement(@PathParam("user_id") final UUID user_id,
+            @PathParam("achievement_id") final UUID achievement_id) {
         service.insertUserAchievement(user_id, achievement_id);
         return Response.ok().build();
     }
 
     @DELETE
     @Path("{user_ids}/achievements/{achievement_id}")
-    @Operation(summary = "Delete member user achievement")
-    public Response deleteUserAchievement(@PathParam("user_id") final UUID user_id, @PathParam("achievement_id") final UUID achievement_id) {
+    @Operation(summary = "Delete a member user achievement.")
+    public Response deleteUserAchievement(@PathParam("user_id") final UUID user_id,
+            @PathParam("achievement_id") final UUID achievement_id) {
         service.deleteUserAchievement(user_id, achievement_id);
         return Response.ok().build();
     }
@@ -123,47 +129,45 @@ public class MemberUsersREST {
     @Path("{user_id}/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Upload member image")
+    @Operation(summary = "Upload a member user image.")
     public Response uploadImage(
-        @PathParam("user_id") UUID user_id,
-        @FormParam("file") EntityPart part
-    ) throws Exception { 
+            @PathParam("user_id") UUID user_id,
+            @FormParam("file") EntityPart part) throws Exception {
         String image_id = service.uploadImage(
-            user_id,
-            part.getContent(),
-            -1L,
-            part.getMediaType()); 
+                user_id,
+                part.getContent(),
+                -1L,
+                part.getMediaType());
         return Response
-            .ok(image_id)
-            .build();
+                .ok(image_id)
+                .build();
     }
 
     @GET
     @Path("/{user_id}/image")
-    @Operation(summary = "Download member image")
+    @Operation(summary = "Download a member user image.")
     public Response downloadImage(@PathParam("user_id") UUID user_id) throws Exception {
         final CommonStorageProvider.CommonStorageObject object = service.downloadImage(user_id);
         return Response
-            .ok(object.input)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
     }
 
     @DELETE
     @Path("/user_id/image")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Delete member image")
+    @Operation(summary = "Delete a member user image.")
     public Response deleteImage(@PathParam("user_id") UUID user_id) throws Exception {
         service.deleteImage(user_id);
         return Response.ok().build();
     }
 
-    
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of member users.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -171,7 +175,7 @@ public class MemberUsersREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

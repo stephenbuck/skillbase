@@ -20,13 +20,12 @@ public class CatalogAppHome {
 
     @Inject
     public CatalogAppHome(
-        final CatalogAppConfig config,
-        final CatalogAppControl control,
-        final CatalogAppEvents events,
-        final CatalogAppFeatures features,
-        final CatalogAppHealth health,
-        final CatalogAppTelemetry telemetry
-    ) {
+            final CatalogAppConfig config,
+            final CatalogAppControl control,
+            final CatalogAppEvents events,
+            final CatalogAppFeatures features,
+            final CatalogAppHealth health,
+            final CatalogAppTelemetry telemetry) {
         this.config = config;
         this.control = control;
         this.events = events;

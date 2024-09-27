@@ -16,5 +16,5 @@ public interface CommonConfigProvider {
     public Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type);
 
     public void test();
-    
+
 }

@@ -60,17 +60,16 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
     @Inject
     public WorkflowEngineProviderFlowable(
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.url") final String configJdbcUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.username") final String configJdbcUsername,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.password") final String configJdbcPassword,
-        @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.driver") final String configJdbcDriver
-    ) {
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.url") final String configJdbcUrl,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.username") final String configJdbcUsername,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.password") final String configJdbcPassword,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.engine.flowable.jdbc.driver") final String configJdbcDriver) {
         this.config = new StandaloneProcessEngineConfiguration()
-            .setJdbcUrl(configJdbcUrl)
-            .setJdbcUsername(configJdbcUsername)
-            .setJdbcPassword(configJdbcPassword)
-            .setJdbcDriver(configJdbcDriver)
-            .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+                .setJdbcUrl(configJdbcUrl)
+                .setJdbcUsername(configJdbcUsername)
+                .setJdbcPassword(configJdbcPassword)
+                .setJdbcDriver(configJdbcDriver)
+                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
         this.engine = config.buildProcessEngine();
         this.repository = engine.getRepositoryService();
         this.runtime = engine.getRuntimeService();
@@ -84,8 +83,8 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         final String deploymentId = "";
 
         final ProcessDefinition peerDefinition = repository.createProcessDefinitionQuery()
-            .deploymentId(deploymentId) // BOZO
-            .singleResult();
+                .deploymentId(deploymentId) // BOZO
+                .singleResult();
         log.info("peerDefinition = {}", peerDefinition.getName());
 
         return peerDefinition.getId();
@@ -108,9 +107,9 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
      * The steps are:
      * 1) Create an in-memory JAR (aka ZIP) file containing the BPMN file.
      * 2) Create a Flowable deployment with:
-     *    - The Skillbase deployment title as the name
-     *    - The Skillbase deployment id as the key
-     *    - The BAR file contents
+     * - The Skillbase deployment title as the name
+     * - The Skillbase deployment id as the key
+     * - The BAR file contents
      * 
      * @param deployment The Skillable deployment
      * @return the Flowable deployment ID
@@ -129,26 +128,25 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
             final ZipEntry ze = new ZipEntry(deployment.title);
             zos.putNextEntry(ze);
             zos.write(bos.toByteArray(), 0, bos.size());
-    
+
             // Finish the Zip stream
             zos.finish();
-    
+
             // Create an input stream from the Zip "file" bytes
             final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
             final ZipInputStream zip = new ZipInputStream(bis);
 
             // Create a Flowable deployment with the Zip "file" and our ID as the key
             final Deployment peerDeployment = repository.createDeployment()
-                .name(deployment.title)
-                .key(String.valueOf(deployment.deployment_id))
-                .addZipInputStream(zip)
-                .deploy();
+                    .name(deployment.title)
+                    .key(String.valueOf(deployment.deployment_id))
+                    .addZipInputStream(zip)
+                    .deploy();
             log.info("peerDeployment = {}", peerDeployment.getId());
 
             return peerDeployment.getId();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Error inserting deployment", e);
             return null;
         }
     }
@@ -162,9 +160,9 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     public void deleteDeployment(final UUID id) {
 
         final Deployment peerDeployment = repository
-            .createDeploymentQuery()
-               .deploymentKey(String.valueOf(id))
-               .singleResult();
+                .createDeploymentQuery()
+                .deploymentKey(String.valueOf(id))
+                .singleResult();
 
         repository.deleteDeployment(peerDeployment.getId(), true);
     }
@@ -173,18 +171,18 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
     @Transactional
     public String startProcess(final UUID id) {
 
-        // ProcessDefinition definition = repository.getProcessDefinition(String.valueOf(id));
+        // ProcessDefinition definition =
+        // repository.getProcessDefinition(String.valueOf(id));
 
         final ProcessInstance instance = runtime.createProcessInstanceBuilder()
-            .processDefinitionKey(String.valueOf(id))
-            .name(String.valueOf(id))
-//            .variables()
-            .start();
+                .processDefinitionKey(String.valueOf(id))
+                .name(String.valueOf(id))
+                // .variables()
+                .start();
 
         return instance.getId();
     }
 
-   
     @Override
     public String insertInstance(final WorkflowInstance instance) {
         return null;
@@ -221,21 +219,21 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
         log.info("test");
 
         final Deployment deployment = repository.createDeployment()
-            .key("FOO")
-            .addClasspathResource("test.bpmn20.xml")
-            .deploy();
+                .key("FOO")
+                .addClasspathResource("test.bpmn20.xml")
+                .deploy();
         log.info("deployment = {}", deployment.getName());
 
         final ProcessDefinition definition = repository.createProcessDefinitionQuery()
-            .deploymentId(deployment.getId())
-            .singleResult();
+                .deploymentId(deployment.getId())
+                .singleResult();
         log.info("definition = {}", definition.getName());
 
         final Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("employee", "Steve");
         variables.put("nrOfHolidays", 3);
         variables.put("description", "Burned Out");
-        
+
         final ProcessInstance instance = runtime.startProcessInstanceByKey("FOO", variables);
         log.info("instance = {}", instance.getName());
 

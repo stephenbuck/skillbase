@@ -8,7 +8,7 @@ package com.headspin.skillbase.common.providers;
  */
 
 public interface CommonCacheProvider {
-    
+
     public String get(String key) throws Exception;
 
     public boolean set(String key, String object) throws Exception;

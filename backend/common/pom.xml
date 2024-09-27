@@ -83,6 +83,27 @@
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
 
+      <!--
+      <plugin>
+        <artifactId>revapi-maven-plugin</artifactId>
+        <groupId>org.revapi</groupId>
+          <version>${revapi.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <artifactId>revapi-java</artifactId>
+            <groupId>org.revapi</groupId>
+          <version>${revapi.java.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>check</id>
+            <goals><goal>check</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+
       <plugin>
         <artifactId>rewrite-maven-plugin</artifactId>
         <groupId>org.openrewrite.maven</groupId>
@@ -144,6 +165,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>elasticsearch-java</artifactId>
+      <groupId>co.elastic.clients</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>flipt-java</artifactId>
       <groupId>io.flipt</groupId>
     </dependency>
@@ -175,6 +201,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>jetcd-core</artifactId>
+      <groupId>io.etcd</groupId>
+    </dependency>
+    
+    <dependency>
       <artifactId>json-schema-validator</artifactId>
       <groupId>com.networknt</groupId>
     </dependency>
@@ -182,6 +213,11 @@
     <dependency>
       <artifactId>kafka-clients</artifactId>
       <groupId>org.apache.kafka</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>lettuce-core</artifactId>
+      <groupId>io.lettuce</groupId>
     </dependency>
 
     <dependency>
@@ -225,6 +261,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>seaweedfs-client</artifactId>
+      <groupId>com.seaweedfs</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>
@@ -237,6 +278,11 @@
     <dependency>
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>unleash-client-java</artifactId>
+      <groupId>io.getunleash</groupId>
     </dependency>
 
     <dependency>

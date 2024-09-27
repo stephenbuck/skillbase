@@ -38,8 +38,8 @@ import lombok.extern.slf4j.Slf4j;
 @LoginConfig(authMethod = "MP-JWT", realmName = "skillbase")
 public class ImageFilesREST {
 
-//    @Inject
-//    private JsonWebToken jwt;
+    // @Inject
+    // private JsonWebToken jwt;
 
     @Inject
     private ImageFilesService service;
@@ -51,44 +51,43 @@ public class ImageFilesREST {
     @Path("/")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Upload an image")
-    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception { 
+    @Operation(summary = "Upload an image.")
+    public Response uploadImage(@FormParam("file") EntityPart part) throws Exception {
         final String image_id = service.uploadImage(
-            part.getContent(),
-            part.getMediaType()); 
+                part.getContent(),
+                part.getMediaType());
         return Response
-            .ok(image_id)
-            .build();
+                .ok(image_id)
+                .build();
     }
 
     @GET
     @Path("/{image_id}")
-    @Operation(summary = "Download an image")
+    @Operation(summary = "Download an image.")
     public Response downloadImage(@PathParam("image_id") String image_id) throws Exception {
-        final CommonStorageProvider.CommonStorageObject object =
-            service.downloadImage(image_id);
+        final CommonStorageProvider.CommonStorageObject object = service.downloadImage(image_id);
         return Response
-            .ok(object.input)
-            .header(HttpHeaders.CONTENT_TYPE, object.type)
-            .header(HttpHeaders.CONTENT_LENGTH, object.size)
-            .build();
+                .ok(object.input)
+                .header(HttpHeaders.CONTENT_TYPE, object.type)
+                .header(HttpHeaders.CONTENT_LENGTH, object.size)
+                .build();
     }
 
     @DELETE
     @Path("/{image_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Delete an image")
+    @Operation(summary = "Delete an image.")
     public Response deleteImage(@PathParam("image_id") String image_id) throws Exception {
         service.deleteImage(image_id);
         return Response
-            .ok()
-            .build();
+                .ok()
+                .build();
     }
-    
+
     @GET
     @Path("/test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "Test the service")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

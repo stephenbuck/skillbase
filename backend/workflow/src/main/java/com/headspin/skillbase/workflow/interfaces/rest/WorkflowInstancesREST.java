@@ -39,7 +39,7 @@ public class WorkflowInstancesREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private WorkflowInstancesService service;
 
@@ -47,7 +47,7 @@ public class WorkflowInstancesREST {
     }
 
     @PUT
-    @Operation(summary = "Insert new workflow instance")
+    @Operation(summary = "Insert a workflow instance.")
     public Response insert(final WorkflowInstance instance) throws Exception {
         final UUID instance_id = service.insert(instance);
         return Response.ok(URI.create("/instances/" + instance_id)).build();
@@ -55,27 +55,28 @@ public class WorkflowInstancesREST {
 
     @DELETE
     @Path("{instance_id}")
-    @Operation(summary = "Delete workflow instance by id")
+    @Operation(summary = "Delete a workflow instance.")
     public Response deleteById(@PathParam("instance_id") final UUID instance_id) throws Exception {
         service.delete(instance_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing workflow instance")
+    @Operation(summary = "Update a workflow instance.")
     public Response update(final WorkflowInstance instance) throws Exception {
         return Response.ok(service.update(instance)).build();
     }
 
     @GET
-    @Operation(summary = "Find all workflow instances")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all workflow instances.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{instance_id}")
-    @Operation(summary = "Find workflow instance by id")
+    @Operation(summary = "Find a workflow instance by id.")
     public Response findById(@PathParam("instance_id") final UUID instance_id) {
         final Optional<WorkflowInstance> match = service.findById(instance_id);
         if (match.isPresent()) {
@@ -88,7 +89,7 @@ public class WorkflowInstancesREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of workflow instances.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -96,7 +97,7 @@ public class WorkflowInstancesREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

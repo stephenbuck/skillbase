@@ -34,5 +34,5 @@ public interface CommonEventsProvider {
     public void consume(@NotNull final Collection<String> topics, @NotNull final EventListener listener);
 
     public void test();
-    
+
 }

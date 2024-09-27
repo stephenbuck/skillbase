@@ -39,7 +39,7 @@ public class MemberAchievementsREST {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private MemberAchievementsService service;
 
@@ -47,7 +47,7 @@ public class MemberAchievementsREST {
     }
 
     @PUT
-    @Operation(summary = "Insert new member achievement")
+    @Operation(summary = "Insert a member achievement.")
     public Response insert(final MemberAchievement achievement) throws Exception {
         final UUID achievement_id = service.insert(achievement);
         return Response.ok(URI.create("/achievements/" + achievement_id)).build();
@@ -55,27 +55,28 @@ public class MemberAchievementsREST {
 
     @DELETE
     @Path("{achievement_id}")
-    @Operation(summary = "Delete member achievement by id")
+    @Operation(summary = "Delete a member achievement.")
     public Response deleteById(@PathParam("achievement_id") final UUID achievement_id) throws Exception {
         service.delete(achievement_id);
         return Response.ok().build();
     }
 
     @POST
-    @Operation(summary = "Update existing member achievement")
+    @Operation(summary = "Update a member achievement.")
     public Response update(final MemberAchievement achievement) throws Exception {
         return Response.ok(service.update(achievement)).build();
     }
 
     @GET
-    @Operation(summary = "Find all member achievements")
-    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit) {
+    @Operation(summary = "Find all member achievements.")
+    public Response findAll(@QueryParam("sort") final String sort, @QueryParam("offset") final Integer offset,
+            @QueryParam("limit") final Integer limit) {
         return Response.ok(service.findAll(sort, offset, limit)).build();
     }
 
     @GET
     @Path("{achievement_id}")
-    @Operation(summary = "Find member achievement by id")
+    @Operation(summary = "Find a member achievement by id.")
     public Response findById(@PathParam("achievement_id") final UUID achievement_id) throws Exception {
         final Optional<MemberAchievement> match = service.findById(achievement_id);
         if (match.isPresent()) {
@@ -88,7 +89,7 @@ public class MemberAchievementsREST {
     @GET
     @Path("count")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "count")
+    @Operation(summary = "Return a count of member achievements.")
     public Response count() {
         return Response.ok(String.valueOf(service.count()), MediaType.TEXT_PLAIN).build();
     }
@@ -96,7 +97,7 @@ public class MemberAchievementsREST {
     @GET
     @Path("test")
     @Produces({ MediaType.TEXT_PLAIN })
-    @Operation(summary = "test")
+    @Operation(summary = "Test the service.")
     public Response test() {
         return Response.ok(String.valueOf(service.test()), MediaType.TEXT_PLAIN).build();
     }

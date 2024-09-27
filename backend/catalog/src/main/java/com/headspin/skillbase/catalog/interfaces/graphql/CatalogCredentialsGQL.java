@@ -37,38 +37,38 @@ public class CatalogCredentialsGQL {
     }
 
     @Mutation("insert")
-    @Description("Insert new catalog skill credential")
+    @Description("Insert a catalog credential.")
     public UUID insert(@Name("credential") final CatalogCredential credential) throws Exception {
         return service.insert(credential);
     }
 
     @Mutation("delete")
-    @Description("Delete catalog skill credential by id")
+    @Description("Delete a catalog credential.")
     public void delete(@Name("credential_id") final UUID credential_id) throws Exception {
         service.delete(credential_id);
     }
 
     @Mutation("update")
-    @Description("Update existing catalog skill credential")
+    @Description("Update a catalog credential.")
     public void update(@Name("credential") final CatalogCredential credential) throws Exception {
         service.update(credential);
     }
 
     @Query("findById")
-    @Description("Find catalog skill credential by id")
+    @Description("Find a catalog credential by id.")
     public CatalogCredential findById(@Name("credential_id") final UUID credential_id) throws Exception {
         return service.findById(credential_id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("Find all catalog skill credentials")
+    @Description("Find all catalog credentials.")
     public List<CatalogCredential> findAll(@Name("sort") final String sort, @Name("offset") final Integer offset,
             @Name("limit") final Integer limit) {
         return service.findAll(sort, offset, limit);
     }
 
     @Query("findAllByTitleLike")
-    @Description("Find all catalog skill credentials by title")
+    @Description("Find all catalog credentials by title")
     public List<CatalogCredential> findAllByTitleLike(@Name("pattern") final String pattern,
             @Name("sort") final String sort,
             @Name("offset") final Integer offset, @Name("limit") final Integer limit) {

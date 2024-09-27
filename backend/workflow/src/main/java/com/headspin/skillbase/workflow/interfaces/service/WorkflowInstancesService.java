@@ -18,7 +18,6 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -60,7 +59,7 @@ public class WorkflowInstancesService {
     private CommonStorageProvider stor;
 
     /**
-     * Inserts a new workflow instance.
+     * Insert a workflow instance.
      *
      * @param instance The new instance.
      * @return The id of the new instance.
@@ -78,7 +77,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Deletes a workflow instance given an id.
+     * Delete a workflow instance.
      *
      * @param instance_id The requested instance id.
      * @since 1.0
@@ -94,7 +93,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Updates an existing workflow instance.
+     * Update a workflow instance.
      *
      * @param instance The updated instance.
      * @return The updated instance.
@@ -112,7 +111,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Returns a workflow instance given an id.
+     * Find a workflow instance by id.
      *
      * @param instance_id The requested instance id.
      * @return An optional workflow instance.
@@ -124,7 +123,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Returns a list of all workflow instances.
+     * Find all workflow instances.
      *
      * @param sort   Sort field.
      * @param offset Offset of first result.
@@ -138,7 +137,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Starts a workflow instance for a specified instance and user.
+     * Start a workflow instance for a specified definition and user.
      *
      * @param definition_id The requested definition id.
      * @param user_id       The requested user id.
@@ -160,7 +159,7 @@ public class WorkflowInstancesService {
     }
 
     /**
-     * Returns a count of workflow instances.
+     * Return a count of workflow instances.
      *
      * @return The count.
      * @since 1.0

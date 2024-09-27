@@ -44,7 +44,7 @@ public class MemberGroupsService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private JsonWebToken jwt;
 
@@ -67,112 +67,113 @@ public class MemberGroupsService {
     private CommonStorageProvider stor;
 
     /**
-     * Inserts a new member group.
+     * Insert a member group.
      *
      * @param group The new group.
      * @return The id of the new group.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final MemberGroup group) throws Exception {
         final UUID group_id = repo.insert(group);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_GROUP_CREATED,
-            MemberGroup.toJson(group));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_GROUP_CREATED,
+                MemberGroup.toJson(group));
         return group_id;
     }
 
     /**
-     * Deletes a member group given an id.
+     * Delete a member group.
      *
      * @param group_id The requested group id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID group_id) throws Exception {
         repo.delete(group_id);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_GROUP_DELETED,
-            "{}");
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_GROUP_DELETED,
+                "{}");
     }
 
     /**
-     * Updates an existing member group.
+     * Update a member group.
      *
      * @param group The updated group.
      * @return The updated group.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public MemberGroup update(@NotNull @Valid final MemberGroup group) throws Exception {
         final MemberGroup updated = repo.update(group);
         evnt.produce(
-            MemberEvent.MEMBER_EVENT_TOPIC,
-            MemberEvent.MEMBER_GROUP_UPDATED,
-            MemberGroup.toJson(group));
+                MemberEvent.MEMBER_EVENT_TOPIC,
+                MemberEvent.MEMBER_GROUP_UPDATED,
+                MemberGroup.toJson(group));
         return updated;
     }
 
     /**
-     * Returns a member group given an id.
+     * Find a member group by id.
      *
      * @param group_id The requested group id.
      * @return An optional member group.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<MemberGroup> findById(@NotNull final UUID group_id) throws Exception {
         return repo.findById(group_id);
     }
 
     /**
-     * Returns a list of all member groups.
+     * Find all member groups.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of member groups.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<MemberGroup> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
-//    @RolesAllowed({ "Admin" })
-    public List<MemberUser> findGroupUsers(@NotNull final UUID group_id, final String sort, final Integer offset, final Integer limit) {
+    // @RolesAllowed({ "Admin" })
+    public List<MemberUser> findGroupUsers(@NotNull final UUID group_id, final String sort, final Integer offset,
+            final Integer limit) {
         return repo.findGroupUsers(group_id, sort, offset, limit);
     }
 
-//    @RolesAllow({ "Admin" })
+    // @RolesAllow({ "Admin" })
     @Transactional
     public void insertGroupUser(@NotNull final UUID group_id, @NotNull final UUID user_id) {
         repo.insertGroupUser(group_id, user_id);
     }
 
-//    @RolesAllow({ "Admin" })
+    // @RolesAllow({ "Admin" })
     @Transactional
     public void deleteGroupUser(@NotNull final UUID group_id, @NotNull final UUID user_id) {
         repo.deleteGroupUser(group_id, user_id);
     }
 
     /**
-     * Returns a count of member groups.
+     * Return a count of member groups.
      *
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         auth.test();

@@ -31,39 +31,39 @@ public class WorkflowDefinitionsGQL {
 
     @Inject
     private JsonWebToken jwt;
-    
+
     @Inject
     private WorkflowDefinitionsService service;
 
     public WorkflowDefinitionsGQL() {
     }
-    
+
     @Mutation("insert")
-    @Description("Insert new workflow definition")
+    @Description("Insert a workflow definition.")
     public UUID insert(@Name("definition") final WorkflowDefinition definition) throws Exception {
         return service.insert(definition);
     }
 
     @Mutation("delete")
-    @Description("Delete workflow definition by id")
+    @Description("Delete a workflow definition.")
     public void delete(@Name("definition_id") final UUID definition_id) throws Exception {
         service.delete(definition_id);
     }
 
     @Mutation("update")
-    @Description("Update existing workflow definition")
+    @Description("Update a workflow definition.")
     public void update(@Name("definition") final WorkflowDefinition definition) throws Exception {
         service.update(definition);
     }
 
     @Query("findById")
-    @Description("Find workflow definition by id")
+    @Description("Find a workflow definition by id.")
     public WorkflowDefinition findById(@Name("definition_id") final UUID definition_id) {
         return service.findById(definition_id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("Find all workflow definitions")
+    @Description("Find all workflow definitions.")
     public List<WorkflowDefinition> findAll(@Name("sort") final String sort, @Name("offset") final Integer offset,
             @Name("limit") final Integer limit) {
         return service.findAll(sort, offset, limit);

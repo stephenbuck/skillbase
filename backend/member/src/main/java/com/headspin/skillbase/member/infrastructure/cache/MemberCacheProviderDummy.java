@@ -18,7 +18,7 @@ public class MemberCacheProviderDummy implements CommonCacheProvider {
 
     public MemberCacheProviderDummy() {
     }
-    
+
     @Override
     public String get(final String key) throws Exception {
         return null;

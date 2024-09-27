@@ -37,33 +37,33 @@ public class MemberUsersGQL {
 
     public MemberUsersGQL() {
     }
-    
+
     @Mutation("insert")
-    @Description("Insert new member user")
+    @Description("Insert a member user.")
     public UUID insert(@Name("user") final MemberUser user) throws Exception {
         return service.insert(user);
     }
 
     @Mutation("delete")
-    @Description("Delete member user by id")
+    @Description("Delete a member user.")
     public void delete(@Name("user_id") final UUID user_id) throws Exception {
         service.delete(user_id);
     }
 
     @Mutation("update")
-    @Description("Update existing member user")
+    @Description("Update a member user.")
     public void update(@Name("user") final MemberUser user) throws Exception {
         service.update(user);
     }
 
     @Query("findById")
-    @Description("Find member user by id")
+    @Description("Find a member user by id.")
     public MemberUser findById(@Name("user_id") final UUID user_id) throws Exception {
         return service.findById(user_id).orElse(null);
     }
 
     @Query("findAll")
-    @Description("Find all member users")
+    @Description("Find all member users.")
     public List<MemberUser> findAll(@Name("sort") final String sort, @Name("offset") final Integer offset,
             @Name("limit") final Integer limit) {
         return service.findAll(sort, offset, limit);

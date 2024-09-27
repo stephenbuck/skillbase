@@ -49,14 +49,14 @@ public class CatalogEventsProviderPulsar implements CommonEventsProvider {
                 .build();
     }
 
-    private Producer<String> buildProducer(PulsarClient client, String topic) throws Exception {
+    private Producer<String> buildProducer(final PulsarClient client, final String topic) throws Exception {
         return client
                 .newProducer(Schema.STRING)
                 .topic(topic)
                 .create();
     }
 
-    private CloudEvent buildEvent(Message<String> message) {
+    private CloudEvent buildEvent(final Message<String> message) {
         return CloudEventBuilder
                 .v1()
                 .withData(message.getData())
@@ -119,8 +119,8 @@ public class CatalogEventsProviderPulsar implements CommonEventsProvider {
     @Override
     public void consume(@NotNull final Collection<String> topics, @NotNull final EventListener listener) {
         try (final PulsarClient client = buildClient()) {
-            List<String> list = new ArrayList<String>(topics);
-            Consumer<String> cons = client
+            final List<String> list = new ArrayList<String>(topics);
+            final Consumer<String> cons = client
                     .newConsumer(Schema.STRING)
                     .subscriptionName(subscriber)
                     .topics(list)

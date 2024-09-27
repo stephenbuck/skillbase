@@ -44,7 +44,7 @@ public class CatalogCredentialsService {
 
     @Resource
     private SessionContext ctx;
-    
+
     @Inject
     private CatalogCredentialRepo repo;
 
@@ -63,47 +63,62 @@ public class CatalogCredentialsService {
     @Inject
     private CommonCacheProvider cache;
 
-    private void cacheSet(@NotNull final CatalogCredential credential) {
+    /**
+     * Put a catalog credential in the cache.
+     *
+     * @param credential The credential.
+     * @since 1.0
+     */
+    private void cachePut(@NotNull final CatalogCredential credential) {
         try {
             final String key = String.valueOf(credential.credential_id);
             final String val = CatalogCredential.toJson(credential);
             cache.set(key, val);
-        }
-        catch (Exception e) {
-            log.error("Cache set failed", e);
+        } catch (Exception e) {
+            log.error("Cache put failed", e);
         }
     }
 
+    /**
+     * Get a catalog credential from the cache.
+     *
+     * @param credential_id The credential id.
+     * @since 1.0
+     */
     private CatalogCredential cacheGet(@NotNull final UUID credential_id) {
         try {
             final String key = String.valueOf(credential_id);
             final String val = cache.get(key);
             return CatalogCredential.fromJson(val);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache get failed", e);
             return null;
         }
     }
 
+    /**
+     * Delete a catalog credential from the cache.
+     *
+     * @param credential_id The credential id.
+     * @since 1.0
+     */
     private void cacheDelete(@NotNull final UUID credential_id) {
         try {
             final String key = String.valueOf(credential_id);
             cache.delete(key);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Cache delete failed", e);
         }
     }
 
     /**
-     * Inserts a new catalog credential.
+     * Insert a catalog credential.
      *
      * @param credential The new credential.
      * @return The id of the new credential.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID insert(@NotNull @Valid final CatalogCredential credential) throws Exception {
 
@@ -112,24 +127,24 @@ public class CatalogCredentialsService {
 
         // Produce the created event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CREDENTIAL_CREATED,
-            CatalogCredential.toJson(credential));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CREDENTIAL_CREATED,
+                CatalogCredential.toJson(credential));
 
         // Update the cache
-        cacheSet(credential);
+        cachePut(credential);
 
         // Return the object id
         return credential_id;
     }
 
     /**
-     * Deletes a catalog credential given an id.
+     * Delete a catalog credential.
      *
      * @param credential_id The requested credential id.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public void delete(@NotNull final UUID credential_id) throws Exception {
 
@@ -138,22 +153,22 @@ public class CatalogCredentialsService {
 
         // Produce the deleted event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CREDENTIAL_DELETED,
-            "{}");
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CREDENTIAL_DELETED,
+                "{}");
 
         // Update the cache
         cacheDelete(credential_id);
     }
 
     /**
-     * Updates an existing catalog credential.
+     * Update a catalog credential.
      *
      * @param credential The updated credential.
      * @return The updated credential.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public CatalogCredential update(@NotNull @Valid final CatalogCredential credential) throws Exception {
 
@@ -162,25 +177,25 @@ public class CatalogCredentialsService {
 
         // Produce the updated event
         evnt.produce(
-            CatalogEvent.CATALOG_EVENT_TOPIC,
-            CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
-            CatalogCredential.toJson(updated));
+                CatalogEvent.CATALOG_EVENT_TOPIC,
+                CatalogEvent.CATALOG_CREDENTIAL_UPDATED,
+                CatalogCredential.toJson(updated));
 
         // Update the cache
-        cacheSet(updated);
+        cachePut(updated);
 
         // Return the updated object
         return updated;
     }
 
     /**
-     * Returns a catalog credential given an id.
+     * Find a catalog credential by id.
      *
      * @param id The requested credential id.
      * @return An optional credential definition.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Optional<CatalogCredential> findById(@NotNull final UUID credential_id) {
 
         // Try to return the cached version
@@ -192,7 +207,7 @@ public class CatalogCredentialsService {
         // If object found, update the cache
         final Optional<CatalogCredential> result = repo.findById(credential_id);
         if (result.isPresent()) {
-            cacheSet(result.get());
+            cachePut(result.get());
         }
 
         // Return the result
@@ -200,43 +215,45 @@ public class CatalogCredentialsService {
     }
 
     /**
-     * Returns a list of all catalog credentials.
+     * Find all catalog credentials.
      *
-     * @param sort Sort field.
+     * @param sort   Sort field.
      * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param limit  Limit of results returned.
      * @return A list of catalog credentials.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public List<CatalogCredential> findAll(final String sort, final Integer offset, final Integer limit) {
         return repo.findAll(sort, offset, limit);
     }
 
     /**
-     * Returns a list of all catalog credentials with matching title.
+     * Find all catalog credentials with matching title.
      *
      * @param pattern The title pattern.
-     * @param sort Sort field.
-     * @param offset Offset of first result.
-     * @param limit Limit of results returned.
+     * @param sort    Sort field.
+     * @param offset  Offset of first result.
+     * @param limit   Limit of results returned.
      * @return A list of catalog credentials.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
-    public List<CatalogCredential> findAllByTitleLike(@NotNull final String pattern, final String sort, final Integer offset,
+    // @RolesAllowed({ "Admin" })
+    public List<CatalogCredential> findAllByTitleLike(@NotNull final String pattern, final String sort,
+            final Integer offset,
             final Integer limit) {
         return repo.findAllByTitleLike(pattern, sort, offset, limit);
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public boolean start(@NotNull final UUID credential_id) {
         return true;
     }
 
     @Retry
     @Timeout
-    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+    public String uploadImage(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type)
+            throws Exception {
         return stor.uploadObject(input, size, type);
     }
 
@@ -254,7 +271,8 @@ public class CatalogCredentialsService {
 
     @Retry
     @Timeout
-    public String uploadBPMN(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception {
+    public String uploadBPMN(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type)
+            throws Exception {
         return stor.uploadObject(input, size, type);
     }
 
@@ -271,17 +289,17 @@ public class CatalogCredentialsService {
     }
 
     /**
-     * Returns a count of catalog credentials.
+     * Return a count of catalog credentials.
      *
      * @return The count.
      * @since 1.0
      */
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         return repo.count();
     }
 
-//    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Integer test() {
         log.info("test:");
         conf.test();

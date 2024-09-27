@@ -40,23 +40,20 @@ public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 
     @Inject
     public MemberAuthProviderKeycloak(
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.url") final String configUrl,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.realm") final String configRealm,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.client") final String configClient,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.username") final String configUsername,
-        @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.password") final String configPassword
-    ) {
+            @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.url") final String configUrl,
+            @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.realm") final String configRealm,
+            @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.client") final String configClient,
+            @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.username") final String configUsername,
+            @ConfigProperty(name = "com.headspin.skillbase.member.auth.keycloak.password") final String configPassword) {
         this.admin = KeycloakBuilder.builder()
-            .serverUrl(configUrl)
-            .realm(configRealm)        
-            .clientId(configClient)
-            .grantType(OAuth2Constants.PASSWORD)
-            .username(configUsername)
-            .password(configPassword)
-            .build();
-    
+                .serverUrl(configUrl)
+                .realm(configRealm)
+                .clientId(configClient)
+                .grantType(OAuth2Constants.PASSWORD)
+                .username(configUsername)
+                .password(configPassword)
+                .build();
         this.realm = admin.realm(configRealm);
-
         this.users = realm.users();
     }
 

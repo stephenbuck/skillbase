@@ -22,11 +22,10 @@ public interface CommonStorageProvider {
         public InputStream input;
 
         public CommonStorageObject(
-            String object_id,
-            String type,
-            Long size,
-            InputStream input
-        ) {
+                String object_id,
+                String type,
+                Long size,
+                InputStream input) {
             this.object_id = object_id;
             this.type = type;
             this.size = size;
@@ -34,12 +33,12 @@ public interface CommonStorageProvider {
         }
     }
 
-    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size, @NotNull final MediaType type) throws Exception;
+    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size,
+            @NotNull final MediaType type) throws Exception;
 
     public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception;
 
     public void deleteObject(@NotNull final String object_id) throws Exception;
 
     public void test();
-    
 }

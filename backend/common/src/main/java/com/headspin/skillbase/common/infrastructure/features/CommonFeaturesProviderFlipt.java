@@ -36,15 +36,15 @@ public class CommonFeaturesProviderFlipt implements CommonFeaturesProvider {
     @Override
     public boolean evaluateBoolean(@NotNull final String flag, final boolean def) {
         try {
-            Evaluation ev = client.evaluation();
-            EvaluationRequest er = EvaluationRequest.builder()
+            final Evaluation ev = client.evaluation();
+            final EvaluationRequest er = EvaluationRequest.builder()
                     .namespaceKey(this.namespace)
                     .flagKey(flag)
                     .build();
-            BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
+            final BooleanEvaluationResponse ber = ev.evaluateBoolean(er);
             return ber.isEnabled();
         } catch (Throwable e) {
-            log.info(String.valueOf(e));
+            log.error("Error evaluating boolean flag", e);
             return def;
         }
     }
