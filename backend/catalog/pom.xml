@@ -67,6 +67,11 @@
       </plugin>
 
       <plugin>
+        <artifactId>buildplan-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+
+      <plugin>
         <artifactId>docker-maven-plugin</artifactId>
         <groupId>io.fabric8</groupId>
         <configuration>
@@ -273,7 +278,12 @@
         </executions>
       </plugin>
       -->
-
+      
+      <plugin>
+        <artifactId>templating-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+        
       <plugin>  
         <artifactId>versions-maven-plugin</artifactId>  
         <groupId>org.codehaus.mojo</groupId>  

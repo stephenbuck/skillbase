@@ -2,13 +2,21 @@
 # sudo docker build -f ${PWD}/Dockerfile -t skillbase/apicurio:latest ${PWD} 
 # popd
 
+pushd src/docker/consul
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/consul:latest ${PWD} 
+popd
+
 # pushd src/docker/debezium
 # sudo docker build -f ${PWD}/Dockerfile -t skillbase/debezium:latest ${PWD} 
 # popd
 
-pushd src/docker/elastic
-sudo docker build -f ${PWD}/Dockerfile -t skillbase/elastic:latest ${PWD} 
+pushd src/docker/elasticsearch
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/elasticsearch:latest ${PWD} 
 popd
+
+# pushd src/docker/etcd
+# sudo docker build -f ${PWD}/Dockerfile -t skillbase/etcd:latest ${PWD} 
+# popd
 
 # pushd src/docker/flipt
 # sudo docker build -f ${PWD}/Dockerfile -t skillbase/flipt:latest ${PWD} 
@@ -16,6 +24,14 @@ popd
 
 # pushd src/docker/flowable
 # sudo docker build -f ${PWD}/Dockerfile -t skillbase/flowable:latest ${PWD}
+# popd
+
+# pushd src/docker/fluentd
+# sudo docker build -f ${PWD}/Dockerfile -t skillbase/fluentd:latest ${PWD}
+# popd
+
+# pushd src/docker/juicefs
+# sudo docker build -f ${PWD}/Dockerfile -t skillbase/juicefs:latest ${PWD}
 # popd
 
 pushd src/docker/kafka
@@ -46,6 +62,14 @@ pushd src/docker/minio
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/minio:latest ${PWD} 
 popd
 
+pushd src/docker/mysql
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/mysql:latest ${PWD} 
+popd
+
+pushd src/docker/nginx
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/nginx:latest ${PWD} 
+popd
+
 pushd src/docker/opensearch
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/opensearch:latest ${PWD}
 popd
@@ -60,6 +84,14 @@ popd
 
 pushd src/docker/redis
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/redis:latest ${PWD}
+popd
+
+pushd src/docker/seaweedfs
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/seaweedfs:latest ${PWD}
+popd
+
+pushd src/docker/unleash
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/unleash:latest ${PWD}
 popd
 
 pushd src/docker/valkey

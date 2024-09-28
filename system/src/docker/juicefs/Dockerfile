@@ -1,0 +1,1 @@
+FROM juicedata/juicefs:latest

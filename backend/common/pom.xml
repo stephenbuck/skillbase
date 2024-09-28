@@ -25,6 +25,11 @@
       </plugin>
 
       <plugin>
+        <artifactId>buildplan-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+
+      <plugin>
         <artifactId>docker-maven-plugin</artifactId>
         <groupId>io.fabric8</groupId>
         <configuration>
@@ -122,6 +127,11 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <artifactId>templating-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+      
     <!--
       <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>
@@ -135,7 +145,12 @@
         <groupId>io.smallrye</groupId>
       </plugin>
       -->
-
+      
+      <plugin>
+        <artifactId>templating-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+      </plugin>
+        
       <plugin>  
         <artifactId>versions-maven-plugin</artifactId>  
         <groupId>org.codehaus.mojo</groupId>  

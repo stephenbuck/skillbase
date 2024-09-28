@@ -23,6 +23,7 @@
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <maven.compiler.version>3.13.0</maven.compiler.version>
     <maven.buildhelper.version>3.6.0</maven.buildhelper.version>
+    <maven.buildplan.version>2.2.2</maven.buildplan.version>
     <maven.dependency.version>3.7.1</maven.dependency.version>
     <maven.exec.version>3.3.0</maven.exec.version>
     <maven.failsafe.version>3.5.0</maven.failsafe.version>
@@ -32,6 +33,7 @@
     <maven.resources.version>3.3.1</maven.resources.version>
     <maven.rewrite.version>5.37.1</maven.rewrite.version>
     <maven.surefire.version>3.2.5</maven.surefire.version>
+    <maven.templating.version>3.0.0</maven.templating.version>
     <maven.versions.version>2.17.0</maven.versions.version>
     <maven.war.version>3.4.0</maven.war.version>
 
@@ -127,6 +129,12 @@
         </plugin>
 
         <plugin>
+          <artifactId>buildplan-maven-plugin</artifactId>
+          <groupId>org.codehaus.mojo</groupId>
+          <version>${maven.buildplan.version}</version>
+        </plugin>
+
+        <plugin>
           <artifactId>docker-maven-plugin</artifactId>
           <groupId>io.fabric8</groupId>
           <version>${docker.plugin.version}</version>
@@ -206,7 +214,7 @@
             <release>${maven.compiler.release}</release>
           </configuration>
         </plugin>
-        
+
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
@@ -364,7 +372,13 @@
             </execution>
           </executions>
         </plugin>
-
+        
+        <plugin>
+          <artifactId>templating-maven-plugin</artifactId>
+          <groupId>org.codehaus.mojo</groupId>
+          <version>${maven.templating.version}</version>
+        </plugin>
+        
         <plugin>  
           <artifactId>versions-maven-plugin</artifactId>  
           <groupId>org.codehaus.mojo</groupId>  

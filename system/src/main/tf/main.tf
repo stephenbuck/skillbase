@@ -2,7 +2,9 @@
 # Variables
 ################################################################################
 
-locals {
+variable "skillbase_system_runtime" {
+  type = string
+  default = "/home/stephenbuck/Desktop/skillbase/backend/system/runtime"
 }
 
 variable "apicurio_port_internal" {
@@ -43,6 +45,16 @@ variable "apisix_3_port_internal" {
 variable "apisix_3_port_external" {
   type = number
   default = 9443
+}
+
+variable "consul_port_internal" {
+  type = number
+  default = 8080
+}
+
+variable "consul_port_external" {
+  type = number
+  default = 8088
 }
 
 variable "debezium_port_internal" {
@@ -120,34 +132,34 @@ variable "etcd_peer_port_external" {
   default = 2380
 }
 
-variable "flip_admin_port_internal" {
+variable "flipt_admin_port_internal" {
   type = number
   default = 9000
 }
 
-variable "flip_admin_port_external" {
+variable "flipt_admin_port_external" {
   type = number
   default = 9007
 }
 
-variable "flip_api_port_internal" {
+variable "flipt_api_port_internal" {
   type = number
   default = 8080
 }
 
-variable "flip_api_port_external" {
+variable "flipt_api_port_external" {
   type = number
   default = 8087
 }
 
 variable "fluentd_port_internal" {
   type = number
-  default = 9880
+  default = 24224
 }
 
 variable "fluentd_port_external" {
   type = number
-  default = 9880
+  default = 24224
 }
 
 variable "kafka_broker_port_internal_1" {
@@ -275,6 +287,36 @@ variable "nginx_port_external" {
   default = 80
 }
 
+variable "mysql_user_name" {
+  type = string
+  default = "root"
+}
+
+variable "mysql_user_pass" {
+  type = string
+  default = "strong-password"
+}
+
+variable "mysql_port1_internal" {
+  type = number
+  default = 3306
+}
+
+variable "mysql_port1_external" {
+  type = number
+  default = 3306
+}
+
+variable "mysql_port2_internal" {
+  type = number
+  default = 33060
+}
+
+variable "mysql_port2_external" {
+  type = number
+  default = 33060
+}
+
 variable "opensearch_main_port_internal" {
   type = number
   default = 9200
@@ -325,16 +367,6 @@ variable "prometheus_port_external" {
   default = 9090
 }
 
-variable "opensearch_pulsar_internal" {
-  type = number
-  default = 7777
-}
-
-variable "opensearch_pulsar_external" {
-  type = number
-  default = 7777
-}
-
 variable "redis_port_internal" {
   type = number
   default = 6379
@@ -345,9 +377,49 @@ variable "redis_port_external" {
   default = 6379
 }
 
+variable "seaweedfs_port1_internal" {
+  type = number
+  default = 9333
+}
+
+variable "seaweedfs_port1_external" {
+  type = number
+  default = 9333
+}
+
+variable "seaweedfs_port2_internal" {
+  type = number
+  default = 19333
+}
+
+variable "seaweedfs_port2_external" {
+  type = number
+  default = 19333
+}
+
+variable "seaweedfs_port3_internal" {
+  type = number
+  default = 9334
+}
+
+variable "seaweedfs_port3_external" {
+  type = number
+  default = 9334
+}
+
 variable "skillbase_tag" {
   type = string
   default = "latest"
+}
+
+variable "unleash_port_internal" {
+  type = number
+  default = 4242
+}
+
+variable "unleash_port_external" {
+  type = number
+  default = 4242
 }
 
 variable "valkey_port_internal" {
@@ -485,6 +557,36 @@ resource "docker_container" "apisix" {
 
 /*
 ################################################################################
+# Consul
+################################################################################
+
+resource "docker_image" "consul" {
+  name = "hashicorp/consul:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "consul" {
+  name = "consul"
+  image = docker_image.consul.image_id
+  network_mode = docker_network.private_network.name
+  restart = "always"
+  ports {
+    internal = var.consul_port_internal
+    external = var.consul_port_external
+  }
+  volumes {
+    container_path = "/consul/conf"
+    host_path = "${var_skillbase_system_runtime}/consul/conf"
+  }
+  depends_on = [
+    docker_container.postgres,
+    docker_container.registry
+  ]
+}
+*/
+
+/*
+################################################################################
 # Debezium
 ################################################################################
 
@@ -504,11 +606,11 @@ resource "docker_container" "debezium" {
   }
   volumes {
     container_path = "/debezum/conf"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/conf"
+    host_path = "${var_skillbase_system_runtime}/debezium/conf"
   }
   volumes {
     container_path = "/debezum/data"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/debezium/data"
+    host_path = "${var_skillbase_system_runtime}/debezium/data"
   }
   depends_on = [
     docker_container.kafka,
@@ -571,10 +673,14 @@ resource "docker_container" "etcd" {
     "ALLOW_NONE_AUTHENTICATION=yes",
     "ETCD_ADVERTISE_CLIENT_URLS=http://etcd:${var.etcd_client_port_internal}",
     "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:${var.etcd_client_port_internal}"
-  ]
+  ]  volumes {
+    container_path = "/etcd_data"
+    host_path = "${var_skillbase_system_runtime}/etcd/etcd_data"
+  }
+
   volumes {
     container_path = "/etcd_data"
-    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/docker/etcd/etcd_data"
+    host_path = "${var_skillbase_system_runtime}/etcd/etcd_data"
   }
   ports {
     internal = var.etcd_client_port_internal
@@ -658,14 +764,27 @@ resource "docker_container" "fluentd" {
   name = "fluentd"
   image = docker_image.fluentd.image_id
   network_mode = docker_network.private_network.name
+  volumes {
+    container_path = "/fluentd/etc"
+    host_path = "/home/stephenbuck/Desktop/skillbase/backend/system/runtime/fluentd"
+  }
   ports {
     internal = var.fluentd_port_internal
     external = var.fluentd_port_external
   }
+  env = [
+    "FLUENT_CONF=/fluentd/etc/fluentd.conf"
+  ]
   depends_on = [
     docker_container.registry
   ]
 }
+*/
+
+/*
+################################################################################
+# JuiceFS
+################################################################################
 */
 
 /*
@@ -891,12 +1010,43 @@ resource "docker_container" "minio" {
   }
   volumes {
     container_path = "/data"
-    host_path = "/home/stephenbuck/Desktop/skillbase/system/runtime/minio/data"
+    host_path = "${var_skillbase_system_runtime}/minio/data"
   }
   depends_on = [
     docker_container.registry
   ]
   command = ["server", "/data", "--console-address", ":${var.minio_api_port_internal}"]
+}
+*/
+
+/*
+################################################################################
+# MySQL
+################################################################################
+
+resource "docker_image" "mysql" {
+  name = "skillbase/mysql:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "mysql" {
+  name = "mysql"
+  image = docker_image.mysql.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "MYSQL_ROOT_PASSWORD=${var.mysql_user_pass}"
+  ]
+  ports {
+    internal = var.mysql_port1_internal
+    external = var.mysql_port1_external
+  }
+  ports {
+    internal = var.mysql_port2_internal
+    external = var.mysql_port2_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
 }
 */
 
@@ -961,7 +1111,7 @@ resource "docker_container" "opensearch" {
   ]
   volumes {
     container_path = "/opensearch-data1"
-    host_path = "/home/stephenbuck/Desktop/skillbase/system/runtime/opensearch/data"
+    host_path = "${var_skillbase_system_runtime}/opensearch/data"
   }
   depends_on = [
     docker_container.registry
@@ -994,6 +1144,30 @@ resource "docker_container" "postgres" {
     docker_container.registry
   ]
 }
+
+/*
+################################################################################
+# Prometheus
+################################################################################
+
+resource "docker_image" "prometheus" {
+  name = "prom/prometheus:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "prometheus" {
+  name = "prometheus"
+  image = docker_image.prometheus.image_id
+  network_mode = docker_network.private_network.name
+  ports {
+    internal = var.prometheus_port_internal
+    external = var.prometheus_port_external
+  }
+  depends_on = [
+    docker_container.registry
+  ]
+}
+*/
 
 /*
 ################################################################################
@@ -1064,28 +1238,74 @@ resource "docker_container" "registry" {
 
 /*
 ################################################################################
-# Prometheus
+# SeaweedFS
 ################################################################################
 
-resource "docker_image" "prometheus" {
-  name = "prom/prometheus:latest"
+resource "docker_image" "seaweedfs" {
+  name = "skillbase/seaweedfs:${var.skillbase_tag}"
   keep_locally = true
 }
 
-resource "docker_container" "prometheus" {
-  name = "prometheus"
-  image = docker_image.prometheus.image_id
+resource "docker_container" "seaweedfs" {
+  name = "seaweedfs"
+  image = docker_image.seaweedfs.image_id
   network_mode = docker_network.private_network.name
+  env = [
+    "DATABASE_HOST=postgres",
+    "DATABASE_NAME=skillbase",
+    "DATABASE_USERNAME=postgres",
+    "DATABASE_PASSWORD=postgres",
+    "DATABASE_SSL=false"
+  ]
   ports {
-    internal = var.prometheus_port_internal
-    external = var.prometheus_port_external
+    internal = var.seaweedfs_port1_internal
+    external = var.seaweedfs_port1_external
+  }
+  ports {
+    internal = var.seaweedfs_port2_internal
+    external = var.seaweedfs_port2_external
   }
   depends_on = [
+    docker_container.postgres,
+    docker_container.registry
+  ]
+    command = ["master", "-ip=master", "-ip.bind=0.0.0.0", "-metricsPort=${var.seaweedfs_port3_internal}"]
+}
+*/
+
+/*
+################################################################################
+# Unleash
+################################################################################
+
+resource "docker_image" "unleash" {
+  name = "skillbase/unleash:${var.skillbase_tag}"
+  keep_locally = true
+}
+
+resource "docker_container" "unleash" {
+  name = "unleash"
+  image = docker_image.unleash.image_id
+  network_mode = docker_network.private_network.name
+  env = [
+    "DATABASE_HOST=postgres",
+    "DATABASE_NAME=skillbase",
+    "DATABASE_USERNAME=postgres",
+    "DATABASE_PASSWORD=postgres",
+    "DATABASE_SSL=false"
+  ]
+  ports {
+    internal = var.unleash_port_internal
+    external = var.unleash_port_external
+  }
+  depends_on = [
+    docker_container.postgres,
     docker_container.registry
   ]
 }
 */
 
+/*
 ################################################################################
 # Valkey
 ################################################################################
@@ -1107,7 +1327,9 @@ resource "docker_container" "valkey" {
     docker_container.registry
   ]
 }
+*/
 
+/*
 ################################################################################
 # Wildfly
 ################################################################################
@@ -1175,6 +1397,7 @@ resource "docker_container" "wildfly" {
     docker_container.registry
   ]
 }
+*/
 
 /*
 ################################################################################
