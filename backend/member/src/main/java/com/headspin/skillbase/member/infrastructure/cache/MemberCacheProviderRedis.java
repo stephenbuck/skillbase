@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberCacheProviderRedis extends CommonCacheProviderRedis {
 
     public MemberCacheProviderRedis(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.redis.lettuce.uri") final String configURI) {
+            @ConfigProperty(name = "com.headspin.skillbase.member.cache.redis.lettuce.uri") final String configURI) {
         super(configURI);
     }
 }
