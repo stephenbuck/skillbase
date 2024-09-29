@@ -1,0 +1,42 @@
+package com.headspin.skillbase.catalog.interfaces.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import io.cucumber.java.BeforeAll;
+
+public class CatalogCategoriesServiceTest {
+
+    private CatalogCategoriesService service;
+
+    @BeforeAll
+    void beforeAll() {
+        this.service = new CatalogCategoriesService();
+    }
+
+    @Test
+    void testCount() {
+        assertEquals(0L, service.count());
+    }
+
+    @Test
+    void testDelete() {
+    }
+
+    @Test
+    void testFindAll() {
+    }
+
+    @Test
+    void testFindById() {
+    }
+
+    @Test
+    void testInsert() {
+    }
+
+    @Test
+    void testUpdate() {
+    }
+}

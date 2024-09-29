@@ -5,6 +5,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import com.headspin.skillbase.common.infrastructure.storage.CommonStorageProviderMinIO;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class WorkflowStorageProviderMinIO extends CommonStorageProviderMinIO {
 

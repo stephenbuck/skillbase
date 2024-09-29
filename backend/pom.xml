@@ -41,6 +41,7 @@
     <archunit.version>1.3.0</archunit.version>
     <cloudevents.version>4.0.1</cloudevents.version>
     <config.etcd.version>3.0.1</config.etcd.version>
+    <cucumber.version>7.19.0</cucumber.version>
     <docker.plugin.version>0.44.0</docker.plugin.version>
     <elastic.search.version>8.15.0</elastic.search.version>
     <elastic.clients.version>8.15.0</elastic.clients.version>
@@ -61,6 +62,7 @@
     <jetcd.version>0.8.3</jetcd.version>
     <json.validator.version>1.4.0</json.validator.version>
     <junit.version>5.9.2</junit.version>
+    <junit.platform.version>1.11.1</junit.platform.version>
     <kafka.clients.version>3.7.1</kafka.clients.version>
     <keycloak.version>25.0.1</keycloak.version>
     <lettuce.version>6.4.0.RELEASE</lettuce.version>    
@@ -77,10 +79,12 @@
     <microprofile.telemetry.version>2.0</microprofile.telemetry.version>
     <minio.version>8.5.12</minio.version>
     <mockito.version>5.13.0</mockito.version>
+    <mysql.version>9.0.0</mysql.version>
     <openfeature.version>1.9.0</openfeature.version>
     <opensearch.version>2.6.0</opensearch.version>
     <postgresql.version>42.7.3</postgresql.version>
     <pulsar.version>3.3.1</pulsar.version>
+    <rest.assured.version>5.5.0</rest.assured.version>
     <revapi.plugin.version>0.15.0</revapi.plugin.version>
     <revapi.java.version>0.28.1</revapi.java.version>
     <seaweedfs.version>3.71</seaweedfs.version>
@@ -372,7 +376,7 @@
             </execution>
           </executions>
         </plugin>
-        
+
         <plugin>
           <artifactId>templating-maven-plugin</artifactId>
           <groupId>org.codehaus.mojo</groupId>
@@ -635,7 +639,13 @@
         <groupId>io.minio</groupId>
         <version>${minio.version}</version>
       </dependency>
-  
+
+      <dependency>
+        <artifactId>mysql-connector-j</artifactId>
+        <groupId>com.mysql</groupId>
+        <version>${mysql.version}</version>
+      </dependency>
+      
       <dependency>
         <artifactId>opensearch-java</artifactId>
         <groupId>org.opensearch.client</groupId>
@@ -760,6 +770,20 @@
       </dependency>
 
       <dependency>
+        <artifactId>cucumber-java</artifactId>
+        <groupId>io.cucumber</groupId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <artifactId>cucumber-junit-platform-engine</artifactId>
+        <groupId>io.cucumber</groupId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
         <artifactId>junit-jupiter</artifactId>
         <groupId>org.testcontainers</groupId>
         <version>${testcontainers.version}</version>
@@ -770,6 +794,13 @@
         <artifactId>junit-jupiter-engine</artifactId>
         <groupId>org.junit.jupiter</groupId>
         <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <artifactId>junit-platform-console</artifactId>
+        <groupId>org.junit.platform</groupId>
+        <version>${junit.platform.version}</version>
         <scope>test</scope>
       </dependency>
 
@@ -791,6 +822,13 @@
         <artifactId>postgresql</artifactId>
         <groupId>org.testcontainers</groupId>
         <version>${testcontainers.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <artifactId>rest-assured</artifactId>
+        <groupId>io.rest-assured</groupId>
+        <version>${rest.assured.version}</version>
         <scope>test</scope>
       </dependency>
 

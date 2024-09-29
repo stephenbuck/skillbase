@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Valkey implementation of the catalog cache provider interface.
+ * Valkey implementation of the common cache provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0

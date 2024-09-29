@@ -6,59 +6,57 @@ import jakarta.json.JsonObject;
 
 public class CatalogEvent extends SkillbaseEvent {
 
-    public static final String CATALOG_EVENT_TOPIC  = "skillbase_catalog_event";
-
+    public static final String CATALOG_EVENT_TOPIC = "skillbase_catalog_event";
 
     /**
      * The CATALOG_CATEGORY_CREATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "category_id": "<category_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
+     * {
+     * "category_id": "<category_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
      */
     public static final String CATALOG_CATEGORY_CREATED = "com.headspin.skillbase.catalog.category.created";
- 
+
     /**
      * The CATALOG_CATEGORY_DELETED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "category_id": "<category_id>"
-     *     }
+     * {
+     * "category_id": "<category_id>"
+     * }
      */
     public static final String CATALOG_CATEGORY_DELETED = "com.headspin.skillbase.catalog.category.deleted";
- 
+
     /**
      * The CATALOG_CATEGORY_UPDATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "category_id": "<category_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
-     */    
+     * {
+     * "category_id": "<category_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
+     */
     public static final String CATALOG_CATEGORY_UPDATED = "com.headspin.skillbase.catalog.category.updated";
-
 
     /**
      * The CATALOG_CREDENTIAL_CREATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "credential_id": "<credential_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
+     * {
+     * "credential_id": "<credential_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
      */
     public static final String CATALOG_CREDENTIAL_CREATED = "com.headspin.skillbase.catalog.credential.created";
 
@@ -66,9 +64,9 @@ public class CatalogEvent extends SkillbaseEvent {
      * The CATALOG_CREDENTIAL_DELETED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "credential_id": "<credential_id>"
-     *     }
+     * {
+     * "credential_id": "<credential_id>"
+     * }
      */
     public static final String CATALOG_CREDENTIAL_DELETED = "com.headspin.skillbase.catalog.credential.deleted";
 
@@ -76,28 +74,27 @@ public class CatalogEvent extends SkillbaseEvent {
      * The CATALOG_CREDENTIAL_UPDATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "credential_id": "<credential_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
+     * {
+     * "credential_id": "<credential_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
      */
     public static final String CATALOG_CREDENTIAL_UPDATED = "com.headspin.skillbase.catalog.credential.updated";
-
 
     /**
      * The CATALOG_SKILL_CREATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "skill_id": "<skill_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
+     * {
+     * "skill_id": "<skill_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
      */
     public static final String CATALOG_SKILL_CREATED = "com.headspin.skillbase.catalog.skill.created";
 
@@ -105,9 +102,9 @@ public class CatalogEvent extends SkillbaseEvent {
      * The CATALOG_SKILL_DELETED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "skill_id": "<skill_id>"
-     *     }
+     * {
+     * "skill_id": "<skill_id>"
+     * }
      */
     public static final String CATALOG_SKILL_DELETED = "com.headspin.skillbase.catalog.skill.deleted";
 
@@ -115,16 +112,15 @@ public class CatalogEvent extends SkillbaseEvent {
      * The CATALOG_SKILL_UPDATED event contains JSON data with the
      * following format:
      * 
-     *     {
-     *         "skill_id": "<skill_id>",
-     *         "title": "<title>",
-     *         "note": "<note>",
-     *         "created_at": "<created_at>",
-     *         "updated_at": "<updated_at>"
-     *     }
+     * {
+     * "skill_id": "<skill_id>",
+     * "title": "<title>",
+     * "note": "<note>",
+     * "created_at": "<created_at>",
+     * "updated_at": "<updated_at>"
+     * }
      */
     public static final String CATALOG_SKILL_UPDATED = "com.headspin.skillbase.catalog.skill.updated";
-
 
     public CatalogEvent(String type, JsonObject data) {
         this(UUID.randomUUID(), type, data);
@@ -136,11 +132,10 @@ public class CatalogEvent extends SkillbaseEvent {
 
     @Override
     public String toString() {
-        return
-            "CatalogEvent {\n" +
+        return "CatalogEvent {\n" +
                 "id   = " + id() + "\n" +
                 "type = " + type() + "\n" +
                 "data = " + data() + "\n" +
-            "}\n";
+                "}\n";
     }
 }

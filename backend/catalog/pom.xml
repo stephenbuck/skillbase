@@ -278,7 +278,7 @@
         </executions>
       </plugin>
       -->
-      
+
       <plugin>
         <artifactId>templating-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
@@ -561,6 +561,18 @@
     </dependency>
 
     <dependency>
+      <artifactId>cucumber-java</artifactId>
+      <groupId>io.cucumber</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>cucumber-junit-platform-engine</artifactId>
+      <groupId>io.cucumber</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.testcontainers</groupId>
       <scope>test</scope>
@@ -583,10 +595,21 @@
       <groupId>org.mockito</groupId>
       <scope>test</scope>
     </dependency>
-      
+
+    <dependency>
+      <artifactId>mysql-connector-j</artifactId>
+      <groupId>com.mysql</groupId>
+    </dependency>
+            
     <dependency>
       <artifactId>postgresql</artifactId>
       <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>rest-assured</artifactId>
+      <groupId>io.rest-assured</groupId>
       <scope>test</scope>
     </dependency>
 

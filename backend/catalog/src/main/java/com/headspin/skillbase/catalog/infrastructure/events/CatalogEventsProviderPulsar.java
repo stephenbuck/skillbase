@@ -23,6 +23,7 @@ import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.jackson.JsonCloudEventData;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -30,13 +31,14 @@ import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Pulsar implementation of the catalog events provider interface.
+ * Pulsar implementation of the common events provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class CatalogEventsProviderPulsar implements CommonEventsProvider {
 

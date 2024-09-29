@@ -29,6 +29,7 @@ import io.cloudevents.jackson.JsonCloudEventData;
 import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -43,6 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class ImageEventsProviderKafka implements CommonEventsProvider {
 

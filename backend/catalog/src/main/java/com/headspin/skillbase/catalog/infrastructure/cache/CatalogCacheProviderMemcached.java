@@ -7,19 +7,21 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import com.headspin.skillbase.common.providers.CommonCacheProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import lombok.extern.slf4j.Slf4j;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
 
 /**
- * Memcached implementation of the catalog cache provider interface.
+ * Memcached implementation of the common cache provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class CatalogCacheProviderMemcached implements CommonCacheProvider {
 

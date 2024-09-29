@@ -412,6 +412,11 @@
     </dependency>
   
     <dependency>
+      <artifactId>pulsar-client</artifactId>
+      <groupId>org.apache.pulsar</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>

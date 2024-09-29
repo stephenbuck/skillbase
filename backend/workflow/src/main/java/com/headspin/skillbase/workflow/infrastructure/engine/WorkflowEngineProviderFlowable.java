@@ -7,6 +7,7 @@ import com.headspin.skillbase.workflow.domain.WorkflowTask;
 import com.headspin.skillbase.workflow.providers.WorkflowEngineProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 
 /**
- * Flowable implementation of workflow engine provider interface.
+ * Flowable implementation of the workflow engine provider interface.
  * 
  * Mappings:
  * 
@@ -49,6 +50,7 @@ import org.flowable.task.api.Task;
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 

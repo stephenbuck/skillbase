@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,7 @@ import org.keycloak.admin.client.resource.UsersResource;
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class MemberAuthProviderKeycloak implements MemberAuthProvider {
 

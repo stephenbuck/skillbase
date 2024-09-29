@@ -5,16 +5,18 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import com.headspin.skillbase.common.infrastructure.registry.CommonRegistryProviderEtcd;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Etcd implementation of the member registry provider interface.
+ * Etcd implementation of the common registry provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class MemberRegistryProviderEtcd extends CommonRegistryProviderEtcd {
     public MemberRegistryProviderEtcd(

@@ -1,0 +1,30 @@
+package com.headspin.skillbase.common.infrastructure.storage;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+public class CommonStorageProviderJuiceFSTest {
+
+    private CommonStorageProviderJuiceFS provider;
+
+    @BeforeAll
+    void beforeAll() throws Exception {
+        this.provider = new CommonStorageProviderJuiceFS("/");
+    }
+
+    @Test
+    void testDeleteObject() throws Exception {
+        provider.deleteObject(null);
+    }
+
+    @Test
+    void testDownloadObject() throws Exception {
+        provider.downloadObject(null);
+    }
+
+
+    @Test
+    void testUploadObject() throws Exception {
+        provider.uploadObject(null, 0L, null);
+    }
+}

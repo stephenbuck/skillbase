@@ -29,6 +29,7 @@ import io.cloudevents.jackson.JsonCloudEventData;
 import io.cloudevents.jackson.JsonFormat;
 import io.cloudevents.kafka.CloudEventSerializer;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -36,13 +37,14 @@ import jakarta.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Kafka implementation of the workflow events provider interface.
+ * Kafka implementation of the common events provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class WorkflowEventsProviderKafka implements CommonEventsProvider {
 

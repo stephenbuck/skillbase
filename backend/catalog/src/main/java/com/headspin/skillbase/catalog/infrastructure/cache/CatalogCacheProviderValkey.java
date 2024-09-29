@@ -8,16 +8,18 @@ import io.valkey.Jedis;
 import io.valkey.JedisPool;
 import io.valkey.JedisPoolConfig;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Valkey implementation of the catalog cache provider interface.
+ * Valkey implementation of the common cache provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class CatalogCacheProviderValkey implements CommonCacheProvider {
 

@@ -8,17 +8,19 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import com.headspin.skillbase.common.providers.CommonConfigProvider;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of workflow configure provider interface.
+ * Default implementation of the common configure provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class WorkflowConfigProviderDefault implements CommonConfigProvider {
 

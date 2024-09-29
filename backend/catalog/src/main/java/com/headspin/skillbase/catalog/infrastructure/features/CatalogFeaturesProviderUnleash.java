@@ -6,17 +6,19 @@ import com.headspin.skillbase.common.infrastructure.features.CommonFeaturesProvi
 import com.headspin.skillbase.common.infrastructure.features.CommonFeaturesProviderUnleash;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Unleash implementation of catalog features provider interface.
+ * Unleash implementation of the common features provider interface.
  * 
  * @author Stephen Buck
  * @since 1.0
  */
 
 @Slf4j
+@Alternative
 @ApplicationScoped
 public class CatalogFeaturesProviderUnleash extends CommonFeaturesProviderUnleash {
 
