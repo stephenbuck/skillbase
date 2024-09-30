@@ -2,7 +2,6 @@ package com.headspin.skillbase.member.infrastructure.features;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import com.headspin.skillbase.common.infrastructure.features.CommonFeaturesProviderFlipt;
 import com.headspin.skillbase.common.infrastructure.features.CommonFeaturesProviderUnleash;
 
 import jakarta.enterprise.context.ApplicationScoped;

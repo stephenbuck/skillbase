@@ -1,4 +1,4 @@
-package com.headspin.skillbase.member.infrastructure.events;
+package com.headspin.skillbase.workflow.infrastructure.events;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -19,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class MemberEventsProviderPulsar extends CommonEventsProviderPulsar {
+public class CatalogEventsProviderPulsar extends CommonEventsProviderPulsar {
 
     @Inject
-    public MemberEventsProviderPulsar(
+    public CatalogEventsProviderPulsar(
             @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
             @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
         super(configBootstraps, configSubscriber);

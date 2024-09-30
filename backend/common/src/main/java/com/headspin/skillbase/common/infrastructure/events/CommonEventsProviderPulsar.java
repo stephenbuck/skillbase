@@ -1,4 +1,4 @@
-package com.headspin.skillbase.workflow.infrastructure.events;
+package com.headspin.skillbase.common.infrastructure.events;
 
 import java.net.URI;
 import java.time.ZonedDateTime;
@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class WorkflowEventsProviderPulsar implements CommonEventsProvider {
+public class CommonEventsProviderPulsar implements CommonEventsProvider {
 
     private final String bootstraps;
     private final String subscriber;
@@ -66,9 +66,9 @@ public class WorkflowEventsProviderPulsar implements CommonEventsProvider {
     }
 
     @Inject
-    public WorkflowEventsProviderPulsar(
-            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.pulsar.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.pulsar.subscriber") final String configSubscriber) {
+    public CommonEventsProviderPulsar(
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
 
         this.bootstraps = configBootstraps;
         this.subscriber = configSubscriber;

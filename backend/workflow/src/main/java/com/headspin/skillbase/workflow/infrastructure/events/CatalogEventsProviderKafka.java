@@ -1,4 +1,4 @@
-package com.headspin.skillbase.member.infrastructure.events;
+package com.headspin.skillbase.workflow.infrastructure.events;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -19,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class MemberEventsProviderKafka extends CommonEventsProviderKafka {
+public class CatalogEventsProviderKafka extends CommonEventsProviderKafka {
 
     @Inject
-    public MemberEventsProviderKafka(
+    public CatalogEventsProviderKafka(
             @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") final String configBootstraps,
             @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") final String configClientId,
             @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") final String configGroupId) {
