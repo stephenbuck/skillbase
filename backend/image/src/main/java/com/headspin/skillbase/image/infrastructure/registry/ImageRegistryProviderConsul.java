@@ -20,10 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class ImageRegistryProviderConsul extends CommonRegistryProviderConsul {
     public ImageRegistryProviderConsul(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.registry.consul.endpoints") final String configEndpoints,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.registry.consul.username") final String configUsername,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.registry.consul.password") final String configPassword,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.registry.consul.namespace") final String configNamespace) {
+            @ConfigProperty(name = "com.headspin.skillbase.image.registry.consul.endpoints") final String configEndpoints,
+            @ConfigProperty(name = "com.headspin.skillbase.image.registry.consul.username") final String configUsername,
+            @ConfigProperty(name = "com.headspin.skillbase.image.registry.consul.password") final String configPassword,
+            @ConfigProperty(name = "com.headspin.skillbase.image.registry.consul.namespace") final String configNamespace) {
         super(configEndpoints, configUsername, configPassword, configNamespace);
     }
 }

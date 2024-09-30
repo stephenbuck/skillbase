@@ -1,4 +1,4 @@
-package com.headspin.skillbase.catalog.infrastructure.cache;
+package com.headspin.skillbase.member.infrastructure.cache;
 
 import java.io.IOException;
 
@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class CatalogCacheProviderMemcached extends CommonCacheProviderMemcached {
+public class MemberCacheProviderMemcached extends CommonCacheProviderMemcached {
 
-    public CatalogCacheProviderMemcached(
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.memcached.xmemcached.addresses") final String configAddresses,
-        @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.memcached.xmemcached.expiration", defaultValue="0") final Integer configExpiration
+    public MemberCacheProviderMemcached(
+        @ConfigProperty(name = "com.headspin.skillbase.member.cache.memcached.xmemcached.addresses") final String configAddresses,
+        @ConfigProperty(name = "com.headspin.skillbase.member.cache.memcached.xmemcached.expiration", defaultValue="0") final Integer configExpiration
     ) throws IOException
     {
         super(configAddresses, configExpiration);

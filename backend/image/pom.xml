@@ -387,6 +387,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>pulsar-client</artifactId>
+      <groupId>org.apache.pulsar</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>sdk</artifactId>
       <groupId>dev.openfeature</groupId>
     </dependency>
