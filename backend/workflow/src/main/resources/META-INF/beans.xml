@@ -1,0 +1,16 @@
+<beans
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+      http://xmlns.jcp.org/xml/ns/javaee
+      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+  bean-discovery-mode="annotated">
+  <alternatives>
+    <class>com.headspin.skillbase.workflow.infrastructure.config.WorkflowConfigProviderDefault</class>
+    <class>com.headspin.skillbase.workflow.infrastructure.engine.WorkflowEngineProviderFlowable</class>
+    <class>com.headspin.skillbase.workflow.infrastructure.events.WorkflowEventsProviderKafka</class>
+    <class>com.headspin.skillbase.workflow.infrastructure.features.WorkflowFeaturesProviderFlipt</class>
+    <class>com.headspin.skillbase.workflow.infrastructure.registry.WorkflowRegistryProviderEtcd</class>
+    <class>com.headspin.skillbase.workflow.infrastructure.storage.WorkflowStorageProviderMinIO</class>
+  </alternatives>
+</beans>

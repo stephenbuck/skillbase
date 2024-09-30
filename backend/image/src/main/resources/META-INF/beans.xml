@@ -5,4 +5,11 @@
       http://xmlns.jcp.org/xml/ns/javaee
       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
   bean-discovery-mode="annotated">
+  <alternatives>
+    <class>com.headspin.skillbase.image.infrastructure.config.ImageConfigProviderDefault</class>
+    <class>com.headspin.skillbase.image.infrastructure.events.ImageEventsProviderKafka</class>
+    <class>com.headspin.skillbase.image.infrastructure.features.ImageFeaturesProviderFlipt</class>
+    <class>com.headspin.skillbase.image.infrastructure.registry.ImageRegistryProviderEtcd</class>
+    <class>com.headspin.skillbase.image.infrastructure.storage.ImageStorageProviderMinIO</class>
+  </alternatives>
 </beans>

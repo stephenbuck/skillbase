@@ -5,4 +5,13 @@
       http://xmlns.jcp.org/xml/ns/javaee
       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
   bean-discovery-mode="annotated">
+  <alternatives>
+    <class>com.headspin.skillbase.catalog.infrastructure.cache.CatalogCacheProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.events.CatalogEventsProviderKafka</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.features.CatalogFeaturesProviderFlipt</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.registry.CatalogRegistryProviderEtcd</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.search.CatalogSearchProviderElasticSearch</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.storage.CatalogStorageProviderMinIO</class>
+  </alternatives>
 </beans>

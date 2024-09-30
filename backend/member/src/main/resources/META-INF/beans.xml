@@ -1,0 +1,18 @@
+<beans
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+      http://xmlns.jcp.org/xml/ns/javaee
+      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+  bean-discovery-mode="annotated">
+  <alternatives>
+    <class>com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak</class>
+    <class>com.headspin.skillbase.member.infrastructure.cache.MemberCacheProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault</class>
+    <class>com.headspin.skillbase.member.infrastructure.events.MemberEventsProviderKafka</class>
+    <class>com.headspin.skillbase.member.infrastructure.features.MemberFeaturesProviderFlipt</class>
+    <class>com.headspin.skillbase.member.infrastructure.registry.MemberRegistryProviderEtcd</class>
+    <class>com.headspin.skillbase.member.infrastructure.search.MemberSearchProviderElasticSearch</class>
+    <class>com.headspin.skillbase.member.infrastructure.storage.MemberStorageProviderMinIO</class>
+  </alternatives>
+</beans>
