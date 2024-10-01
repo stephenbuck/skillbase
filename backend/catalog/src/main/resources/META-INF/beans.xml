@@ -7,11 +7,11 @@
   bean-discovery-mode="annotated">
   <alternatives>
     <class>com.headspin.skillbase.catalog.infrastructure.cache.CatalogCacheProviderDummy</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDefault</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.events.CatalogEventsProviderKafka</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.features.CatalogFeaturesProviderFlipt</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.registry.CatalogRegistryProviderEtcd</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.search.CatalogSearchProviderElasticSearch</class>
-    <class>com.headspin.skillbase.catalog.infrastructure.storage.CatalogStorageProviderMinIO</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.config.CatalogConfigProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.events.CatalogEventsProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.features.CatalogFeaturesProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.registry.CatalogRegistryProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.search.CatalogSearchProviderDummy</class>
+    <class>com.headspin.skillbase.catalog.infrastructure.storage.CatalogStorageProviderDummy</class>
   </alternatives>
 </beans>

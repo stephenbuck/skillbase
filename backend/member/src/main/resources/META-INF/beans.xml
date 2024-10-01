@@ -8,11 +8,11 @@
   <alternatives>
     <class>com.headspin.skillbase.member.infrastructure.auth.MemberAuthProviderKeycloak</class>
     <class>com.headspin.skillbase.member.infrastructure.cache.MemberCacheProviderDummy</class>
-    <class>com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDefault</class>
-    <class>com.headspin.skillbase.member.infrastructure.events.MemberEventsProviderKafka</class>
-    <class>com.headspin.skillbase.member.infrastructure.features.MemberFeaturesProviderFlipt</class>
-    <class>com.headspin.skillbase.member.infrastructure.registry.MemberRegistryProviderEtcd</class>
-    <class>com.headspin.skillbase.member.infrastructure.search.MemberSearchProviderElasticSearch</class>
-    <class>com.headspin.skillbase.member.infrastructure.storage.MemberStorageProviderMinIO</class>
+    <class>com.headspin.skillbase.member.infrastructure.config.MemberConfigProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.events.MemberEventsProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.features.MemberFeaturesProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.registry.MemberRegistryProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.search.MemberSearchProviderDummy</class>
+    <class>com.headspin.skillbase.member.infrastructure.storage.MemberStorageProviderDummy</class>
   </alternatives>
 </beans>

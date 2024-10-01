@@ -2,8 +2,7 @@ package com.headspin.skillbase.common.infrastructure.cache;
 
 import com.headspin.skillbase.common.providers.CommonCacheProvider;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -14,10 +13,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@Alternative
-@ApplicationScoped
 public class CommonCacheProviderDummy implements CommonCacheProvider {
 
+    @Inject
     public CommonCacheProviderDummy() {
     }
 

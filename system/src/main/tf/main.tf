@@ -708,7 +708,6 @@ resource "docker_container" "kafka_ui" {
 }
 */
 
-/*
 ################################################################################
 # KeyCloak
 ################################################################################
@@ -744,7 +743,7 @@ resource "docker_container" "keycloak" {
   network_mode = docker_network.private_network.name
   env = [
     "KEYCLOAK_ADMIN=${var.keycloak_user_name}",
-    "KEYCLOAK_ADMIN_PASSWORD=${var.keycloak.user_pass}"
+    "KEYCLOAK_ADMIN_PASSWORD=${var.keycloak_user_pass}"
   ]
   ports {
     external = var.keycloak_port_external
@@ -756,7 +755,6 @@ resource "docker_container" "keycloak" {
   ]
   command = ["start-dev"]
 }
-*/
 
 /*
 ################################################################################

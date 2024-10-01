@@ -4,6 +4,7 @@ import com.headspin.skillbase.common.infrastructure.cache.CommonCacheProviderDum
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Alternative
 @ApplicationScoped
 public class CatalogCacheProviderDummy extends CommonCacheProviderDummy {
+
+    @Inject
     public CatalogCacheProviderDummy() {
     }
 }
