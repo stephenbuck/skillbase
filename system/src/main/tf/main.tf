@@ -1329,7 +1329,6 @@ resource "docker_container" "valkey" {
 }
 */
 
-/*
 ################################################################################
 # Wildfly
 ################################################################################
@@ -1384,7 +1383,7 @@ resource "docker_container" "wildfly" {
     // Caching:
     //    docker_container.memcached,
     //    docker_container.redis,
-    docker_container.valkey,
+    //    docker_container.valkey,
 
     // CDC:
     //    docker_container_debezium,
@@ -1422,7 +1421,6 @@ resource "docker_container" "wildfly" {
     docker_container.registry
   ]
 }
-*/
 
 /*
 ################################################################################

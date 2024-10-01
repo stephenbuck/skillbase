@@ -23,8 +23,8 @@ public class MemberEventsProviderPulsar extends CommonEventsProviderPulsar {
 
     @Inject
     public MemberEventsProviderPulsar(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
+            @ConfigProperty(name = "com.headspin.skillbase.member.events.pulsar.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.member.events.pulsar.subscriber") final String configSubscriber) {
         super(configBootstraps, configSubscriber);
     }
 }

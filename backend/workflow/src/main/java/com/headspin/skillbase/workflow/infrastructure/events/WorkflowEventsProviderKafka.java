@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class CatalogEventsProviderKafka extends CommonEventsProviderKafka {
+public class WorkflowEventsProviderKafka extends CommonEventsProviderKafka {
 
     @Inject
-    public CatalogEventsProviderKafka(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") final String configClientId,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") final String configGroupId) {
-                super(configBootstraps, configClientId, configGroupId);
+    public WorkflowEventsProviderKafka(
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.clientid") final String configClientId,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.kafka.groupid") final String configGroupId) {
+        super(configBootstraps, configClientId, configGroupId);
     }
 }

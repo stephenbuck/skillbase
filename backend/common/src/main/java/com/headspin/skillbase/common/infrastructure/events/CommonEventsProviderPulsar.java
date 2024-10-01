@@ -67,8 +67,8 @@ public class CommonEventsProviderPulsar implements CommonEventsProvider {
 
     @Inject
     public CommonEventsProviderPulsar(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
+            final String configBootstraps,
+            final String configSubscriber) {
 
         this.bootstraps = configBootstraps;
         this.subscriber = configSubscriber;

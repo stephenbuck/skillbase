@@ -181,6 +181,7 @@
           <username>postgres</username>
           <password>postgres</password>
           <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+          <outputChangeLogFile>bar.xml</outputChangeLogFile>
         </configuration>
       </plugin>
 
@@ -378,6 +379,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <groupId>jakarta.annotation</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>jakarta.data-api</artifactId>
       <groupId>jakarta.data</groupId>
     </dependency>
@@ -396,6 +402,11 @@
     <dependency>
       <artifactId>jakarta.json-api</artifactId>
       <groupId>jakarta.json</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <groupId>jakarta.json.bind</groupId>
     </dependency>
 
     <dependency>

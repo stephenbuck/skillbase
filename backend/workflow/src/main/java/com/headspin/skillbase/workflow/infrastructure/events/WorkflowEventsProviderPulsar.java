@@ -19,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class CatalogEventsProviderPulsar extends CommonEventsProviderPulsar {
+public class WorkflowEventsProviderPulsar extends CommonEventsProviderPulsar {
 
     @Inject
-    public CatalogEventsProviderPulsar(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.pulsar.subscriber") final String configSubscriber) {
+    public WorkflowEventsProviderPulsar(
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.pulsar.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.events.pulsar.subscriber") final String configSubscriber) {
         super(configBootstraps, configSubscriber);
     }
 }

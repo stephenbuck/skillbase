@@ -26,13 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CatalogCacheProviderValkey extends CommonCacheProviderValkey {
     @Inject
     public CatalogCacheProviderValkey(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.host") final String configHost,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.port") final Integer configPort,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.timeout") final Integer configTimeout,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.password") final String configPassword,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.maxtotal") final Integer configMaxTotal,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.maxidle") final Integer configMaxIdle,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.minidle") final Integer configMinIdle) {
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.host") final String configHost,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.port") final Integer configPort,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.timeout") final Integer configTimeout,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.password") final String configPassword,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.maxtotal") final Integer configMaxTotal,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.maxidle") final Integer configMaxIdle,
+            @ConfigProperty(name = "com.headspin.skillbase.catalog.cache.valkey.client.minidle") final Integer configMinIdle) {
                 super(configHost, configPort, configTimeout, configPassword, configMaxTotal, configMaxIdle, configMinIdle);
     }
 }

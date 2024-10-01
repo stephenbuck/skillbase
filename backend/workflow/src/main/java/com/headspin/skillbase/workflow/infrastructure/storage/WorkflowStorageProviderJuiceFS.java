@@ -23,7 +23,7 @@ public class WorkflowStorageProviderJuiceFS extends CommonStorageProviderJuiceFS
 
     @Inject
     public WorkflowStorageProviderJuiceFS(
-            @ConfigProperty(name = "com.headspin.skillbase.member.storage.juicefs.root") final String configRoot)
+            @ConfigProperty(name = "com.headspin.skillbase.workflow.storage.juicefs.root") final String configRoot)
             throws Exception {
         super(configRoot);
     }

@@ -1,6 +1,6 @@
 package com.headspin.skillbase.catalog.infrastructure.cache;
 
-import com.headspin.skillbase.common.providers.CommonCacheProvider;
+import com.headspin.skillbase.common.infrastructure.cache.CommonCacheProviderDummy;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
@@ -16,38 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Alternative
 @ApplicationScoped
-public class CatalogCacheProviderDummy implements CommonCacheProvider {
-
+public class CatalogCacheProviderDummy extends CommonCacheProviderDummy {
     public CatalogCacheProviderDummy() {
-    }
-
-    @Override
-    public String get(final String key) throws Exception {
-        return null;
-    }
-
-    @Override
-    public boolean set(final String key, final String val) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean touch(final String key) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean exists(final String key) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean delete(final String key) throws Exception {
-        return false;
-    }
-
-    @Override
-    public void test() {
-        log.info("test:");
     }
 }

@@ -4,6 +4,24 @@
 DROP SCHEMA IF EXISTS workflow CASCADE;
 CREATE SCHEMA workflow;
 
+CREATE TABLE IF NOT EXISTS workflow.deployment (
+  deployment_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  peer_id                  VARCHAR         NULL DEFAULT NULL,
+  skill_id                 UUID            NULL DEFAULT NULL,
+  state                    VARCHAR         NULL DEFAULT NULL,
+  title                    VARCHAR     NOT NULL,
+  note                     VARCHAR     NOT NULL DEFAULT '',
+  created_at               TIMESTAMP   NOT NULL DEFAULT now(),
+  updated_at               TIMESTAMP   NOT NULL DEFAULT now(),
+  version                  INTEGER     NOT NULL DEFAULT 0,
+  PRIMARY KEY (deployment_id)
+);
+ALTER TABLE workflow.deployment REPLICA IDENTITY DEFAULT;
+CREATE INDEX deployment_title ON workflow.deployment(title);
+
+INSERT INTO workflow.deployment(title, note) values('Deployment-1', 'Note-1');
+INSERT INTO workflow.deployment(title, note) values('Deployment-2', 'Note-2');
+
 CREATE TABLE IF NOT EXISTS workflow.definition (
   definition_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
@@ -28,24 +46,6 @@ INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deplo
 INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deployment_id FROM workflow.deployment WHERE title LIKE '%-1' LIMIT 1), 'Model-3', 'Note-3');
 INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deployment_id FROM workflow.deployment WHERE title LIKE '%-1' LIMIT 1), 'Model-4', 'Note-4');
 INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deployment_id FROM workflow.deployment WHERE title LIKE '%-1' LIMIT 1), 'Model-5', 'Note-5');
-
-CREATE TABLE IF NOT EXISTS workflow.deployment (
-  deployment_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
-  peer_id                  VARCHAR         NULL DEFAULT NULL,
-  skill_id                 UUID            NULL DEFAULT NULL,
-  state                    VARCHAR         NULL DEFAULT NULL,
-  title                    VARCHAR     NOT NULL,
-  note                     VARCHAR     NOT NULL DEFAULT '',
-  created_at               TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at               TIMESTAMP   NOT NULL DEFAULT now(),
-  version                  INTEGER     NOT NULL DEFAULT 0,
-  PRIMARY KEY (deployment_id)
-);
-ALTER TABLE workflow.deployment REPLICA IDENTITY DEFAULT;
-CREATE INDEX deployment_title ON workflow.deployment(title);
-
-INSERT INTO workflow.deployment(title, note) values('Deployment-1', 'Note-1');
-INSERT INTO workflow.deployment(title, note) values('Deployment-2', 'Note-2');
 
 CREATE TABLE IF NOT EXISTS workflow.instance (
   instance_id              UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),

@@ -158,11 +158,6 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <artifactId>templating-maven-plugin</artifactId>
-        <groupId>org.codehaus.mojo</groupId>
-      </plugin>
-      
     <!--
       <plugin>
         <artifactId>smallrye-graphql-maven-plugin</artifactId>

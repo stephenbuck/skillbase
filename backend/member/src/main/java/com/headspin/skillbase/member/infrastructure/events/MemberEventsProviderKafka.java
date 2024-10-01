@@ -23,9 +23,9 @@ public class MemberEventsProviderKafka extends CommonEventsProviderKafka {
 
     @Inject
     public MemberEventsProviderKafka(
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.bootstraps") final String configBootstraps,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.clientid") final String configClientId,
-            @ConfigProperty(name = "com.headspin.skillbase.catalog.events.kafka.groupid") final String configGroupId) {
-                super(configBootstraps, configClientId, configGroupId);
+            @ConfigProperty(name = "com.headspin.skillbase.member.events.kafka.bootstraps") final String configBootstraps,
+            @ConfigProperty(name = "com.headspin.skillbase.member.events.kafka.clientid") final String configClientId,
+            @ConfigProperty(name = "com.headspin.skillbase.member.events.kafka.groupid") final String configGroupId) {
+        super(configBootstraps, configClientId, configGroupId);
     }
 }

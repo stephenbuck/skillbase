@@ -1,0 +1,1776 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="stephenbuck (generated)" id="1727730077488-1">
+        <createTable tableName="migrations">
+            <column autoIncrement="true" name="id" startWith="295" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="migrations_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="run_on" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-2">
+        <createTable tableName="events">
+            <column autoIncrement="true" name="id" startWith="6" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="events_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="JSON"/>
+            <column defaultValueComputed="[]" name="tags" type="JSON"/>
+            <column name="project" type="TEXT"/>
+            <column name="environment" type="TEXT"/>
+            <column name="feature_name" type="TEXT"/>
+            <column name="pre_data" type="JSONB"/>
+            <column defaultValueBoolean="false" name="announced" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column name="ip" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-3">
+        <createTable tableName="strategies">
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="strategies_pkey"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="parameters" type="JSON"/>
+            <column defaultValueNumeric="0" name="built_in" type="INTEGER"/>
+            <column defaultValueBoolean="false" name="deprecated" type="BOOLEAN"/>
+            <column defaultValueNumeric="9999" name="sort_order" type="INTEGER"/>
+            <column name="display_name" type="TEXT"/>
+            <column name="title" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-4">
+        <createTable tableName="features">
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="features_pkey"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column defaultValueComputed="[]" name="variants" type="JSON"/>
+            <column defaultValue="release" name="type" type="VARCHAR"/>
+            <column defaultValueBoolean="false" name="stale" type="BOOLEAN"/>
+            <column defaultValue="default" name="project" type="VARCHAR"/>
+            <column name="last_seen_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueBoolean="false" name="impression_data" type="BOOLEAN"/>
+            <column name="archived_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="potentially_stale" type="BOOLEAN"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column defaultValueBoolean="false" name="archived" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-5">
+        <createTable tableName="client_instances">
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instance_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_ip" type="VARCHAR(255)"/>
+            <column defaultValueComputed="now()" name="last_seen" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="sdk_version" type="VARCHAR(255)"/>
+            <column defaultValue="default" name="environment" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-6">
+        <createTable tableName="context_fields">
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="context_fields_pkey"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column defaultValueNumeric="10" name="sort_order" type="INTEGER"/>
+            <column name="legal_values" type="JSON"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column defaultValueComputed="now()" name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column defaultValueBoolean="false" name="stickiness" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-7">
+        <createTable tableName="feature_types">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_types_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR"/>
+            <column name="lifetime_days" type="INTEGER"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-8">
+        <createTable tableName="tag_types">
+            <column name="name" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tag_types_pkey"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="icon" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-9">
+        <createTable tableName="feature_tag">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_tag_pkey"/>
+            </column>
+            <column name="tag_type" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_tag_pkey"/>
+            </column>
+            <column name="tag_value" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_tag_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-10">
+        <createTable tableName="addons">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="addons_pkey"/>
+            </column>
+            <column name="provider" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN"/>
+            <column name="parameters" type="JSON"/>
+            <column name="events" type="JSON"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueComputed="[]" name="projects" type="JSONB"/>
+            <column defaultValueComputed="[]" name="environments" type="JSONB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-11">
+        <createTable tableName="unleash_session">
+            <column name="sid" type="VARCHAR">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="unleash_session_pkey"/>
+            </column>
+            <column name="sess" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="expired" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-12">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" startWith="6" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="roles_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column defaultValue="custom" name="type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-13">
+        <createTable tableName="role_user">
+            <column name="role_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_user_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_user_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_user_pkey"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-14">
+        <createTable tableName="role_permission">
+            <column name="role_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="environment" type="VARCHAR(100)"/>
+            <column name="permission" type="TEXT"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column autoIncrement="true" name="id" startWith="96" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_permission_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-15">
+        <createTable tableName="client_applications">
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_applications_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueComputed="now()" name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="seen_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="strategies" type="JSON"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="icon" type="VARCHAR(255)"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column defaultValueBoolean="false" name="announced" type="BOOLEAN"/>
+            <column name="created_by" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-16">
+        <createTable tableName="api_tokens">
+            <column name="secret" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="api_tokens_pkey"/>
+            </column>
+            <column name="username" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="seen_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="environment" type="VARCHAR"/>
+            <column name="alias" type="TEXT"/>
+            <column name="token_name" type="TEXT"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-17">
+        <createTable tableName="reset_tokens">
+            <column name="reset_token" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reset_tokens_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER"/>
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="used_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-18">
+        <createTable tableName="user_feedback">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_feedback_pkey"/>
+            </column>
+            <column name="feedback_id" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_feedback_pkey"/>
+            </column>
+            <column name="given" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueBoolean="false" name="nevershow" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-19">
+        <createTable tableName="feature_strategies">
+            <column name="id" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_strategies_pkey"/>
+            </column>
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="default" name="environment" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="{}" name="parameters" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="constraints" type="JSONB"/>
+            <column defaultValueNumeric="9999" name="sort_order" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="title" type="TEXT"/>
+            <column defaultValueBoolean="false" name="disabled" type="BOOLEAN"/>
+            <column defaultValueComputed="[]" name="variants" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-20">
+        <createTable tableName="feature_environments">
+            <column defaultValue="default" name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_environments_pkey"/>
+            </column>
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_environments_pkey"/>
+            </column>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="[]" name="variants" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_seen_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-21">
+        <createTable tableName="project_environments">
+            <column name="project_id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_environments_pkey"/>
+            </column>
+            <column name="environment_name" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_environments_pkey"/>
+            </column>
+            <column name="default_strategy" type="JSONB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-22">
+        <createTable tableName="client_metrics_env">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_pkey"/>
+            </column>
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_pkey"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="yes" type="BIGINT"/>
+            <column defaultValueNumeric="0" name="no" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-23">
+        <createTable tableName="user_splash">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_splash_pkey"/>
+            </column>
+            <column name="splash_id" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_splash_pkey"/>
+            </column>
+            <column defaultValueBoolean="false" name="seen" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-24">
+        <createTable tableName="segments">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="segments_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="created_by" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="[]" name="constraints" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="segment_project_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-25">
+        <createTable tableName="feature_strategy_segment">
+            <column name="feature_strategy_id" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_strategy_segment_pkey"/>
+            </column>
+            <column name="segment_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_strategy_segment_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-26">
+        <createTable tableName="groups">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="groups_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="created_by" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="[]" name="mappings_sso" type="JSONB"/>
+            <column name="root_role_id" type="INTEGER"/>
+            <column name="scim_id" type="TEXT"/>
+            <column name="scim_external_id" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-27">
+        <createTable tableName="group_user">
+            <column name="group_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_user_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_user_pkey"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-28">
+        <createTable tableName="group_role">
+            <column name="group_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_role_pkey"/>
+            </column>
+            <column name="role_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_role_pkey"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="project" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_role_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-29">
+        <createTable tableName="public_signup_tokens">
+            <column name="secret" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="public_signup_tokens_pkey"/>
+            </column>
+            <column name="name" type="TEXT"/>
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="role_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="TEXT"/>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-30">
+        <createTable tableName="public_signup_tokens_user">
+            <column name="secret" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="public_signup_tokens_user_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="public_signup_tokens_user_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-31">
+        <createTable tableName="personal_access_tokens">
+            <column name="secret" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="seen_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="personal_access_tokens_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-32">
+        <createTable tableName="change_requests">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_requests_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)"/>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project" type="VARCHAR(255)"/>
+            <column name="created_by" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueNumeric="1" name="min_approvals" type="INTEGER"/>
+            <column name="title" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-33">
+        <createTable tableName="change_request_events">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_events_pkey"/>
+            </column>
+            <column name="feature" type="VARCHAR(255)"/>
+            <column name="action" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="[]" name="payload" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="change_request_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-34">
+        <createTable tableName="change_request_approvals">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_approvals_pkey"/>
+            </column>
+            <column name="change_request_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-35">
+        <createTable tableName="change_request_comments">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_comments_pkey"/>
+            </column>
+            <column name="change_request" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-36">
+        <createTable tableName="change_request_settings">
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_settings_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_settings_pkey"/>
+            </column>
+            <column defaultValueNumeric="1" name="required_approvals" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-37">
+        <createTable tableName="favorite_features">
+            <column name="feature" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favorite_features_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favorite_features_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-38">
+        <createTable tableName="favorite_projects">
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favorite_projects_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favorite_projects_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-39">
+        <createTable tableName="project_stats">
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_stats_pkey"/>
+            </column>
+            <column defaultValueNumeric="0.0" name="avg_time_to_prod_current_window" type="FLOAT8"/>
+            <column defaultValueNumeric="0" name="project_changes_current_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="project_changes_past_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="features_created_current_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="features_created_past_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="features_archived_current_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="features_archived_past_window" type="INTEGER"/>
+            <column defaultValueNumeric="0" name="project_members_added_current_window" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-40">
+        <createTable tableName="login_history">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="login_events_pkey"/>
+            </column>
+            <column name="username" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auth_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="successful" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ip" type="INET"/>
+            <column name="failure_reason" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-41">
+        <createTable tableName="notifications">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="notifications_pkey"/>
+            </column>
+            <column name="event_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-42">
+        <createTable tableName="client_metrics_env_variants">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_pkey"/>
+            </column>
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_pkey"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_pkey"/>
+            </column>
+            <column name="variant" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="count" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-43">
+        <createTable tableName="change_request_rejections">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_rejections_pkey"/>
+            </column>
+            <column name="change_request_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-44">
+        <createTable tableName="dependent_features">
+            <column name="parent" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="dependent_features_pkey"/>
+            </column>
+            <column name="child" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="dependent_features_pkey"/>
+            </column>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="[]" name="variants" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-45">
+        <createTable tableName="last_seen_at_metrics">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="last_seen_at_metrics_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="last_seen_at_metrics_pkey"/>
+            </column>
+            <column name="last_seen_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-46">
+        <createTable tableName="stat_environment_updates">
+            <column name="day" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stat_environment_updates_pkey"/>
+            </column>
+            <column name="environment" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stat_environment_updates_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="updates" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-47">
+        <createTable tableName="banners">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="message_banners_pkey"/>
+            </column>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="variant" type="TEXT"/>
+            <column defaultValueBoolean="false" name="sticky" type="BOOLEAN"/>
+            <column name="icon" type="TEXT"/>
+            <column name="link" type="TEXT"/>
+            <column name="link_text" type="TEXT"/>
+            <column name="dialog_title" type="TEXT"/>
+            <column name="dialog" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-48">
+        <createTable tableName="project_settings">
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_settings_pkey"/>
+            </column>
+            <column name="default_stickiness" type="VARCHAR(100)"/>
+            <column defaultValue="open" name="project_mode" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="feature_limit" type="INTEGER"/>
+            <column name="feature_naming_pattern" type="TEXT"/>
+            <column name="feature_naming_example" type="TEXT"/>
+            <column name="feature_naming_description" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-49">
+        <createTable tableName="signal_endpoints">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="incoming_webhooks_pkey"/>
+            </column>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column name="description" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-50">
+        <createTable tableName="signal_endpoint_tokens">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="incoming_webhook_tokens_pkey"/>
+            </column>
+            <column name="token" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signal_endpoint_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-51">
+        <createTable tableName="feedback">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feedback_pkey"/>
+            </column>
+            <column name="category" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_type" type="TEXT"/>
+            <column name="difficulty_score" type="INTEGER"/>
+            <column name="positive" type="TEXT"/>
+            <column name="areas_for_improvement" type="TEXT"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-52">
+        <createTable tableName="signals">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="observable_events_pkey"/>
+            </column>
+            <column defaultValueComputed="{}" name="payload" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_source_token_id" type="INTEGER"/>
+            <column defaultValueBoolean="false" name="announced" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-53">
+        <createTable tableName="action_sets">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="action_sets_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actor_id" type="INTEGER"/>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="source_id" type="INTEGER"/>
+            <column defaultValueComputed="{}" name="payload" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN"/>
+            <column name="description" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-54">
+        <createTable tableName="actions">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="actions_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column name="action_set_id" type="INTEGER"/>
+            <column name="sort_order" type="INTEGER"/>
+            <column name="action" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="{}" name="execution_params" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-55">
+        <createTable tableName="user_trends">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_trends_pkey"/>
+            </column>
+            <column name="total_users" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_users" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-56">
+        <createTable tableName="flag_trends">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="flag_trends_pkey"/>
+            </column>
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="flag_trends_pkey"/>
+            </column>
+            <column name="total_flags" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stale_flags" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="potentially_stale_flags" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column defaultValueNumeric="100" name="health" type="INTEGER"/>
+            <column defaultValueNumeric="0.0" name="time_to_production" type="FLOAT8"/>
+            <column defaultValueNumeric="0" name="users" type="INTEGER"/>
+            <column name="total_yes" type="BIGINT"/>
+            <column name="total_no" type="BIGINT"/>
+            <column name="total_apps" type="INTEGER"/>
+            <column name="total_environments" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-57">
+        <createTable tableName="stat_traffic_usage">
+            <column name="day" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stat_traffic_usage_pkey"/>
+            </column>
+            <column name="traffic_group" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stat_traffic_usage_pkey"/>
+            </column>
+            <column name="status_code_series" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stat_traffic_usage_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="count" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-58">
+        <createTable tableName="action_set_events">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="action_set_events_pkey"/>
+            </column>
+            <column name="action_set_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signal_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signal" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_set" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-59">
+        <createTable tableName="environment_type_trends">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="environment_type_trends_pkey"/>
+            </column>
+            <column name="environment_type" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="environment_type_trends_pkey"/>
+            </column>
+            <column name="total_updates" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-60">
+        <createTable tableName="feature_lifecycles">
+            <column name="feature" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_lifecycles_pkey"/>
+            </column>
+            <column name="stage" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feature_lifecycles_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="status" type="TEXT"/>
+            <column name="status_value" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-61">
+        <createTable tableName="jobs">
+            <column name="name" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jobs_pkey"/>
+            </column>
+            <column name="bucket" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jobs_pkey"/>
+            </column>
+            <column name="stage" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="finished_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-62">
+        <createTable tableName="client_metrics_env_daily">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_daily_pkey"/>
+            </column>
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_daily_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_daily_pkey"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_daily_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="yes" type="BIGINT"/>
+            <column defaultValueNumeric="0" name="no" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-63">
+        <createTable tableName="used_passwords">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="used_passwords_pkey"/>
+            </column>
+            <column name="password_hash" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="used_passwords_pkey"/>
+            </column>
+            <column defaultValueComputed="now() AT TIME ZONE 'utc'::text" name="used_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-64">
+        <createTable tableName="integration_events">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="integration_events_pkey"/>
+            </column>
+            <column name="integration_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state_details" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="details" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-65">
+        <createTable tableName="client_metrics_env_variants_daily">
+            <column name="feature_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_daily_pkey"/>
+            </column>
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_daily_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_daily_pkey"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_daily_pkey"/>
+            </column>
+            <column name="variant" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_metrics_env_variants_daily_pkey"/>
+            </column>
+            <column defaultValueNumeric="0" name="count" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-66">
+        <createTable tableName="tags">
+            <column name="type" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tags_pkey"/>
+            </column>
+            <column name="value" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tags_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-67">
+        <createIndex indexName="events_project_idx" tableName="events">
+            <column name="project"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-68">
+        <createIndex indexName="events_environment_idx" tableName="events">
+            <column name="environment"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-69">
+        <createIndex indexName="feature_name_idx" tableName="events">
+            <column name="feature_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-70">
+        <createIndex indexName="events_unannounced_idx" tableName="events">
+            <column defaultValueBoolean="false" name="announced"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-71">
+        <createIndex indexName="events_created_by_user_id_idx" tableName="events">
+            <column name="created_by_user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-72">
+        <createIndex indexName="idx_events_created_at_desc" tableName="events">
+            <column descending="true" name="created_at"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-73">
+        <createIndex indexName="idx_events_type" tableName="events">
+            <column name="type"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-74">
+        <createIndex indexName="client_instances_environment_idx" tableName="client_instances">
+            <column name="environment"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-75">
+        <createIndex indexName="feature_tag_tag_type_and_value_idx" tableName="feature_tag">
+            <column name="tag_type"/>
+            <column name="tag_value"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-76">
+        <createTable tableName="projects">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="projects_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column defaultValueNumeric="100" name="health" type="INTEGER"/>
+            <column defaultValueComputed="now()" name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="archived_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-77">
+        <createTable tableName="environments">
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="environments_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueNumeric="9999" name="sort_order" type="INTEGER"/>
+            <column name="type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="true" name="enabled" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="protected" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-78">
+        <createIndex indexName="idx_unleash_session_expired" tableName="unleash_session">
+            <column name="expired"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-79">
+        <addUniqueConstraint columnNames="name" constraintName="unique_name" tableName="roles"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-80">
+        <createIndex indexName="role_user_user_id_idx" tableName="role_user">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-81">
+        <createIndex indexName="role_permission_role_id_idx" tableName="role_permission">
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-82">
+        <createIndex indexName="idx_client_applications_announced_false" tableName="client_applications">
+            <column defaultValueBoolean="false" name="announced"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-83">
+        <createIndex indexName="reset_tokens_user_id_idx" tableName="reset_tokens">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-84">
+        <createIndex indexName="user_feedback_user_id_idx" tableName="user_feedback">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-85">
+        <createIndex indexName="feature_strategies_environment_idx" tableName="feature_strategies">
+            <column name="environment"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-86">
+        <createIndex indexName="feature_strategies_feature_name_idx" tableName="feature_strategies">
+            <column name="feature_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-87">
+        <createIndex indexName="feature_environments_feature_name_idx" tableName="feature_environments">
+            <column name="feature_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-88">
+        <createIndex indexName="project_environments_environment_idx" tableName="project_environments">
+            <column name="environment_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-89">
+        <createIndex indexName="idx_client_metrics_f_name" tableName="client_metrics_env">
+            <column name="feature_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-90">
+        <createIndex indexName="user_splash_user_id_idx" tableName="user_splash">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-91">
+        <createIndex indexName="segments_name_index" tableName="segments">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-92">
+        <createIndex indexName="feature_strategy_segment_segment_id_index" tableName="feature_strategy_segment">
+            <column name="segment_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-93">
+        <createIndex indexName="groups_scim_id_unique_idx" tableName="groups" unique="true">
+            <column name="scim_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-94">
+        <createIndex indexName="groups_group_name_idx" tableName="groups">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-95">
+        <createIndex indexName="groups_scim_external_id_uniq_idx" tableName="groups" unique="true">
+            <column name="scim_external_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-96">
+        <addUniqueConstraint columnNames="change_request_id, created_by" constraintName="unique_approvals" tableName="change_request_approvals"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-97">
+        <addUniqueConstraint columnNames="project, environment" constraintName="change_request_settings_project_environment_key" tableName="change_request_settings"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-98">
+        <addUniqueConstraint columnNames="project" constraintName="project_stats_project_key" tableName="project_stats"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-99">
+        <createIndex indexName="login_events_ip_idx" tableName="login_history">
+            <column name="ip"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-100">
+        <addUniqueConstraint columnNames="change_request_id, created_by" constraintName="change_request_rejections_change_request_id_created_by_key" tableName="change_request_rejections"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-101">
+        <createIndex indexName="idx_feature_name" tableName="last_seen_at_metrics">
+            <column name="feature_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-102">
+        <createIndex indexName="idx_signal_endpoints_enabled" tableName="signal_endpoints">
+            <column defaultValueBoolean="true" name="enabled"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-103">
+        <createIndex indexName="idx_signal_endpoint_tokens_signal_endpoint_id" tableName="signal_endpoint_tokens">
+            <column name="signal_endpoint_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-104">
+        <createIndex indexName="idx_signals_source_and_source_id" tableName="signals">
+            <column name="source"/>
+            <column name="source_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-105">
+        <createIndex indexName="idx_signals_created_by_source_token_id" tableName="signals">
+            <column name="created_by_source_token_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-106">
+        <createIndex indexName="idx_signals_unannounced" tableName="signals">
+            <column defaultValueBoolean="false" name="announced"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-107">
+        <createIndex indexName="idx_action_sets_project" tableName="action_sets">
+            <column name="project"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-108">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" startWith="2" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="image_url" type="TEXT"/>
+            <column name="password_hash" type="VARCHAR(255)"/>
+            <column defaultValueNumeric="0" name="login_attempts" type="INTEGER"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="seen_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="settings" type="JSON"/>
+            <column defaultValueComputed="[]" name="permissions" type="JSON"/>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueBoolean="false" name="is_service" type="BOOLEAN"/>
+            <column name="created_by_user_id" type="INTEGER"/>
+            <column defaultValueBoolean="false" name="is_system" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scim_id" type="TEXT"/>
+            <column name="scim_external_id" type="TEXT"/>
+            <column name="first_seen_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-109">
+        <createIndex indexName="stat_traffic_usage_day_idx" tableName="stat_traffic_usage">
+            <column name="day"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-110">
+        <createIndex indexName="stat_traffic_usage_traffic_group_idx" tableName="stat_traffic_usage">
+            <column name="traffic_group"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-111">
+        <createIndex indexName="stat_traffic_usage_status_code_series_idx" tableName="stat_traffic_usage">
+            <column name="status_code_series"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-112">
+        <createIndex indexName="idx_action_set_events_action_set_id_state" tableName="action_set_events">
+            <column name="action_set_id"/>
+            <column name="state"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-113">
+        <createIndex indexName="idx_action_set_events_signal_id" tableName="action_set_events">
+            <column name="signal_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-114">
+        <createIndex indexName="idx_job_finished" tableName="jobs">
+            <column name="finished_at"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-115">
+        <createIndex indexName="idx_job_stage" tableName="jobs">
+            <column name="stage"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-116">
+        <createIndex indexName="used_passwords_pw_hash_idx" tableName="used_passwords">
+            <column name="password_hash"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-117">
+        <createIndex indexName="idx_integration_events_integration_id" tableName="integration_events">
+            <column name="integration_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-118">
+        <createView fullDefinition="false" viewName="features_view">SELECT features.name,
+    features.description,
+    features.type,
+    features.project,
+    features.stale,
+    features.impression_data,
+    features.created_at,
+    features.archived_at,
+    features.last_seen_at,
+    feature_environments.last_seen_at AS env_last_seen_at,
+    feature_environments.enabled,
+    feature_environments.environment,
+    feature_environments.variants,
+    environments.name AS environment_name,
+    environments.type AS environment_type,
+    environments.sort_order AS environment_sort_order,
+    feature_strategies.id AS strategy_id,
+    feature_strategies.strategy_name,
+    feature_strategies.parameters,
+    feature_strategies.constraints,
+    feature_strategies.sort_order,
+    fss.segment_id AS segments,
+    feature_strategies.title AS strategy_title,
+    feature_strategies.disabled AS strategy_disabled,
+    feature_strategies.variants AS strategy_variants,
+    users.id AS user_id,
+    users.name AS user_name,
+    users.username AS user_username,
+    users.email AS user_email
+   FROM (((((features
+     LEFT JOIN feature_environments ON (((feature_environments.feature_name)::text = (features.name)::text)))
+     LEFT JOIN feature_strategies ON ((((feature_strategies.feature_name)::text = (feature_environments.feature_name)::text) AND ((feature_strategies.environment)::text = (feature_environments.environment)::text))))
+     LEFT JOIN environments ON (((feature_environments.environment)::text = (environments.name)::text)))
+     LEFT JOIN feature_strategy_segment fss ON ((fss.feature_strategy_id = feature_strategies.id)))
+     LEFT JOIN users ON ((users.id = features.created_by_user_id)));</createView>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-119">
+        <createTable tableName="permissions">
+            <column autoIncrement="true" name="id" startWith="68" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="permissions_pkey"/>
+            </column>
+            <column name="display_name" type="TEXT"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-120">
+        <createIndex indexName="users_scim_id_unique_idx" tableName="users" unique="true">
+            <column name="scim_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-121">
+        <createIndex indexName="users_scim_external_id_uniq_idx" tableName="users" unique="true">
+            <column name="scim_external_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-122">
+        <addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-123">
+        <addUniqueConstraint columnNames="username" constraintName="users_username_key" tableName="users"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-124">
+        <addUniqueConstraint columnNames="permission" constraintName="permission_unique" tableName="permissions"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-125">
+        <createTable tableName="api_token_project">
+            <column name="secret" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="api_token_project_pkey"/>
+            </column>
+            <column name="project" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="api_token_project_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-126">
+        <createTable tableName="change_request_schedule">
+            <column name="change_request" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="change_request_schedule_pkey"/>
+            </column>
+            <column name="scheduled_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="INTEGER"/>
+            <column name="status" type="TEXT"/>
+            <column name="failure_reason" type="TEXT"/>
+            <column name="reason" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-127">
+        <createTable tableName="client_applications_usage">
+            <column name="app_name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_applications_usage_pkey"/>
+            </column>
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_applications_usage_pkey"/>
+            </column>
+            <column name="environment" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_applications_usage_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-128">
+        <createTable tableName="onboarding_events_instance">
+            <column name="event" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="onboarding_events_instance_pkey"/>
+            </column>
+            <column name="time_to_event" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-129">
+        <createTable tableName="onboarding_events_project">
+            <column name="event" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="onboarding_events_project_pkey"/>
+            </column>
+            <column name="time_to_event" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="onboarding_events_project_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-130">
+        <createTable tableName="project_client_metrics_trends">
+            <column name="project" type="VARCHAR">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_client_metrics_trends_pkey"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_client_metrics_trends_pkey"/>
+            </column>
+            <column name="total_yes" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_no" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_apps" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_flags" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_environments" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-131">
+        <createTable tableName="settings">
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="settings_pkey"/>
+            </column>
+            <column name="content" type="JSON"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-132">
+        <createTable tableName="user_notifications">
+            <column name="notification_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_notifications_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_notifications_pkey"/>
+            </column>
+            <column name="read_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-133">
+        <addPrimaryKey columnNames="app_name, environment, instance_id" constraintName="client_instances_pkey" tableName="client_instances"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-134">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="action_sets" constraintName="action_sets_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-135">
+        <addForeignKeyConstraint baseColumnNames="action_set_id" baseTableName="actions" constraintName="actions_action_set_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="action_sets" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-136">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="api_token_project" constraintName="api_token_project_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-137">
+        <addForeignKeyConstraint baseColumnNames="secret" baseTableName="api_token_project" constraintName="api_token_project_secret_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="secret" referencedTableName="api_tokens" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-138">
+        <addForeignKeyConstraint baseColumnNames="change_request_id" baseTableName="change_request_approvals" constraintName="change_request_approvals_change_request_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="change_requests" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-139">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_request_approvals" constraintName="change_request_approvals_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-140">
+        <addForeignKeyConstraint baseColumnNames="change_request" baseTableName="change_request_comments" constraintName="change_request_comments_change_request_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="change_requests" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-141">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_request_comments" constraintName="change_request_comments_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-142">
+        <addForeignKeyConstraint baseColumnNames="change_request_id" baseTableName="change_request_events" constraintName="change_request_events_change_request_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="change_requests" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-143">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_request_events" constraintName="change_request_events_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-144">
+        <addForeignKeyConstraint baseColumnNames="feature" baseTableName="change_request_events" constraintName="change_request_events_feature_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-145">
+        <addForeignKeyConstraint baseColumnNames="change_request_id" baseTableName="change_request_rejections" constraintName="change_request_rejections_change_request_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="change_requests" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-146">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_request_rejections" constraintName="change_request_rejections_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-147">
+        <addForeignKeyConstraint baseColumnNames="change_request" baseTableName="change_request_schedule" constraintName="change_request_schedule_change_request_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="change_requests" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-148">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_request_schedule" constraintName="change_request_schedule_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-149">
+        <addForeignKeyConstraint baseColumnNames="environment" baseTableName="change_request_settings" constraintName="change_request_settings_environment_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="environments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-150">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="change_request_settings" constraintName="change_request_settings_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-151">
+        <addForeignKeyConstraint baseColumnNames="created_by" baseTableName="change_requests" constraintName="change_requests_created_by_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-152">
+        <addForeignKeyConstraint baseColumnNames="environment" baseTableName="change_requests" constraintName="change_requests_environment_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="environments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-153">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="change_requests" constraintName="change_requests_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-154">
+        <addForeignKeyConstraint baseColumnNames="app_name" baseTableName="client_applications_usage" constraintName="client_applications_usage_app_name_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="app_name" referencedTableName="client_applications" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-155">
+        <addForeignKeyConstraint baseColumnNames="feature_name,app_name,environment,date" baseTableName="client_metrics_env_variants_daily" constraintName="client_metrics_env_variants_d_feature_name_app_name_enviro_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="feature_name,app_name,environment,date" referencedTableName="client_metrics_env_daily" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-156">
+        <addForeignKeyConstraint baseColumnNames="feature_name,app_name,environment,timestamp" baseTableName="client_metrics_env_variants" constraintName="client_metrics_env_variants_feature_name_app_name_environm_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="feature_name,app_name,environment,timestamp" referencedTableName="client_metrics_env" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-157">
+        <addForeignKeyConstraint baseColumnNames="child" baseTableName="dependent_features" constraintName="dependent_features_child_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-158">
+        <addForeignKeyConstraint baseColumnNames="parent" baseTableName="dependent_features" constraintName="dependent_features_parent_fkey" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-159">
+        <addForeignKeyConstraint baseColumnNames="feature" baseTableName="favorite_features" constraintName="favorite_features_feature_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-160">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="favorite_features" constraintName="favorite_features_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-161">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="favorite_projects" constraintName="favorite_projects_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-162">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="favorite_projects" constraintName="favorite_projects_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-163">
+        <addForeignKeyConstraint baseColumnNames="environment" baseTableName="feature_environments" constraintName="feature_environments_environment_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="environments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-164">
+        <addForeignKeyConstraint baseColumnNames="feature_name" baseTableName="feature_environments" constraintName="feature_environments_feature_name_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-165">
+        <addForeignKeyConstraint baseColumnNames="feature" baseTableName="feature_lifecycles" constraintName="feature_lifecycles_feature_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-166">
+        <addForeignKeyConstraint baseColumnNames="environment" baseTableName="feature_strategies" constraintName="feature_strategies_environment_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="environments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-167">
+        <addForeignKeyConstraint baseColumnNames="feature_name" baseTableName="feature_strategies" constraintName="feature_strategies_feature_name_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-168">
+        <addForeignKeyConstraint baseColumnNames="feature_strategy_id" baseTableName="feature_strategy_segment" constraintName="feature_strategy_segment_feature_strategy_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="feature_strategies" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-169">
+        <addForeignKeyConstraint baseColumnNames="segment_id" baseTableName="feature_strategy_segment" constraintName="feature_strategy_segment_segment_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="segments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-170">
+        <addForeignKeyConstraint baseColumnNames="feature_name" baseTableName="feature_tag" constraintName="feature_tag_feature_name_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="features" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-171">
+        <addForeignKeyConstraint baseColumnNames="tag_type,tag_value" baseTableName="feature_tag" constraintName="feature_tag_tag_type_tag_value_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="type,value" referencedTableName="tags" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-172">
+        <addForeignKeyConstraint baseColumnNames="root_role_id" baseTableName="groups" constraintName="fk_group_role_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-173">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="group_role" constraintName="fk_group_role_project" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-174">
+        <addForeignKeyConstraint baseColumnNames="permission" baseTableName="role_permission" constraintName="fk_role_permission_permission" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="permission" referencedTableName="permissions" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-175">
+        <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="group_role" constraintName="group_role_group_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-176">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="group_role" constraintName="group_role_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-177">
+        <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="group_user" constraintName="group_user_group_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="groups" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-178">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="group_user" constraintName="group_user_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-179">
+        <addForeignKeyConstraint baseColumnNames="signal_endpoint_id" baseTableName="signal_endpoint_tokens" constraintName="incoming_webhook_tokens_incoming_webhook_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="signal_endpoints" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-180">
+        <addForeignKeyConstraint baseColumnNames="integration_id" baseTableName="integration_events" constraintName="integration_events_integration_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="addons" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-181">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="notifications" constraintName="notifications_event_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="events" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-182">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="onboarding_events_project" constraintName="onboarding_events_project_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-183">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="personal_access_tokens" constraintName="personal_access_tokens_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-184">
+        <addForeignKeyConstraint baseColumnNames="environment_name" baseTableName="project_environments" constraintName="project_environments_environment_name_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="environments" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-185">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="project_environments" constraintName="project_environments_project_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-186">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="project_settings" constraintName="project_settings_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-187">
+        <addForeignKeyConstraint baseColumnNames="project" baseTableName="project_stats" constraintName="project_stats_project_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-188">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="public_signup_tokens" constraintName="public_signup_tokens_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-189">
+        <addForeignKeyConstraint baseColumnNames="secret" baseTableName="public_signup_tokens_user" constraintName="public_signup_tokens_user_secret_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="secret" referencedTableName="public_signup_tokens" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-190">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="public_signup_tokens_user" constraintName="public_signup_tokens_user_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-191">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="reset_tokens" constraintName="reset_tokens_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-192">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_permission" constraintName="role_permission_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-193">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_user" constraintName="role_user_role_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-194">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="role_user" constraintName="role_user_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-195">
+        <addForeignKeyConstraint baseColumnNames="segment_project_id" baseTableName="segments" constraintName="segments_segment_project_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-196">
+        <addForeignKeyConstraint baseColumnNames="type" baseTableName="tags" constraintName="tags_type_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="tag_types" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-197">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="used_passwords" constraintName="used_passwords_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-198">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_feedback" constraintName="user_feedback_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-199">
+        <addForeignKeyConstraint baseColumnNames="notification_id" baseTableName="user_notifications" constraintName="user_notifications_notification_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="notifications" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-200">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_notifications" constraintName="user_notifications_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="stephenbuck (generated)" id="1727730077488-201">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_splash" constraintName="user_splash_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
