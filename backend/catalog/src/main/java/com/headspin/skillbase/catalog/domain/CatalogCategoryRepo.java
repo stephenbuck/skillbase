@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public interface CatalogCategoryRepo {
 
-    public UUID insert(@NotNull @Valid CatalogCategory category);
+    public UUID insert(@NotNull /* BOZO @Valid */ CatalogCategory category);
 
     public void delete(@NotNull UUID category_id);
 

@@ -121,7 +121,7 @@ public class CatalogCategoriesService {
      */
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public UUID insert(@NotNull @Valid final CatalogCategory category) throws Exception {
+    public UUID insert(@NotNull /* BOZO @Valid */ final CatalogCategory category) throws Exception {
 
         // Insert the object
         final UUID category_id = repo.insert(category);

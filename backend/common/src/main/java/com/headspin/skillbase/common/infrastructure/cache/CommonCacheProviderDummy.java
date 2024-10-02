@@ -21,26 +21,31 @@ public class CommonCacheProviderDummy implements CommonCacheProvider {
 
     @Override
     public String get(final String key) throws Exception {
+        log.info("get(" + key + ")");
         return null;
     }
 
     @Override
     public boolean set(final String key, final String val) throws Exception {
+        log.info("set(" + key + ")");
         return false;
     }
 
     @Override
     public boolean touch(final String key) throws Exception {
+        log.info("touch(" + key + ")");
         return false;
     }
 
     @Override
     public boolean exists(final String key) throws Exception {
+        log.info("exists(" + key + ")");
         return false;
     }
 
     @Override
     public boolean delete(final String key) throws Exception {
+        log.info("delete(" + key + ")");
         return false;
     }
 

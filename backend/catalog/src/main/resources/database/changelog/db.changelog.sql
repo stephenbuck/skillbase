@@ -5,15 +5,15 @@ DROP SCHEMA IF EXISTS catalog CASCADE;
 CREATE SCHEMA catalog;
 
 CREATE TABLE IF NOT EXISTS catalog.category (
-  category_id          UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  category_id          UUID            NULL UNIQUE DEFAULT gen_random_uuid(),
   parent_id            UUID            NULL DEFAULT NULL,
-  is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
-  title                VARCHAR     NOT NULL,
-  note                 VARCHAR     NOT NULL DEFAULT '',
+  is_enabled           BOOLEAN         NULL DEFAULT FALSE,
+  title                VARCHAR         NULL,
+  note                 VARCHAR         NULL DEFAULT '',
   image_id             VARCHAR         NULL DEFAULT NULL,
-  created_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  updated_at           TIMESTAMP   NOT NULL DEFAULT now(),
-  version              INTEGER     NOT NULL DEFAULT 0,
+  created_at           TIMESTAMP       NULL DEFAULT now(),
+  updated_at           TIMESTAMP       NULL DEFAULT now(),
+  version              INTEGER         NULL DEFAULT 0,
   PRIMARY KEY (category_id),
   FOREIGN KEY (parent_id) REFERENCES catalog.category(category_id)
 );

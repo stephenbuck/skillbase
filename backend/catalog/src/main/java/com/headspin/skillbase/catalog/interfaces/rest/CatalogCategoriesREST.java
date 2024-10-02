@@ -84,7 +84,7 @@ public class CatalogCategoriesREST {
 
         try {
             final UUID category_id = service.insert(category);
-            return Response.ok(category_id).build();
+            return Response.ok(category).build();
         } catch (final EntityExistsException e) {
             return Response
                     .status(Response.Status.BAD_REQUEST)

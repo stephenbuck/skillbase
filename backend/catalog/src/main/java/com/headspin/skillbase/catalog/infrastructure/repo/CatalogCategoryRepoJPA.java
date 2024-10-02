@@ -30,7 +30,7 @@ public class CatalogCategoryRepoJPA implements CatalogCategoryRepo {
 
     @Override
     @Transactional
-    public UUID insert(@NotNull @Valid final CatalogCategory category) {
+    public UUID insert(@NotNull /* BOZO @Valid */ final CatalogCategory category) {
         em.persist(category);
         return category.category_id;
     }

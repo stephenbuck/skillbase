@@ -25,6 +25,7 @@ public class CommonEventsProviderDummy implements CommonEventsProvider {
 
     @Override
     public void produce(@NotNull final String topic, @NotNull final String type, @NotNull final String json) {
+        log.info("produce(" + topic + ")");
     }
 
     @Override

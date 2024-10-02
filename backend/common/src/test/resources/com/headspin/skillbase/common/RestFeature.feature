@@ -6,4 +6,3 @@ Feature: Testing a REST API
     Given a running web service
     When users upload data on a project
     Then the server should handle it and return a success status
-
