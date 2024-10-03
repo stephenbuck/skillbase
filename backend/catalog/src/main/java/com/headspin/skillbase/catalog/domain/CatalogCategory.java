@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import com.headspin.skillbase.common.domain.DomainEntity;
 
@@ -27,13 +28,14 @@ import com.headspin.skillbase.common.domain.DomainEntity;
  */
 
 @Entity
+@Builder
 @Cacheable
 @Table(schema = "catalog", name = "category")
 public class CatalogCategory extends DomainEntity {
 
     @JsonbProperty("category_id")
     @Column(name = "category_id")
-//    @NotNull
+    // @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     public UUID category_id;
@@ -44,18 +46,18 @@ public class CatalogCategory extends DomainEntity {
 
     @JsonbProperty("is_enabled")
     @Column(name = "is_enabled")
-//    @NotNull
+    // @NotNull
     public boolean is_enabled;
 
     @JsonbProperty("title")
     @Column(name = "title")
-//    @NotNull
+    // @NotNull
     @NotBlank
     public String title;
 
     @JsonbProperty("note")
     @Column(name = "note")
-//    @NotNull
+    // @NotNull
     public String note;
 
     @JsonbProperty("image_id")
@@ -64,17 +66,17 @@ public class CatalogCategory extends DomainEntity {
 
     @JsonbProperty("created_at")
     @Column(name = "created_at")
-//    @NotNull
+    // @NotNull
     public Date created_at;
 
     @JsonbProperty("updated_at")
     @Column(name = "updated_at")
-//    @NotNull
+    // @NotNull
     public Date updated_at;
 
     @JsonbProperty("version")
     @Column(name = "version")
-//    @NotNull
+    // @NotNull
     @Version
     public Integer version;
 

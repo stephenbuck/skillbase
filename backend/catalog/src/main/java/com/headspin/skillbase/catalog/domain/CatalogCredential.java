@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import com.headspin.skillbase.common.domain.DomainEntity;
 
@@ -29,6 +30,7 @@ import com.headspin.skillbase.common.domain.DomainEntity;
  */
 
 @Entity
+@Builder
 @Cacheable
 @Table(schema = "catalog", name = "credential")
 public class CatalogCredential extends DomainEntity {

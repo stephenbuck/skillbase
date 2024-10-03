@@ -1,6 +1,5 @@
 package com.headspin.skillbase.member.domain;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,8 +17,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 @Entity
+@Builder
 @Cacheable
 @Table(schema = "member", name = "achievement")
 public class MemberAchievement extends DomainEntity {

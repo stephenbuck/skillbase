@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 
 import org.apache.http.HttpStatus;
 
-import com.headspin.skillbase.catalog.domain.CatalogCategory;
+import com.headspin.skillbase.catalog.domain.CatalogSkill;
 
 import co.elastic.clients.util.ContentType;
 import io.cucumber.java.en.Given;
@@ -17,39 +17,39 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
 
-public class CategoriesRESTEndpoint {
+public class SkillsRESTEndpoint {
 
     private ValidatableResponse response;
-    // private List<CatalogCategory> categories = new ArrayList<CatalogCategory>();
+    // private List<CatalogSkill> skills = new ArrayList<CatalogSkill>();
 
-    @Given("a running categories endpoint")
+    @Given("a running skills endpoint")
     public void a_running_catalog_endpoint() {
         RestAssured.baseURI = "http://localhost:8080/skillbase-backend-catalog-0.1";
         RestAssured.basePath = "/catalog";
     }
 
-    // Scenario: Insert a valid category
+    // Scenario: Insert a valid skill
 
-    @When("users insert a valid category")
-    public void users_insert_a_valid_category() throws Exception {
-        final CatalogCategory category = createValidCategory();
+    @When("users insert a valid skill")
+    public void users_insert_a_valid_skill() throws Exception {
+        final CatalogSkill skill = createValidSkill();
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .put("/categories")
+                .body(CatalogSkill.toJson(skill))
+                .put("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the inserted category")
-    public void the_server_should_return_the_inserted_category() {
+    @Then("the server should return the inserted skill")
+    public void the_server_should_return_the_inserted_skill() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.skill_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -60,22 +60,22 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Insert an invalid category
+    // Scenario: Insert an invalid skill
 
-    @When("users insert an invalid category")
-    public void users_insert_an_invalid_category() throws Exception {
-        final CatalogCategory category = createInvalidCategory();
+    @When("users insert an invalid skill")
+    public void users_insert_an_invalid_skill() throws Exception {
+        final CatalogSkill skill = createInvalidSkill();
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .put("/categories")
+                .body(CatalogSkill.toJson(skill))
+                .put("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return an invalid category failure")
-    public void the_server_should_return_an_invalid_category_failure() {
+    @Then("the server should return an invalid skill failure")
+    public void the_server_should_return_an_invalid_skill_failure() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
@@ -84,28 +84,28 @@ public class CategoriesRESTEndpoint {
         json.get("$");
     }
 
-    // Scenario: Update an existant valid category
+    // Scenario: Update an existant valid skill
 
-    @When("users update an existant valid category")
-    public void users_update_an_existant_valid_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update an existant valid skill")
+    public void users_update_an_existant_valid_skill() throws Exception {
+        final CatalogSkill skill = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogSkill.toJson(skill))
+                .post("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the updated category")
-    public void the_server_should_return_the_updated_category() {
+    @Then("the server should return the updated skill")
+    public void the_server_should_return_the_updated_skill() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.skill_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -116,56 +116,56 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Update an existant invalid category
+    // Scenario: Update an existant invalid skill
 
-    @When("users update an existant invalid category")
-    public void users_update_an_existant_invalid_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update an existant invalid skill")
+    public void users_update_an_existant_invalid_skill() throws Exception {
+        final CatalogSkill skill = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogSkill.toJson(skill))
+                .post("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    // Scenario: Update a non-existant category
+    // Scenario: Update a non-existant skill
 
-    @When("users update a non-existant category")
-    public void users_update_a_non_existant_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update a non-existant skill")
+    public void users_update_a_non_existant_skill() throws Exception {
+        final CatalogSkill skill = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogSkill.toJson(skill))
+                .post("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Find an existant category
+    // Scenario: Find an existant skill
 
-    @When("users find an existant category")
-    public void users_find_an_existant_category() {
+    @When("users find an existant skill")
+    public void users_find_an_existant_skill() {
         response = given()
                 .when()
                 .pathParam("id", "<valid>")
-                .get("/categories/{id}")
+                .get("/skills/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the requested category")
-    public void the_server_should_return_the_requested_category() {
+    @Then("the server should return the requested skill")
+    public void the_server_should_return_the_requested_skill() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.skill_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -176,62 +176,62 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Find a non-existant category
+    // Scenario: Find a non-existant skill
 
-    @When("users find a non-existant category")
-    public void users_find_a_non_existant_category() {
+    @When("users find a non-existant skill")
+    public void users_find_a_non_existant_skill() {
         response = given()
                 .when()
                 .pathParam("id", "<invalid>")
-                .get("/categories/{id}")
+                .get("/skills/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Delete an existant category
+    // Scenario: Delete an existant skill
 
-    @When("users delete an existant category")
-    public void users_delete_an_existant_category() {
+    @When("users delete an existant skill")
+    public void users_delete_an_existant_skill() {
         response = given()
                 .when()
                 .pathParam("id", "<valid>")
-                .post("/categories/{id}")
+                .post("/skills/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    // Scenario: Delete a non-existant category
+    // Scenario: Delete a non-existant skill
 
-    @When("users delete a non-existant category")
-    public void users_delete_a_non_existant_category() {
+    @When("users delete a non-existant skill")
+    public void users_delete_a_non_existant_skill() {
         response = given()
                 .when()
                 .pathParam("id", "<invalid>")
-                .delete("/categories/{id}")
+                .delete("/skills/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Find all categories
+    // Scenario: Find all skills
 
-    @When("users find all categories")
-    public void users_find_all_categories() {
+    @When("users find all skills")
+    public void users_find_all_skills() {
         response = given()
                 .when()
                 // .queryParam("sort", "")
                 // .queryParam("offset", "")
                 // .queryParam("length", "")
-                .get("/categories")
+                .get("/skills")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return all categories")
-    public void the_server_should_return_all_categories() {
+    @Then("the server should return all skills")
+    public void the_server_should_return_all_skills() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
@@ -242,7 +242,7 @@ public class CategoriesRESTEndpoint {
         /*
          * List<String> list = json.getList("$");
          * for (int i = 0; i < list.size(); i++) {
-         * json.get("$[].category_id");
+         * json.get("$[].skill_id");
          * json.get("$[].parent_id");
          * json.get("$[].is_enabled");
          * json.get("$[].title");
@@ -275,10 +275,9 @@ public class CategoriesRESTEndpoint {
         json.get("$");
     }
 
-    private CatalogCategory createValidCategory() {
-        return CatalogCategory.builder()
-                .category_id(null)
-                .parent_id(null)
+    private CatalogSkill createValidSkill() {
+        return CatalogSkill.builder()
+                .skill_id(null)
                 .is_enabled(true)
                 .title("Title")
                 .note("")
@@ -289,12 +288,12 @@ public class CategoriesRESTEndpoint {
                 .build();
     }
 
-    private CatalogCategory createInvalidCategory() {
-        return invalidateCategory(createValidCategory());
+    private CatalogSkill createInvalidSkill() {
+        return invalidateSkill(createValidSkill());
     }
 
-    private CatalogCategory invalidateCategory(final CatalogCategory category) {
-        category.title = null;
-        return category;
+    private CatalogSkill invalidateSkill(final CatalogSkill skill) {
+        skill.title = null;
+        return skill;
     }
 }

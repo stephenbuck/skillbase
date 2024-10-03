@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 
 import org.apache.http.HttpStatus;
 
-import com.headspin.skillbase.catalog.domain.CatalogCategory;
+import com.headspin.skillbase.catalog.domain.CatalogCredential;
 
 import co.elastic.clients.util.ContentType;
 import io.cucumber.java.en.Given;
@@ -17,39 +17,40 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
 
-public class CategoriesRESTEndpoint {
+public class CredentialsRESTEndpoint {
 
     private ValidatableResponse response;
-    // private List<CatalogCategory> categories = new ArrayList<CatalogCategory>();
+    // private List<CatalogCredential> credentials = new
+    // ArrayList<CatalogCredential>();
 
-    @Given("a running categories endpoint")
+    @Given("a running credentials endpoint")
     public void a_running_catalog_endpoint() {
         RestAssured.baseURI = "http://localhost:8080/skillbase-backend-catalog-0.1";
         RestAssured.basePath = "/catalog";
     }
 
-    // Scenario: Insert a valid category
+    // Scenario: Insert a valid credential
 
-    @When("users insert a valid category")
-    public void users_insert_a_valid_category() throws Exception {
-        final CatalogCategory category = createValidCategory();
+    @When("users insert a valid credential")
+    public void users_insert_a_valid_credential() throws Exception {
+        final CatalogCredential credential = createValidCredential();
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .put("/categories")
+                .body(CatalogCredential.toJson(credential))
+                .put("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the inserted category")
-    public void the_server_should_return_the_inserted_category() {
+    @Then("the server should return the inserted credential")
+    public void the_server_should_return_the_inserted_credential() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.credential_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -60,22 +61,22 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Insert an invalid category
+    // Scenario: Insert an invalid credential
 
-    @When("users insert an invalid category")
-    public void users_insert_an_invalid_category() throws Exception {
-        final CatalogCategory category = createInvalidCategory();
+    @When("users insert an invalid credential")
+    public void users_insert_an_invalid_credential() throws Exception {
+        final CatalogCredential credential = createInvalidCredential();
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .put("/categories")
+                .body(CatalogCredential.toJson(credential))
+                .put("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return an invalid category failure")
-    public void the_server_should_return_an_invalid_category_failure() {
+    @Then("the server should return an invalid credential failure")
+    public void the_server_should_return_an_invalid_credential_failure() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
@@ -84,28 +85,28 @@ public class CategoriesRESTEndpoint {
         json.get("$");
     }
 
-    // Scenario: Update an existant valid category
+    // Scenario: Update an existant valid credential
 
-    @When("users update an existant valid category")
-    public void users_update_an_existant_valid_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update an existant valid credential")
+    public void users_update_an_existant_valid_credential() throws Exception {
+        final CatalogCredential credential = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogCredential.toJson(credential))
+                .post("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the updated category")
-    public void the_server_should_return_the_updated_category() {
+    @Then("the server should return the updated credential")
+    public void the_server_should_return_the_updated_credential() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.credential_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -116,56 +117,56 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Update an existant invalid category
+    // Scenario: Update an existant invalid credential
 
-    @When("users update an existant invalid category")
-    public void users_update_an_existant_invalid_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update an existant invalid credential")
+    public void users_update_an_existant_invalid_credential() throws Exception {
+        final CatalogCredential credential = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogCredential.toJson(credential))
+                .post("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    // Scenario: Update a non-existant category
+    // Scenario: Update a non-existant credential
 
-    @When("users update a non-existant category")
-    public void users_update_a_non_existant_category() throws Exception {
-        final CatalogCategory category = null;
+    @When("users update a non-existant credential")
+    public void users_update_a_non_existant_credential() throws Exception {
+        final CatalogCredential credential = null;
         response = given()
                 .when()
                 .contentType(ContentType.APPLICATION_JSON)
-                .body(CatalogCategory.toJson(category))
-                .post("/categories")
+                .body(CatalogCredential.toJson(credential))
+                .post("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Find an existant category
+    // Scenario: Find an existant credential
 
-    @When("users find an existant category")
-    public void users_find_an_existant_category() {
+    @When("users find an existant credential")
+    public void users_find_an_existant_credential() {
         response = given()
                 .when()
                 .pathParam("id", "<valid>")
-                .get("/categories/{id}")
+                .get("/credentials/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return the requested category")
-    public void the_server_should_return_the_requested_category() {
+    @Then("the server should return the requested credential")
+    public void the_server_should_return_the_requested_credential() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
 
         final JsonPath json = JsonPath.from(response.toString());
-        json.get("$.category_id");
+        json.get("$.credential_id");
         json.get("$.parent_id");
         json.get("$.is_enabled");
         json.get("$.title");
@@ -176,62 +177,62 @@ public class CategoriesRESTEndpoint {
         json.get("$.version");
     }
 
-    // Scenario: Find a non-existant category
+    // Scenario: Find a non-existant credential
 
-    @When("users find a non-existant category")
-    public void users_find_a_non_existant_category() {
+    @When("users find a non-existant credential")
+    public void users_find_a_non_existant_credential() {
         response = given()
                 .when()
                 .pathParam("id", "<invalid>")
-                .get("/categories/{id}")
+                .get("/credentials/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Delete an existant category
+    // Scenario: Delete an existant credential
 
-    @When("users delete an existant category")
-    public void users_delete_an_existant_category() {
+    @When("users delete an existant credential")
+    public void users_delete_an_existant_credential() {
         response = given()
                 .when()
                 .pathParam("id", "<valid>")
-                .post("/categories/{id}")
+                .post("/credentials/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    // Scenario: Delete a non-existant category
+    // Scenario: Delete a non-existant credential
 
-    @When("users delete a non-existant category")
-    public void users_delete_a_non_existant_category() {
+    @When("users delete a non-existant credential")
+    public void users_delete_a_non_existant_credential() {
         response = given()
                 .when()
                 .pathParam("id", "<invalid>")
-                .delete("/categories/{id}")
+                .delete("/credentials/{id}")
                 .then();
         System.out.println(response.extract().asPrettyString());
 
         // response.assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    // Scenario: Find all categories
+    // Scenario: Find all credentials
 
-    @When("users find all categories")
-    public void users_find_all_categories() {
+    @When("users find all credentials")
+    public void users_find_all_credentials() {
         response = given()
                 .when()
                 // .queryParam("sort", "")
                 // .queryParam("offset", "")
                 // .queryParam("length", "")
-                .get("/categories")
+                .get("/credentials")
                 .then();
         System.out.println(response.extract().asPrettyString());
     }
 
-    @Then("the server should return all categories")
-    public void the_server_should_return_all_categories() {
+    @Then("the server should return all credentials")
+    public void the_server_should_return_all_credentials() {
 
         response.assertThat().statusCode(HttpStatus.SC_OK);
         response.assertThat().contentType(ContentType.APPLICATION_JSON);
@@ -242,8 +243,7 @@ public class CategoriesRESTEndpoint {
         /*
          * List<String> list = json.getList("$");
          * for (int i = 0; i < list.size(); i++) {
-         * json.get("$[].category_id");
-         * json.get("$[].parent_id");
+         * json.get("$[].credential_id");
          * json.get("$[].is_enabled");
          * json.get("$[].title");
          * json.get("$[].note");
@@ -275,10 +275,9 @@ public class CategoriesRESTEndpoint {
         json.get("$");
     }
 
-    private CatalogCategory createValidCategory() {
-        return CatalogCategory.builder()
-                .category_id(null)
-                .parent_id(null)
+    private CatalogCredential createValidCredential() {
+        return CatalogCredential.builder()
+                .credential_id(null)
                 .is_enabled(true)
                 .title("Title")
                 .note("")
@@ -289,12 +288,12 @@ public class CategoriesRESTEndpoint {
                 .build();
     }
 
-    private CatalogCategory createInvalidCategory() {
-        return invalidateCategory(createValidCategory());
+    private CatalogCredential createInvalidCredential() {
+        return invalidateCredential(createValidCredential());
     }
 
-    private CatalogCategory invalidateCategory(final CatalogCategory category) {
-        category.title = null;
-        return category;
+    private CatalogCredential invalidateCredential(final CatalogCredential credential) {
+        credential.title = null;
+        return credential;
     }
 }

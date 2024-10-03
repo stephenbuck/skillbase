@@ -42,15 +42,12 @@ public class WorkflowAppEvents extends AppEvents {
     private WorkflowDefinitionsService defs;
 
     private final List<String> topics = Arrays.asList(
-        CatalogEvent.CATALOG_EVENT_TOPIC,
-        MemberEvent.MEMBER_EVENT_TOPIC
-    );
+            CatalogEvent.CATALOG_EVENT_TOPIC,
+            MemberEvent.MEMBER_EVENT_TOPIC);
 
     @Inject
     public WorkflowAppEvents(
-        final CommonEventsProvider evnt
-    )
-    {
+            final CommonEventsProvider evnt) {
         evnt.consume(topics, this);
     }
 
@@ -62,54 +59,54 @@ public class WorkflowAppEvents extends AppEvents {
      * @param topic
      * @param event
      */
-    public void onCloudEvent(final String topic, final CloudEvent event)  {
+    public void onCloudEvent(final String topic, final CloudEvent event) {
 
         log.info("cloud event = {}", event);
 
         /*
-        try {
-
-            final CloudEventData data = event.getData();
-
-            final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
-
-            final JsonParser parser = Json.createParser(stream);
-
-            if (parser.hasNext()) {
-
-                parser.next();
-
-                final UUID eventId = UUID.fromString(event.getId());
-                final String eventType = event.getType();
-                final JsonObject eventJson = parser.getObject();
-
-                switch (eventType) {
-                    case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
-                        onCredentialCreated(event, eventJson);
-                        break;
-                    case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
-                        onCredentialDeleted(event, eventJson);
-                        break;
-                    case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
-                        onCredentialUpdated(event, eventJson);
-                        break;
-                    case CatalogEvent.CATALOG_SKILL_CREATED:
-                        onSkillCreated(event, eventJson);
-                        break;
-                    case CatalogEvent.CATALOG_SKILL_DELETED:
-                        onSkillDeleted(event, eventJson);
-                        break;
-                    case CatalogEvent.CATALOG_SKILL_UPDATED:
-                        onSkillUpdated(event, eventJson);
-                        break;
-                    default:
-                        break;
-                }
-        }
-        catch (Exception e) {
-            log.error("TBD", e);
-        }
-        */
+         * try {
+         * 
+         * final CloudEventData data = event.getData();
+         * 
+         * final ByteArrayInputStream stream = new ByteArrayInputStream(data.toBytes());
+         * 
+         * final JsonParser parser = Json.createParser(stream);
+         * 
+         * if (parser.hasNext()) {
+         * 
+         * parser.next();
+         * 
+         * final UUID eventId = UUID.fromString(event.getId());
+         * final String eventType = event.getType();
+         * final JsonObject eventJson = parser.getObject();
+         * 
+         * switch (eventType) {
+         * case CatalogEvent.CATALOG_CREDENTIAL_CREATED:
+         * onCredentialCreated(event, eventJson);
+         * break;
+         * case CatalogEvent.CATALOG_CREDENTIAL_DELETED:
+         * onCredentialDeleted(event, eventJson);
+         * break;
+         * case CatalogEvent.CATALOG_CREDENTIAL_UPDATED:
+         * onCredentialUpdated(event, eventJson);
+         * break;
+         * case CatalogEvent.CATALOG_SKILL_CREATED:
+         * onSkillCreated(event, eventJson);
+         * break;
+         * case CatalogEvent.CATALOG_SKILL_DELETED:
+         * onSkillDeleted(event, eventJson);
+         * break;
+         * case CatalogEvent.CATALOG_SKILL_UPDATED:
+         * onSkillUpdated(event, eventJson);
+         * break;
+         * default:
+         * break;
+         * }
+         * }
+         * catch (Exception e) {
+         * log.error("TBD", e);
+         * }
+         */
     }
 
     /**
@@ -123,13 +120,13 @@ public class WorkflowAppEvents extends AppEvents {
 
         log.info("onCredentialCreated()");
 
-        final WorkflowDefinition definition = new WorkflowDefinition();
+        final WorkflowDefinition definition = WorkflowDefinition.builder().build();
         definition.peer_id = null;
         definition.credential_id = UUID.fromString(json.getString("credential_id"));
-//        definition.deployment_id = json.getString("deployment_id");
+        // definition.deployment_id = json.getString("deployment_id");
         definition.title = json.getString("title");
         definition.note = json.getString("note");
-        
+
         final UUID id = defs.insert(definition);
     }
 
@@ -145,14 +142,14 @@ public class WorkflowAppEvents extends AppEvents {
         log.info("onCredentialDeleted()");
 
         final UUID credential_id = UUID.fromString(json.getString("credential_id"));
-        
+
         log.info("credential_id = {}", credential_id);
 
         final Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
 
         final WorkflowDefinition definition = result.get();
-        
-        defs.delete(definition.definition_id);        
+
+        defs.delete(definition.definition_id);
     }
 
     /**
@@ -167,7 +164,7 @@ public class WorkflowAppEvents extends AppEvents {
         log.info("onCredentialUpdated()");
 
         final UUID credential_id = UUID.fromString(json.getString("credential_id"));
-        
+
         final Optional<WorkflowDefinition> result = defs.findByCredentialId(credential_id);
 
         final WorkflowDefinition definition = result.get();
@@ -175,7 +172,7 @@ public class WorkflowAppEvents extends AppEvents {
         definition.deployment_id = UUID.fromString(json.getString("deployment_id"));
         definition.title = json.getString("title");
         definition.note = json.getString("note");
-        
+
         defs.update(definition);
     }
 
@@ -190,13 +187,13 @@ public class WorkflowAppEvents extends AppEvents {
 
         log.info("onSkillCreated()");
 
-        final WorkflowDeployment deployment = new WorkflowDeployment();
+        final WorkflowDeployment deployment = WorkflowDeployment.builder().build();
         deployment.peer_id = null;
         deployment.skill_id = UUID.fromString(json.getString("skill_id"));
         deployment.state = json.getString("state");
         deployment.title = json.getString("title");
         deployment.note = json.getString("note");
-        
+
         final UUID id = deps.insert(deployment);
     }
 
@@ -212,13 +209,13 @@ public class WorkflowAppEvents extends AppEvents {
         log.info("onSkillDelete():");
 
         final UUID skill_id = UUID.fromString(json.getString("skill_id"));
-     
+
         log.info("skill_id = {}", skill_id);
 
         final Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
 
         final WorkflowDeployment deployment = result.get();
-        
+
         deps.delete(deployment.deployment_id);
     }
 
@@ -234,7 +231,7 @@ public class WorkflowAppEvents extends AppEvents {
         log.info("onSkillUpdate():");
 
         final UUID skill_id = UUID.fromString(json.getString("skill_id"));
-     
+
         log.info("skill_id = {}", skill_id);
 
         final Optional<WorkflowDeployment> result = deps.findBySkillId(skill_id);
@@ -243,7 +240,7 @@ public class WorkflowAppEvents extends AppEvents {
         deployment.state = json.getString("state");
         deployment.title = json.getString("title");
         deployment.note = json.getString("note");
-        
+
         deps.update(deployment);
     }
 
@@ -255,32 +252,33 @@ public class WorkflowAppEvents extends AppEvents {
      * @param json
      */
     /*
-    private void onMemberEvent(final MemberEvent event, final JsonObject json) throws Exception {
-
-        log.info("member event = {}", event);
-
-        switch (event.type()) {
-            case MemberEvent.MEMBER_ACHIEVEMENT_CREATED:
-                onAchievementCreated(event, json);
-                break;
-            case MemberEvent.MEMBER_ACHIEVEMENT_DELETED:
-                onAchievementDeleted(event, json);
-                break;
-            case MemberEvent.MEMBER_ACHIEVEMENT_UPDATED:
-                onAchievementUpdated(event, json);
-                break;
-            case MemberEvent.MEMBER_USER_CREATED:
-                onUserCreated(event, json);
-                break;
-            case MemberEvent.MEMBER_USER_DELETED:
-                onUserDeleted(event, json);
-                break;
-            case MemberEvent.MEMBER_USER_UPDATED:
-                onUserUpdated(event, json);
-                break;
-            default:
-                break;
-        }
-    }
-    */
+     * private void onMemberEvent(final MemberEvent event, final JsonObject json)
+     * throws Exception {
+     * 
+     * log.info("member event = {}", event);
+     * 
+     * switch (event.type()) {
+     * case MemberEvent.MEMBER_ACHIEVEMENT_CREATED:
+     * onAchievementCreated(event, json);
+     * break;
+     * case MemberEvent.MEMBER_ACHIEVEMENT_DELETED:
+     * onAchievementDeleted(event, json);
+     * break;
+     * case MemberEvent.MEMBER_ACHIEVEMENT_UPDATED:
+     * onAchievementUpdated(event, json);
+     * break;
+     * case MemberEvent.MEMBER_USER_CREATED:
+     * onUserCreated(event, json);
+     * break;
+     * case MemberEvent.MEMBER_USER_DELETED:
+     * onUserDeleted(event, json);
+     * break;
+     * case MemberEvent.MEMBER_USER_UPDATED:
+     * onUserUpdated(event, json);
+     * break;
+     * default:
+     * break;
+     * }
+     * }
+     */
 }

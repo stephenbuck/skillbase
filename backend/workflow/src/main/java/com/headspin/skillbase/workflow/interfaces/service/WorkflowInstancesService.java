@@ -147,12 +147,13 @@ public class WorkflowInstancesService {
     // @RolesAllowed({ "Admin" })
     @Transactional
     public UUID start(final UUID definition_id, final UUID user_id) {
-        final WorkflowInstance instance = new WorkflowInstance();
-        instance.peer_id = null;
-        instance.definition_id = definition_id;
-        instance.user_id = user_id;
-        instance.title = "TBD";
-        instance.note = "TBD";
+        final WorkflowInstance instance = WorkflowInstance.builder()
+                .peer_id(null)
+                .definition_id(definition_id)
+                .user_id(user_id)
+                .title("TBD")
+                .note("TBD")
+                .build();
         final UUID instance_id = repo.insert(instance);
         // UUID peer_id = work.start(instance_id, user_id);
         return instance_id;

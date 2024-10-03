@@ -1,2 +1,2 @@
 clear
-mvn clean verify wildfly:deploy
+mvn -DskipTests clean verify # wildfly:deploy

@@ -620,6 +620,12 @@
     </dependency>
 
     <dependency>
+      <artifactId>datafaker</artifactId>
+      <groupId>net.datafaker</groupId>
+      <scope>test</scope>
+    </dependency>      
+
+    <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.testcontainers</groupId>
       <scope>test</scope>

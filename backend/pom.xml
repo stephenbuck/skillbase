@@ -16,10 +16,11 @@
 
   <properties>
 
-    <java.version>21</java.version>
+    <java.version>23</java.version>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+	  <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <maven.compiler.version>3.13.0</maven.compiler.version>
     <maven.buildhelper.version>3.6.0</maven.buildhelper.version>
@@ -42,6 +43,7 @@
     <cloudevents.version>4.0.1</cloudevents.version>
     <config.etcd.version>3.0.1</config.etcd.version>
     <cucumber.version>7.19.0</cucumber.version>
+    <datafaker.version>2.4.0</datafaker.version>
     <docker.plugin.version>0.45.1</docker.plugin.version>
     <elastic.search.version>8.15.0</elastic.search.version>
     <elastic.clients.version>8.15.2</elastic.clients.version>
@@ -73,6 +75,7 @@
     <liquibase.version>4.29.2</liquibase.version>
     <log4j.version>3.0.0-beta2</log4j.version>
     <lombok.version>1.18.34</lombok.version>
+    <mapstruct.version>1.6.2</mapstruct.version>
     <microprofile.config.version>3.1</microprofile.config.version>
     <microprofile.fault-tolerance.version>4.1</microprofile.fault-tolerance.version>
     <microprofile.graphql.version>2.0</microprofile.graphql.version>
@@ -91,7 +94,7 @@
     <revapi.plugin.version>0.15.0</revapi.plugin.version>
     <revapi.java.version>0.28.1</revapi.java.version>
     <seaweedfs.version>3.71</seaweedfs.version>
-    <slf4j.version>2.1.0-alpha1</slf4j.version>
+    <slf4j.version>2.0.16</slf4j.version>
     <smallrye.config.version>3.9.1</smallrye.config.version>
     <smallrye.graphql.version>2.10.0</smallrye.graphql.version>
     <smallrye.graphql-ui.version>2.10.0</smallrye.graphql-ui.version>
@@ -465,7 +468,7 @@
         <groupId>org.microprofile-ext.config-ext</groupId>
         <version>${config.etcd.version}</version>
       </dependency>
-    
+
       <!--
       <dependency>
         <artifactId>elasticsearch</artifactId>
@@ -611,6 +614,12 @@
         <artifactId>lombok</artifactId>
         <groupId>org.projectlombok</groupId>
         <version>${lombok.version}</version>
+      </dependency>
+
+      <dependency>
+        <artifactId>mapstruct</artifactId>
+        <groupId>org.mapstruct</groupId>
+        <version>${mapstruct.version}</version>
       </dependency>
 
       <dependency>
@@ -804,6 +813,13 @@
         <scope>test</scope>
       </dependency>
 
+      <dependency>
+        <artifactId>datafaker</artifactId>
+        <groupId>net.datafaker</groupId>
+        <version>${datafaker.version}</version>
+        <scope>test</scope>
+      </dependency>
+      
       <dependency>
         <artifactId>junit-jupiter</artifactId>
         <groupId>org.testcontainers</groupId>

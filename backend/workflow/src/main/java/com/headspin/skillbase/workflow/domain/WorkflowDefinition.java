@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 /**
  * Representation of a workflow definition entity.
@@ -29,6 +30,7 @@ import jakarta.validation.constraints.NotNull;
  */
 
 @Entity
+@Builder
 @Cacheable
 @Table(schema = "workflow", name = "definition")
 public class WorkflowDefinition extends DomainEntity {
