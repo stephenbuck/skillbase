@@ -9,15 +9,15 @@ import jakarta.validation.constraints.NotNull;
 
 public interface MemberProcessRepo {
 
-    public UUID insert(@NotNull @Valid MemberProcess process);
+    UUID insert(@NotNull @Valid MemberProcess process);
 
-    public void delete(@NotNull UUID process_id);
+    void delete(@NotNull UUID process_id);
 
-    public MemberProcess update(@NotNull @Valid MemberProcess process);
+    MemberProcess update(@NotNull @Valid MemberProcess process);
 
-    public Optional<MemberProcess> findById(@NotNull UUID process_id);
+    Optional<MemberProcess> findById(@NotNull UUID process_id);
 
-    public List<MemberProcess> findAll(String sort, Integer offset, Integer limit);
+    List<MemberProcess> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }

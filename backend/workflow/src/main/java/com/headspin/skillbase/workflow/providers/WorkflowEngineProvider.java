@@ -16,18 +16,31 @@ import java.util.UUID;
 
 public interface WorkflowEngineProvider {
 
-    public String insertDefinition(WorkflowDefinition definition);
-    public void updateDefinition(WorkflowDefinition definition);
-    public void deleteDefinition(UUID id);
-    public String insertDeployment(WorkflowDeployment deployment);
-    public void updateDeployment(WorkflowDeployment deployment);
-    public void deleteDeployment(UUID id);
-    public String startProcess(UUID id);
-    public String insertInstance(WorkflowInstance instance);
-    public void updateInstance(WorkflowInstance instance);
-    public void deleteInstance(UUID id);
-    public String insertTask(WorkflowTask task);
-    public void updateTask(WorkflowTask task);
-    public void deleteTask(UUID id);
-    public void test();
+    String insertDefinition(WorkflowDefinition definition);
+
+    void updateDefinition(WorkflowDefinition definition);
+
+    void deleteDefinition(UUID id);
+
+    String insertDeployment(WorkflowDeployment deployment);
+
+    void updateDeployment(WorkflowDeployment deployment);
+
+    void deleteDeployment(UUID id);
+
+    String startProcess(UUID id);
+
+    String insertInstance(WorkflowInstance instance);
+
+    void updateInstance(WorkflowInstance instance);
+
+    void deleteInstance(UUID id);
+
+    String insertTask(WorkflowTask task);
+
+    void updateTask(WorkflowTask task);
+
+    void deleteTask(UUID id);
+
+    void test();
 }

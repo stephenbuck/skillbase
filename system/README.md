@@ -12,8 +12,9 @@ Instructions:
 * Type 'psql -d skillbase -U postgres -h localhost -p 15432' for PostgreSQL tool (password is 'postgres')
 * Open 'http://localhost:9013' for ApiSix tool
 * Open 'http://localhost:8080/flowable-admin' for Flowable tool
-* Open 'http://localhost:8080/admin' for Keycloak tool
+* Open 'http://localhost:8080/admin' for Keycloak tool (admin:admin)
 * Open 'http://localhost:9080' for Ngnix tool
+* Open 'http://127.0.0.1:9001/login' for MinIO tool (skillbase:skillbase)
 
 Links:
 

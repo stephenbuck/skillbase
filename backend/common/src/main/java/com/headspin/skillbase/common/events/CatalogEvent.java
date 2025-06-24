@@ -130,6 +130,10 @@ public class CatalogEvent extends SkillbaseEvent {
         super(id, type, data);
     }
 
+    public static CatalogEvent of(UUID id, String type, JsonObject data) {
+        return new CatalogEvent(id, type, data);
+    }
+
     @Override
     public String toString() {
         return "CatalogEvent {\n" +

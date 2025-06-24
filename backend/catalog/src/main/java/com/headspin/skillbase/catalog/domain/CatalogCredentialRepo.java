@@ -9,18 +9,18 @@ import jakarta.validation.constraints.NotNull;
 
 public interface CatalogCredentialRepo {
 
-    public UUID insert(@NotNull @Valid CatalogCredential credential);
+    UUID insert(@NotNull @Valid CatalogCredential credential);
 
-    public void delete(@NotNull UUID credential_id);
+    void delete(@NotNull UUID credential_id);
 
-    public CatalogCredential update(@NotNull @Valid CatalogCredential credential);
+    CatalogCredential update(@NotNull @Valid CatalogCredential credential);
 
-    public Optional<CatalogCredential> findById(@NotNull UUID credential_id);
+    Optional<CatalogCredential> findById(@NotNull UUID credential_id);
 
-    public List<CatalogCredential> findAll(String sort, Integer offset, Integer limit);
+    List<CatalogCredential> findAll(String sort, Integer offset, Integer limit);
 
-    public List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
+    List<CatalogCredential> findAllByTitleLike(@NotNull String pattern, String sort, Integer offset,
             Integer limit);
 
-    public Long count();
+    Long count();
 }

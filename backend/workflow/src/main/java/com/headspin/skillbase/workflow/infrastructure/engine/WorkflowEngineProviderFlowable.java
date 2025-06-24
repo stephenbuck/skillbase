@@ -241,8 +241,6 @@ public class WorkflowEngineProviderFlowable implements WorkflowEngineProvider {
 
         final List<Task> tasks = task.createTaskQuery().taskCandidateGroup("managers").list();
         log.info("You have {} tasks", tasks.size());
-        for (int i = 0; i < tasks.size(); i++) {
-            log.info((i + 1) + ") " + tasks.get(i).getName());
-        }
+        tasks.stream().forEach((t) -> log.info(t.getName()));
     }
 }

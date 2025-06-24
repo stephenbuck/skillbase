@@ -28,11 +28,11 @@ Past iterations have been implemented using a handful of services combined into 
 * See https://spring.io/projects/spring-boot
 
 
-**Language (Java 21):**
+**Language (Java 24):**
 
 I’ve used Java for every backend implementation of this project so far and will use it for this one as well, especially given the recent evolution of Java, with new features like closures, records, etc.
 
-* See https://docs.oracle.com/en/java/javase/21/docs/api/index.html
+* See https://docs.oracle.com/en/java/javase/24/docs/api/index.html
 
 
 **Framework (Jakarta EE and Spring Boot):**

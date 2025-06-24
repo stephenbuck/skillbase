@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <name>skillbase-backend-common</name>
   <packaging>jar</packaging>
@@ -29,37 +29,6 @@
         <groupId>org.codehaus.mojo</groupId>
       </plugin>
 
-      <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <groupId>org.apache.maven.plugins</groupId>
-          <executions>
-            <execution>
-                <!--Work around. Surefire does not use JUnit's Test Engine discovery functionality -->
-                <id>CLI-test</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                      <echo message="Running JUnit Platform CLI"/>
-                      <java classname="org.junit.platform.console.ConsoleLauncher"
-                            fork="true"
-                            failonerror="true"
-                            newenvironment="true"
-                            maxmemory="512m"
-                            classpathref="maven.test.classpath">
-                        <arg value="--include-engine"/>
-                        <arg value="cucumber"/>
-                        <arg value="--scan-classpath"/>
-                        <arg value="${project.build.testOutputDirectory}"/>
-                      </java>
-                  </target>
-                </configuration>
-            </execution>
-          </executions>
-      </plugin>
-      
       <plugin>
         <artifactId>docker-maven-plugin</artifactId>
         <groupId>io.fabric8</groupId>
@@ -295,7 +264,7 @@
       <artifactId>lombok</artifactId>
       <groupId>org.projectlombok</groupId>
     </dependency>
-
+    
     <dependency>
       <artifactId>microprofile-fault-tolerance-api</artifactId>
       <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
@@ -327,6 +296,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>record-builder-core</artifactId>
+      <groupId>io.soabase.record-builder</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>seaweedfs-client</artifactId>
       <groupId>com.seaweedfs</groupId>
     </dependency>
@@ -344,6 +318,11 @@
     <dependency>
       <artifactId>smallrye-health</artifactId>
       <groupId>io.smallrye</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>transactionoutbox-core</artifactId>
+      <groupId>com.gruelbox</groupId>
     </dependency>
 
     <dependency>
@@ -378,14 +357,12 @@
     <dependency>
       <artifactId>junit-platform-suite</artifactId>
       <groupId>org.junit.platform</groupId>
-      <version>1.11.1</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <artifactId>junit-platform-suite-api</artifactId>
       <groupId>org.junit.platform</groupId>
-      <version>1.11.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -401,12 +378,14 @@
       <scope>test</scope>
     </dependency>      
 
+    <!--
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.testcontainers</groupId>
       <scope>test</scope>
     </dependency>
-    
+    -->
+
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>

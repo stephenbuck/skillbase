@@ -304,7 +304,7 @@ public class CatalogCategoriesREST {
     private String expiresAt(int minutes) {
         return OffsetDateTime
                 .now()
-                .plusMinutes(60)
+                .plusMinutes(minutes)
                 .format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }

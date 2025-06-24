@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <name>skillbase-backend-workflow</name>
   <packaging>war</packaging>
@@ -417,9 +417,13 @@
     </dependency>
 
     <dependency>
+      <artifactId>record-builder-core</artifactId>
+      <groupId>io.soabase.record-builder</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>sdk</artifactId>
       <groupId>dev.openfeature</groupId>
-      <version>${openfeature.version}</version>
     </dependency>
 
     <dependency>
@@ -455,6 +459,11 @@
     -->
 
     <dependency>
+      <artifactId>transactionoutbox-core</artifactId>
+      <groupId>com.gruelbox</groupId>
+    </dependency>
+
+    <dependency>
         <artifactId>valkey-java</artifactId>
         <groupId>io.valkey</groupId>
     </dependency>
@@ -472,6 +481,7 @@
       <scope>test</scope>
     </dependency>
 
+    <!--
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.testcontainers</groupId>
@@ -483,6 +493,7 @@
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
     </dependency>
+    -->
 
     <dependency>
       <artifactId>kafka</artifactId>

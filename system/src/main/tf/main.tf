@@ -22,11 +22,11 @@ terraform {
   required_providers {
     docker = {
       source = "kreuzwerker/docker"
-      version = "~> 3.0.2"
+      version = "~> 3.6.0"
     }
     kafka = {
       source = "Mongey/kafka"
-      version = "0.7.1"
+      version = "0.10.2"
     }
   }
 }
@@ -104,8 +104,7 @@ resource "docker_container" "apicurio" {
   }
   depends_on = [
     docker_container.kafka,
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -171,7 +170,6 @@ resource "docker_container" "apisix" {
     internal = var.apisix_3_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -210,8 +208,7 @@ resource "docker_container" "consul" {
     host_path = "${var_skillbase_system_runtime}/consul/conf"
   }
   depends_on = [
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -255,8 +252,7 @@ resource "docker_container" "debezium" {
   }
   depends_on = [
     docker_container.kafka,
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -309,7 +305,6 @@ resource "docker_container" "elasticsearch" {
     internal = var.elasticsearch_peer_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -372,7 +367,6 @@ resource "docker_container" "etcd" {
     internal = var.etcd_peer_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -421,7 +415,6 @@ resource "docker_container" "flipt" {
       internal = var.flipt_admin_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -455,8 +448,7 @@ resource "docker_container" "flowable" {
     external = var.flowable_port_external
   }
   depends_on = [
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -497,7 +489,6 @@ resource "docker_container" "fluentd" {
     "FLUENT_CONF=/fluentd/etc/fluentd.conf"
   ]
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -508,7 +499,6 @@ resource "docker_container" "fluentd" {
 ################################################################################
 */
 
-/*
 ################################################################################
 # Kafka
 ################################################################################
@@ -560,10 +550,8 @@ resource "docker_container" "kafka" {
     internal = var.kafka_broker_port_internal_1
   }
   depends_on = [
-    docker_container.registry
   ]
 }
-*/
 
 /*
 ################################################################################
@@ -618,8 +606,7 @@ resource "docker_container" "kafka_connect" {
   ]
   depends_on = [
     docker_container.kafka,
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -700,7 +687,6 @@ resource "docker_container" "kafka_ui" {
     internal = var.kafka_ui_port_internal
   }
   depends_on = [
-    docker_container.registry,
     docker_container.kafka,
     docker_container.kafka_connect,
     docker_container.kafka_schema
@@ -750,8 +736,7 @@ resource "docker_container" "keycloak" {
     internal = var.keycloak_port_internal
   }
   depends_on = [
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
   command = ["start-dev"]
 }
@@ -785,7 +770,6 @@ resource "docker_container" "memcached" {
     internal = var.memcached_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -848,10 +832,9 @@ resource "docker_container" "minio" {
   }
   volumes {
     container_path = "/data"
-    host_path = "${var_skillbase_system_runtime}/minio/data"
+    // host_path = "${var_skillbase_system_runtime}/minio/data"
   }
   depends_on = [
-    docker_container.registry
   ]
   command = ["server", "/data", "--console-address", ":${var.minio_api_port_internal}"]
 }
@@ -913,7 +896,6 @@ resource "docker_container" "mysql" {
     internal = var.mysql_port2_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -951,7 +933,6 @@ resource "docker_container" "nginx" {
     internal = var.nginx_port_internal
   }
   depends = [
-    docker_container.registry
   ]
 }
 */
@@ -1012,7 +993,6 @@ resource "docker_container" "opensearch" {
     host_path = "${var_skillbase_system_runtime}/opensearch/data"
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -1059,7 +1039,6 @@ resource "docker_container" "postgres" {
     internal = var.postgres_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 
@@ -1092,7 +1071,6 @@ resource "docker_container" "prometheus" {
     internal = var.prometheus_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -1126,7 +1104,6 @@ resource "docker_container" "pulsar" {
     internal = var.pulsar_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -1160,11 +1137,11 @@ resource "docker_container" "redis" {
     internal = var.redis_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
 
+/*
 ################################################################################
 # Registry
 ################################################################################
@@ -1183,6 +1160,7 @@ resource "docker_container" "registry" {
     internal = var.docker_registry_port_internal
   }
 }
+*/
 
 /*
 ################################################################################
@@ -1244,8 +1222,7 @@ resource "docker_container" "seaweedfs" {
     internal = var.seaweedfs_port2_internal
   }
   depends_on = [
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
     command = ["master", "-ip=master", "-ip.bind=0.0.0.0", "-metricsPort=${var.seaweedfs_port3_internal}"]
 }
@@ -1287,8 +1264,7 @@ resource "docker_container" "unleash" {
     internal = var.unleash_port_internal
   }
   depends_on = [
-    docker_container.postgres,
-    docker_container.registry
+    docker_container.postgres
   ]
 }
 */
@@ -1322,7 +1298,6 @@ resource "docker_container" "valkey" {
     internal = var.valkey_port_internal
   }
   depends_on = [
-    docker_container.registry
   ]
 }
 */
@@ -1388,7 +1363,7 @@ resource "docker_container" "wildfly" {
 
     // Database:
     //    docker_container_mysql,
-    docker_container.postgres,
+        docker_container.postgres,
 
     // Events:
     //    docker_container.kafka,
@@ -1414,9 +1389,6 @@ resource "docker_container" "wildfly" {
 
     // Workflow:
     //    docker_container.flowable,
-
-    // Registry:
-    docker_container.registry
   ]
 }
 
@@ -1434,7 +1406,6 @@ resource "docker_container" "catalog" {
   name  = "catalog"
   image = docker_image.catalog.image_id
   depends_on = [
-    docker_container.registry,
     docker_container.wildfly
   ]
 }
@@ -1454,7 +1425,6 @@ resource "docker_container" "image" {
   name  = "image"
   image = docker_image.image.image_id
   depends_on = [
-    docker_container.registry,
     docker_container.wildfly
   ]
 }
@@ -1474,7 +1444,6 @@ resource "docker_container" "member" {
   name = "member"
   image = docker_image.member.image_id
   depends_on = [
-    docker_container.registry,
     docker_container.wildfly
   ]
 }
@@ -1493,7 +1462,6 @@ resource "docker_container" "workflow" {
   name = "workflow"
   image = docker_image.workflow.image_id
   depends_on = [
-    docker_container.registry,
     docker_container.wildfly
   ]
 }

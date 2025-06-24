@@ -5,7 +5,7 @@ DROP SCHEMA IF EXISTS workflow CASCADE;
 CREATE SCHEMA workflow;
 
 CREATE TABLE IF NOT EXISTS workflow.deployment (
-  deployment_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  deployment_id            UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
   skill_id                 UUID            NULL DEFAULT NULL,
   state                    VARCHAR         NULL DEFAULT NULL,
@@ -23,7 +23,7 @@ INSERT INTO workflow.deployment(title, note) values('Deployment-1', 'Note-1');
 INSERT INTO workflow.deployment(title, note) values('Deployment-2', 'Note-2');
 
 CREATE TABLE IF NOT EXISTS workflow.definition (
-  definition_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  definition_id            UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
   deployment_id            UUID        NOT NULL,
   credential_id            UUID            NULL DEFAULT NULL,
@@ -48,7 +48,7 @@ INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deplo
 INSERT INTO workflow.definition(deployment_id, title, note) values((SELECT deployment_id FROM workflow.deployment WHERE title LIKE '%-1' LIMIT 1), 'Model-5', 'Note-5');
 
 CREATE TABLE IF NOT EXISTS workflow.instance (
-  instance_id              UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  instance_id              UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
   definition_id            UUID        NOT NULL,
   user_id                  UUID            NULL DEFAULT NULL,
@@ -72,7 +72,7 @@ INSERT INTO workflow.instance(definition_id, title, note) values((SELECT definit
 INSERT INTO workflow.instance(definition_id, title, note) values((SELECT definition_id FROM workflow.definition WHERE title LIKE '%-1' LIMIT 1), 'Process-5', 'Note-5');
 
 CREATE TABLE IF NOT EXISTS workflow.task (
-  task_id                  UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  task_id                  UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   peer_id                  VARCHAR         NULL DEFAULT NULL,
   instance_id              UUID        NOT NULL,
   title                    VARCHAR     NOT NULL,
@@ -88,7 +88,7 @@ CREATE INDEX task_title ON workflow.task(title);
 CREATE INDEX task_instance ON workflow.task(instance_id);
 
 CREATE TABLE IF NOT EXISTS workflow.outbox (
-  outbox_id                UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  outbox_id                UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   event                    VARCHAR     NOT NULL,
   created_at               TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at               TIMESTAMP   NOT NULL DEFAULT now(),

@@ -12,20 +12,20 @@ import com.headspin.skillbase.member.domain.MemberUser;
  * @since 1.0
  */
 
- public interface MemberAuthProvider {
+public interface MemberAuthProvider {
 
-    public void insertUser(UUID id, MemberUser user);
+    void insertUser(UUID id, MemberUser user);
 
-    public void deleteUser(UUID id);
+    void deleteUser(UUID id);
 
-    public void updateUser(MemberUser user);
+    void updateUser(MemberUser user);
 
-    public void insertGroup(UUID id, MemberGroup group);
+    void insertGroup(UUID id, MemberGroup group);
 
-    public void deleteGroup(UUID id);
+    void deleteGroup(UUID id);
 
-    public void updateGroup(MemberGroup group);
+    void updateGroup(MemberGroup group);
 
-    public void test();
+    void test();
 
 }

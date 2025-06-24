@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 
 public interface CommonStorageProvider {
 
-    public static class CommonStorageObject {
+    class CommonStorageObject {
 
         public String object_id;
         public String type;
@@ -33,12 +33,12 @@ public interface CommonStorageProvider {
         }
     }
 
-    public String uploadObject(@NotNull final InputStream input, @NotNull final Long size,
+    String uploadObject(@NotNull final InputStream input, @NotNull final Long size,
             @NotNull final MediaType type) throws Exception;
 
-    public CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception;
+    CommonStorageObject downloadObject(@NotNull final String object_id) throws Exception;
 
-    public void deleteObject(@NotNull final String object_id) throws Exception;
+    void deleteObject(@NotNull final String object_id) throws Exception;
 
-    public void test();
+    void test();
 }

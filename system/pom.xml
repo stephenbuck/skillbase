@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <name>skillbase_system</name>
   <packaging>pom</packaging>
@@ -16,7 +16,7 @@
   </parent>
 
   <properties>
-    <tf.maven.version>0.13</tf.maven.version>
+    <tf.maven.version>0.13-593</tf.maven.version>
   </properties>
 
   <build>
@@ -28,7 +28,7 @@
       <plugin>
         <artifactId>docker-maven-plugin</artifactId>
         <groupId>io.fabric8</groupId>
-        <version>0.44.0</version>
+        <version>0.46.0</version>
         <configuration>
           <images>
             <image>

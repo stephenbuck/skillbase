@@ -16,6 +16,7 @@ import com.headspin.skillbase.common.providers.CommonEventsProvider;
 import com.headspin.skillbase.common.providers.CommonFeaturesProvider;
 import com.headspin.skillbase.common.providers.CommonSearchProvider;
 import com.headspin.skillbase.common.providers.CommonStorageProvider;
+import com.headspin.skillbase.member.app.MemberAppOutbox;
 import com.headspin.skillbase.member.domain.MemberAchievement;
 import com.headspin.skillbase.member.domain.MemberGroup;
 import com.headspin.skillbase.member.domain.MemberUser;
@@ -58,6 +59,9 @@ public class MemberUsersService {
     private MemberUserRepo repo;
 
     @Inject
+    private MemberAppOutbox tbox;
+
+    @Inject
     private MemberAuthProvider auth;
 
     @Inject
@@ -86,10 +90,18 @@ public class MemberUsersService {
     @Transactional
     public UUID insert(@NotNull @Valid final MemberUser user) throws Exception {
         final UUID user_id = repo.insert(user);
-        evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_USER_CREATED,
-                MemberUser.toJson(user));
+        /*
+         * BOZO
+         * evnt.produce(
+         * MemberEvent.MEMBER_EVENT_TOPIC,
+         * MemberEvent.MEMBER_USER_CREATED,
+         * MemberUser.toJson(user));
+         */
+        // BOZO
+        this.tbox.schedule(CommonEventsProvider.class)
+                .produce(MemberEvent.MEMBER_EVENT_TOPIC,
+                        MemberEvent.MEMBER_USER_CREATED,
+                        MemberUser.toJson(user));
         return user_id;
     }
 
@@ -103,10 +115,18 @@ public class MemberUsersService {
     @Transactional
     public void delete(@NotNull final UUID user_id) throws Exception {
         repo.delete(user_id);
-        evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_USER_DELETED,
-                "{}");
+        /*
+         * BOZO
+         * evnt.produce(
+         * MemberEvent.MEMBER_EVENT_TOPIC,
+         * MemberEvent.MEMBER_USER_DELETED,
+         * "{}");
+         */
+        this.tbox.schedule(CommonEventsProvider.class)
+                .produce(
+                        MemberEvent.MEMBER_EVENT_TOPIC,
+                        MemberEvent.MEMBER_USER_DELETED,
+                        "{}");
     }
 
     /**
@@ -120,10 +140,17 @@ public class MemberUsersService {
     @Transactional
     public MemberUser update(@NotNull @Valid final MemberUser user) throws Exception {
         final MemberUser updated = repo.update(user);
-        evnt.produce(
-                MemberEvent.MEMBER_EVENT_TOPIC,
-                MemberEvent.MEMBER_USER_UPDATED,
-                MemberUser.toJson(user));
+        /*
+         * BOZO
+         * evnt.produce(
+         * MemberEvent.MEMBER_EVENT_TOPIC,
+         * MemberEvent.MEMBER_USER_UPDATED,
+         * MemberUser.toJson(user));
+         */
+        this.tbox.schedule(CommonEventsProvider.class)
+                .produce(MemberEvent.MEMBER_EVENT_TOPIC,
+                        MemberEvent.MEMBER_USER_UPDATED,
+                        MemberUser.toJson(user));
         return updated;
     }
 

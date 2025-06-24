@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <artifactId>skillbase-backend</artifactId>
   <groupId>com.headspin.skillbase</groupId>
@@ -16,98 +16,103 @@
 
   <properties>
 
-    <java.version>23</java.version>
+    <java.version>24</java.version>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-	  <maven.compiler.proc>full</maven.compiler.proc>
+    <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.release>${java.version}</maven.compiler.release>
-    <maven.compiler.version>3.13.0</maven.compiler.version>
-    <maven.buildhelper.version>3.6.0</maven.buildhelper.version>
+    <maven.compiler.version>3.14.0</maven.compiler.version>
+    <maven.buildhelper.version>3.6.1</maven.buildhelper.version>
     <maven.buildplan.version>2.2.2</maven.buildplan.version>
-    <maven.dependency.version>3.8.0</maven.dependency.version>
-    <maven.exec.version>3.4.1</maven.exec.version>
-    <maven.failsafe.version>3.5.0</maven.failsafe.version>
-    <maven.formatter.version>2.24.2</maven.formatter.version>
-    <maven.install.version>3.1.3</maven.install.version>
-    <maven.javadoc.version>3.10.0</maven.javadoc.version>
+    <maven.clean.version>3.5.0</maven.clean.version>
+    <maven.dependency.version>3.8.1</maven.dependency.version>
+    <maven.exec.version>3.5.1</maven.exec.version>
+    <maven.failsafe.version>3.5.3</maven.failsafe.version>
+    <maven.formatter.version>2.26.0</maven.formatter.version>
+    <maven.install.version>4.0.0-beta-2</maven.install.version>
+    <maven.jar.version>3.4.2</maven.jar.version>
+    <maven.javadoc.version>3.11.2</maven.javadoc.version>
     <maven.resources.version>3.3.1</maven.resources.version>
-    <maven.rewrite.version>5.41.0</maven.rewrite.version>
-    <maven.surefire.version>3.5.0</maven.surefire.version>
+    <maven.rewrite.version>6.11.0</maven.rewrite.version>
+    <maven.surefire.version>3.5.3</maven.surefire.version>
     <maven.templating.version>3.0.0</maven.templating.version>
-    <maven.versions.version>2.17.1</maven.versions.version>
+    <maven.versions.version>2.18.0</maven.versions.version>
     <maven.war.version>3.4.0</maven.war.version>
 
-    <apicurio.version>3.0.0.M5</apicurio.version>
-    <archunit.version>1.3.0</archunit.version>
+    <apicurio.version>3.0.9</apicurio.version>
+    <archunit.version>1.4.1</archunit.version>
     <cloudevents.version>4.0.1</cloudevents.version>
     <config.etcd.version>3.0.1</config.etcd.version>
-    <cucumber.version>7.19.0</cucumber.version>
-    <datafaker.version>2.4.0</datafaker.version>
-    <docker.plugin.version>0.45.1</docker.plugin.version>
+    <cucumber.version>7.23.0</cucumber.version>
+    <datafaker.version>2.4.3</datafaker.version>
+    <docker.plugin.version>0.46.0</docker.plugin.version>
     <elastic.search.version>8.15.0</elastic.search.version>
-    <elastic.clients.version>8.15.2</elastic.clients.version>
+    <elastic.clients.version>9.0.2</elastic.clients.version>
     <elastic.plugin.version>6.27</elastic.plugin.version>
-    <flipt.version>1.1.1</flipt.version>
-    <flowable.version>7.0.1</flowable.version>
+    <flipt.version>1.1.2</flipt.version>
+    <flowable.version>7.1.0</flowable.version>
     <fluentd.log4j.version>1.0.0</fluentd.log4j.version>
     <graphql.version>230521-nf-execution</graphql.version>
-    <handlebars.version>4.3.1</handlebars.version>
-    <jackson.databind.version>2.18.0</jackson.databind.version>
+    <handlebars.version>4.4.0</handlebars.version>
+    <jackson.databind.version>2.19.0</jackson.databind.version>
     <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
     <jakarta.data.version>1.0.1</jakarta.data.version>
     <jakarta.inject.version>2.0.1.MR</jakarta.inject.version>
     <jakarta.json.version>2.1.3</jakarta.json.version>
     <jakarta.json.bind.version>3.0.1</jakarta.json.bind.version>
     <jakarta.persistence.version>3.2.0</jakarta.persistence.version>
-    <jakarta.version>11.0.0-M4</jakarta.version>
+    <jakarta.version>11.0.0-RC1</jakarta.version>
     <java.problem.version>0.27.1</java.problem.version>
-    <java.s3.spi.version>2.1.0</java.s3.spi.version>
+    <java.s3.spi.version>2.2.1</java.s3.spi.version>
     <javax.cache.version>1.1.1</javax.cache.version>
-    <jetcd.version>0.8.3</jetcd.version>
-    <json.validator.version>1.5.2</json.validator.version>
-    <junit.version>5.11.1</junit.version>
-    <junit.platform.version>1.11.1</junit.platform.version>
-    <kafka.clients.version>3.8.0</kafka.clients.version>
-    <keycloak.version>26.0.0-alpha2</keycloak.version>
-    <lettuce.version>6.5.0.RC1</lettuce.version>    
-    <liquibase.maven.version>4.29.2</liquibase.maven.version>
-    <liquibase.version>4.29.2</liquibase.version>
-    <log4j.version>3.0.0-beta2</log4j.version>
-    <lombok.version>1.18.34</lombok.version>
-    <mapstruct.version>1.6.2</mapstruct.version>
+    <jetcd.version>0.8.5</jetcd.version>
+    <json.validator.version>1.5.7</json.validator.version>
+    <junit.version>5.13.1</junit.version>
+    <junit.platform.version>1.13.1</junit.platform.version>
+    <kafka.clients.version>4.0.0</kafka.clients.version>
+    <keycloak.admin.version>26.0.5</keycloak.admin.version>
+    <keycloak.client.version>26.2.5</keycloak.client.version>
+    <lettuce.version>6.7.1.RELEASE</lettuce.version>    
+    <liquibase.maven.version>4.32.0</liquibase.maven.version>
+    <liquibase.version>4.32.0</liquibase.version>
+    <log4j.version>2.24.3</log4j.version>
+    <lombok.version>1.18.38</lombok.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
     <microprofile.config.version>3.1</microprofile.config.version>
-    <microprofile.fault-tolerance.version>4.1</microprofile.fault-tolerance.version>
+    <microprofile.fault-tolerance.version>4.1.2</microprofile.fault-tolerance.version>
     <microprofile.graphql.version>2.0</microprofile.graphql.version>
     <microprofile.health.version>4.0.1</microprofile.health.version>
-    <microprofile.jwt.version>2.1</microprofile.jwt.version>
-    <microprofile.openapi.version>4.0.1</microprofile.openapi.version>
-    <microprofile.telemetry.version>2.0</microprofile.telemetry.version>
-    <minio.version>8.5.12</minio.version>
-    <mockito.version>5.14.1</mockito.version>
-    <mysql.version>9.0.0</mysql.version>
-    <openfeature.version>1.12.0</openfeature.version>
-    <opensearch.version>2.14.0</opensearch.version>
-    <postgresql.version>42.7.4</postgresql.version>
-    <pulsar.version>4.0.0-preview.1</pulsar.version>
-    <rest.assured.version>5.5.0</rest.assured.version>
-    <revapi.plugin.version>0.15.0</revapi.plugin.version>
-    <revapi.java.version>0.28.1</revapi.java.version>
-    <seaweedfs.version>3.71</seaweedfs.version>
-    <slf4j.version>2.0.16</slf4j.version>
-    <smallrye.config.version>3.9.1</smallrye.config.version>
-    <smallrye.graphql.version>2.10.0</smallrye.graphql.version>
-    <smallrye.graphql-ui.version>2.10.0</smallrye.graphql-ui.version>
-    <smallrye.health.version>4.1.0</smallrye.health.version>
+    <microprofile.jwt.version>2.2-RC1</microprofile.jwt.version>
+    <microprofile.openapi.version>4.1</microprofile.openapi.version>
+    <microprofile.telemetry.version>2.1</microprofile.telemetry.version>
+    <minio.version>8.5.17</minio.version>
+    <mockito.version>5.18.0</mockito.version>
+    <mysql.version>9.3.0</mysql.version>
+    <openfeature.version>1.15.1</openfeature.version>
+    <opensearch.version>3.1.0</opensearch.version>
+    <postgresql.version>42.7.7</postgresql.version>
+    <pulsar.version>4.0.5</pulsar.version>
+    <recordbuilder.version>47</recordbuilder.version>
+    <rest.assured.version>5.5.5</rest.assured.version>
+    <revapi.plugin.version>0.15.1</revapi.plugin.version>
+    <revapi.java.version>0.28.4</revapi.java.version>
+    <seaweedfs.version>3.80</seaweedfs.version>
+    <slf4j.version>2.1.0-alpha1</slf4j.version>
+    <smallrye.config.version>3.13.2</smallrye.config.version>
+    <smallrye.graphql.version>2.14.0</smallrye.graphql.version>
+    <smallrye.graphql-ui.version>2.14.0</smallrye.graphql-ui.version>
+    <smallrye.health.version>4.2.0</smallrye.health.version>
     <smallrye.openapi.version>4.0.0-alpha2</smallrye.openapi.version>
-    <spring.boot.version>3.3.4</spring.boot.version>
-    <spring.boot.plugin.version>3.3.4</spring.boot.plugin.version>
-    <spring.web.version>6.1.13</spring.web.version>
-    <swagger.version>2.1.6</swagger.version>
-    <testcontainers.version>1.20.1</testcontainers.version>
-    <unleash.version>9.2.4</unleash.version>
+    <spring.boot.version>3.5.0</spring.boot.version>
+    <spring.boot.plugin.version>3.5.0</spring.boot.plugin.version>
+    <spring.web.version>7.0.0-M6</spring.web.version>
+    <swagger.version>2.2.31</swagger.version>
+    <testcontainers.version>1.21.1</testcontainers.version>
+    <transactionoutbox.version>6.0.609</transactionoutbox.version>
+    <unleash.version>11.0.0</unleash.version>
     <valkey.version>5.3.0</valkey.version>
-    <wildfly.maven.version>5.0.1.Final</wildfly.maven.version>
+    <wildfly.maven.version>5.1.3.Final</wildfly.maven.version>
     <xmemcached.version>2.4.8</xmemcached.version>
 
   </properties>
@@ -213,7 +218,13 @@
           <groupId>org.liquibase</groupId>
           <version>${liquibase.maven.version}</version>
         </plugin>
-       
+	
+        <plugin>
+	  <artifactId>maven-clean-plugin</artifactId>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <version>${maven.clean.version}</version>
+        </plugin>
+
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
@@ -274,7 +285,13 @@
           <groupId>org.apache.maven.plugins</groupId>
           <version>${maven.install.version}</version>
         </plugin>
-        
+	
+	<plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+	  <version>${maven.jar.version}</version>
+        </plugin>
+
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
@@ -510,7 +527,7 @@
       <dependency>
         <artifactId>handlebars</artifactId>
         <groupId>com.github.jknack</groupId>
-        <version>4.4.0</version>
+        <version>${handlebars.version}</version>
       </dependency>
     
       <dependency>
@@ -587,9 +604,23 @@
       </dependency>
 
       <dependency>
+        <artifactId>junit-platform-suite</artifactId>
+        <groupId>org.junit.platform</groupId>
+        <version>${junit.platform.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <artifactId>junit-platform-suite-api</artifactId>
+        <groupId>org.junit.platform</groupId>
+        <version>${junit.platform.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
         <artifactId>keycloak-admin-client</artifactId>
         <groupId>org.keycloak</groupId>
-        <version>${keycloak.version}</version>
+        <version>${keycloak.admin.version}</version>
       </dependency>
 
       <dependency>
@@ -701,6 +732,12 @@
       </dependency>
 
       <dependency>
+        <artifactId>record-builder-core</artifactId>
+        <groupId>io.soabase.record-builder</groupId>
+        <version>${recordbuilder.version}</version>
+      </dependency>
+
+      <dependency>
         <artifactId>sdk</artifactId>
         <groupId>dev.openfeature</groupId>
         <version>${openfeature.version}</version>
@@ -773,6 +810,12 @@
       </dependency>
 
       <dependency>
+        <artifactId>transactionoutbox-core</artifactId>
+        <groupId>com.gruelbox</groupId>
+        <version>${transactionoutbox.version}</version>
+      </dependency>
+
+      <dependency>
           <artifactId>unleash-client-java</artifactId>
           <groupId>io.getunleash</groupId>
           <version>${unleash.version}</version>
@@ -818,15 +861,17 @@
         <groupId>net.datafaker</groupId>
         <version>${datafaker.version}</version>
         <scope>test</scope>
-      </dependency>
-      
+</dependency>
+
+<!--
       <dependency>
         <artifactId>junit-jupiter</artifactId>
         <groupId>org.testcontainers</groupId>
         <version>${testcontainers.version}</version>
         <scope>test</scope>
       </dependency>
-      
+-->
+
       <dependency>
         <artifactId>junit-jupiter-engine</artifactId>
         <groupId>org.junit.jupiter</groupId>
@@ -834,12 +879,14 @@
         <scope>test</scope>
       </dependency>
 
+      <!--
       <dependency>
         <artifactId>junit-platform-console</artifactId>
         <groupId>org.junit.platform</groupId>
         <version>${junit.platform.version}</version>
         <scope>test</scope>
       </dependency>
+      -->
 
       <dependency>
         <artifactId>kafka</artifactId>
@@ -880,12 +927,11 @@
 
   </dependencyManagement>
   
-  <modules>
-    <module>common</module>
-    <module>catalog</module>
-    <module>image</module>
-    <module>member</module>
-    <module>workflow</module>
-</modules>
+  <subprojects>
+    <subproject>common</subproject>
+    <subproject>catalog</subproject>
+    <subproject>member</subproject>
+    <subproject>workflow</subproject>
+  </subprojects>
 
 </project>

@@ -8,11 +8,11 @@ package com.headspin.skillbase.common.providers;
  */
 
 public interface CommonRegistryProvider {
-    public String lookup(String key) throws Exception;
+    String lookup(String key) throws Exception;
 
-    public boolean register(String key, String val) throws Exception;
+    boolean register(String key, String val) throws Exception;
 
-    public boolean delete(String key) throws Exception;
+    boolean delete(String key) throws Exception;
 
-    public void test();
+    void test();
 }

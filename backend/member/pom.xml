@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <name>skillbase-backend-member</name>
   <packaging>war</packaging>
@@ -427,6 +427,11 @@
     </dependency>
 
     <dependency>
+      <artifactId>record-builder-core</artifactId>
+      <groupId>io.soabase.record-builder</groupId>
+    </dependency>
+
+    <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
     </dependency>
@@ -459,6 +464,11 @@
     -->
 
     <dependency>
+      <artifactId>transactionoutbox-core</artifactId>
+      <groupId>com.gruelbox</groupId>
+    </dependency>
+
+    <dependency>
         <artifactId>valkey-java</artifactId>
         <groupId>io.valkey</groupId>
     </dependency>
@@ -476,12 +486,14 @@
       <scope>test</scope>
     </dependency>
 
+    <!--
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.testcontainers</groupId>
       <scope>test</scope>
     </dependency>
-    
+    -->
+
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>

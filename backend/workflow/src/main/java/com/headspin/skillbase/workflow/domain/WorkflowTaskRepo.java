@@ -16,15 +16,15 @@ import jakarta.validation.constraints.NotNull;
 
 public interface WorkflowTaskRepo {
 
-    public UUID insert(@NotNull @Valid WorkflowTask task);
+    UUID insert(@NotNull @Valid WorkflowTask task);
 
-    public void delete(@NotNull UUID task_id);
+    void delete(@NotNull UUID task_id);
 
-    public WorkflowTask update(@NotNull @Valid WorkflowTask task);
+    WorkflowTask update(@NotNull @Valid WorkflowTask task);
 
-    public Optional<WorkflowTask> findById(@NotNull UUID task_id);
+    Optional<WorkflowTask> findById(@NotNull UUID task_id);
 
-    public List<WorkflowTask> findAll(String sort, Integer offset, Integer limit);
+    List<WorkflowTask> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }

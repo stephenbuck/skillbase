@@ -5,7 +5,7 @@ DROP SCHEMA IF EXISTS catalog CASCADE;
 CREATE SCHEMA catalog;
 
 CREATE TABLE IF NOT EXISTS catalog.category (
-  category_id          UUID            NULL UNIQUE DEFAULT gen_random_uuid(),
+  category_id          UUID            NULL UNIQUE DEFAULT uuid_v7(),
   parent_id            UUID            NULL DEFAULT NULL,
   is_enabled           BOOLEAN         NULL DEFAULT FALSE,
   title                VARCHAR         NULL,
@@ -28,7 +28,7 @@ INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-4',
 INSERT INTO catalog.category (parent_id, title, note) values(NULL, 'Category-5', 'Note-5');
 
 CREATE TABLE IF NOT EXISTS catalog.skill (
-  skill_id             UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  skill_id             UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   deployment_id        VARCHAR         NULL DEFAULT NULL,
   category_id          UUID            NULL DEFAULT NULL,
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
@@ -52,7 +52,7 @@ insert into catalog.skill (title, category_id, note) values('Skill-4', (select c
 insert into catalog.skill (title, category_id, note) values('Skill-5', (select category_id from catalog.category where title like '%-1' limit 1), 'Note-5');
 
 CREATE TABLE IF NOT EXISTS catalog.credential (
-  credential_id        UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  credential_id        UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   skill_id             UUID        NOT NULL,
   is_enabled           BOOLEAN     NOT NULL DEFAULT FALSE,
   title                VARCHAR     NOT NULL,
@@ -76,7 +76,7 @@ insert into catalog.credential (title, skill_id, note) values('Credential-4', (s
 insert into catalog.credential (title, skill_id, note) values('Credential-5', (select skill_id from catalog.skill where title like '%-1' limit 1), 'Note-5');
 
 CREATE TABLE IF NOT EXISTS catalog.outbox (
-  outbox_id            UUID        NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  outbox_id            UUID        NOT NULL UNIQUE DEFAULT uuid_v7(),
   event                VARCHAR     NOT NULL,
   created_at           TIMESTAMP   NOT NULL DEFAULT now(),
   updated_at           TIMESTAMP   NOT NULL DEFAULT now(),

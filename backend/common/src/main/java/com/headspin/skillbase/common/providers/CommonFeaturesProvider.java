@@ -11,8 +11,8 @@ import jakarta.validation.constraints.NotNull;
 
 public interface CommonFeaturesProvider {
 
-    public boolean evaluateBoolean(@NotNull final String key, final boolean def);
+    boolean evaluateBoolean(@NotNull final String key, final boolean def);
 
-    public void test();
+    void test();
 
 }

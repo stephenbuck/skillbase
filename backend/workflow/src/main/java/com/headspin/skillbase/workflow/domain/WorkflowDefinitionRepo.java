@@ -14,19 +14,19 @@ import jakarta.validation.constraints.NotNull;
  * @since 1.0
  */
 
- public interface WorkflowDefinitionRepo {
+public interface WorkflowDefinitionRepo {
 
-    public UUID insert(@NotNull @Valid WorkflowDefinition definition);
+    UUID insert(@NotNull @Valid WorkflowDefinition definition);
 
-    public void delete(@NotNull UUID definition_id);
+    void delete(@NotNull UUID definition_id);
 
-    public WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition);
+    WorkflowDefinition update(@NotNull @Valid WorkflowDefinition definition);
 
-    public Optional<WorkflowDefinition> findById(@NotNull UUID definition_id);
+    Optional<WorkflowDefinition> findById(@NotNull UUID definition_id);
 
-    public Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id);
+    Optional<WorkflowDefinition> findByCredentialId(@NotNull UUID credential_id);
 
-    public List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit);
+    List<WorkflowDefinition> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }

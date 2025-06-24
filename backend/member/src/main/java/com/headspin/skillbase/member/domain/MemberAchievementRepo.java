@@ -9,15 +9,15 @@ import jakarta.validation.constraints.NotNull;
 
 public interface MemberAchievementRepo {
 
-    public UUID insert(@NotNull @Valid MemberAchievement achievement);
+    UUID insert(@NotNull @Valid MemberAchievement achievement);
 
-    public void delete(@NotNull UUID achievement_id);
+    void delete(@NotNull UUID achievement_id);
 
-    public MemberAchievement update(@NotNull @Valid MemberAchievement achievement);
+    MemberAchievement update(@NotNull @Valid MemberAchievement achievement);
 
-    public Optional<MemberAchievement> findById(@NotNull UUID achievement_id);
+    Optional<MemberAchievement> findById(@NotNull UUID achievement_id);
 
-    public List<MemberAchievement> findAll(String sort, Integer offset, Integer limit);
+    List<MemberAchievement> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }

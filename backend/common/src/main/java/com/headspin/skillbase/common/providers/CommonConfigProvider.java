@@ -13,8 +13,8 @@ import jakarta.validation.constraints.NotNull;
 
 public interface CommonConfigProvider {
 
-    public Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type);
+    Optional<?> getOptionalValue(@NotNull final String key, @NotNull final Class<?> type);
 
-    public void test();
+    void test();
 
 }

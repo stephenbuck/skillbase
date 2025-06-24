@@ -6,33 +6,33 @@ pushd src/docker/consul
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/consul:latest ${PWD} 
 popd
 
-# pushd src/docker/debezium
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/debezium:latest ${PWD} 
-# popd
+pushd src/docker/debezium
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/debezium:latest ${PWD} 
+popd
 
 pushd src/docker/elasticsearch
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/elasticsearch:latest ${PWD} 
 popd
 
-# pushd src/docker/etcd
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/etcd:latest ${PWD} 
-# popd
+pushd src/docker/etcd
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/etcd:latest ${PWD} 
+popd
 
-# pushd src/docker/flipt
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/flipt:latest ${PWD} 
-# popd
+pushd src/docker/flipt
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/flipt:latest ${PWD} 
+popd
 
-# pushd src/docker/flowable
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/flowable:latest ${PWD}
-# popd
+pushd src/docker/flowable
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/flowable:latest ${PWD}
+popd
 
-# pushd src/docker/fluentd
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/fluentd:latest ${PWD}
-# popd
+pushd src/docker/fluentd
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/fluentd:latest ${PWD}
+popd
 
-# pushd src/docker/juicefs
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/juicefs:latest ${PWD}
-# popd
+pushd src/docker/juicefs
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/juicefs:latest ${PWD}
+popd
 
 pushd src/docker/kafka
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/kafka:latest ${PWD} 
@@ -50,9 +50,9 @@ pushd src/docker/kafka_ui
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/kafka_ui:latest ${PWD} 
 popd
 
-# pushd src/docker/keycloak
-# sudo docker build -f ${PWD}/Dockerfile -t skillbase/keycloak:latest ${PWD} 
-# popd
+pushd src/docker/keycloak
+sudo docker build -f ${PWD}/Dockerfile -t skillbase/keycloak:latest ${PWD} 
+popd
 
 pushd src/docker/memcached
 sudo docker build -f ${PWD}/Dockerfile -t skillbase/memcached:latest ${PWD} 

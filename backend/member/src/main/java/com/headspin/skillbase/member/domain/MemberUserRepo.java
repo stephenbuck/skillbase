@@ -9,23 +9,23 @@ import jakarta.validation.constraints.NotNull;
 
 public interface MemberUserRepo {
 
-    public UUID insert(@NotNull @Valid MemberUser user);
+    UUID insert(@NotNull @Valid MemberUser user);
 
-    public void delete(@NotNull UUID user_id);
+    void delete(@NotNull UUID user_id);
 
-    public MemberUser update(@NotNull @Valid MemberUser user);
+    MemberUser update(@NotNull @Valid MemberUser user);
 
-    public Optional<MemberUser> findById(@NotNull UUID user_id);
+    Optional<MemberUser> findById(@NotNull UUID user_id);
 
-    public List<MemberUser> findAll(String sort, Integer offset, Integer limit);
+    List<MemberUser> findAll(String sort, Integer offset, Integer limit);
 
-    public List<MemberAchievement> findUserAchievements(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
+    List<MemberAchievement> findUserAchievements(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
 
-    public List<MemberGroup> findUserGroups(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
+    List<MemberGroup> findUserGroups(@NotNull UUID user_id, String sort, Integer offset, Integer limit);
 
-    public void insertUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
+    void insertUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
 
-    public void deleteUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
+    void deleteUserAchievement(@NotNull UUID user_id, @NotNull UUID achievement_id);
 
-    public Long count();
+    Long count();
 }

@@ -14,17 +14,17 @@ import jakarta.validation.constraints.NotNull;
  * @since 1.0
  */
 
- public interface WorkflowInstanceRepo {
+public interface WorkflowInstanceRepo {
 
-    public UUID insert(@NotNull @Valid WorkflowInstance instance);
+    UUID insert(@NotNull @Valid WorkflowInstance instance);
 
-    public void delete(@NotNull UUID instance_id);
+    void delete(@NotNull UUID instance_id);
 
-    public WorkflowInstance update(@NotNull @Valid WorkflowInstance instance);
+    WorkflowInstance update(@NotNull @Valid WorkflowInstance instance);
 
-    public Optional<WorkflowInstance> findById(@NotNull UUID instance_id);
+    Optional<WorkflowInstance> findById(@NotNull UUID instance_id);
 
-    public List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit);
+    List<WorkflowInstance> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }

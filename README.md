@@ -2,15 +2,15 @@
 
 **Overview:**
 
-SkillBase is a showcase distributed application that allows an organization to develop, certify, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted certification. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
+SkillBase is a distributed application that allows an organization to develop, certify, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted a certification. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
 
 ![image](https://github.com/stephenbuck/skillbase/assets/1750488/857efe62-18e9-4426-b38f-1d339c8b4a8c)
 
 A primary goal of this application is to illustrate the use of the most popular tools in use today:
 
-- Modern Java (version 21+)
+- Modern Java (version 23+)
 - Microservices (Jakarta EE, MicroProfile)
-- Runtime (Wildfly, Spring Boot)
+- Runtime (Wildfly)
 - Event-Driven (JMS, Kafka, Pulsar, Cloud Events)
 - Feature Flags (Open Features, Flipt, Unleash)
 - Security (JWT, OAuth, Keycloak)
@@ -27,19 +27,21 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Logging (Log4j, Slf4j, Fluentd)
 - Testing (JUnit, Cucumber, RestAssured, ArchUnit, Testcontainers)
 - Build (Maven, NPM)
+- CI/CD (Jenkins)
 - Monitoring (OpenTelemetry, Prometheus)
-- Frontend (Typescript, React, MaterialUI, NPM)
-- Admin (Python, Flask, UV)
+- Frontend (Jakarta Faces)
+- Admin (Python, JBang)
 - Documentation (MkDocs, Markdown, OpenAPI)
 - Source Control (Git)
 
+
 **Modern Java**
 
-The Skillbase backend is written using modern Java (version 21+).
+The Skillbase backend is written using modern Java (version 23+).
 
 **Microservices**
 
-Designed as a set of microservices, according to the Jakarta EE 10 specifications and the MicroProfile extensions.
+Designed as a set of microservices, according to the Jakarta EE 11 specifications and the MicroProfile extensions.
 
 **Runtime**
 
@@ -61,7 +63,7 @@ Integrated with IAM provider, Keycloak, for JWT, OAuth, and RBAC security.
 
 Built on industry-standard PostgreSQL or MySQL relational databases, using the Jakarta JPA framework and the Liquibase schema management tool. Future versions may use MongoDB for account profiles.
 
-**Storage (skillbase/minio):**
+**Storage**
 
 Object storage functionality is provided by MinIO or JuiceFS.
 
@@ -79,7 +81,7 @@ Runtime application configuration is built on the Microprofile Config API runnin
 
 **Workflow**
 
-Workflow process management is handled using BPMN process diagrams and the Flowable engine and API. Future versions may embed the engine with the application to simplify transaction management.
+Workflow process management is handled using BPMN process models and the Flowable embedded workflow engine. Embedded the engine simplifiess transaction management and improves performance.
 
 **Search**
 
@@ -88,6 +90,10 @@ Keyword search for skills, etc. is handled by the ElasticSearch or OpenSearch en
 **Caching**
 
 Distributed caching is handled using Redis, Memcached, or Valkey. Cache contents are updated by domain events received by Debezium from the message broker.
+
+**Batch**
+
+Batch processing is performed using JobRunr and the Jakarta EE Batch interface.
 
 **Interfaces**
 
@@ -99,7 +105,7 @@ Logging is handled with Log4j and Slf4j. Log streams across services are aggrega
 
 **Testing**
 
-Unit testing is performed using JUnit and Mockito. Feature testing is performed using Cucumber. Architectural testing is performed using ArchUnit. Integration testing is performed using Testcontainers.
+Static code analysis is performed using PMD. Unit testing is performed using JUnit and Mockito. Feature testing is performed using Cucumber. Architectural testing is performed using ArchUnit. Integration testing is performed using Testcontainers. Also JSpecify (see jspecify.org and errorprone.info/index).
 
 **Build**
 
@@ -111,11 +117,11 @@ Monitoring is handled by a combination of Microprofile APIs and the open-source 
 
 **Frontend**
 
-The primary frontend framework is React, with the code written in Typescript. I'll be using other frameworks ReactRouter, ReactQuery, ReactAdmin, NextJS, and MaterialUI.
+The first version of the frontend will be written in Java using Jakarta Faces and a backend service that serves as a gateway. Later versions will be written in Typescript using the React framework and the backend services will be accessed via an API gateway. Portions of the frontend will use the open-source BPMN diagram editor 'bpmn.io'.
 
 **Administration**
 
-The administration command line utility is written in Python using the Flask service framework and built using UV.
+The administration command line utility is written in Java using the JBang tool to create an executable JAR file.
 
 **Documentation**
 
@@ -125,5 +131,5 @@ Documentation of the application is built with the open-source MkDocs tool, Mark
 
 Source code versioning and control is done with Git.
 
-
 Full documentation can be found in the 'site' directory.
+

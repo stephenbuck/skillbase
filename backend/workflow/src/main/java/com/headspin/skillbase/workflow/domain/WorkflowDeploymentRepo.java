@@ -16,17 +16,17 @@ import jakarta.validation.constraints.NotNull;
 
 public interface WorkflowDeploymentRepo {
 
-    public UUID insert(@NotNull @Valid WorkflowDeployment deployment);
+    UUID insert(@NotNull @Valid WorkflowDeployment deployment);
 
-    public void delete(@NotNull UUID deployment_id);
+    void delete(@NotNull UUID deployment_id);
 
-    public WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment);
+    WorkflowDeployment update(@NotNull @Valid WorkflowDeployment deployment);
 
-    public Optional<WorkflowDeployment> findById(@NotNull UUID deployment_id);
+    Optional<WorkflowDeployment> findById(@NotNull UUID deployment_id);
 
-    public Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id);
+    Optional<WorkflowDeployment> findBySkillId(@NotNull UUID skill_id);
 
-    public List<WorkflowDeployment> findAll(String sort, Integer offset, Integer limit);
+    List<WorkflowDeployment> findAll(String sort, Integer offset, Integer limit);
 
-    public Long count();
+    Long count();
 }
