@@ -2,19 +2,19 @@
 
 **Overview:**
 
-SkillBase is a distributed application that allows an organization to develop, certify, and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted a certification. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
+SkillBase is a distributed application that allows an organization to certify and track the skill sets of its members. Organizations like schools, employers, or the military. The primary elements of the application are users, skills, and certifications. Users select skills and then follow a workflow to be granted a certification. There is lots of room for integration with third-party applications for identity management, content management, social media, etc.
 
 ![image](https://github.com/stephenbuck/skillbase/assets/1750488/857efe62-18e9-4426-b38f-1d339c8b4a8c)
 
 A primary goal of this application is to illustrate the use of the most popular tools in use today:
 
-- Modern Java (version 23+)
+- Modern Java (version 24+)
 - Microservices (Jakarta EE, MicroProfile)
-- Runtime (Wildfly)
-- Event-Driven (JMS, Kafka, Pulsar, Cloud Events)
+- Runtime (Spring Boot, Wildfly)
+- Event-Driven (Kafka, Pulsar, Cloud Events)
 - Feature Flags (Open Features, Flipt, Unleash)
-- Security (JWT, OAuth, Keycloak)
-- Database (JPA, Postgres, MySQL, Liquibase)
+- Security (OAuth, Keycloak)
+- Database (Postgres, MySQL, Liquibase)
 - Storage (MinIO, JuiceFS, SeaweedFS)
 - Containers (Docker)
 - Infrastructure (Terraform, Kubernetes)
@@ -26,18 +26,16 @@ A primary goal of this application is to illustrate the use of the most popular 
 - Interfaces (REST, GraphQL)
 - Logging (Log4j, Slf4j, Fluentd)
 - Testing (JUnit, Cucumber, RestAssured, ArchUnit, Testcontainers)
-- Build (Maven, NPM)
+- Build (Maven)
 - CI/CD (Jenkins)
 - Monitoring (OpenTelemetry, Prometheus)
-- Frontend (Jakarta Faces)
-- Admin (Python, JBang)
 - Documentation (MkDocs, Markdown, OpenAPI)
 - Source Control (Git)
 
 
 **Modern Java**
 
-The Skillbase backend is written using modern Java (version 23+).
+The Skillbase backend is written using modern Java (version 24+).
 
 **Microservices**
 
@@ -49,7 +47,7 @@ Runs as a set of Docker containers, one-per-service, combined with Wildfly or Sp
 
 **Event-Driven**
 
-Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the Jakarta JMS specification using Kafka or Pulsar as the message broker.
+Event-driven design allows for maximum scalability, flexibility, and integration with other products. Code is written to the Jakarta JMS specification using Kafka or Pulsar as the message broker and CloudEvents as the message format. The "transactional outbox" and "change data capture" patterns are used to simplify transactional integrity. CDC events are generated from PostgreSQL logs and Debezium.
 
 **Feature Flags**
 
@@ -61,7 +59,7 @@ Integrated with IAM provider, Keycloak, for JWT, OAuth, and RBAC security.
 
 **Database**
 
-Built on industry-standard PostgreSQL or MySQL relational databases, using the Jakarta JPA framework and the Liquibase schema management tool. Future versions may use MongoDB for account profiles.
+Built on industry-standard PostgreSQL or MySQL relational databases, using the Jakarta JPA framework and the Liquibase schema management tool. Future versions may use a non-SQL database (e.g. MongoDB) for account profiles.
 
 **Storage**
 
@@ -81,7 +79,7 @@ Runtime application configuration is built on the Microprofile Config API runnin
 
 **Workflow**
 
-Workflow process management is handled using BPMN process models and the Flowable embedded workflow engine. Embedded the engine simplifiess transaction management and improves performance.
+Workflow process management is handled using BPMN process models and the Flowable embedded workflow engine. Embedded the workflow engine simplifiess transaction management and improves performance.
 
 **Search**
 
@@ -109,7 +107,7 @@ Static code analysis is performed using PMD. Unit testing is performed using JUn
 
 **Build**
 
-The Skillbase backend is built using Maven and a variety of plugins. The frontend is built using NPM.
+The Skillbase backend is built using Maven and a variety of plugins.
 
 **Monitoring**
 
@@ -117,11 +115,7 @@ Monitoring is handled by a combination of Microprofile APIs and the open-source 
 
 **Frontend**
 
-The first version of the frontend will be written in Java using Jakarta Faces and a backend service that serves as a gateway. Later versions will be written in Typescript using the React framework and the backend services will be accessed via an API gateway. Portions of the frontend will use the open-source BPMN diagram editor 'bpmn.io'.
-
-**Administration**
-
-The administration command line utility is written in Java using the JBang tool to create an executable JAR file.
+TBD
 
 **Documentation**
 

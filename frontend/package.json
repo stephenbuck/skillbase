@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "bpmn-js": "^17.9.1",
-    "reactstrap": "^9.2.2"
-  }
-}

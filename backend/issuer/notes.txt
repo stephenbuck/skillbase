@@ -1,4 +1,0 @@
-W3C Verifiable Credentials
-Role = Issuer
-Issue Claim
-Revoke Claim

@@ -1,6 +1,6 @@
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.1.0</modelVersion>
 
   <name>skillbase</name>
   <packaging>pom</packaging>
@@ -13,11 +13,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <modules>
-    <module>backend</module>
-    <module>client</module>
-    <module>frontend</module>
-    <module>system</module>
-  </modules>
+  <subprojects>
+    <subproject>backend</subproject>
+  <!--
+    <subproject>client</subproject>
+    <subproject>frontend</subproject>
+    <subproject>system</subproject>
+  -->
+  </subprojects>
 
 </project>
