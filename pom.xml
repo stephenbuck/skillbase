@@ -13,13 +13,19 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.shredzone.maven</groupId>
+        <artifactId>mkdocs-maven-plugin</artifactId>
+        <version>1.2</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <subprojects>
     <subproject>backend</subproject>
-  <!--
-    <subproject>client</subproject>
-    <subproject>frontend</subproject>
-    <subproject>system</subproject>
-  -->
+    <subproject>docs</subproject>
   </subprojects>
 
 </project>

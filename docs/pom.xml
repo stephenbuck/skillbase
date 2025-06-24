@@ -1,0 +1,32 @@
+<project>
+
+  <modelVersion>4.1.0</modelVersion>
+
+  <name>skillbase_docs</name>
+  <packaging>pom</packaging>
+
+  <artifactId>skillbase-docs</artifactId>
+  <groupId>com.headspin.skillbase</groupId>
+  <version>0.1</version>
+
+  <parent>
+    <artifactId>skillbase</artifactId>
+    <groupId>com.headspin.skillbase</groupId>
+    <version>0.1</version>
+  </parent>
+
+  <properties>
+    <maven.mkdocs.version>1.2</maven.mkdocs.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>mkdocs-maven-plugin</artifactId>
+        <groupId>org.shredzone.maven</groupId>
+        <version>${maven.mkdocs.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
